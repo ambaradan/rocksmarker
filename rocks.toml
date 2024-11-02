@@ -1,0 +1,104 @@
+# This is your rocks.nvim plugins declaration file.
+# Here is a small yet pretty detailed example on how to use it:
+#
+# [plugins]
+# nvim-treesitter = "semver_version"  # e.g. "1.0.0"
+#
+# List of non-Neovim rocks.
+# This includes things like `toml` or other lua packages.
+[rocks]
+
+# Rocks configuration section
+[config]
+colorscheme = "bamboo"
+# List of Neovim plugins to install alongside their versions.
+# If the plugin name contains a dot then you must add quotes to the key name!
+[plugins]
+"rocks.nvim" = "2.41.1"
+"rocks-config.nvim" = "3.0.0"
+"rocks-git.nvim" = "2.5.1"
+"rocks-lazy.nvim" = "1.1.1"
+# NOTE: tree-sitter parsers
+tree-sitter-bash = "scm"
+tree-sitter-css = "scm"
+tree-sitter-git_config = "scm"
+tree-sitter-git_rebase = "scm"
+tree-sitter-gitattributes = "scm"
+tree-sitter-gitcommit = "scm"
+tree-sitter-gitignore = "scm"
+tree-sitter-html = "scm"
+tree-sitter-ini = "scm"
+tree-sitter-json = "scm"
+tree-sitter-jsonc = "scm"
+tree-sitter-lua = "scm"
+tree-sitter-luadoc = "scm"
+tree-sitter-markdown = "scm"
+tree-sitter-markdown_inline = "0.0.35"
+tree-sitter-regex = "scm"
+tree-sitter-toml = "scm"
+tree-sitter-vim = "scm"
+tree-sitter-vimdoc = "scm"
+tree-sitter-yaml = "scm"
+
+# UI plugins
+"feline.nvim" = "1.6.3"
+nvim-cokeline = "0.4.0"
+nvim-web-devicons = "0.100"
+"toggleterm.nvim" = "2.12.0"
+"zen-mode.nvim" = "1.4.0"
+"markview.nvim" = "24.0.0"
+"gitsigns.nvim" = "0.9.0"
+
+# Functional plugins
+"persisted.nvim" = "2.0.1"
+"telescope.nvim" = "scm"
+"neo-tree.nvim" = "3.26"
+nvim-autopairs = "scm"
+"rainbow-delimiters.nvim" = "0.6.2"
+"telescope-file-browser.nvim" = "scm"
+nvim-spectre = "scm"
+neogit = "1.0.0"
+"yanky.nvim" = "2.0.0"
+
+# Autocompletions plugins
+nvim-cmp = "scm"
+cmp-nvim-lsp = "scm"
+luasnip = "2.3.0"
+cmp_luasnip = "scm"
+friendly-snippets = "scm"
+cmp-buffer = "scm"
+cmp-path = "scm"
+
+# Plugins for LSP
+"mason.nvim" = "1.10.0"
+"mason-lspconfig.nvim" = "1.31.0"
+nvim-lspconfig = "1.0.0"
+
+# Diagnostic plugins
+nvim-lint = "scm"
+"conform.nvim" = "8.1.0"
+"which-key.nvim" = "3.13.3"
+"trouble.nvim" = "3.6.0"
+
+"pantran.nvim" = "scm"
+
+[plugins."markdown-table-mode.nvim"]
+git = "Kicamon/markdown-table-mode.nvim"
+rev = "870d0449c1c78c673faa9637a63036f9537b4caa"
+
+[plugins."bamboo.nvim"]
+git = "ribru17/bamboo.nvim"
+rev = "14279945044372b02a4547883ac86f4800dbf128"
+
+[plugins."nvim-highlight-colors"]
+git = "brenoprata10/nvim-highlight-colors"
+rev = "a411550ef85cae467b889ba7d1a96bd78332d90e"
+
+[plugins."telescope-cmdline.nvim"]
+git = "jonarrien/telescope-cmdline.nvim"
+
+[plugins."markdown.nvim"]
+git = "tadmccorkle/markdown.nvim"
+rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
+ft = "markdown"
+

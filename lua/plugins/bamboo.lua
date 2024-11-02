@@ -1,0 +1,57 @@
+require("bamboo").setup({
+	-- Main options --
+	-- NOTE: to use the light theme, set `vim.o.background = 'light'`
+	style = "vulgaris",
+	colors = {
+		orange = "#ffad84",
+		bright_orange = "#ff8800", -- define a new colo#191a18r
+		shade = "#21221f",
+		mdOrange = "#ffc1a3",
+		mdBgBlue = "#a4cef1",
+		mdCoral = "#f6b2b2",
+		mdGreen = "#bbd2ab",
+		mdPurple = "#ccccff",
+		mdRed = "#f09cb0",
+		mdYellow = "#e9d396",
+		mdBlue = "#8892a3",
+		mdGray = "#7c7c7b",
+		mdLightGey = "#b4b7b3",
+		mdDarkGreen = "#8c9776",
+		header1 = "#bbd2ab",
+		header2 = "#b3d6f3",
+		mdcode = "#c7dab9",
+		mdbold = "#ffccb2",
+	},
+	highlights = {
+		["MarkviewCode"] = { bg = "$bg0" },
+		-- ["MarkviewHyperlink"] = { fg = "$purple", underline = false },
+		["MarkviewHeading1"] = { fg = "$mdGreen", bg = "$shade" },
+		["MarkviewHeading2"] = { fg = "$mdBgBlue", bg = "$shade" },
+		["MarkviewHeading3"] = { fg = "$mdYellow", bg = "$shade" },
+		["MarkviewHeading4"] = { fg = "$mdGreen", bg = "$shade" },
+		["MarkviewHeading5"] = { fg = "$mdCoral", bg = "$shade" },
+		["MarkviewHeading6"] = { fg = "$mdLightGey", bg = "$shade" },
+		["MarkviewInlineCode"] = { fg = "$purple", bg = "$shade" },
+		["markdownUrl"] = { fg = "$yellow", fmt = "none" },
+		["markdownCodeBlock"] = { fg = "$mdcode" },
+		["markdownBold"] = { fg = "$orange", fmt = "bold" },
+		["markdownLinkText"] = { fg = "$light_blue", underline = false },
+		["MarkviewListItemStar"] = { fg = "$green" },
+		-- ["markdownLink"] = { fg = "$purple", underline = false },
+		-- Telescope
+		["TelescopePreviewBorder"] = { fg = "$light_grey" },
+		["TelescopePreviewTitle"] = { fg = "$green" },
+		["TelescopeResultsBorder"] = { fg = "$light_grey" },
+		["TelescopeResultsTitle"] = { fg = "$green" },
+		["TelescopePromptBorder"] = { fg = "$light_grey" },
+		["TelescopePromptTitle"] = { fg = "$green" },
+		-- Whichkey
+		["WhichKeyBorder"] = { fg = "$light_grey" },
+		["WhichKeyTitle"] = { fg = "$green" },
+		["WhichKeyDesc"] = { fg = "$yellow" },
+		-- Neotree
+		["NeoTreeFloatBorder"] = { fg = "$light_grey" },
+		["NeoTreeFloatTitle"] = { fg = "$green" },
+		["NeoTreeDirectoryIcon"] = { fg = "$yellow" },
+	},
+})
