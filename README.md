@@ -57,10 +57,10 @@ git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
 
 The start of the configuration is fully automatic, running *Neovim* the script contained in *init.lua* checks for the presence of the *rocks.nvim* plugin and if absent takes care of its installation via a *bootstrap* procedure, the only dependency required is the presence in the system paths of *Lua 5.1*.
 
-It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally independent of the system configuration (`~/.config/nvim/`). In particular, the command uses the name *rocks-nvim* for configuration folders, shared files and caches.
+It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally independent of the system configuration (`~/.config/nvim/`). In particular, the command uses the name *rocksmarker* for configuration folders, shared files and caches.
 
 ```bash
-NVIM_APPNAME=rocks-nvim nvim
+NVIM_APPNAME=rocksmarker nvim
 ```
 
 Once the installation is finished, it will be highlighted on the screen that the plugins that are installed with a are missing:
