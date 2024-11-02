@@ -71,7 +71,7 @@ Once the installation is finished, the screen will show that some of the plugins
 
 However, plugins configured by the traditional method (*Git*) are not installed during the first *Sync* as they are not versioned and generate a number of errors, but these do not affect the installation of the *luarocks* ones. To fix them you will need to close the editor, reopen it and re-run another `:Rocks sync` and you will have all the configuration plugins installed and configured.
 
-The reboot also provides automatic installation of the LSPs used by *nvim-lspconfig*, their installation ending with *bashls* will be displayed in the statusline, for the missing LSPs (used by *conform* and *nvim-lint*) an autocommand has been set up to take care of their installation:
+The restart also provides for automatic installation of the LSPs used by *nvim-lspconfig*; their installation is displayed in the statusline; for the missing LSPs (used by *conform* and *nvim-lint*) an autocommand is set up to take care of their installation:
 
 ```txt
 :MasonInstallAll
