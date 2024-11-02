@@ -63,7 +63,7 @@ It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally indepe
 NVIM_APPNAME=rocksmarker nvim
 ```
 
-Once the installation is finished, it will be highlighted on the screen that the plugins that are installed with a are missing:
+Once the installation is finished, the screen will show that some of the plugins in the configuration are missing, to install them perform a *Sync*:
 
 ```txt
 :Rocks sync
