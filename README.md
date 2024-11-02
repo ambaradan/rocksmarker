@@ -50,7 +50,7 @@ For its removal just delete the files listed above.
 The configuration uses the project's bootstrap script **rocks.nvim** to install it, and requires no user intervention. To download the configuration, simply make a clone of the GitHub repository in your `.config` folder
 
 ```bash
-git clone https://codeberg.org/ambaradan/rocks-nvim.git ~/.config/rocks-nvim/
+git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
 ```
 
 ### Starting the configuration ( test mode )
