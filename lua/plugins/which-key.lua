@@ -4,11 +4,14 @@ require("which-key").setup({
 
 local wk = require("which-key")
 wk.add({
-	{ "<leader>n", group = "files" },
+	{ "<leader>n", group = "neotree" },
 	{ "<leader>nr", "<cmd>Neotree right toggle<cr>", desc = "Neotree right" },
 	{ "<leader>nf", "<cmd>Neotree float toggle<cr>", desc = "Neotree float" },
 	{ "<leader>nc", "<cmd>Neotree git_status bottom<cr>", desc = "Git Status Float", mode = "n" },
-
+	{ "<leader>d", group = "diagnostics" },
+	{ "<leader>dt", "<cmd>Trouble diagnostics toggle<cr>", desc = "Global Diagnostics" },
+	{ "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },
+	{ "<leader>ds", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols" },
 	{
 		"<leader>fm",
 		function()
