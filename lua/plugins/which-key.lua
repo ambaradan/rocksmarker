@@ -4,8 +4,11 @@ require("which-key").setup({
 
 local wk = require("which-key")
 wk.add({
+	{ "<leader>n", group = "files" },
+	{ "<leader>nr", "<cmd>Neotree right toggle<cr>", desc = "Neotree right" },
+	{ "<leader>nf", "<cmd>Neotree float toggle<cr>", desc = "Neotree float" },
+	{ "<leader>nc", "<cmd>Neotree git_status bottom<cr>", desc = "Git Status Float", mode = "n" },
 
-	{ "<C-n>", "<cmd>Neotree right toggle<cr>", desc = "Neotree open" },
 	{
 		"<leader>fm",
 		function()
@@ -35,7 +38,7 @@ wk.add({
 		{ "<leader>x", "<cmd>bd<cr>", desc = "Close buffer" },
 		{ "<leader>X", "<cmd>%bd<cr>", desc = "Close all buffers" },
 		{ "<leader>ff", "<cmd>Telescope file_browser<cr>", desc = "File Browser" },
-		{ "<leader>,", "<cmd>Telescope cmdline<cr>", desc = "Command line" },
+		{ "<leader>c", "<cmd>Telescope cmdline<cr>", desc = "Command line" },
 	},
 })
 
