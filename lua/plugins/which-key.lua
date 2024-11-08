@@ -4,7 +4,7 @@ require("which-key").setup({
 
 local wk = require("which-key")
 wk.add({
-	{ "<leader>n", group = "neotree" },
+	{ "<leader>n", group = "neo-tree" },
 	{ "<leader>nr", "<cmd>Neotree right toggle<cr>", desc = "Neotree right" },
 	{ "<leader>nf", "<cmd>Neotree float toggle<cr>", desc = "Neotree float" },
 	{ "<leader>nc", "<cmd>Neotree git_status bottom<cr>", desc = "Git Status Float", mode = "n" },
@@ -13,7 +13,7 @@ wk.add({
 	{ "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },
 	{ "<leader>ds", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols" },
 	{
-		"<leader>fm",
+		"<leader>F",
 		function()
 			require("conform").format({ lsp_fallback = true })
 		end,
@@ -35,15 +35,12 @@ wk.add({
 		-- Nested mappings are allowed and can be added in any order
 		-- Most attributes can be inherited or overridden on any level
 		-- There's no limit to the depth of nesting
-		mode = { "n", "v" }, -- NORMAL and VISUAL mode
-		{ "<leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
-		{ "<leader>w", "<cmd>w<cr>", desc = "Write" },
+		-- mode = { "n", "v" }, -- NORMAL and VISUAL mode
+		{ "<leader>q", "<cmd>q<cr>", desc = "Close editor" }, -- no need to specify mode since it's inherited
+		{ "<leader>w", "<cmd>w<cr>", desc = "Save buffer" },
 		{ "<leader>x", "<cmd>bd<cr>", desc = "Close buffer" },
 		{ "<leader>X", "<cmd>%bd<cr>", desc = "Close all buffers" },
 		{ "<leader>ff", "<cmd>Telescope file_browser<cr>", desc = "File Browser" },
 		{ "<leader>c", "<cmd>Telescope cmdline<cr>", desc = "Command line" },
 	},
 })
-
--- Aligns the table cells to the width
-vim.keymap.set("v", "<leader>ta", "!pandoc -t markdown-simple_tables<cr>", { silent = true, desc = "Align md table" })
