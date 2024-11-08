@@ -57,20 +57,20 @@ For its removal just delete the files listed above.
 
 ### Version setting
 
-Il sistema in uso se installato in versione desktop molto probabilmente avrà già una versione di Lua installata che sarà utilizzata come predefinita, tale versione difficilmente coinciderà con la versione richiesta e dovrà essere impostata per puntare alla versione corretta.  
-Utilizzando un *alias* in *.bashrc* è possibile indicare al sistema la versione desiderata, la stringa da aggiungere è la seguente:
+The system in use if installed as a desktop version will most likely already have a version of Lua installed that will be used by default, this version is unlikely to match the required version and will need to be set to point to the correct version.  
+Using an *alias* in *.bashrc* you can tell the system which version you want, the string to add is as follows:
 
 ```bash
 alias lua=/usr/local/bin/lua
 ```
 
-Eseguire il *source* con:
+Run the *source* with:
 
 ```bash
 . ~/.bashrc
 ```
 
-Verificare il cambio di versione con:
+Verify version change with:
 
 ```bash
 lua -v
