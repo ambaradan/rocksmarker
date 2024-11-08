@@ -57,6 +57,26 @@ For its removal just delete the files listed above.
 
 ### Version setting
 
+Il sistema in uso se installato in versione desktop molto probabilmente avrà già una versione di Lua installata che sarà utilizzata come predefinita, tale versione difficilmente coinciderà con la versione richiesta e dovrà essere impostata per puntare alla versione corretta.  
+Utilizzando un *alias* in *.bashrc* è possibile indicare al sistema la versione desiderata, la stringa da aggiungere è la seguente:
+
+```bash
+alias lua=/usr/local/bin/lua
+```
+
+Eseguire il *source* con:
+
+```bash
+. ~/.bashrc
+```
+
+Verificare il cambio di versione con:
+
+```bash
+lua -v
+Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
+```
+
 ### Add headers files
 
 Just installing the required version is not enough for the configuration to work properly, it is necessary to link the required library *lua.h* present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
