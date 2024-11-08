@@ -16,77 +16,56 @@ To provide as comprehensive an editor as possible for writing Markdown documenta
 
 ## Installing Lua 5.1
 
-The plugin manager chosen (**rocks.nvim**) for configuring additional Neovim plugins requires that the *Lua 5.1* version be installed on the system to work properly. This, however, does not require a global installation but can be installed at the user level; cohabitation with other versions (Rocky Linux provides 5.4.4) creates no conflict.
+The plugin manager chosen (**rocks.nvim**) to configure additional Neovim plugins requires that the *Lua 5.1* version be installed on the system and be configured as the default version to work properly, it is also necessary to link the *headers* files of version 5.1 to those on the system.  
+One of the features of Lua resulting from the fact that it was developed as an “embedded” language is that it does not require any external dependencies, and as a result the various versions can coexist on the same system without conflicting.  For example, a desktop installation of Rocky Linux 9 provides version 5.4.4.  
+The version can be downloaded from the [official Lua site](https://www.lua.org/download.html) with the command:
 
-For its installation the program [luaver](https://github.com/DhavalKapil/luaver) is used, this utility allows automatic installation of the various versions of *Lua* and their setup in the system.  
-Luaver requires the *make* and *wget* or *curl* software packages, all normally available in a Rocky system, and an additional *readline-devel* package, available from the official repositories, to install it:
+```bash
+curl -O https://www.lua.org/ftp/lua-5.1.5.tar.gz
+```
+
+Once downloaded unpack it and place it inside:
+
+```bash
+tar xzf lua-5.1.5.tar.gz
+cd lua-5.1.5
+```
+
+Although the installation can be performed at the user level in this configuration, the standard one (in `/usr/local/`) was chosen, which allows for a cleaner subsequent configuration of the *headers* files.
+The *readline-devel* add-on package provided in Rocky Linux from the official repositories is required to install it:
 
 ```bash
 sudo dnf install readline-devel
 ```
 
-Now to install *luaver* run the command:
+**Note:** The package takes this name in distributions derived from RHEL but in others it is identified differently, in Debian for example it is identified with *libreadline-dev*.
+
+Compile and install the version with:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
+make linux test
+sudo make install
 ```
 
-As suggested by the installation, run a *source*:
+The installation will copy the files to the following locations:
+
+* **lua** **luac** -> `/usr/local/bin`
+* **lua.h** **luaconf.h** **lualib.h** **lauxlib.h** **lua.hpp** -> `/usr/local/include`
+* **liblua.a** -> `/usr/local/lib`
+
+For its removal just delete the files listed above.
+
+### Version setting
+
+### Add headers files
+
+Just installing the required version is not enough for the configuration to work properly, it is necessary to link the required library *lua.h* present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
+To accomplish this one of the standard *Luarocks* search paths is used (`/usr/include/lua/<version_number>`), the *lua* folder is not present in a Rocky Linux system and will therefore have to be created, the commands to be executed are:
 
 ```bash
-. ~/.bashrc
-```
-
-To verify that everything has been installed correctly type:
-
-```bash
-luaver version
-Lua Version Manager 1.1.0
-
-Developed by Dhaval Kapil <me@dhavalkapil.com>
-```
-
-This utility allows you to do numerous operations on both versions of *Lua* and *Luarocks* and *LuaJIT*, for its reference you can use the `luaver help` command.
-
-To install Lua version 5.1:
-
-```bash
-luaver install 5.1
-```
-
-Luaver will download the required version and proceed to compile and install it; the installation is performed in the user's `.luaver` folder.
-
-```txt
-
-.luaver/
-├── completions
-│   └── luaver.bash
-├── lua
-│   └── 5.1
-├── luajit
-├── luarocks
-├── luaver
-└── src
-    └── lua-5.1
-```
-
-At this point we need to provide the system with which version to use with:
-
-```bash
-luaver use 5.1
-```
-
-The version used can be controlled with:
-
-```bash
-lua -v
-Lua 5.1  Copyright (C) 1994-2006 Lua.org, PUC-Rio
-```
-
-Now for the entire session the terminal will use Lua version 5.1, the setting however is lost with the closing of the session and to have a permanent setting the command is used:
-
-```bash
-luaver set-default 5.1
+cd /usr/include/
+sudo mkdir lua && cd lua
+sudo ln -s /usr/local/include/ 5.1
 ```
 
 ## Installing the configuration
