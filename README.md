@@ -14,6 +14,16 @@ To provide as comprehensive an editor as possible for writing Markdown documenta
 * Providing a zen mode for document editing
 * Providing custom snippets for writing [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) tags, snippets for standard Markdown tags are also provided.
 
+## Prerequisites for Neovim, Lua, and Rocksmarker
+
+You will need some packages to effectively complete compiling the packages in this project. Most will probably be on your system already, however this command should install anything that might be missing:
+
+```bash
+dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
+```
+
+For Rocksmarker, the recommendation is to use the source build of Neovim. You can follow those instructions from the "Quick start" at the [Neovim site here](https://github.com/neovim/neovim/blob/master/BUILD.md).
+
 ## Installing Lua 5.1
 
 The plugin manager chosen (**rocks.nvim**) to configure additional Neovim plugins requires that the *Lua 5.1* version be installed on the system and be configured as the default version to work properly, it is also necessary to link the *headers* files of version 5.1 to those on the system.  
@@ -32,11 +42,7 @@ cd lua-5.1.5
 ```
 
 Although the installation can be performed at the user level in this configuration, the standard one (in `/usr/local/`) was chosen, which allows for a cleaner subsequent configuration of the *headers* files.
-The *readline-devel* add-on package provided in Rocky Linux from the official repositories is required to install it:
-
-```bash
-sudo dnf install readline-devel
-```
+You will need the *readline-devel* add-on package in the official repositories from Rocky Linux. It is in the prerequisites above.
 
 **Note:** The package takes this name in distributions derived from RHEL but in others it is identified differently, in Debian for example it is identified with *libreadline-dev*.
 
@@ -58,7 +64,7 @@ For its removal just delete the files listed above.
 ### Version setting
 
 The system in use if installed as a desktop version will most likely already have a version of Lua installed that will be used by default, this version is unlikely to match the required version and will need to be set to point to the correct version.  
-Using an *alias* in *.bashrc* you can tell the system which version you want, the string to add is as follows:
+Using an *alias* in *.bashrc* you can tell the system which version you want. The string to add is as follows:
 
 ```bash
 alias lua=/usr/local/bin/lua
