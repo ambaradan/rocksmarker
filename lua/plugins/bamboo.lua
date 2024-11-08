@@ -53,5 +53,6 @@ require("bamboo").setup({
 		["NeoTreeFloatBorder"] = { fg = "$light_grey" },
 		["NeoTreeFloatTitle"] = { fg = "$green" },
 		["NeoTreeDirectoryIcon"] = { fg = "$yellow" },
+		["NeoTreeDirectoryName"] = { fg = "$green" },
 	},
 })
