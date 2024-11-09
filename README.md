@@ -43,7 +43,7 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 ```
 
-**NOTE:** THE *git checkout stable* command is used to place *git* in the stable branch before cloning, this way the stable version 0.10.2 (recommended) is used, if omitted the compilation will be done from the development branch 0.11.
+**NOTE:** The *git checkout stable* command is used to place *git* in the stable branch before cloning, this way the stable version 0.10.2 (recommended) is used, if omitted the compilation will be done from the development branch 0.11.
 
 ## Installing Lua 5.1
 
