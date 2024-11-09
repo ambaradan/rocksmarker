@@ -14,7 +14,7 @@ colorscheme = "bamboo"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.41.1"
+"rocks.nvim" = "2.41.2"
 "rocks-config.nvim" = "3.0.0"
 "rocks-git.nvim" = "2.5.1"
 "rocks-lazy.nvim" = "1.1.1"
@@ -41,7 +41,7 @@ tree-sitter-vimdoc = "scm"
 tree-sitter-yaml = "scm"
 
 # UI plugins
-"feline.nvim" = "1.6.3"
+"feline.nvim" = "1.6.4"
 nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.12.0"
@@ -54,7 +54,7 @@ nvim-web-devicons = "0.100"
 "telescope.nvim" = "scm"
 "neo-tree.nvim" = "3.26"
 nvim-autopairs = "scm"
-"rainbow-delimiters.nvim" = "0.6.2"
+"rainbow-delimiters.nvim" = "0.7.0"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
 neogit = "1.0.0"
@@ -80,22 +80,21 @@ nvim-lint = "scm"
 "which-key.nvim" = "3.13.3"
 "trouble.nvim" = "3.6.0"
 
-"pantran.nvim" = "scm"
-
 [plugins."markdown-table-mode.nvim"]
 git = "Kicamon/markdown-table-mode.nvim"
 rev = "870d0449c1c78c673faa9637a63036f9537b4caa"
 
 [plugins."bamboo.nvim"]
 git = "ribru17/bamboo.nvim"
-rev = "14279945044372b02a4547883ac86f4800dbf128"
+rev = "57e1bff1c0df29d7ec0071baf49210c48fc4a98b"
 
 [plugins."nvim-highlight-colors"]
 git = "brenoprata10/nvim-highlight-colors"
-rev = "a411550ef85cae467b889ba7d1a96bd78332d90e"
+rev = "e967e2ba13fd4ca731b41d0e5cc1ac2edcd6e25e"
 
 [plugins."telescope-cmdline.nvim"]
 git = "jonarrien/telescope-cmdline.nvim"
+rev = "0.2.1"
 
 [plugins."markdown.nvim"]
 git = "tadmccorkle/markdown.nvim"
