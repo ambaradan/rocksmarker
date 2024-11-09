@@ -22,7 +22,28 @@ You will need some packages to effectively complete compiling the packages in th
 dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
 ```
 
+**NOTE:** To install the *ninja-build* package, the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder) must be enabled. The repository provides common tools for code development and in Rocky Linux can be enabled with the following commands:
+
+```bash
+sudo dnf install -y epel-release yum-utils
+sudo dnf config-manager --set-enabled crb
+```
+
+## Installation of Neovim
+
 For Rocksmarker, the recommendation is to use the source build of Neovim. You can follow those instructions from the "Quick start" at the [Neovim site here](https://github.com/neovim/neovim/blob/master/BUILD.md).
+
+Compiling it from source presents no particular problems, and if the above requirements are met, it results in the following sequence of commands:
+
+```bash
+git clone https://github.com/neovim/neovim
+cd neovim/
+git checkout stable
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+```
+
+**NOTE:** THE *git checkout stable* command is used to place *git* in the stable branch before cloning, this way the stable version 0.10.2 (recommended) is used, if omitted the compilation will be done from the development branch 0.11.
 
 ## Installing Lua 5.1
 
