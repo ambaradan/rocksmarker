@@ -1,4 +1,3 @@
-<-- vale off -->
 # Neovim IDE for Markdown code
 
 An **experimental** IDE project for writing documentation in Markdown code, the project uses the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim).  
@@ -86,7 +85,6 @@ For its removal just delete the files listed above.
 
 The system in use if installed as a desktop version will most likely already have a version of Lua installed that is the default. This version is unlikely to match the required version, so you will need to set it to point to the correct version.  
 Using an *alias* in *.bashrc* you can tell the system the version you want. The string to add is as follows:
-
 
 ```bash
 alias lua=/usr/local/bin/lua
