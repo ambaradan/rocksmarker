@@ -14,7 +14,7 @@ colorscheme = "bamboo"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.41.2"
+"rocks.nvim" = "2.41.3"
 "rocks-config.nvim" = "3.0.0"
 "rocks-git.nvim" = "2.5.1"
 "rocks-lazy.nvim" = "1.1.1"
@@ -44,13 +44,13 @@ tree-sitter-yaml = "scm"
 "feline.nvim" = "1.6.4"
 nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
-"toggleterm.nvim" = "2.12.0"
+"toggleterm.nvim" = "2.13.0"
 "zen-mode.nvim" = "1.4.0"
 "markview.nvim" = "24.0.0"
 "gitsigns.nvim" = "0.9.0"
 
 # Functional plugins
-"persisted.nvim" = "2.0.1"
+
 "telescope.nvim" = "scm"
 "neo-tree.nvim" = "3.26"
 nvim-autopairs = "scm"
@@ -59,6 +59,7 @@ nvim-autopairs = "scm"
 nvim-spectre = "scm"
 neogit = "1.0.0"
 "yanky.nvim" = "2.0.0"
+"persisted.nvim" = "2.0.1"
 
 # Autocompletions plugins
 nvim-cmp = "scm"
@@ -79,6 +80,9 @@ nvim-lint = "scm"
 "conform.nvim" = "8.1.0"
 "which-key.nvim" = "3.13.3"
 "trouble.nvim" = "3.6.0"
+
+"pantran.nvim" = "scm"
+"indent-blankline.nvim" = "3.8.4"
 
 [plugins."markdown-table-mode.nvim"]
 git = "Kicamon/markdown-table-mode.nvim"
@@ -101,3 +105,19 @@ git = "tadmccorkle/markdown.nvim"
 rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
 ft = "markdown"
 
+[bundles.lsp]
+items = [
+    "mason.nvim",
+    "mason-lspconfig.nvim",
+    "nvim-lspconfig"
+]
+
+[bundles.utils]
+items = [
+    "persisted.nvim",
+    "toggleterm.nvim",
+    "indent-blankline.nvim",
+    "nvim-autopairs",
+    "nvim-highlight-colors",
+    "yanky.nvim"
+]
