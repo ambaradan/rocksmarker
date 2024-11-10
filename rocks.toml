@@ -60,6 +60,7 @@ nvim-spectre = "scm"
 neogit = "1.0.0"
 "yanky.nvim" = "2.0.0"
 "persisted.nvim" = "2.0.1"
+"diffview.nvim" = "scm"
 
 # Autocompletions plugins
 nvim-cmp = "scm"
@@ -80,7 +81,6 @@ nvim-lint = "scm"
 "conform.nvim" = "8.1.0"
 "which-key.nvim" = "3.13.3"
 "trouble.nvim" = "3.6.0"
-
 
 [plugins."markdown-table-mode.nvim"]
 git = "Kicamon/markdown-table-mode.nvim"
