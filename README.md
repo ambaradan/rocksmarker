@@ -1,4 +1,4 @@
-<!-- vale off -->
+<-- vale off -->
 # Neovim IDE for Markdown code
 
 An **experimental** IDE project for writing documentation in Markdown code, the project uses the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim).  
@@ -22,7 +22,7 @@ You will need some packages to effectively complete compiling the packages in th
 dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
 ```
 
-**NOTE:** To install the *ninja-build* package, the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder) must be enabled. The repository provides common tools for code development and in Rocky Linux can be enabled with the following commands:
+**NOTE:** To install the *ninja-build* package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
 
 ```bash
 sudo dnf install -y epel-release yum-utils
@@ -33,7 +33,7 @@ sudo dnf config-manager --set-enabled crb
 
 For Rocksmarker, the recommendation is to use the source build of Neovim. You can follow those instructions from the "Quick start" at the [Neovim site here](https://github.com/neovim/neovim/blob/master/BUILD.md).
 
-Compiling it from source presents no particular problems, and if the above requirements are met, it results in the following sequence of commands:
+Compiling it from source presents no particular problems, and if the you meet the above requirements, it results in the following sequence of commands:
 
 ```bash
 git clone https://github.com/neovim/neovim
@@ -43,29 +43,29 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 ```
 
-**NOTE:** The *git checkout stable* command is used to place *git* in the stable branch before cloning, this way the stable version 0.10.2 (recommended) is used, if omitted the compilation will be done from the development branch 0.11.
+**NOTE:** Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.10.2 (recommended). If omitted, the compilation will build the development branch 0.11.
 
 ## Installing Lua 5.1
 
-The plugin manager chosen (**rocks.nvim**) to configure additional Neovim plugins requires that the *Lua 5.1* version be installed on the system and be configured as the default version to work properly, it is also necessary to link the *headers* files of version 5.1 to those on the system.  
-One of the features of Lua resulting from the fact that it was developed as an “embedded” language is that it does not require any external dependencies, and as a result the various versions can coexist on the same system without conflicting.  For example, a desktop installation of Rocky Linux 9 provides version 5.4.4.  
-The version can be downloaded from the [official Lua site](https://www.lua.org/download.html) with the command:
+The plugin manager chosen to configure additional Neovim plugins (**rocks.nvim**), requires the installation of the *Lua 5.1* version, and that it is the default version, to work properly. It is also necessary to link the *headers* files of version 5.1 to those on the system.  
+One of the features of Lua, resulting from its development as an “embedded” language, is that it does not require any external dependencies. As a result, the various versions can coexist on the same system without conflicting. For example, a desktop installation of Rocky Linux 9 provides version 5.4.4.  
+You can download the 5.1 version from the [official Lua site](https://www.lua.org/download.html) with the command:
 
 ```bash
 curl -O https://www.lua.org/ftp/lua-5.1.5.tar.gz
 ```
 
-Once downloaded unpack it and place it inside:
+Once downloaded, unpack it, and change inside the `lua-5.1.5` directory:
 
 ```bash
 tar xzf lua-5.1.5.tar.gz
 cd lua-5.1.5
 ```
 
-Although the installation can be performed at the user level in this configuration, the standard one (in `/usr/local/`) was chosen, which allows for a cleaner subsequent configuration of the *headers* files.
+Although you can perform the installation at the user level, in this configuration, choose the standard one (in `/usr/local/`), which allows for a cleaner subsequent configuration of the *headers* files.
 You will need the *readline-devel* add-on package in the official repositories from Rocky Linux. It is in the prerequisites above.
 
-**Note:** The package takes this name in distributions derived from RHEL but in others it is identified differently, in Debian for example it is identified with *libreadline-dev*.
+**Note:** The package takes this name in distributions derived from RHEL but in others identifies itself differently. Debian, for example, identifies it as *libreadline-dev*.
 
 Compile and install the version with:
 
@@ -84,8 +84,9 @@ For its removal just delete the files listed above.
 
 ### Version setting
 
-The system in use if installed as a desktop version will most likely already have a version of Lua installed that will be used by default, this version is unlikely to match the required version and will need to be set to point to the correct version.  
-Using an *alias* in *.bashrc* you can tell the system which version you want. The string to add is as follows:
+The system in use if installed as a desktop version will most likely already have a version of Lua installed that is the default. This version is unlikely to match the required version, so you will need to set it to point to the correct version.  
+Using an *alias* in *.bashrc* you can tell the system the version you want. The string to add is as follows:
+
 
 ```bash
 alias lua=/usr/local/bin/lua
@@ -106,8 +107,8 @@ Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 
 ### Add headers files
 
-Just installing the required version is not enough for the configuration to work properly, it is necessary to link the required library *lua.h* present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
-To accomplish this one of the standard *Luarocks* search paths is used (`/usr/include/lua/<version_number>`), the *lua* folder is not present in a Rocky Linux system and will therefore have to be created, the commands to be executed are:
+Installing the required version is not enough for the configuration to work properly. It is necessary to link the required library, *lua.h*, present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
+To accomplish this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it.  Do this with:
 
 ```bash
 cd /usr/include/
@@ -117,7 +118,7 @@ sudo ln -s /usr/local/include/ 5.1
 
 ## Installing the configuration
 
-The configuration uses the project's bootstrap script **rocks.nvim** to install it, and requires no user intervention. To download the configuration, simply make a clone of the GitHub repository in your `.config` folder
+The configuration uses the project's bootstrap script **rocks.nvim** to install it, and requires no user intervention. To download the configuration, make a clone of the GitHub repository in your `.config` folder:
 
 ```bash
 git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
@@ -125,7 +126,7 @@ git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
 
 ### Starting the configuration ( test mode )
 
-The start of the configuration is fully automatic, running *Neovim* the script contained in *init.lua* checks for the presence of the *rocks.nvim* plugin and if absent takes care of its installation via a *bootstrap* procedure, the only dependency required is the presence in the system paths of *Lua 5.1*.
+The start of the configuration is fully automatic. Running *Neovim*, the script contained in *init.lua* checks for the presence of the *rocks.nvim* plugin, and if absent, takes care of its installation by way of a *bootstrap* procedure. The only dependency required is the presence in the system paths of *Lua 5.1*.
 
 It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally independent of the system configuration (`~/.config/nvim/`). In particular, the command uses the name *rocksmarker* for configuration folders, shared files and caches.
 
@@ -133,18 +134,18 @@ It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally indepe
 NVIM_APPNAME=rocksmarker nvim
 ```
 
-Once the installation is finished, the screen will show that some of the plugins in the configuration are missing, to install them perform a *Sync*:
+Once the installation completes, the screen will show that some of the plugins in the configuration are missing. To install them, perform a *Sync*:
 
 ```txt
 :Rocks sync
 ```
 
-However, plugins configured by the traditional method (*Git*) are not installed during the first *Sync* as they are not versioned and generate a number of errors, but these do not affect the installation of the *luarocks* ones. To fix them you will need to close the editor, reopen it and re-run another `:Rocks sync` and you will have all the configuration plugins installed and configured.
+However, plugins configured by the traditional method (*Git*) are not installed during the first *Sync* as they are not versioned and generate a number of errors. These do not affect the installation of the *luarocks* ones. To fix them, you will need to close the editor, reopen it and re-run another `:Rocks sync` and then you will have all the configuration plugins installed and configured.
 
-The restart also provides for automatic installation of the LSPs used by *nvim-lspconfig*; their installation is displayed in the statusline; for the missing LSPs (used by *conform* and *nvim-lint*) an autocommand is set up to take care of their installation:
+The restart also provides for automatic installation of the LSPs used by *nvim-lspconfig*. Their installation is displayed in the statusline. Use an autocommand For the missing LSPs (used by *conform* and *nvim-lint*) to take care of their installation:
 
 ```txt
 :MasonInstallAll
 ```
 
-Close and reopen the editor to also load the configurations of plugins installed via *git* and you are ready to develop.
+Close and reopen the editor to also load the configurations of plugins installed by way of *git* and you are ready to develop.
