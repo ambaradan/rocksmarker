@@ -112,6 +112,13 @@ items = [
     "nvim-lspconfig"
 ]
 
+[bundles.diagnostics]
+items = [
+    "conform.nvim",
+    "nvim-lint",
+    "trouble.nvim",
+]
+
 [bundles.utils]
 items = [
     "persisted.nvim",
