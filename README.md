@@ -147,3 +147,5 @@ The restart also provides for automatic installation of the LSPs used by *nvim-l
 ```
 
 Close and reopen the editor to also load the configurations of plugins installed by way of *git* and you are ready to develop.
+
+For a graphical overview of the editor, visit the [screenshots page](https://github.com/ambaradan/rocksmarker/wiki/Screenshots)
