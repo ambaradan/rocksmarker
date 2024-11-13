@@ -15,7 +15,8 @@ To provide as comprehensive an editor as possible for writing Markdown documenta
 
 ## Prerequisites for Neovim, Lua, and Rocksmarker
 
-**NOTE:** To install the *ninja-build package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
+> [!IMPORTANT]
+> To install the *ninja-build* package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
 
 ```bash
 sudo dnf install -y epel-release yum-utils
@@ -42,7 +43,8 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 ```
 
-**NOTE:** Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.10.2 (recommended). If omitted, the compilation will build the development branch 0.11.
+> [!NOTE]
+> Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.10.2 (recommended). If omitted, the compilation will build the development branch 0.11.
 
 ## Installing Lua 5.1
 
@@ -64,7 +66,8 @@ cd lua-5.1.5
 Although you can perform the installation at the user level, in this configuration, choose the standard one (in `/usr/local/`), which allows for a cleaner subsequent configuration of the *headers* files.
 You will need the *readline-devel* add-on package in the official repositories from Rocky Linux. It is in the prerequisites above.
 
-**Note:** The package takes this name in distributions derived from RHEL but in others identifies itself differently. Debian, for example, identifies it as *libreadline-dev*.
+> [!NOTE]
+> The package takes this name in distributions derived from RHEL but in others identifies itself differently. Debian, for example, identifies it as *libreadline-dev*.
 
 Compile and install the version with:
 
