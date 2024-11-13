@@ -15,17 +15,17 @@ To provide as comprehensive an editor as possible for writing Markdown documenta
 
 ## Prerequisites for Neovim, Lua, and Rocksmarker
 
-You will need some packages to effectively complete compiling the packages in this project. Most will probably be on your system already, however this command should install anything that might be missing:
-
-```bash
-dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
-```
-
-**NOTE:** To install the *ninja-build* package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
+**NOTE:** To install the *ninja-build package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
 
 ```bash
 sudo dnf install -y epel-release yum-utils
 sudo dnf config-manager --set-enabled crb
+```
+
+You will need to install some packages to complete this project:
+
+```bash
+dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
 ```
 
 ## Installation of Neovim
