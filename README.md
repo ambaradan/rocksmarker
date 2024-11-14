@@ -1,3 +1,13 @@
+- [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
+    - [Purpose of the project](#purpose-of-the-project)
+    - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
+    - [Installation of Neovim](#installation-of-neovim)
+    - [Installing Lua 5.1](#installing-lua-51)
+        - [Version setting](#version-setting)
+        - [Add headers files](#add-headers-files)
+    - [Installing the configuration](#installing-the-configuration)
+        - [Starting the configuration ( test mode )](#starting-the-configuration--test-mode-)
+
 # Neovim IDE for Markdown code
 
 An **experimental** IDE project for writing documentation in Markdown code, the project uses the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim).  
@@ -8,10 +18,10 @@ Developers also set up an infrastructure for distributing plugins, which then ar
 
 To provide as comprehensive an editor as possible for writing Markdown documentation for Rocky Linux, to this end the goals set are:
 
-* Automatically set Neovim options for Markdown files
-* Highlighting Markdown tags in the buffer
-* Providing a zen mode for document editing
-* Providing custom snippets for writing [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) tags, snippets for standard Markdown tags are also provided.
+- Automatically set Neovim options for Markdown files
+- Highlighting Markdown tags in the buffer
+- Providing a zen mode for document editing
+- Providing custom snippets for writing [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) tags, snippets for standard Markdown tags are also provided.
 
 ## Prerequisites for Neovim, Lua, and Rocksmarker
 
@@ -78,9 +88,9 @@ sudo make install
 
 The installation will copy the files to the following locations:
 
-* **lua** **luac** -> `/usr/local/bin`
-* **lua.h** **luaconf.h** **lualib.h** **lauxlib.h** **lua.hpp** -> `/usr/local/include`
-* **liblua.a** -> `/usr/local/lib`
+- **lua** **luac** -> `/usr/local/bin`
+- **lua.h** **luaconf.h** **lualib.h** **lauxlib.h** **lua.hpp** -> `/usr/local/include`
+- **liblua.a** -> `/usr/local/lib`
 
 For its removal just delete the files listed above.
 
