@@ -1,3 +1,13 @@
+- [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
+    - [Purpose of the project](#purpose-of-the-project)
+    - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
+    - [Installation of Neovim](#installation-of-neovim)
+    - [Installing Lua 5.1](#installing-lua-51)
+        - [Version setting](#version-setting)
+        - [Add headers files](#add-headers-files)
+    - [Installing the configuration](#installing-the-configuration)
+        - [Starting the configuration ( test mode )](#starting-the-configuration--test-mode-)
+
 # Neovim IDE for Markdown code
 
 An **experimental** IDE project for writing documentation in Markdown code, the project uses the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim).  
@@ -8,24 +18,25 @@ Developers also set up an infrastructure for distributing plugins, which then ar
 
 To provide as comprehensive an editor as possible for writing Markdown documentation for Rocky Linux, to this end the goals set are:
 
-* Automatically set Neovim options for Markdown files
-* Highlighting Markdown tags in the buffer
-* Providing a zen mode for document editing
-* Providing custom snippets for writing [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) tags, snippets for standard Markdown tags are also provided.
+- Automatically set Neovim options for Markdown files
+- Highlighting Markdown tags in the buffer
+- Providing a zen mode for document editing
+- Providing custom snippets for writing [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) tags, snippets for standard Markdown tags are also provided.
 
 ## Prerequisites for Neovim, Lua, and Rocksmarker
 
-You will need some packages to effectively complete compiling the packages in this project. Most will probably be on your system already, however this command should install anything that might be missing:
-
-```bash
-dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
-```
-
-**NOTE:** To install the *ninja-build* package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
+> [!IMPORTANT]
+> To install the *ninja-build* package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
 
 ```bash
 sudo dnf install -y epel-release yum-utils
 sudo dnf config-manager --set-enabled crb
+```
+
+You will need to install some packages to complete this project:
+
+```bash
+dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
 ```
 
 ## Installation of Neovim
@@ -42,7 +53,8 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 ```
 
-**NOTE:** Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.10.2 (recommended). If omitted, the compilation will build the development branch 0.11.
+> [!NOTE]
+> Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.10.2 (recommended). If omitted, the compilation will build the development branch 0.11.
 
 ## Installing Lua 5.1
 
@@ -64,7 +76,8 @@ cd lua-5.1.5
 Although you can perform the installation at the user level, in this configuration, choose the standard one (in `/usr/local/`), which allows for a cleaner subsequent configuration of the *headers* files.
 You will need the *readline-devel* add-on package in the official repositories from Rocky Linux. It is in the prerequisites above.
 
-**Note:** The package takes this name in distributions derived from RHEL but in others identifies itself differently. Debian, for example, identifies it as *libreadline-dev*.
+> [!NOTE]
+> The package takes this name in distributions derived from RHEL but in others identifies itself differently. Debian, for example, identifies it as *libreadline-dev*.
 
 Compile and install the version with:
 
@@ -75,9 +88,9 @@ sudo make install
 
 The installation will copy the files to the following locations:
 
-* **lua** **luac** -> `/usr/local/bin`
-* **lua.h** **luaconf.h** **lualib.h** **lauxlib.h** **lua.hpp** -> `/usr/local/include`
-* **liblua.a** -> `/usr/local/lib`
+- **lua** **luac** -> `/usr/local/bin`
+- **lua.h** **luaconf.h** **lualib.h** **lauxlib.h** **lua.hpp** -> `/usr/local/include`
+- **liblua.a** -> `/usr/local/lib`
 
 For its removal just delete the files listed above.
 
@@ -147,3 +160,5 @@ The restart also provides for automatic installation of the LSPs used by *nvim-l
 ```
 
 Close and reopen the editor to also load the configurations of plugins installed by way of *git* and you are ready to develop.
+
+For a graphical overview of the editor, visit the [screenshots page](https://github.com/ambaradan/rocksmarker/wiki/Screenshots)

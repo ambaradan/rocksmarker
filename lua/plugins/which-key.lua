@@ -5,22 +5,28 @@ require("which-key").setup({
 local wk = require("which-key")
 wk.add({
 	{ "<leader>n", group = "neo-tree" },
-	{ "<leader>nr", "<cmd>Neotree right toggle<cr>", desc = "Neotree right" },
-	{ "<F12>", "<cmd>Neotree float toggle<cr>", desc = "Neotree float" },
-	{ "<leader>nf", "<cmd>Neotree float toggle<cr>", desc = "Neotree float" },
-	{ "<leader>nc", "<cmd>Neotree git_status bottom<cr>", desc = "Git Status Float", mode = "n" },
+	{ "<leader>nr", "<cmd>Neotree right toggle<cr>", desc = "neotree right" },
+	{ "<F12>", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
+	{ "<leader>nf", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
+	{ "<leader>nc", "<cmd>Neotree git_status bottom<cr>", desc = "git status float", mode = "n" },
 	{ "<leader>d", group = "diagnostics" },
-	{ "<leader>dt", "<cmd>Trouble diagnostics toggle<cr>", desc = "Global Diagnostics" },
-	{ "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },
-	{ "<leader>ds", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols" },
+	-- trouble.nvim
+	{ "<leader>dt", "<cmd>Trouble diagnostics toggle<cr>", desc = "global diagnostics" },
+	{ "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics" },
+	{ "<leader>ds", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "buffer symbols" },
+	-- diffview.nvim mappings
+	{ "<leader>dv", "<cmd>DiffviewOpen<cr>", desc = "diffview file" },
+	{ "<leader>dh", "<cmd>DiffviewFileHistory<cr>", desc = "diffview history" },
+	{ "<leader>df", "<cmd>DiffviewFileHistory %<cr>", desc = "diffview file history" },
+	{ "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "diffview close" },
 	-- session mappings - persisted.nvim
 	{ "<leader>s", group = "sessions" }, -- group
-	{ "<A-s>", "<cmd>Telescope persisted<cr>", desc = "Select session" },
-	{ "<leader>sS", "<cmd>Telescope persisted<cr>", desc = "Select session" },
-	{ "<leader>ss", "<cmd>SessionSave<cr>", desc = "Save current session", mode = "n" },
-	{ "<leader>sl", "<cmd>SessionLoad<cr>", desc = "Load session", mode = "n" },
-	{ "<leader>st", "<cmd>SessionStop<cr>", desc = "Stop current session", mode = "n" },
-	{ "<A-l>", "<cmd>SessionLoadLast<cr>", desc = "Load last session", mode = "n" },
+	{ "<A-s>", "<cmd>Telescope persisted<cr>", desc = "select session" },
+	{ "<leader>sS", "<cmd>Telescope persisted<cr>", desc = "select session" },
+	{ "<leader>ss", "<cmd>SessionSave<cr>", desc = "save current session", mode = "n" },
+	{ "<leader>sl", "<cmd>SessionLoad<cr>", desc = "load session", mode = "n" },
+	{ "<leader>st", "<cmd>SessionStop<cr>", desc = "stop current session", mode = "n" },
+	{ "<A-l>", "<cmd>SessionLoadLast<cr>", desc = "load last session", mode = "n" },
 
 	-- others mappings
 	{
