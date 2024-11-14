@@ -4,13 +4,20 @@ require("which-key").setup({
 
 local wk = require("which-key")
 wk.add({
-	{ "<leader>n", group = "neo-tree" },
-	{ "<leader>nr", "<cmd>Neotree right toggle<cr>", desc = "neotree right" },
+	{ "<leader>f", group = "file manager" },
+	{ "<leader>fr", "<cmd>Neotree right toggle<cr>", desc = "neotree right" },
 	{ "<F12>", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
-	{ "<leader>nf", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
-	{ "<leader>nc", "<cmd>Neotree git_status bottom<cr>", desc = "git status float", mode = "n" },
-	{ "<leader>d", group = "diagnostics" },
+	{ "<leader>ff", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
+	-- nvim-cokeline
+	{ "<Tab>", "<Plug>(cokeline-focus-next)", desc = "next buffer" },
+	{ "<S-Tab>", "<Plug>(cokeline-focus-prev)", desc = "prev buffer" },
+	-- telescope.nvim mappings
+	{ "<leader>t", group = "telescope" },
+	{ "<leader>tf", "<cmd>Telescope file_browser<cr>", desc = "find files", mode = "n" },
+	{ "<leader>tr", "<cmd>Telescope frecency theme=ivy<cr>", desc = "recent files", mode = "n" },
+	{ "<leader>tu", "<cmd>Telescope undo theme=ivy<cr>", desc = "undo changes", mode = "n" },
 	-- trouble.nvim
+	{ "<leader>d", group = "diagnostics" },
 	{ "<leader>dt", "<cmd>Trouble diagnostics toggle<cr>", desc = "global diagnostics" },
 	{ "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics" },
 	{ "<leader>ds", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "buffer symbols" },
@@ -21,12 +28,26 @@ wk.add({
 	{ "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "diffview close" },
 	-- session mappings - persisted.nvim
 	{ "<leader>s", group = "sessions" }, -- group
-	{ "<A-s>", "<cmd>Telescope persisted<cr>", desc = "select session" },
+	{ "<A-s>", "<cmd>Telescope persisted theme=ivy<cr>", desc = "select session" },
 	{ "<leader>sS", "<cmd>Telescope persisted<cr>", desc = "select session" },
 	{ "<leader>ss", "<cmd>SessionSave<cr>", desc = "save current session", mode = "n" },
 	{ "<leader>sl", "<cmd>SessionLoad<cr>", desc = "load session", mode = "n" },
 	{ "<leader>st", "<cmd>SessionStop<cr>", desc = "stop current session", mode = "n" },
 	{ "<A-l>", "<cmd>SessionLoadLast<cr>", desc = "load last session", mode = "n" },
+	-- git mappings
+	{ "<leader>g", group = "git" },
+	{ "<leader>gc", "<cmd>Neotree git_status bottom<cr>", desc = "neo-tree git status", mode = "n" },
+	{ "<leader>gb", "<cmd>Telescope git_commits<cr>", desc = "git commits history", mode = "n" },
+	{ "<leader>gb", "<cmd>Telescope git_bcommits<cr>", desc = "git commits buffer", mode = "n" },
+	{ "<leader>gg", "<cmd>Neogit<cr>", desc = "git manager", mode = "n" },
+	-- search mappings
+	{ "<leader>r", group = "search" },
+	{ "<leader>rw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>', desc = "Search current word" },
+	{
+		"<leader>rp",
+		'<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
+		desc = "Search on current file",
+	},
 
 	-- others mappings
 	{
@@ -37,27 +58,15 @@ wk.add({
 		desc = "format buffer",
 		mode = "n",
 	},
-	{ "<leader>b", group = "buffers" },
 	{
-		"<leader>bl",
-		expand = function()
-			return require("which-key.extras").expand.buf()
-		end,
-		desc = "List buffers",
-	},
-	{ "<leader>bn", "<cmd>enew<cr>", desc = "New buffer" },
-	-- { "<tab>", "<cmd>bnext<cr>", desc = "next buffer", mode = "n" },
-	-- { "<S-tab>", "<cmd>bprevious<cr>", desc = "previous buffer", mode = "n" },
-	{
-		-- Nested mappings are allowed and can be added in any order
-		-- Most attributes can be inherited or overridden on any level
-		-- There's no limit to the depth of nesting
-		-- mode = { "n", "v" }, -- NORMAL and VISUAL mode
-		{ "<leader>q", "<cmd>q<cr>", desc = "Close editor" }, -- no need to specify mode since it's inherited
+		{ "<leader>q", "<cmd>q<cr>", desc = "Close editor" },
+		{ "<C-s>", "<cmd>w<cr>", desc = "Save buffer", mode = { "i", "n" } },
+		{ "<leader>N", "<cmd>enew<cr>", desc = "New buffer" },
 		{ "<leader>w", "<cmd>w<cr>", desc = "Save buffer" },
 		{ "<leader>x", "<cmd>bd<cr>", desc = "Close buffer" },
 		{ "<leader>X", "<cmd>%bd<cr>", desc = "Close all buffers" },
-		{ "<leader>ff", "<cmd>Telescope file_browser<cr>", desc = "File Browser" },
+		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "Toggle Spectre" },
+		{ ",", "<cmd>Telescope cmdline<cr>", desc = "Command line", mode = "n" },
 		{ "<leader>c", "<cmd>Telescope cmdline<cr>", desc = "Command line" },
 	},
 })
