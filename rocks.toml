@@ -18,6 +18,8 @@ colorscheme = "bamboo"
 "rocks-config.nvim" = "3.0.0"
 "rocks-git.nvim" = "2.5.1"
 "rocks-lazy.nvim" = "1.1.1"
+"rocks-edit.nvim" = "scm"
+
 # NOTE: tree-sitter parsers
 tree-sitter-bash = "scm"
 tree-sitter-css = "scm"
@@ -41,7 +43,7 @@ tree-sitter-vimdoc = "scm"
 tree-sitter-yaml = "scm"
 
 # UI plugins
-"feline.nvim" = "1.6.4"
+"feline.nvim" = "1.7.0"
 nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.0"
@@ -50,7 +52,7 @@ nvim-web-devicons = "0.100"
 "gitsigns.nvim" = "0.9.0"
 
 # Functional plugins
-"indent-blankline.nvim" = "3.8.4"
+"indent-blankline.nvim" = "3.8.5"
 "telescope.nvim" = "scm"
 "neo-tree.nvim" = "3.26"
 nvim-autopairs = "scm"
@@ -78,9 +80,10 @@ nvim-lspconfig = "1.0.0"
 
 # Diagnostic plugins
 nvim-lint = "scm"
-"conform.nvim" = "8.1.0"
+"conform.nvim" = "8.2.0"
 "which-key.nvim" = "3.13.3"
 "trouble.nvim" = "3.6.0"
+
 
 [plugins."markdown-table-mode.nvim"]
 git = "Kicamon/markdown-table-mode.nvim"
