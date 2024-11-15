@@ -14,3 +14,16 @@ lua
 LSP
 Rocksmarker
 rocksmarker
+rocksmarker
+APPNAME
+readline
+devel
+RHEL
+libreadline
+luac
+luaconf
+lualib
+lauxlib
+hpp
+liblua
+bashrc
