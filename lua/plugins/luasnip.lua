@@ -134,7 +134,7 @@ ls.add_snippets(nil, {
 			'!!! quote "${1:Quote title}"\n\n\t${2:Text here - respect the four indentation spaces}'
 		),
 		-- Keyboard snippet
-		ls.parser.parse_snippet("kbd", "++${0:highlight}++"),
+		ls.parser.parse_snippet("kbd", "++${0:key}++"),
 		-- Special text snippets
 		ls.parser.parse_snippet("sub", "${1}&lt;sub&gt;${0}"),
 		ls.parser.parse_snippet("sup", "${1}&lt;sup&gt;${0}"),
