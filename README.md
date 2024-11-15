@@ -119,7 +119,7 @@ Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 ### Add headers files
 
 Installing the required version is not enough for the configuration to work properly. It is necessary to link the required library, *lua.h*, present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
-To accomplish this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it.  Do this with:
+To accomplish this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it. Do this with:
 
 ```bash
 cd /usr/include/
@@ -137,7 +137,7 @@ git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
 
 ### Starting the configuration ( test mode )
 
-The start of the configuration is fully automatic. Running *Neovim*, the script contained in *init.lua* checks for the presence of the *rocks.nvim* plugin, and if absent, takes care of its installation by way of a *bootstrap* procedure. The only dependency required is the presence in the system paths of *Lua 5.1*.
+The start of the configuration is fully automatic. Running *Neovim*, the script contained in *init.lua* checks for the presence of the *rocks.nvim* plugin, and if not already installed, takes care of its installation by way of a *bootstrap* procedure. The only dependency required is the presence in the system paths of *Lua 5.1*.
 
 It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally independent of the system configuration (`~/.config/nvim/`). In particular, the command uses the name *rocksmarker* for configuration folders, shared files and caches.
 
@@ -151,7 +151,7 @@ Once the installation completes, the screen will show that some of the plugins i
 :Rocks sync
 ```
 
-However, plugins configured by the traditional method (*Git*) are not installed during the first *Sync* as they are not versioned and generate a number of errors. These do not affect the installation of the *luarocks* ones. To fix them, you will need to close the editor, reopen it and re-run another `:Rocks sync` and then you will have all the configuration plugins installed and configured.
+However, plugins configured by the traditional method (*Git*) are not installed during the first *Sync* as they are not versioned and generate several errors. These do not affect the installation of the *luarocks* ones. To fix them, you will need to close the editor, reopen it and re-run another `:Rocks sync` and then you will have all the configuration plugins installed and configured.
 
 The restart also provides for automatic installation of the LSPs used by *nvim-lspconfig*. Their installation is displayed in the statusline. Use an autocommand For the missing LSPs (used by *conform* and *nvim-lint*) to take care of their installation:
 
