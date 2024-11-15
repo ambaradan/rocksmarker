@@ -16,7 +16,7 @@ require("telescope").setup({
 			hidden = true,
 			theme = "ivy",
 		},
-		command_history = { theme = "dropdown" },
+		command_history = { theme = "ivy" },
 		git_status = { theme = "ivy" },
 		git_commits = { theme = "ivy" },
 		oldfiles = { previewer = false, theme = "ivy" },
@@ -36,12 +36,17 @@ require("telescope").setup({
 				},
 			},
 		},
+		frecency = {
+			show_scores = true,
+		},
 	},
 })
 
 require("telescope").load_extension("file_browser")
 
 require("telescope").load_extension("cmdline")
+
+require("telescope").load_extension("frecency")
 
 local wk = require("which-key")
 wk.add({
