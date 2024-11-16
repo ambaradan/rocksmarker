@@ -17,6 +17,8 @@ wk.add({
 		{ "<leader>x", "<cmd>bd<cr>", desc = "close buffer" },
 		{ "<leader>X", "<cmd>%bd<cr>", desc = "close all buffers" },
 		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "search/replace" },
+		{ ",", "<cmd>Telescope cmdline<cr>", desc = "cmdline line", mode = "n" },
+		{ "<leader>c", "<cmd>Telescope cmdline<cr>", desc = "command line" },
 	},
 	-- neo-tree.nvim mappings
 	{ "<leader>f", group = "file manager" },
