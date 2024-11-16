@@ -1,7 +1,6 @@
 # Rocksmarker
 
-- [Rocksmarker](#rocksmarker)
-    - [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
+- [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
     - [Purpose of the project](#purpose-of-the-project)
     - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
     - [Installation of Neovim](#installation-of-neovim)
