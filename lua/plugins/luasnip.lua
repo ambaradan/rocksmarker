@@ -106,8 +106,8 @@ ls.add_snippets(nil, {
 		-- Keyboard snippet
 		snip("kbd", "++${0:key}++"),
 		-- Special text snippets
-		snip("sub", "<sub>${1:text}</sub>"),
-		snip("sup", "<sup>${1:text}</sup>"),
+		snip("sub", "~${1:text}~"),
+		snip("sup", "^${1:text}^"),
 		snip("highlight", "==${0:highlight}=="),
 		ls.parser.parse_snippet(
 			"frontmatter",
