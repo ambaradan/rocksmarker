@@ -7,6 +7,18 @@ require("which-key").setup({
 
 local wk = require("which-key")
 wk.add({
+	-- main commands
+	{
+		{ "<leader>q", "<cmd>q<cr>", desc = "quit editor" },
+		{ "<C-s>", "<cmd>w<cr>", desc = "save buffer", mode = { "i", "n" } },
+		{ "<leader>b", "<cmd>enew<cr>", desc = "new buffer" },
+		{ "<Esc>", "<cmd>noh<CR>", desc = "clear highlights" },
+		{ "<leader>w", "<cmd>w<cr>", desc = "save buffer" },
+		{ "<leader>x", "<cmd>bd<cr>", desc = "close buffer" },
+		{ "<leader>X", "<cmd>%bd<cr>", desc = "close all buffers" },
+		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "search/replace" },
+	},
+	-- neo-tree.nvim mappings
 	{ "<leader>f", group = "file manager" },
 	{ "<leader>fr", "<cmd>Neotree right toggle<cr>", desc = "neotree right" },
 	{ "<F12>", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
@@ -62,16 +74,5 @@ wk.add({
 		end,
 		desc = "format buffer",
 		mode = "n",
-	},
-	{
-		{ "<leader>q", "<cmd>q<cr>", desc = "Close editor" },
-		{ "<C-s>", "<cmd>w<cr>", desc = "Save buffer", mode = { "i", "n" } },
-		{ "<leader>N", "<cmd>enew<cr>", desc = "New buffer" },
-		{ "<leader>w", "<cmd>w<cr>", desc = "Save buffer" },
-		{ "<leader>x", "<cmd>bd<cr>", desc = "Close buffer" },
-		{ "<leader>X", "<cmd>%bd<cr>", desc = "Close all buffers" },
-		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "Toggle Spectre" },
-		{ ",", "<cmd>Telescope cmdline<cr>", desc = "Command line", mode = "n" },
-		{ "<leader>c", "<cmd>Telescope cmdline<cr>", desc = "Command line" },
 	},
 })
