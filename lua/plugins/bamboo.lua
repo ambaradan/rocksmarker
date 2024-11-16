@@ -47,7 +47,7 @@ require("bamboo").setup({
 		-- Whichkey
 		["WhichKeyBorder"] = { fg = "$light_grey" },
 		["WhichKeyTitle"] = { fg = "$green" },
-		["WhichKeyDesc"] = { fg = "$green" },
+		["WhichKeyDesc"] = { fg = "$fg" },
 		["WhichKey"] = { fg = "$light_blue" },
 		-- Neotree
 		["NeoTreeFloatBorder"] = { fg = "$light_grey" },
