@@ -1,3 +1,5 @@
+# Rocksmarker
+
 - [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
     - [Purpose of the project](#purpose-of-the-project)
     - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
@@ -5,10 +7,12 @@
     - [Installing Lua 5.1](#installing-lua-51)
         - [Version setting](#version-setting)
         - [Add headers files](#add-headers-files)
+    - [Download the configuration](#download-the-configuration)
+        - [Main Editor](#main-editor)
+        - [Secondary editor](#secondary-editor)
     - [Installing the configuration](#installing-the-configuration)
-        - [Starting the configuration ( test mode )](#starting-the-configuration--test-mode-)
 
-# Neovim IDE for Markdown code
+## Neovim IDE for Markdown code
 
 An **experimental** IDE project for writing documentation in Markdown code, the project uses the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim).  
 **Rocks.nvim** differs from previous plugin managers in its underlying philosophy, namely that the writing of the basic configuration (*dependencies*, *basic options* ...) is the developer's job and not the user's. This allows the end user to have an easier initial experience, advanced customization of plugins via configuration files always remains possible.  
@@ -119,7 +123,7 @@ Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 ### Add headers files
 
 Installing the required version is not enough for the configuration to work properly. It is necessary to link the required library, *lua.h*, present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
-To accomplish this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it.  Do this with:
+To accomplish this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it. Do this with:
 
 ```bash
 cd /usr/include/
@@ -127,37 +131,67 @@ sudo mkdir lua && cd lua
 sudo ln -s /usr/local/include/ 5.1
 ```
 
-## Installing the configuration
+## Download the configuration
 
-The configuration uses the project's bootstrap script **rocks.nvim** to install it, and requires no user intervention. To download the configuration, make a clone of the GitHub repository in your `.config` folder:
+The configuration, although still under development, can be used daily for writing and editing documentation written in Markdown, so it can be installed as the default configuration in the `.config/nvim` path.  
+For users who already have a Neovim configuration present on the system, there is the option of using *rocksmarker* as a secondary editor, thus allowing them to continue using their existing configuration for developing their projects.  
+This method also allows you to try *rocksmarker*, completely independently, so that you can evaluate whether it might be a useful tool for your daily work.
+
+### Main Editor
+
+To install the configuration in the default Neovim location clone the GitHub repository to your configurations folder `~/.config/` with the command:
+
+```bash
+git clone https://github.com/ambaradan/rocksmarker.git ~/.config/nvim
+```
+
+Once finished, simply invoke the standard Neovim command to begin the installation:
+
+```bash
+nvim
+```
+
+### Secondary editor
+
+To test or use the configuration as a secondary configuration use Neovim's variable *NVIM_APPNAME*, the use of this variable allows Neovim to pass an arbitrary name that is used for searching the configuration files in `~/.config/` and for the subsequent creation of the shared file folder in `~/.local/share/` and the cache in `~/.cache/`.  
+To then set *rocksmarker* as a secondary editor type:
 
 ```bash
 git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
 ```
 
-### Starting the configuration ( test mode )
-
-The start of the configuration is fully automatic. Running *Neovim*, the script contained in *init.lua* checks for the presence of the *rocks.nvim* plugin, and if absent, takes care of its installation by way of a *bootstrap* procedure. The only dependency required is the presence in the system paths of *Lua 5.1*.
-
-It uses Neovim's `NVIM_APPNAME` variable to run an instance of it totally independent of the system configuration (`~/.config/nvim/`). In particular, the command uses the name *rocksmarker* for configuration folders, shared files and caches.
+Once the cloning operation is complete, start Neovim with the following command to begin the installation:
 
 ```bash
 NVIM_APPNAME=rocksmarker nvim
 ```
 
-Once the installation completes, the screen will show that some of the plugins in the configuration are missing. To install them, perform a *Sync*:
+> [!IMPORTANT]
+> If you choose this method all subsequent startup of the configuration should be done using the command described above, otherwise Neovim will start using the default `~/.config/nvim` folder. To avoid typing the entire command each time, the creation of an *alias* is recommended.
 
-```txt
+## Installing the configuration
+
+When Neovim starts, with either method described above, it will begin the installation process managed by a *bootstrap* script that checked for the lack of the *rocks.nvim* plugin and proceeded to install it.  
+The first step of the installation consists of just installing the *rocks.nvim* plugin manager at the end of which, if everything worked properly, you will be asked to press ENTER to continue.  
+The second step is to synchronize all the configured plugins, the synchronization installs the plugins in the shared files folder in the path `.local/share/nvim/rocks/lib/luarocks/rocks-5.1/`.
+
+```text
 :Rocks sync
 ```
 
-However, plugins configured by the traditional method (*Git*) are not installed during the first *Sync* as they are not versioned and generate a number of errors. These do not affect the installation of the *luarocks* ones. To fix them, you will need to close the editor, reopen it and re-run another `:Rocks sync` and then you will have all the configuration plugins installed and configured.
+Since the configuration includes some plugins not yet available for *luarocks* installed with the *git* method at the first synchronization you will receive related errors, these errors are resolved with a second synchronization, then close the editor, reopen it and repeat the synchronization:
 
-The restart also provides for automatic installation of the LSPs used by *nvim-lspconfig*. Their installation is displayed in the statusline. Use an autocommand For the missing LSPs (used by *conform* and *nvim-lint*) to take care of their installation:
+```text
+:Rocks sync
+```
 
-```txt
+When the editor is opened for the second time, the language servers (LSPs) set for *nvim-lspconfig* are also automatically installed; for the remaining ones necessary for the proper functioning of *nvim-lint* (linter) and *conform* (formatter), the command is available:
+
+```text
 :MasonInstallAll
 ```
+
+That installs all the remaining language servers in one operation.
 
 Close and reopen the editor to also load the configurations of plugins installed by way of *git* and you are ready to develop.
 
