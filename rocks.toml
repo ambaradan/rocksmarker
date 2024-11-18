@@ -14,7 +14,7 @@ colorscheme = "bamboo"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.41.3"
+"rocks.nvim" = "2.42.1"
 "rocks-config.nvim" = "3.0.0"
 "rocks-git.nvim" = "2.5.1"
 "rocks-lazy.nvim" = "1.1.1"
@@ -83,7 +83,7 @@ nvim-lint = "scm"
 "conform.nvim" = "8.2.0"
 "which-key.nvim" = "3.13.3"
 "trouble.nvim" = "3.6.0"
-
+"telescope-frecency.nvim" = "scm"
 
 [plugins."markdown-table-mode.nvim"]
 git = "Kicamon/markdown-table-mode.nvim"
@@ -105,6 +105,10 @@ rev = "0.2.1"
 git = "tadmccorkle/markdown.nvim"
 rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
 ft = "markdown"
+
+[plugins."peek.nvim"]
+git = "toppair/peek.nvim"
+rev = "5820d937d5414baea5f586dc2a3d912a74636e5b"
 
 [bundles.lsp]
 items = ["mason.nvim", "mason-lspconfig.nvim", "nvim-lspconfig"]
