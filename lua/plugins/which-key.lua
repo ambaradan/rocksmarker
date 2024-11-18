@@ -13,6 +13,8 @@ wk.add({
 	{ "<S-Tab>", "<Plug>(cokeline-focus-prev)", desc = "prev buffer" },
 	-- telescope.nvim mappings
 	{ "<leader>t", group = "telescope" },
+	{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "buffer list", mode = "n" },
+	{ "<leader>tc", "<cmd>Telescope command_history<cr>", desc = "command history", mode = "n" },
 	{ "<leader>tf", "<cmd>Telescope file_browser<cr>", desc = "find files", mode = "n" },
 	{ "<leader>tr", "<cmd>Telescope frecency theme=ivy<cr>", desc = "recent files", mode = "n" },
 	{ "<leader>tu", "<cmd>Telescope undo theme=ivy<cr>", desc = "undo changes", mode = "n" },
