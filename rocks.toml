@@ -106,10 +106,6 @@ git = "tadmccorkle/markdown.nvim"
 rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
 ft = "markdown"
 
-[plugins."peek.nvim"]
-git = "toppair/peek.nvim"
-rev = "5820d937d5414baea5f586dc2a3d912a74636e5b"
-
 [bundles.lsp]
 items = ["mason.nvim", "mason-lspconfig.nvim", "nvim-lspconfig"]
 
