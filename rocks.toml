@@ -14,7 +14,7 @@ colorscheme = "bamboo"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.42.1"
+"rocks.nvim" = "2.42.2"
 "rocks-config.nvim" = "3.0.0"
 "rocks-git.nvim" = "2.5.1"
 "rocks-lazy.nvim" = "1.1.1"
