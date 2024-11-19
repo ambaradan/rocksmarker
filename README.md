@@ -1,3 +1,4 @@
+<!-- vale off -->
 # Rocksmarker
 
 - [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
