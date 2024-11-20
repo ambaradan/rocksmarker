@@ -41,7 +41,7 @@ sudo dnf config-manager --set-enabled crb
 You will need to install some packages to complete this project:
 
 ```bash
-dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extraz tar git
+dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gettext curl glibc-gconv-extra tar git
 ```
 
 ## Installation of Neovim
