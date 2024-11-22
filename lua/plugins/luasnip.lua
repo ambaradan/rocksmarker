@@ -85,41 +85,74 @@ ls.add_snippets(nil, {
 		snip("ordered list", "1. ${1:first}\n2. ${2:second}\n3. ${3:third}\n$0"),
 		-- 'mkdocs-material' custom snippets
 		-- Admonitions snippets
-		snip("note", '!!! note "${1:Note title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
 		snip(
-			"abstract",
+			"material_note",
+			"!!! note ${1:Note title}\n\n\t" .. "${2:Text here - respect the four indentation spaces}"
+		),
+		snip(
+			"material_abstract",
 			'!!! abstract "${1:Abstract title}"\n\n\t${2:Text here - respect the four indentation spaces}'
 		),
-		snip("info", '!!! info "${1:Info title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("tip", '!!! tip "${1:Tip title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("success", '!!! success "${1:Success title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
+		snip("material_info", '!!! info "${1:Info title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
+		snip("material_tip", '!!! tip "${1:Tip title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
 		snip(
-			"question",
+			"material_success",
+			'!!! success "${1:Success title}"\n\n\t${2:Text here - respect the four indentation spaces}'
+		),
+		snip(
+			"material_question",
 			'!!! question "${1:Question title}"\n\n\t${2:Text here - respect the four indentation spaces}'
 		),
-		snip("warning", '!!! warning "${1:Warning title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("failure", '!!! failure "${1:Failure title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("danger", '!!! danger "${1:Danger title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("bug", '!!! bug "${1:Bug title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("example", '!!! example "${1:Example title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
-		snip("quote", '!!! quote "${1:Quote title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
+		snip(
+			"material_warning",
+			'!!! warning "${1:Warning title}"\n\n\t${2:Text here - respect the four indentation spaces}'
+		),
+		snip(
+			"material_failure",
+			'!!! failure "${1:Failure title}"\n\n\t${2:Text here - respect the four indentation spaces}'
+		),
+		snip(
+			"material_danger",
+			'!!! danger "${1:Danger title}"\n\n\t${2:Text here - respect the four indentation spaces}'
+		),
+		snip("material_bug", '!!! bug "${1:Bug title}"\n\n\t${2:Text here - respect the four indentation spaces}'),
+		snip(
+			"material_example",
+			'!!! example "${1:Example title}"\n\n\t${2:Text here - respect the four indentation spaces}'
+		),
+		snip(
+			"material_quote",
+			'!!! quote "${1:Quote title}"\n\n\t${2:Text here - respect the four indentation spaces}'
+		),
+		-- content tabs
+		snip(
+			"material_content_tab",
+			'=== "${1:Tab one title}"\n\n\t'
+				.. "${2:tab one content here}\n\n"
+				.. '=== "${3:Tab two title}"\n\n\t'
+				.. "${4:tab two content here}\n"
+		),
 		-- Keyboard snippet
 		snip("kbd", "++${0:key}++"),
 		-- Special text snippets
 		snip("sub", "~${1:text}~"),
 		snip("sup", "^${1:text}^"),
 		snip("highlight", "==${0:highlight}=="),
-		ls.parser.parse_snippet(
+		snip(
 			"frontmatter",
-			[[
----
-title: "${1:Title}"
-date: "${2:YYYY-MM-DD}"
-tags: [${3:tag1, tag2}]
-draft: ${4:true|false}
----
-]]
+			"---\n"
+				.. "title: ${1:Title}\n"
+				.. "author: ${2:author}\n"
+				.. "contributors:\n"
+				.. "tags:\n"
+				.. "    - ${3:tag 1}\n"
+				.. "    - ${4:tag 2}\n"
+				.. "---"
 		),
+		snip("github_note", "> [!NOTE]\n" .. "> ${1:Note here}\n"),
+		snip("github_tip", "> [!TIP]\n" .. "> ${1:Tip here}\n"),
+		snip("github_warning", "> [!WARNING]\n" .. "> ${1:Warning here}\n"),
+		snip("github_caution", "> [!CAUTION]\n" .. "> ${1:Warning here}\n"),
 		-- Task snippets
 		snip("task2", "- [${1| ,x|}] ${2:text}\n- [${3| ,x|}] ${4:text}\n${0}"),
 		snip("task3", "- [${1| ,x|}] ${2:text}\n- [${3| ,x|}] ${4:text}\n- [${5| ,x|}] ${6:text}\n${0}"),
