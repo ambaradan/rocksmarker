@@ -56,9 +56,9 @@ wk.add({
 	-- git mappings
 	{ "<leader>g", group = "git" },
 	{ "<leader>gc", "<cmd>Neotree git_status bottom<cr>", desc = "neo-tree git status", mode = "n" },
-	{ "<leader>gb", "<cmd>Telescope git_commits<cr>", desc = "git commits history", mode = "n" },
+	{ "<leader>gh", "<cmd>Telescope git_commits<cr>", desc = "git commits history", mode = "n" },
 	{ "<leader>gb", "<cmd>Telescope git_bcommits<cr>", desc = "git commits buffer", mode = "n" },
-	{ "<leader>gg", "<cmd>Neogit<cr>", desc = "git manager", mode = "n" },
+	{ "<leader>gm", "<cmd>LazyGit<cr>", desc = "git manager", mode = "n" },
 	-- search mappings
 	{ "<leader>r", group = "search" },
 	{ "<leader>rw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>', desc = "Search current word" },
