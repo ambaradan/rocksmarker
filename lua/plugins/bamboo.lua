@@ -54,5 +54,8 @@ require("bamboo").setup({
 		["NeoTreeFloatTitle"] = { fg = "$green" },
 		["NeoTreeDirectoryIcon"] = { fg = "$yellow" },
 		["NeoTreeDirectoryName"] = { fg = "$green" },
+		-- LazyGit
+		["LazyGitBorder"] = { fg = "$light_grey" },
+		["LazyGitFloat"] = { fg = "$mdLightGey" },
 	},
 })
