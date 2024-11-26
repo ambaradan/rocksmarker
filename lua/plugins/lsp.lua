@@ -1,46 +1,67 @@
--- Reserve a space in the gutter
--- This will avoid an annoying layout shift in the screen
-vim.opt.signcolumn = "yes"
+-- -- Reserve a space in the gutter
+-- -- This will avoid an annoying layout shift in the screen
+-- vim.opt.signcolumn = "yes"
 
--- Add cmp_nvim_lsp capabilities settings to lspconfig
--- This should be executed before you configure any language server
-local lspconfig_defaults = require("lspconfig").util.default_config
-lspconfig_defaults.capabilities =
-	vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
-
--- This is where you enable features that only work
--- if there is a language server active in the file
+-- Use LspAttach autocommand to only map the following keys
 vim.api.nvim_create_autocmd("LspAttach", {
-	desc = "LSP actions",
-	callback = function(event)
-		local opts = { buffer = event.buf }
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-		vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-		vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-		vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-		vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-		vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-		vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-		vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-		vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-		vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-		vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+		local opts = { buffer = ev.buf }
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
+		vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+		vim.keymap.set("n", "<space>wl", function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, opts)
+		vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+		vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+		vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	end,
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(event)
-		local id = vim.tbl_get(event, "data", "client_id")
-		local client = id and vim.lsp.get_client_by_id(id)
-		if client == nil then
-			return
-		end
+-- capabilities setting
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-		-- Disable semantic highlights
-		client.server_capabilities.semanticTokensProvider = nil
-	end,
+capabilities.textDocument.completion.completionItem = {
+	documentationFormat = { "markdown", "plaintext" },
+	snippetSupport = true,
+	preselectSupport = true,
+	insertReplaceSupport = true,
+	labelDetailsSupport = true,
+	deprecatedSupport = true,
+	commitCharactersSupport = true,
+	tagSupport = { valueSet = { 1 } },
+	resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	},
+}
+
+-- Setup language servers.
+local lspconfig = require("lspconfig")
+
+lspconfig.lua_ls.setup({
+	capabilities = capabilities,
+	settings = {
+		Lua = {
+			diagnostics = { globals = { "vim" } },
+		},
+	},
 })
 
+-- IMPORTANT - setting servers to be installed
+-- with mason-lspconfig be done after setting 'capabilities'
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	-- Replace the language servers listed here
@@ -50,5 +71,100 @@ require("mason-lspconfig").setup({
 		function(server_name)
 			require("lspconfig")[server_name].setup({})
 		end,
+	},
+})
+
+-- setup multiple servers with same default options
+local servers = { "lua_ls", "html", "cssls", "marksman", "yamlls", "bashls", "taplo" }
+
+for _, lsp in ipairs(servers) do
+	lspconfig[lsp].setup({
+		capabilities = capabilities,
+	})
+end
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+local select_opts = { behavior = cmp.SelectBehavior.Select }
+
+cmp.setup({
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
+		end,
+	},
+	sources = {
+		{ name = "path" },
+		{ name = "nvim_lsp", keyword_length = 1 },
+		{ name = "buffer", keyword_length = 3 },
+		{ name = "luasnip", keyword_length = 2 },
+	},
+	window = {
+		documentation = cmp.config.window.bordered(),
+	},
+	formatting = {
+		fields = { "menu", "abbr", "kind" },
+		format = function(entry, item)
+			local menu_icon = {
+				nvim_lsp = "λ",
+				luasnip = "⋗",
+				buffer = "Ω",
+				path = "",
+			}
+
+			item.menu = menu_icon[entry.source.name]
+			return item
+		end,
+	},
+	mapping = {
+		["<Up>"] = cmp.mapping.select_prev_item(select_opts),
+		["<Down>"] = cmp.mapping.select_next_item(select_opts),
+
+		["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
+		["<C-n>"] = cmp.mapping.select_next_item(select_opts),
+
+		["<C-u>"] = cmp.mapping.scroll_docs(-4),
+		["<C-d>"] = cmp.mapping.scroll_docs(4),
+
+		["<C-e>"] = cmp.mapping.abort(),
+		["<C-y>"] = cmp.mapping.confirm({ select = true }),
+		["<CR>"] = cmp.mapping.confirm({ select = false }),
+
+		["<C-f>"] = cmp.mapping(function(fallback)
+			if luasnip.jumpable(1) then
+				luasnip.jump(1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+
+		["<C-b>"] = cmp.mapping(function(fallback)
+			if luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+
+		["<Tab>"] = cmp.mapping(function(fallback)
+			local col = vim.fn.col(".") - 1
+
+			if cmp.visible() then
+				cmp.select_next_item(select_opts)
+			elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+				fallback()
+			else
+				cmp.complete()
+			end
+		end, { "i", "s" }),
+
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item(select_opts)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 	},
 })

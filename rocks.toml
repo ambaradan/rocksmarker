@@ -15,7 +15,7 @@ colorscheme = "bamboo"
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
 "rocks.nvim" = "2.42.2"
-"rocks-config.nvim" = "3.0.0"
+"rocks-config.nvim" = "3.1.0"
 "rocks-git.nvim" = "2.5.1"
 "rocks-lazy.nvim" = "1.1.1"
 "rocks-edit.nvim" = "scm"
@@ -91,7 +91,7 @@ rev = "870d0449c1c78c673faa9637a63036f9537b4caa"
 
 [plugins."bamboo.nvim"]
 git = "ribru17/bamboo.nvim"
-rev = "57e1bff1c0df29d7ec0071baf49210c48fc4a98b"
+rev = "d38c50257d9fb16b17050569b29d777b1f2503ee"
 
 [plugins."nvim-highlight-colors"]
 git = "brenoprata10/nvim-highlight-colors"
@@ -107,7 +107,7 @@ rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
 ft = "markdown"
 
 [bundles.lsp]
-items = ["mason.nvim", "mason-lspconfig.nvim", "nvim-lspconfig"]
+items = ["mason.nvim", "mason-lspconfig.nvim", "nvim-lspconfig", "nvim-cmp"]
 
 [bundles.diagnostics]
 items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
