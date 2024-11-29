@@ -1,8 +1,5 @@
 require("which-key").setup({
 	preset = "helix",
-	-- icons = {
-	-- 	color = "yellow",
-	-- },
 })
 
 local wk = require("which-key")

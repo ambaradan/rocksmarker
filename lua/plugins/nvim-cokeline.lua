@@ -59,21 +59,3 @@ require("cokeline").setup({
 		},
 	},
 })
-
-local wk = require("which-key")
-wk.add({
-	{ "<Tab>", "<Plug>(cokeline-focus-next)", desc = "next buffer" },
-	{ "<S-Tab>", "<Plug>(cokeline-focus-prev)", desc = "prev buffer" },
-})
-
--- TODO
-
---https://github.com/noib3/nvim-cokeline#musical_keyboard-mappings
--- local map = vim.api.nvim_set_keymap
---
--- --map("n", "<S-Tab>", "<Plug>(cokeline-focus-prev)", { silent = true })
--- --map("n", "<Tab>", "<Plug>(cokeline-focus-next)", { silent = true })
---
--- for i = 1, 9 do
--- 	map("n", ("<Leader>%s"):format(i), ("<Plug>(cokeline-focus-%s)"):format(i), { silent = true })
--- end
