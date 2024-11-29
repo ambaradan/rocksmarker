@@ -20,7 +20,7 @@ colorscheme = "bamboo"
 "rocks-lazy.nvim" = "1.1.1"
 "rocks-edit.nvim" = "scm"
 
-# NOTE: tree-sitter parsers
+# tree-sitter parsers
 tree-sitter-bash = "scm"
 tree-sitter-css = "scm"
 tree-sitter-git_config = "scm"
@@ -77,11 +77,12 @@ cmp-path = "scm"
 "mason.nvim" = "1.10.0"
 "mason-lspconfig.nvim" = "1.31.0"
 nvim-lspconfig = "1.0.0"
+"mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
 nvim-lint = "scm"
 "conform.nvim" = "8.2.0"
-"which-key.nvim" = "3.13.3"
+"which-key.nvim" = "3.14.1"
 "trouble.nvim" = "3.6.0"
 "telescope-frecency.nvim" = "scm"
 
@@ -107,7 +108,13 @@ rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
 ft = "markdown"
 
 [bundles.lsp]
-items = ["mason.nvim", "mason-lspconfig.nvim", "nvim-lspconfig", "nvim-cmp"]
+items = [
+  "mason.nvim",
+  "mason-lspconfig.nvim",
+  "nvim-lspconfig",
+  "nvim-cmp",
+  "mason-tool-installer.nvim",
+]
 
 [bundles.diagnostics]
 items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
@@ -116,6 +123,7 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 items = [
   "persisted.nvim",
   "toggleterm.nvim",
+  "nvim-spectre",
   "indent-blankline.nvim",
   "nvim-autopairs",
   "nvim-highlight-colors",
