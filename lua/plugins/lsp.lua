@@ -73,7 +73,20 @@ require("mason-lspconfig").setup({
 		end,
 	},
 })
-
+-- Additional LSPs for 'nvim-lint' and 'conform'
+require("mason-tool-installer").setup({
+	-- a list of all tools you want to ensure are installed upon
+	-- start
+	ensure_installed = {
+		"markdownlint",
+		"vale",
+		"stylua",
+		"shfmt",
+		"yamlfmt",
+		"shellcheck",
+		"prettier",
+	},
+})
 -- setup multiple servers with same default options
 local servers = { "lua_ls", "html", "cssls", "marksman", "yamlls", "bashls", "taplo" }
 
