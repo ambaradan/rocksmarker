@@ -14,6 +14,11 @@ terminal.setup({
 	hide_numbers = true,
 })
 
+-- spectre.nvim settings - search and replace plugin
+require("spectre").setup({
+	live_update = false, -- auto execute search again when you write to any file in vim
+})
+
 -- yanky.nvim settings
 require("yanky").setup({
 	highlight = {
