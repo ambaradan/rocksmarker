@@ -186,14 +186,8 @@ Since the configuration includes some plugins not yet available for *luarocks* i
 :Rocks sync
 ```
 
-When the editor is opened for the second time, the language servers (LSPs) set for *nvim-lspconfig* are also automatically installed; for the remaining ones necessary for the proper functioning of *nvim-lint* (linter) and *conform* (formatter), the command is available:
-
-```text
-:MasonInstallAll
-```
-
-That installs all the remaining language servers in one operation.
+On the second startup, moreover, the *mason-lspconfig* and *mason-tool-installer* plugins installed during the first synchronization will take care, in a fully automatic way, of installing all the language servers (LSPs) necessary for the proper functioning of the configuration.
 
 Close and reopen the editor to also load the configurations of plugins installed by way of *git* and you are ready to develop.
 
-For a graphical overview of the editor, visit the [screenshots page](https://github.com/ambaradan/rocksmarker/wiki/Screenshots)
+For a graphical overview of the editor, visit the [screenshots page](/docs/screenshots.md)
