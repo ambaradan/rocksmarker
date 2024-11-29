@@ -1,7 +1,7 @@
--- mason, write correct names only
-vim.api.nvim_create_user_command("MasonInstallAll", function()
-	vim.cmd("MasonInstall markdownlint vale stylua shfmt yamlfmt shellcheck prettier")
-end, {})
+-- -- mason, write correct names only
+-- vim.api.nvim_create_user_command("MasonInstallAll", function()
+-- 	vim.cmd("MasonInstall markdownlint vale stylua shfmt yamlfmt shellcheck prettier")
+-- end, {})
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
