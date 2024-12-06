@@ -69,10 +69,8 @@ ibl.setup({
 	scope = { enabled = false },
 })
 
--- nvim-autopairs.nvim setting
-require("nvim-autopairs").setup({
-	disable_filetype = { "TelescopePrompt", "vim" },
-})
+-- mini.pairs setting
+require("mini.pairs").setup()
 
 -- nvim-highlight-colors.nvim settings
 -- Ensure termguicolors is enabled if not already
