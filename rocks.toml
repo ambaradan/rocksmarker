@@ -35,7 +35,7 @@ tree-sitter-jsonc = "scm"
 tree-sitter-lua = "scm"
 tree-sitter-luadoc = "scm"
 tree-sitter-markdown = "scm"
-tree-sitter-markdown_inline = "0.0.35"
+tree-sitter-markdown_inline = "0.0.36"
 tree-sitter-regex = "scm"
 tree-sitter-toml = "scm"
 tree-sitter-vim = "scm"
@@ -52,10 +52,10 @@ nvim-web-devicons = "0.100"
 "gitsigns.nvim" = "0.9.0"
 
 # Functional plugins
-"indent-blankline.nvim" = "3.8.5"
+"indent-blankline.nvim" = "3.8.6"
+"mini.pairs" = "0.9.0"
 "telescope.nvim" = "scm"
 "neo-tree.nvim" = "3.26"
-nvim-autopairs = "scm"
 "rainbow-delimiters.nvim" = "0.7.0"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
@@ -125,7 +125,7 @@ items = [
   "toggleterm.nvim",
   "nvim-spectre",
   "indent-blankline.nvim",
-  "nvim-autopairs",
+  "mini.pairs",
   "nvim-highlight-colors",
   "yanky.nvim",
 ]
