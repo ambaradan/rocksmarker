@@ -39,12 +39,6 @@ require("yanky").setup({
 })
 require("telescope").load_extension("yank_history")
 
-local wk = require("which-key")
-wk.add({
-	-- Yank commands
-	{ "<A-y>", "<cmd>Telescope yank_history<cr>", desc = "Yank History", mode = { "n", "i" } },
-})
-
 -- indent-blankline.nvim settings
 local present, ibl = pcall(require, "ibl")
 

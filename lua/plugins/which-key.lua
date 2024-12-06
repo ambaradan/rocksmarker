@@ -25,6 +25,8 @@ wk.add({
 	-- nvim-cokeline
 	{ "<Tab>", "<Plug>(cokeline-focus-next)", desc = "next buffer" },
 	{ "<S-Tab>", "<Plug>(cokeline-focus-prev)", desc = "prev buffer" },
+	-- Yank commands
+	{ "<A-y>", "<cmd>Telescope yank_history<cr>", desc = "Yank History", mode = { "n", "i" } },
 	-- telescope.nvim mappings
 	{ "<leader>t", group = "telescope" },
 	{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "buffer list", mode = "n" },
