@@ -180,14 +180,6 @@ The second step is to synchronize all the configured plugins, the synchronizatio
 :Rocks sync
 ```
 
-Since the configuration includes some plugins not yet available for *luarocks* installed with the *git* method at the first synchronization you will receive related errors, these errors are resolved with a second synchronization, then close the editor, reopen it and repeat the synchronization:
-
-```text
-:Rocks sync
-```
-
-On the second startup, moreover, the *mason-lspconfig* and *mason-tool-installer* plugins installed during the first synchronization will take care, in a fully automatic way, of installing all the language servers (LSPs) necessary for the proper functioning of the configuration.
-
-Close and reopen the editor to also load the configurations of plugins installed by way of *git* and you are ready to develop.
+Once the installation of the plugins is finished close the editor and reopen it to give Neovim a chance to load the new configurations, on the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSPs) necessary for the proper functioning of the editor, finishes the installation of language servers the editor is ready to be used, good development.
 
 For a graphical overview of the editor, visit the [screenshots page](/docs/screenshots.md)
