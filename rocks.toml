@@ -43,12 +43,12 @@ tree-sitter-vimdoc = "scm"
 tree-sitter-yaml = "scm"
 
 # UI plugins
+"bamboo.nvim" = "scm"
 "feline.nvim" = "1.7.0"
 nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.0"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "24.0.0"
 "gitsigns.nvim" = "0.9.0"
 
 # Functional plugins
@@ -63,6 +63,9 @@ neogit = "1.0.0"
 "yanky.nvim" = "2.0.0"
 "persisted.nvim" = "2.0.1"
 "diffview.nvim" = "scm"
+"nvim-highlight-colors" = "scm"
+"telescope-frecency.nvim" = "scm"
+"telescope-cmdline.nvim" = "0.2.1"
 
 # Autocompletions plugins
 nvim-cmp = "scm"
@@ -84,28 +87,11 @@ nvim-lint = "scm"
 "conform.nvim" = "8.2.0"
 "which-key.nvim" = "3.14.1"
 "trouble.nvim" = "3.6.0"
-"telescope-frecency.nvim" = "scm"
 
-[plugins."markdown-table-mode.nvim"]
-git = "Kicamon/markdown-table-mode.nvim"
-rev = "870d0449c1c78c673faa9637a63036f9537b4caa"
-
-[plugins."bamboo.nvim"]
-git = "ribru17/bamboo.nvim"
-rev = "d38c50257d9fb16b17050569b29d777b1f2503ee"
-
-[plugins."nvim-highlight-colors"]
-git = "brenoprata10/nvim-highlight-colors"
-rev = "e967e2ba13fd4ca731b41d0e5cc1ac2edcd6e25e"
-
-[plugins."telescope-cmdline.nvim"]
-git = "jonarrien/telescope-cmdline.nvim"
-rev = "0.2.1"
-
-[plugins."markdown.nvim"]
-git = "tadmccorkle/markdown.nvim"
-rev = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2"
-ft = "markdown"
+# Markdown plugins
+"markdown-table-mode.nvim" = "scm"
+"markdown.nvim" = "scm"
+"markview.nvim" = "24.0.0"
 
 [bundles.lsp]
 items = [
