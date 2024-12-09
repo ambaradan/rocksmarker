@@ -30,7 +30,6 @@ o.number = true
 o.signcolumn = "yes"
 o.splitbelow = true
 o.splitright = true
-o.termguicolors = true
 o.timeoutlen = 400
 o.undofile = true
 o.cursorline = true
