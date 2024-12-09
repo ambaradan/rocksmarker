@@ -131,10 +131,6 @@ sudo mkdir lua && cd lua
 sudo ln -s /usr/local/include/ 5.1
 ```
 
-## Installing luarocks 3.11.1
-
-Anche se *rocks.nvim* installa la sua versione di luarocks (3.11.1), e il suo funzionamento è totalmente indipendente dalla versione di sistema, è consigliato dotare il sistema della stessa versione richiesta da rocks.nvim
-
 ## Download the configuration
 
 The configuration, although still under development, can be used daily for writing and editing documentation written in Markdown, so it can be installed as the default configuration in the `.config/nvim` path.  
