@@ -59,7 +59,6 @@ nvim-web-devicons = "0.100"
 "rainbow-delimiters.nvim" = "0.7.0"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
-neogit = "1.0.0"
 "yanky.nvim" = "2.0.0"
 "persisted.nvim" = "2.0.1"
 "diffview.nvim" = "scm"
@@ -92,6 +91,10 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "markview.nvim" = "24.0.0"
+
+[plugins.neogit ]
+version = "scm"
+pin = true
 
 [bundles.lsp]
 items = [
