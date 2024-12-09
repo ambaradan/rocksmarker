@@ -2,7 +2,11 @@ local o = vim.o
 
 vim.g.mapleader = " "
 
-o.laststatus = 3 -- global statusline
+-- options for 'status' and 'tab' lines
+o.laststatus = 2
+o.showtabline = 2
+
+o.termguicolors = true
 o.showmode = false
 
 o.clipboard = "unnamedplus"
