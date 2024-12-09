@@ -92,7 +92,7 @@ nvim-lint = "scm"
 "markdown.nvim" = "scm"
 "markview.nvim" = "24.0.0"
 
-[plugins.neogit ]
+[plugins.neogit]
 version = "scm"
 pin = true
 
