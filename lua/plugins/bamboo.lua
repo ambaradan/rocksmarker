@@ -3,7 +3,6 @@ require("bamboo").setup({
 	-- NOTE: to use the light theme, set `vim.o.background = 'light'`
 	style = "vulgaris",
 	colors = {
-		bright_orange = "#ff8800", -- define a new colo#191a18r
 		shade = "#2f312c",
 		mdSign = "#3a3d37",
 		mdOrange = "#ffc1a3",
@@ -21,6 +20,7 @@ require("bamboo").setup({
 		mdbold = "#ffccb2",
 	},
 	highlights = {
+		["FloatBorder"] = { fg = "$grey" },
 		["MarkviewCode"] = { bg = "$bg0" },
 		-- ["MarkviewHyperlink"] = { fg = "$purple", underline = false },
 		["MarkviewHeading1"] = { fg = "$orange" },
@@ -57,5 +57,15 @@ require("bamboo").setup({
 		-- LazyGit
 		["LazyGitBorder"] = { fg = "$light_grey" },
 		["LazyGitFloat"] = { fg = "$mdLightGey" },
+		-- Neogit
+		["NeogitBranch"] = { fg = "$yellow" },
+		["NeogitPopupActionKey"] = { fg = "$blue" },
+		["NeogitSectionHeader"] = { fg = "$orange", fmt = "bold" },
+		["NeogitDiffDelete"] = { fg = "$red", bg = "$shade" },
+		["NeogitDiffDeleteHighlight"] = { fg = "$red", bg = "$shade" },
+		["NeogitDiffAdd"] = { fg = "$green", bg = "$shade" },
+		["NeogitDiffAddHighlight"] = { fg = "$green", bg = "$shade" },
+		["NeogitChangeModified"] = { fg = "$light_blue", fmt = "bold" },
+		["NeogitHunkHeaderHighlight"] = { fg = "$purple", bg = "$bg3" },
 	},
 })
