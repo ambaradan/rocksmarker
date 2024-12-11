@@ -63,9 +63,9 @@ ibl.setup({
 	scope = { enabled = false },
 })
 
--- mini.pairs setting
-require("mini.pairs").setup()
-
+require("nvim-autopairs").setup({
+	disable_filetype = { "TelescopePrompt", "vim" },
+})
 -- nvim-highlight-colors.nvim settings
 require("nvim-highlight-colors").setup({
 	render = "virtual",
