@@ -35,3 +35,7 @@ Per verificare la corretta installazione del server linguistico aprire un file m
   root directory:  /home/ambaradan/.config/rocksmarker
   cmd:             /home/ambaradan/.local/share/nvim/mason/bin/marksman server
 ```
+
+Il messaggio, come si può vedere, dice che nel buffer è stato rilevato un file di tipo markdown e che c'è un client attaccato (marksman).
+Sono descritte le caratteristiche dei tipi di file supportati e che il server viene avviato automaticamente al rilevamento di quei tipi di file, segue poi l'indicazione della directory di lavoro e il comando utilizzato per il supporto linguistico.  
+La direttiva `root directory` è molto importante in quanto indica la cartella che marksman usa per la diagnostica, la scrittura assistita di collegamenti e le altre funzionalità fornite dal server.
