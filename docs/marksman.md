@@ -60,4 +60,5 @@ La corretta implementazione del server linguistico è verificabile inoltre nella
 ### Navigazione del buffer
 
 Marksman fornisce alcune utili scorciatoie per la navigazione del buffer markdown, con la combinazione dei caratteri `[[` e `]]` si naviga avanti e indietro nei header del documento velocizzando in questo modo il posizionamento e la ricerca della sezione desiderata.
-Utilizzando invece la funzionalità go to `<leader>gd`, comune a tutti i server linguistici, permette di navigare i collegamenti interni al progetto,
+Utilizzando invece la funzionalità go to `<leader>gd`, comune a tutti i server linguistici si può navigare i collegamenti interni al progetto.  
+Se il collegamento è interno al file, come nel caso di un TOC (Tabella dei contenuti), posizionandosi sul collegamento e richiamando la chiave da tastiera si viene automaticamente posizionati nella sezione corrispondente se invece il collegamento è esterno al file questo viene aperto in un nuovo buffer.
