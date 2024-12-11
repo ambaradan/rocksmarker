@@ -40,16 +40,24 @@ Il messaggio, come si può vedere, dice che nel buffer è stato rilevato un file
 Sono descritte le caratteristiche dei tipi di file supportati e che il server viene avviato automaticamente al rilevamento di quei tipi di file, segue poi l'indicazione della directory di lavoro e il comando utilizzato per il supporto linguistico.  
 La direttiva `root directory` è molto importante in quanto indica la cartella che marksman usa per la diagnostica, la scrittura assistita di collegamenti e le altre funzionalità fornite dal server.
 
-> [!NOTE]
-> Questo implica che un file contenuto all'interno della cartella di lavoro, in questo caso la cartella rocksmarker, se aperto dalla cartella stessa viene controllato e supportato da marksman a livello di progetto:
->
-> ```bash
-> cd .config/rocksmarker
-> nvim your_file.md
-> ```
->
-> Mentre se aperto da una posizione fuori dalla root directory viene trattato da marksman al livello di file con la mancanza delle funzionalità proprie del progetto (come anteprima e verifica dei collegamenti, ricerca delle referenze e altre funzionalità):
->
-> ```bash
-> nvim ~/.config/rocksmarker/your_file.md
-> ```
+Questo implica che un file contenuto all'interno della cartella di lavoro, in questo caso la cartella rocksmarker, se aperto dalla cartella stessa viene controllato e supportato da marksman a livello di progetto:
+
+```bash
+cd .config/rocksmarker
+nvim your_file.md
+```
+
+Mentre se aperto da una posizione fuori dalla root directory viene trattato da marksman al livello di file con la mancanza delle funzionalità proprie del progetto (come anteprima e verifica dei collegamenti, ricerca delle referenze e altre funzionalità):
+
+```bash
+nvim ~/.config/rocksmarker/your_file.md
+ ```
+
+La corretta implementazione del server linguistico è verificabile inoltre nella barra di stato dove viene visualizzato, se attaccato, il nome del server corrispondente.
+
+## Funzionalità di Marksman
+
+### Navigazione del buffer
+
+Marksman fornisce alcune utili scorciatoie per la navigazione del buffer markdown, con la combinazione dei caratteri `[[` e `]]` si naviga avanti e indietro nei header del documento velocizzando in questo modo il posizionamento e la ricerca della sezione desiderata.
+Utilizzando invece la funzionalità go to `<leader>gd`, comune a tutti i server linguistici, permette di navigare i collegamenti interni al progetto,
