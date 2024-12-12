@@ -47,7 +47,7 @@ cd .config/rocksmarker
 nvim your_file.md
 ```
 
-Mentre se aperto da una posizione fuori dalla root directory viene trattato da marksman al livello di file con la mancanza delle funzionalità proprie del progetto (come anteprima e verifica dei collegamenti, ricerca delle referenze e altre funzionalità):
+Mentre se aperto da una posizione fuori dalla root directory viene trattato da marksman al livello di file con la mancanza delle funzionalità proprie del progetto (come anteprima e gestione dei collegamenti, ricerca delle referenze e altre funzionalità):
 
 ```bash
 nvim ~/.config/rocksmarker/your_file.md
@@ -56,6 +56,13 @@ nvim ~/.config/rocksmarker/your_file.md
 La corretta implementazione del server linguistico è verificabile inoltre nella barra di stato dove viene visualizzato, se attaccato, il nome del server corrispondente.
 
 ## Funzionalità di Marksman
+
+### Auto completamento
+
+Il server linguistico supporta, nella scrittura assistita, l'auto completamento dei collegamenti. Durante la digitazione di un collegamento dopo aver inserito nella parentesi quadre il testo del collegamento alla digitazione delle due parentesi tonde si aprirà un popup contenente i nomi dei file presenti in quella area di lavoro che se selezionati forniranno un'ulteriore informazione sul titolo del file.  
+Selezionando il file voluto con il tasto ENTER questo verrà automaticamente inserito nelle parentesi tonde.
+
+<!--schermata link assistito-->
 
 ### Navigazione del buffer
 
