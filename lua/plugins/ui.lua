@@ -1,3 +1,4 @@
+-- feline settings - status line {{{
 local line_ok, feline = pcall(require, "feline")
 if not line_ok then
 	return
@@ -217,4 +218,90 @@ feline.setup({
 	components = components,
 	theme = bamboo,
 	vi_mode_colors = vi_mode_colors,
+})
+-- }}}
+
+-- nvim-cokeline setting - bufferline {{{
+local get_hex = require("cokeline/utils").get_hex
+
+local green = vim.g.terminal_color_2
+local yellow = vim.g.terminal_color_3
+
+require("cokeline").setup({
+	default_hl = {
+		fg = function(buffer)
+			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Conceal", "fg")
+		end,
+		bg = get_hex("FloatermBorder", "bg"),
+	},
+
+	components = {
+		{
+			text = "｜",
+			fg = function(buffer)
+				return buffer.is_modified and yellow or green
+			end,
+		},
+		{
+			text = function(buffer)
+				return buffer.devicon.icon .. " "
+			end,
+			fg = function(buffer)
+				return buffer.devicon.color
+			end,
+		},
+		{
+			text = function(buffer)
+				return buffer.index .. ": "
+			end,
+		},
+		{
+			text = function(buffer)
+				return buffer.unique_prefix
+			end,
+			fg = get_hex("Comment", "fg"),
+			style = "italic",
+		},
+		{
+			text = function(buffer)
+				return buffer.filename .. " "
+			end,
+			style = function(buffer)
+				return buffer.is_focused and "bold" or nil
+			end,
+		},
+		{
+			text = " ",
+		},
+		{
+			text = function(buffer)
+				return buffer.is_modified and "● " or " "
+			end,
+			fg = function(buffer)
+				return buffer.is_modified and green or nil
+			end,
+		},
+	},
+})
+-- }}}
+
+-- fidget.nvim settings - messages display
+require("fidget").setup()
+
+-- gitsign.nvim settings - git support
+local present, gitsigns = pcall(require, "gitsigns")
+
+if not present then
+	return
+end
+
+gitsigns.setup({
+	signs = {
+		add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
+		change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
+		delete = { hl = "DiffDelete", text = "│", numhl = "GitSignsDeleteNr" },
+		topdelete = { hl = "DiffDelete", text = "│", numhl = "GitSignsDeleteNr" },
+		changedelete = { hl = "DiffChangeDelete", text = "│", numhl = "GitSignsChangeNr" },
+		untracked = { hl = "Comment", text = "│", numhl = "GitSignsChangeNr" },
+	},
 })
