@@ -2,7 +2,7 @@
 require("persisted").setup({
 	autoload = false,
 })
-
+-- enable Telescope support
 require("telescope").load_extension("persisted")
 
 -- toggleterm.nvim settings
@@ -16,7 +16,7 @@ terminal.setup({
 
 -- spectre.nvim settings - search and replace plugin
 require("spectre").setup({
-	live_update = false, -- auto execute search again when you write to any file in vim
+	live_update = false, -- auto execute search again when you write to any file
 })
 
 -- yanky.nvim settings
@@ -37,11 +37,11 @@ require("yanky").setup({
 		sync_with_ring = true,
 	},
 })
+-- enable Telescope support
 require("telescope").load_extension("yank_history")
 
 -- indent-blankline.nvim settings
 local present, ibl = pcall(require, "ibl")
-
 if not present then
 	return
 end
@@ -63,6 +63,7 @@ ibl.setup({
 	scope = { enabled = false },
 })
 
+-- nvim-autopairs.nvim settings
 require("nvim-autopairs").setup({
 	disable_filetype = { "TelescopePrompt", "vim" },
 })
