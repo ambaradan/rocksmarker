@@ -92,6 +92,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "markview.nvim" = "24.0.0"
+"telescope-ui-select.nvim" = "scm"
 
 [plugins.neogit]
 version = "scm"

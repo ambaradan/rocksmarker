@@ -40,6 +40,20 @@ require("telescope").setup({
 		frecency = {
 			show_scores = true,
 		},
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown({
+				initial_mode = "normal",
+				sorting_strategy = "ascending",
+				layout_strategy = "horizontal",
+				layout_config = {
+					horizontal = {
+						width = 0.5,
+						height = 0.4,
+						preview_width = 0.6,
+					},
+				},
+			}),
+		},
 	},
 })
 
@@ -47,6 +61,7 @@ require("telescope").setup({
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("cmdline")
 require("telescope").load_extension("frecency")
+require("telescope").load_extension("ui-select")
 -- }}}
 
 -- persisted.nvim settings {{{
