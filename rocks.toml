@@ -104,6 +104,7 @@ items = [
     "nvim-lspconfig",
     "nvim-cmp",
     "mason-tool-installer.nvim",
+    "luasnip",
 ]
 
 [bundles.diagnostics]
