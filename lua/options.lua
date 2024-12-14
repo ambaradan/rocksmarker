@@ -8,8 +8,8 @@ vim.opt.foldmethod = "marker"
 vim.opt.foldmarker = "{{{,}}}"
 vim.opt.foldenable = true
 -- options for 'status' and 'tab' lines
--- to display the status line always
-o.laststatus = 2
+-- to global display the status line
+o.laststatus = 3
 -- not used - no tabline support
 -- o.showtabline = 2
 -- enable true color 24-bit RGB
