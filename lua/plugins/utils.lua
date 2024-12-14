@@ -15,7 +15,7 @@ require("telescope").setup({
 			sort_mru = true,
 			previewer = false,
 			hidden = true,
-			-- theme = "ivy",
+			theme = "dropdown",
 		},
 		command_history = { theme = "dropdown" },
 		git_status = { theme = "ivy" },
