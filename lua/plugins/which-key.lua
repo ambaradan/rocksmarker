@@ -10,7 +10,6 @@ wk.add({
 		{ "<C-s>", "<cmd>w<cr>", desc = "save buffer", mode = { "i", "n" } },
 		{ "<leader>b", "<cmd>enew<cr>", desc = "new buffer" },
 		{ "<Esc>", "<cmd>noh<CR>", desc = "clear highlights" },
-		{ "<leader>w", "<cmd>w<cr>", desc = "save buffer" },
 		{ "<leader>x", "<cmd>bd<cr>", desc = "close buffer" },
 		{ "<leader>X", "<cmd>%bd<cr>", desc = "close all buffers" },
 		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "search/replace" },
