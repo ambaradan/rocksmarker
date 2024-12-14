@@ -1,9 +1,9 @@
 -- telescope.nvim settings {{{
 require("telescope").setup({
 	defaults = {
-		layout_strategy = "horizontal",
+		-- layout_strategy = "horizontal",
 		layout_config = {
-			prompt_position = "bottom",
+			-- prompt_position = "bottom",
 			horizontal = {
 				height = 0.85,
 			},
@@ -15,12 +15,12 @@ require("telescope").setup({
 			sort_mru = true,
 			previewer = false,
 			hidden = true,
-			theme = "ivy",
+			-- theme = "ivy",
 		},
-		command_history = { theme = "ivy" },
+		command_history = { theme = "dropdown" },
 		git_status = { theme = "ivy" },
 		git_commits = { theme = "ivy" },
-		oldfiles = { previewer = false, theme = "ivy" },
+		oldfiles = { previewer = false, theme = "dropdown" },
 	},
 	extensions = {
 		file_browser = {
@@ -39,20 +39,20 @@ require("telescope").setup({
 		},
 		frecency = {
 			show_scores = true,
+			theme = "dropdown",
 		},
 		["ui-select"] = {
-			require("telescope.themes").get_dropdown({
-				initial_mode = "normal",
-				sorting_strategy = "ascending",
-				layout_strategy = "horizontal",
-				layout_config = {
-					horizontal = {
-						width = 0.5,
-						height = 0.4,
-						preview_width = 0.6,
-					},
+			theme = "dropdown",
+			initial_mode = "normal",
+			sorting_strategy = "ascending",
+			layout_strategy = "horizontal",
+			layout_config = {
+				horizontal = {
+					width = 0.5,
+					height = 0.4,
+					preview_width = 0.6,
 				},
-			}),
+			},
 		},
 	},
 })
