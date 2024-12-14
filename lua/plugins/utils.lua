@@ -1,11 +1,12 @@
--- persisted.nvim settings
+-- persisted.nvim settings {{{
 require("persisted").setup({
 	autoload = false,
 })
 -- enable Telescope support
 require("telescope").load_extension("persisted")
+-- }}}
 
--- toggleterm.nvim settings
+-- toggleterm.nvim settings {{{
 local terminal = require("toggleterm")
 terminal.setup({
 	on_config_done = nil,
@@ -13,13 +14,45 @@ terminal.setup({
 	open_mapping = [[<c-t>]],
 	hide_numbers = true,
 })
+-- }}}
 
--- spectre.nvim settings - search and replace plugin
+-- neo-tree.nvim settings {{{
+require("neo-tree").setup({
+	popup_border_style = "rounded",
+	window = {
+		position = "right",
+		width = 50,
+	},
+})
+-- }}}
+
+--- neogit.nvim settings - git manager {{{
+require("neogit").setup({
+	kind = "tab",
+	disable_builtin_notifications = true,
+	graph_style = "unicode",
+	integrations = {
+		telescope = true,
+		diffview = true,
+	},
+	status = {
+		-- show_head_commit_hash = true,
+		recent_commit_count = 20,
+	},
+	commit_view = {
+		kind = "floating",
+		verify_commit = vim.fn.executable("gpg") == 1,
+	},
+})
+-- }}}
+
+-- spectre.nvim settings - search and replace plugin {{{
 require("spectre").setup({
 	live_update = false, -- auto execute search again when you write to any file
 })
+-- }}}
 
--- yanky.nvim settings
+-- yanky.nvim settings {{{
 require("yanky").setup({
 	highlight = {
 		on_put = true,
@@ -39,8 +72,9 @@ require("yanky").setup({
 })
 -- enable Telescope support
 require("telescope").load_extension("yank_history")
+-- }}}
 
--- indent-blankline.nvim settings
+-- indent-blankline.nvim settings {{{
 local present, ibl = pcall(require, "ibl")
 if not present then
 	return
@@ -62,12 +96,16 @@ ibl.setup({
 	},
 	scope = { enabled = false },
 })
+-- }}}
 
--- nvim-autopairs.nvim settings
+-- nvim-autopairs.nvim settings {{{
 require("nvim-autopairs").setup({
 	disable_filetype = { "TelescopePrompt", "vim" },
 })
--- nvim-highlight-colors.nvim settings
+-- }}}
+
+-- nvim-highlight-colors.nvim settings {{{
 require("nvim-highlight-colors").setup({
 	render = "virtual",
 })
+-- }}}

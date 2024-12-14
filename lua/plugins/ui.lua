@@ -285,10 +285,11 @@ require("cokeline").setup({
 })
 -- }}}
 
--- fidget.nvim settings - messages display
+-- fidget.nvim settings - messages display {{{
 require("fidget").setup()
+-- }}}
 
--- gitsign.nvim settings - git support
+-- gitsign.nvim settings - git support {{{
 local present, gitsigns = pcall(require, "gitsigns")
 
 if not present then
@@ -305,3 +306,4 @@ gitsigns.setup({
 		untracked = { hl = "Comment", text = "│", numhl = "GitSignsChangeNr" },
 	},
 })
+-- }}}
