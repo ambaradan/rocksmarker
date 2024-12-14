@@ -112,6 +112,7 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 
 [bundles.utils]
 items = [
+    "telescope.nvim",
     "persisted.nvim",
     "toggleterm.nvim",
     "neo-tree.nvim",
