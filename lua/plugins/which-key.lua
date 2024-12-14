@@ -10,7 +10,6 @@ wk.add({
 		{ "<C-s>", "<cmd>w<cr>", desc = "save buffer", mode = { "i", "n" } },
 		{ "<leader>b", "<cmd>enew<cr>", desc = "new buffer" },
 		{ "<Esc>", "<cmd>noh<CR>", desc = "clear highlights" },
-		{ "<leader>w", "<cmd>w<cr>", desc = "save buffer" },
 		{ "<leader>x", "<cmd>bd<cr>", desc = "close buffer" },
 		{ "<leader>X", "<cmd>%bd<cr>", desc = "close all buffers" },
 		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "search/replace" },
@@ -25,7 +24,7 @@ wk.add({
 	{ "<Tab>", "<Plug>(cokeline-focus-next)", desc = "next buffer" },
 	{ "<S-Tab>", "<Plug>(cokeline-focus-prev)", desc = "prev buffer" },
 	-- Yank commands
-	{ "<A-y>", "<cmd>Telescope yank_history<cr>", desc = "Yank History", mode = { "n", "i" } },
+	{ "<A-y>", "<cmd>Telescope yank_history theme=dropdown<cr>", desc = "Yank History", mode = { "n", "i" } },
 	-- telescope.nvim mappings
 	{ "<leader>t", group = "telescope" },
 	{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "buffer list", mode = "n" },
@@ -45,7 +44,7 @@ wk.add({
 	{ "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "diffview close" },
 	-- session mappings - persisted.nvim
 	{ "<leader>s", group = "sessions" }, -- group
-	{ "<A-s>", "<cmd>Telescope persisted theme=ivy<cr>", desc = "select session" },
+	{ "<A-s>", "<cmd>Telescope persisted theme=dropdown<cr>", desc = "select session" },
 	{ "<leader>sS", "<cmd>Telescope persisted<cr>", desc = "select session" },
 	{ "<leader>ss", "<cmd>SessionSave<cr>", desc = "save current session", mode = "n" },
 	{ "<leader>sl", "<cmd>SessionLoad<cr>", desc = "load session", mode = "n" },

@@ -50,6 +50,7 @@ nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.0"
 "zen-mode.nvim" = "1.4.0"
 "gitsigns.nvim" = "0.9.0"
+"fidget.nvim" = "1.4.1"
 
 # Functional plugins
 "indent-blankline.nvim" = "3.8.6"
@@ -91,6 +92,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "markview.nvim" = "24.0.0"
+"telescope-ui-select.nvim" = "scm"
 
 [plugins.neogit]
 version = "scm"
@@ -98,11 +100,12 @@ pin = true
 
 [bundles.lsp]
 items = [
-  "mason.nvim",
-  "mason-lspconfig.nvim",
-  "nvim-lspconfig",
-  "nvim-cmp",
-  "mason-tool-installer.nvim",
+    "mason.nvim",
+    "mason-lspconfig.nvim",
+    "nvim-lspconfig",
+    "nvim-cmp",
+    "mason-tool-installer.nvim",
+    "luasnip",
 ]
 
 [bundles.diagnostics]
@@ -110,11 +113,17 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 
 [bundles.utils]
 items = [
-  "persisted.nvim",
-  "toggleterm.nvim",
-  "nvim-spectre",
-  "indent-blankline.nvim",
-  "nvim-autopairs",
-  "nvim-highlight-colors",
-  "yanky.nvim",
+    "telescope.nvim",
+    "persisted.nvim",
+    "toggleterm.nvim",
+    "neo-tree.nvim",
+    "neogit",
+    "nvim-spectre",
+    "indent-blankline.nvim",
+    "nvim-autopairs",
+    "nvim-highlight-colors",
+    "yanky.nvim",
 ]
+
+[bundles.ui]
+items = ["fidget.nvim", "nvim-cokeline", "gitsigns.nvim", "bamboo.nvim"]
