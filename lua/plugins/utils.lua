@@ -26,7 +26,7 @@ require("neo-tree").setup({
 })
 -- }}}
 
---- neogit.nvim settings - git manager {{{
+-- neogit.nvim settings - git manager {{{
 require("neogit").setup({
 	kind = "tab",
 	disable_builtin_notifications = true,
@@ -75,13 +75,8 @@ require("telescope").load_extension("yank_history")
 -- }}}
 
 -- indent-blankline.nvim settings {{{
-local present, ibl = pcall(require, "ibl")
-if not present then
-	return
-end
-
-ibl.setup({
-	indent = { char = "│" },
+require("ibl").setup({
+	indent = { highlight = "IblIndent", char = "│" },
 	exclude = {
 		filetypes = {
 			"help",

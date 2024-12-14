@@ -22,6 +22,7 @@ require("bamboo").setup({
 	highlights = {
 		["FloatBorder"] = { fg = "$grey" },
 		["MarkviewCode"] = { bg = "$bg0" },
+		["IblIndent"] = { fg = "$bg1" },
 		-- ["MarkviewHyperlink"] = { fg = "$purple", underline = false },
 		["MarkviewHeading1"] = { fg = "$orange" },
 		["MarkviewHeading2"] = { fg = "$blue" },
