@@ -79,7 +79,7 @@ cmp-path = "scm"
 # Plugins for LSP
 "mason.nvim" = "1.10.0"
 "mason-lspconfig.nvim" = "1.31.0"
-nvim-lspconfig = "1.0.0"
+nvim-lspconfig = "1.1.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
@@ -99,11 +99,11 @@ pin = true
 
 [bundles.lsp]
 items = [
-  "mason.nvim",
-  "mason-lspconfig.nvim",
-  "nvim-lspconfig",
-  "nvim-cmp",
-  "mason-tool-installer.nvim",
+    "mason.nvim",
+    "mason-lspconfig.nvim",
+    "nvim-lspconfig",
+    "nvim-cmp",
+    "mason-tool-installer.nvim",
 ]
 
 [bundles.diagnostics]
@@ -111,13 +111,15 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 
 [bundles.utils]
 items = [
-  "persisted.nvim",
-  "toggleterm.nvim",
-  "nvim-spectre",
-  "indent-blankline.nvim",
-  "nvim-autopairs",
-  "nvim-highlight-colors",
-  "yanky.nvim",
+    "persisted.nvim",
+    "toggleterm.nvim",
+    "neo-tree.nvim",
+    "neogit",
+    "nvim-spectre",
+    "indent-blankline.nvim",
+    "nvim-autopairs",
+    "nvim-highlight-colors",
+    "yanky.nvim",
 ]
 
 [bundles.ui]
