@@ -125,4 +125,4 @@ items = [
 ]
 
 [bundles.ui]
-items = ["fidget.nvim", "nvim-cokeline", "gitsigns.nvim"]
+items = ["fidget.nvim", "nvim-cokeline", "gitsigns.nvim", "bamboo.nvim"]
