@@ -127,7 +127,13 @@ items = [
 ]
 
 [bundles.ui]
-items = ["fidget.nvim", "nvim-cokeline", "gitsigns.nvim", "bamboo.nvim"]
+items = [
+    "feline.nvim",
+    "fidget.nvim",
+    "nvim-cokeline",
+    "gitsigns.nvim",
+    "bamboo.nvim",
+]
 
 [bundles.markdown]
 items = [
