@@ -48,7 +48,6 @@ tree-sitter-yaml = "scm"
 nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.0"
-"zen-mode.nvim" = "1.4.0"
 "gitsigns.nvim" = "0.9.0"
 "fidget.nvim" = "1.4.1"
 
@@ -66,6 +65,7 @@ nvim-spectre = "scm"
 "nvim-highlight-colors" = "scm"
 "telescope-frecency.nvim" = "scm"
 "telescope-cmdline.nvim" = "0.2.1"
+"telescope-ui-select.nvim" = "scm"
 
 # Autocompletions plugins
 nvim-cmp = "scm"
@@ -92,7 +92,8 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "markview.nvim" = "24.0.0"
-"telescope-ui-select.nvim" = "scm"
+"zen-mode.nvim" = "1.4.0"
+
 
 [plugins.neogit]
 version = "scm"
@@ -126,4 +127,18 @@ items = [
 ]
 
 [bundles.ui]
-items = ["fidget.nvim", "nvim-cokeline", "gitsigns.nvim", "bamboo.nvim"]
+items = [
+    "feline.nvim",
+    "fidget.nvim",
+    "nvim-cokeline",
+    "gitsigns.nvim",
+    "bamboo.nvim",
+]
+
+[bundles.markdown]
+items = [
+    "markdown.nvim",
+    "markview.nvim",
+    "markdown-table-mode.nvim",
+    "zen-mode.nvim",
+]
