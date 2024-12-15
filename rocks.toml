@@ -85,7 +85,6 @@ nvim-lspconfig = "1.1.0"
 # Diagnostic plugins
 nvim-lint = "scm"
 "conform.nvim" = "8.2.0"
-"which-key.nvim" = "3.14.1"
 "trouble.nvim" = "3.6.0"
 
 # Markdown plugins
@@ -94,6 +93,9 @@ nvim-lint = "scm"
 "markview.nvim" = "24.0.0"
 "zen-mode.nvim" = "1.4.0"
 
+[plugins."which-key.nvim"]
+version = "3.15.0"
+config = "mappings"
 
 [plugins.neogit]
 version = "scm"
