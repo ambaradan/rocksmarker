@@ -87,7 +87,7 @@ require("markdown-table-mode").setup({
 -- zen-mode.nvim settings {{{
 require("zen-mode").setup({
 	window = {
-		width = 90,
+		width = 0.85,
 		options = {
 			number = false,
 			list = true,
@@ -95,7 +95,9 @@ require("zen-mode").setup({
 		},
 	},
 	plugins = {
-		tmux = { enabled = true },
+		options = {
+			laststatus = 0,
+		},
 	},
 })
 -- }}}
