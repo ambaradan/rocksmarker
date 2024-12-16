@@ -18,7 +18,7 @@ wk.add({
 	-- neo-tree.nvim mappings
 	{ "<leader>f", group = "file manager" },
 	{ "<leader>fr", "<cmd>Neotree right toggle<cr>", desc = "neotree right" },
-	{ "<F12>", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
+	{ ".", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
 	{ "<leader>ff", "<cmd>Neotree float toggle<cr>", desc = "neotree float" },
 	-- nvim-cokeline
 	{ "<Tab>", "<Plug>(cokeline-focus-next)", desc = "next buffer" },
