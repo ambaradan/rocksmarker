@@ -1,8 +1,10 @@
 <!-- vale off -->
 # Screenshots of the editor
 
-![File Browser](./assets/img/telescope_file_browser.png)
+![Main editor](./assets/img/neo-tree-main.png)
 
-![Main editor](./assets/img/main_editor.png)
+![Neo-tree float](./assets/img/neo-tree-float.png)
 
-![Neo-tree git_status](./assets/img/neotree_git_status.png)
+![Telescope File Browser](./assets/img/telescope_file_browser.png)
+
+![Telescope CmdLine](./assets/img/telescope-cmdline.png)
