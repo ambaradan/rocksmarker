@@ -53,6 +53,7 @@ require("bamboo").setup({
 		["NeoTreeFloatBorder"] = { fg = "$bg1" },
 		["NeoTreeNormal"] = { bg = "$bg0" },
 		["NeoTreeEndOfBuffer"] = { bg = "$bg0" },
+		["NeoTreeIndentMarker"] = { fg = "$bg1" },
 		["NeoTreeFloatTitle"] = { fg = "$blue" },
 		["NeoTreeDirectoryIcon"] = { fg = "$yellow" },
 		["NeoTreeDirectoryName"] = { fg = "$green" },
