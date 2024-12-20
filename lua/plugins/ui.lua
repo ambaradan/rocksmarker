@@ -121,6 +121,7 @@ local c = {
 			return {
 				name = require("feline.providers.vi_mode").get_mode_highlight_name(),
 				fg = require("feline.providers.vi_mode").get_mode_color(),
+				bg = "bg3",
 				style = "bold",
 			}
 		end,
