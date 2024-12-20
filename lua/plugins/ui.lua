@@ -119,10 +119,9 @@ local c = {
 		},
 		hl = function()
 			return {
+				name = require("feline.providers.vi_mode").get_mode_highlight_name(),
 				fg = require("feline.providers.vi_mode").get_mode_color(),
-				bg = "bg3",
 				style = "bold",
-				name = "NeovimModeHLColor",
 			}
 		end,
 		left_sep = "block",
