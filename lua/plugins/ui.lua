@@ -105,7 +105,7 @@ local vi_mode_colors = {
 	LINES = "orange",
 	BLOCK = "dark_coral",
 	REPLACE = "coral",
-	COMMAND = "dark_blue",
+	COMMAND = "light_grey",
 }
 
 local c = {
@@ -120,13 +120,13 @@ local c = {
 		hl = function()
 			return {
 				name = require("feline.providers.vi_mode").get_mode_highlight_name(),
-				fg = require("feline.providers.vi_mode").get_mode_color(),
-				bg = "bg3",
+				bg = require("feline.providers.vi_mode").get_mode_color(),
+				fg = "bg3",
 				style = "bold",
 			}
 		end,
 		left_sep = "block",
-		right_sep = "right_filled",
+		right_sep = "right_rounded",
 	},
 	gitBranch = {
 		provider = "git_branch",
