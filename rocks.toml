@@ -52,10 +52,10 @@ nvim-web-devicons = "0.100"
 "fidget.nvim" = "1.4.1"
 
 # Functional plugins
-"indent-blankline.nvim" = "3.8.6"
+"indent-blankline.nvim" = "3.8.7"
 "nvim-autopairs" = "scm"
 "telescope.nvim" = "scm"
-"neo-tree.nvim" = "3.27"
+"neo-tree.nvim" = "3.28"
 "rainbow-delimiters.nvim" = "0.8.0"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
