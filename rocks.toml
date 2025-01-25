@@ -1,9 +1,4 @@
-# This is your rocks.nvim plugins declaration file.
-# Here is a small yet pretty detailed example on how to use it:
-#
-# [plugins]
-# nvim-treesitter = "semver_version"  # e.g. "1.0.0"
-#
+# Rocksmarker plugins declaration file.
 # List of non-Neovim rocks.
 # This includes things like `toml` or other lua packages.
 [rocks]
@@ -93,14 +88,19 @@ nvim-lint = "scm"
 "markview.nvim" = "24.0.0"
 "zen-mode.nvim" = "1.4.0"
 
+# Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
 version = "3.15.0"
 config = "mappings"
 
+# Maintained the plugin to the development
+# version due to bugs in version 2.0
 [plugins.neogit]
 version = "scm"
 pin = true
 
+# Plugins for language server support
+# and auto completion
 [bundles.lsp]
 items = [
     "mason.nvim",
@@ -111,9 +111,11 @@ items = [
     "luasnip",
 ]
 
+# Plugin for diagnostics and related code display 
 [bundles.diagnostics]
 items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 
+# Common editor utilities
 [bundles.utils]
 items = [
     "telescope.nvim",
@@ -128,6 +130,8 @@ items = [
     "yanky.nvim",
 ]
 
+# Plugins for the implementation of the graphical
+# user interface
 [bundles.ui]
 items = [
     "feline.nvim",
@@ -137,6 +141,7 @@ items = [
     "bamboo.nvim",
 ]
 
+# Plugins for specific functionality of Markdown code
 [bundles.markdown]
 items = [
     "markdown.nvim",
