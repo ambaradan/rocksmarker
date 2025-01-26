@@ -1,56 +1,60 @@
 -- markview.nvim settings {{{
+local presets = require("markview.presets").headings
+local table_presets = require("markview.presets").tables
+
 require("markview").setup({
-	code_blocks = {
-		enable = true,
-		language_direction = "left",
-		sign = false,
+	markdown = {
+		headings = presets.glow,
+		tables = table_presets.rounded,
 	},
-	links = {
+})
+
+require("markview").setup({
+	markdown = {
+		code_blocks = {
+			style = "block",
+			enable = true,
+			sign = false,
+		},
+		-- tables = {
+		-- 	enable = false,
+		-- },
+		headings = {
+			heading_1 = {
+				icon = " 󰉫 ",
+				sign = " ",
+			},
+			heading_2 = {
+				sign = " ",
+				icon = " 󰉬 ",
+				shift_char = " ",
+			},
+			heading_3 = {
+				sign = " ",
+				icon = " 󰉭 ",
+				shift_char = " ",
+			},
+			heading_4 = {
+				sign = " ",
+				icon = " 󰉮 ",
+				shift_char = " ",
+			},
+			heading_5 = {
+				sign = " ",
+				icon = " 󰉯 ",
+				shift_char = " ",
+			},
+			heading_6 = {
+				sign = " ",
+				icon = " 󰉰 ",
+				shift_char = " ",
+			},
+		},
+	},
+	markdown_inline = {
 		enable = true,
 		hyperlinks = {
 			enable = false,
-		},
-	},
-	tables = {
-		enable = false,
-	},
-	headings = {
-		enable = true,
-		shift_width = 1,
-		heading_1 = {
-			style = "icon",
-			icon = " 󰉫 ",
-			sign = " ",
-		},
-		heading_2 = {
-			style = "label",
-			sign = " ",
-			icon = " 󰉬 ",
-			shift_char = " ",
-		},
-		heading_3 = {
-			style = "label",
-			sign = " ",
-			icon = " 󰉭 ",
-			shift_char = " ",
-		},
-		heading_4 = {
-			style = "label",
-			sign = " ",
-			icon = " 󰉮 ",
-			shift_char = " ",
-		},
-		heading_5 = {
-			style = "label",
-			sign = " ",
-			icon = " 󰉯 ",
-			shift_char = " ",
-		},
-		heading_6 = {
-			style = "label",
-			sign = " ",
-			icon = " 󰉰 ",
-			shift_char = " ",
 		},
 	},
 })

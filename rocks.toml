@@ -88,10 +88,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-
-[plugins."markview.nvim"]
-version = "24.0.0"
-pin = true
+"markview.nvim"= "25.0.2"
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
