@@ -76,7 +76,7 @@ cmp-path = "scm"
 # Plugins for LSP
 "mason.nvim" = "1.10.0"
 "mason-lspconfig.nvim" = "1.31.0"
-nvim-lspconfig = "1.4.0"
+nvim-lspconfig = "1.5.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
