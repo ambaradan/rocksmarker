@@ -3,22 +3,8 @@ require("bamboo").setup({
 	-- Main options --
 	-- NOTE: to use the light theme, set `vim.o.background = 'light'`
 	style = "vulgaris",
-	colors = {
-		shade = "#2f312c",
-		mdSign = "#3a3d37",
-		mdOrange = "#ffc1a3",
-		mdBgBlue = "#a4cef1",
-		mdCoral = "#f6b2b2",
-		mdGreen = "#bbd2ab",
-		mdPurple = "#ccccff",
-		mdRed = "#f09cb0",
-		mdYellow = "#e9d396",
-		mdBlue = "#8892a3",
-		mdGray = "#7c7c7b",
-		mdLightGey = "#b4b7b3",
-		mdDarkGreen = "#8c9776",
-		mdcode = "#c7dab9",
-	},
+	-- colors = {
+	-- },
 	highlights = {
 		["FloatBorder"] = { fg = "$grey" },
 		["IblIndent"] = { fg = "$bg1" },
@@ -35,14 +21,14 @@ require("bamboo").setup({
 		["MarkviewHeading5"] = { fg = "$bg2", bg = "$coral" },
 		["MarkviewHeading6"] = { fg = "$bg2", bg = "$red" },
 		["MarkviewInlineCode"] = { fg = "$yellow" },
-		["markdownUrl"] = { fg = "$mdPurple", fmt = "none" },
+		["markdownUrl"] = { fg = "$purple", fmt = "none" },
 		["markdownCode"] = { fg = "$light_blue" },
 		["markdownCodeBlock"] = { fg = "$green" },
 		["markdownCodeDelimiter"] = { fg = "$yellow" },
 		["MarkviewCode"] = { fg = "$yellow" },
 		["MarkviewCodeInfo"] = { fg = "$yellow" },
-		["markdownBold"] = { fg = "$mdOrange", fmt = "bold" },
-		["markdownItalic"] = { fg = "$mdYellow", fmt = "italic" },
+		["markdownBold"] = { fg = "$orange", fmt = "bold" },
+		["markdownItalic"] = { fg = "$yellow", fmt = "italic" },
 		["markdownLinkText"] = { fg = "$light_blue", underline = false },
 		["MarkviewListItemStar"] = { fg = "$green" },
 		-- Telescope
