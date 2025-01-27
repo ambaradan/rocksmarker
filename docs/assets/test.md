@@ -20,7 +20,7 @@ tags:
 
 ###### Header h6
 
-[test link](http://example.com) `inline code` **bold** *italic*
+[test link](http://example.com) [GitHub](https://github.com/user/repo) [GitLab](https://gitlab.com/user/repo) `inline code` **bold** *italic*
 
 ```text
 test block
