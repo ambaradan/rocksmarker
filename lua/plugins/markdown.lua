@@ -54,7 +54,7 @@ require("markview").setup({
 	markdown_inline = {
 		enable = true,
 		hyperlinks = {
-			enable = false,
+			enable = true,
 		},
 	},
 })
