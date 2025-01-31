@@ -19,17 +19,17 @@ colorscheme = "bamboo"
 # tree-sitter parsers
 tree-sitter-cli = "0.24.5"
 tree-sitter-bash = "0.0.39"
-tree-sitter-css = "0.0.35"
+tree-sitter-css = "0.0.36"
 tree-sitter-git_config = "0.0.29"
 tree-sitter-git_rebase = "0.0.29"
 tree-sitter-gitattributes = "0.0.30"
 tree-sitter-gitcommit = "0.0.33"
 tree-sitter-gitignore = "0.0.29"
-tree-sitter-html = "0.0.35"
+tree-sitter-html = "0.0.36"
 tree-sitter-ini = "0.0.29"
-tree-sitter-json = "0.0.35"
+tree-sitter-json = "0.0.36"
 tree-sitter-jsonc = "0.0.29"
-tree-sitter-lua = "0.0.32"
+tree-sitter-lua = "0.0.33"
 tree-sitter-luadoc = "0.0.29"
 tree-sitter-markdown = "0.0.37"
 tree-sitter-markdown_inline = "0.0.37"
@@ -76,23 +76,23 @@ cmp-path = "scm"
 # Plugins for LSP
 "mason.nvim" = "1.10.0"
 "mason-lspconfig.nvim" = "1.31.0"
-nvim-lspconfig = "1.5.0"
+nvim-lspconfig = "1.6.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
 nvim-lint = "scm"
 "conform.nvim" = "8.4.0"
-"trouble.nvim" = "3.6.0"
+"trouble.nvim" = "3.7.0"
 
 # Markdown plugins
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.0.3"
+"markview.nvim" = "25.1.0"
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
-version = "3.15.0"
+version = "3.16.0"
 config = "mappings"
 
 # Maintained the plugin to the development
