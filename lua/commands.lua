@@ -67,3 +67,22 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
 	end,
 })
+
+-- wrap and check for spell in text filetypes
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("asciidoc_set", { clear = true }),
+	pattern = { "asciidoc" },
+	callback = function()
+		vim.opt_local.formatoptions = "tcqr"
+		vim.opt_local.showbreak = "↳"
+		vim.opt_local.breakindent = true
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+		vim.opt_local.number = false
+		-- vim.opt_local.conceallevel = 2
+		-- vim.opt_local.scrolloff = 5
+		vim.opt_local.spell = true
+		vim.opt_local.spelllang = "en,it"
+		vim.opt_local.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
+	end,
+})
