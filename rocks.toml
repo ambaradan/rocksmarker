@@ -17,8 +17,8 @@ colorscheme = "bamboo"
 "rocks-edit.nvim" = "scm"
 
 # tree-sitter parsers
-tree-sitter-cli = "0.24.5"
-tree-sitter-bash = "0.0.39"
+tree-sitter-cli = "0.25.1"
+tree-sitter-bash = "0.0.40"
 tree-sitter-css = "0.0.36"
 tree-sitter-git_config = "0.0.29"
 tree-sitter-git_rebase = "0.0.29"
@@ -46,7 +46,7 @@ nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.1"
 "gitsigns.nvim" = "0.9.0"
-"fidget.nvim" = "1.4.1"
+"fidget.nvim" = "1.6.0"
 
 # Functional plugins
 "indent-blankline.nvim" = "3.8.7"
@@ -88,7 +88,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.1.0"
+"markview.nvim" = "25.1.2"
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
