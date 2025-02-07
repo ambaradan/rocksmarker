@@ -46,6 +46,7 @@ nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.1"
 "fidget.nvim" = "1.6.0"
+"gitsigns.nvim" = "1.0.0"
 
 # Functional plugins
 "indent-blankline.nvim" = "3.8.7"
@@ -88,10 +89,6 @@ nvim-lint = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
 "markview.nvim" = "25.1.2"
-
-[plugins."gitsigns.nvim" ]
-version = "0.9.0"
-pin = true
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]

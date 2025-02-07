@@ -369,12 +369,87 @@ end
 
 gitsigns.setup({
 	signs = {
-		add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
-		change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
-		delete = { hl = "DiffDelete", text = "│", numhl = "GitSignsDeleteNr" },
-		topdelete = { hl = "DiffDelete", text = "│", numhl = "GitSignsDeleteNr" },
-		changedelete = { hl = "DiffChangeDelete", text = "│", numhl = "GitSignsChangeNr" },
-		untracked = { hl = "Comment", text = "│", numhl = "GitSignsChangeNr" },
+		add = { text = "┃" },
+		change = { text = "┃" },
+		delete = { text = "┃" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+		untracked = { text = "┆" },
 	},
+	signs_staged = {
+		add = { text = "┃" },
+		change = { text = "┃" },
+		delete = { text = "┃" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+		untracked = { text = "┆" },
+	},
+
+	on_attach = function(bufnr)
+		local gitsigns_map = require("gitsigns")
+
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
+		end
+
+		-- Navigation
+		map("n", "]c", function()
+			if vim.wo.diff then
+				vim.cmd.normal({ "]c", bang = true })
+			else
+				gitsigns_map.nav_hunk("next")
+			end
+		end)
+
+		map("n", "[c", function()
+			if vim.wo.diff then
+				vim.cmd.normal({ "[c", bang = true })
+			else
+				gitsigns_map.nav_hunk("prev")
+			end
+		end)
+
+		-- Actions
+		map("n", "<leader>hs", gitsigns_map.stage_hunk)
+		map("n", "<leader>hr", gitsigns_map.reset_hunk)
+
+		map("v", "<leader>hs", function()
+			gitsigns_map.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+		end)
+
+		map("v", "<leader>hr", function()
+			gitsigns_map.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+		end)
+
+		map("n", "<leader>hS", gitsigns_map.stage_buffer)
+		map("n", "<leader>hR", gitsigns_map.reset_buffer)
+		map("n", "<leader>hp", gitsigns_map.preview_hunk)
+		map("n", "<leader>hi", gitsigns_map.preview_hunk_inline)
+
+		map("n", "<leader>hb", function()
+			gitsigns_map.blame_line({ full = true })
+		end)
+
+		map("n", "<leader>hd", gitsigns_map.diffthis)
+
+		map("n", "<leader>hD", function()
+			gitsigns_map.diffthis("~")
+		end)
+
+		map("n", "<leader>hQ", function()
+			gitsigns_map.setqflist("all")
+		end)
+		map("n", "<leader>hq", gitsigns_map.setqflist)
+
+		-- Toggles
+		map("n", "<leader>tb", gitsigns_map.toggle_current_line_blame)
+		map("n", "<leader>td", gitsigns_map.toggle_deleted)
+		map("n", "<leader>tw", gitsigns_map.toggle_word_diff)
+
+		-- Text object
+		map({ "o", "x" }, "ih", gitsigns_map.select_hunk)
+	end,
 })
 -- }}}
