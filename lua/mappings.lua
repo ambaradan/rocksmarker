@@ -74,4 +74,75 @@ wk.add({
 		desc = "format buffer",
 		mode = "n",
 	},
+
+	-- gitsign.nvim mapping
+	require("gitsigns").setup({
+		on_attach = function(bufnr)
+			local gsmap = require("gitsigns")
+
+			local function map(mode, l, r, opts)
+				opts = opts or {}
+				opts.buffer = bufnr
+				vim.keymap.set(mode, l, r, opts)
+			end
+
+			-- Navigation
+			map("n", "]c", function()
+				if vim.wo.diff then
+					vim.cmd.normal({ "]c", bang = true })
+				else
+					gsmap.nav_hunk("next")
+				end
+			end)
+
+			map("n", "[c", function()
+				if vim.wo.diff then
+					vim.cmd.normal({ "[c", bang = true })
+				else
+					gsmap.nav_hunk("prev")
+				end
+			end)
+
+			-- Actions
+			map("n", "<leader>hs", gsmap.stage_hunk, { desc = "stage hunk" })
+			map("n", "<leader>hu", gsmap.undo_stage_hunk, { desc = "undo stage hunk" })
+			map("n", "<leader>hr", gsmap.reset_hunk, { desc = "reset hunk" })
+
+			map("v", "<leader>hs", function()
+				gsmap.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+			end, { desc = "stage hunk" })
+
+			map("v", "<leader>hr", function()
+				gsmap.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+			end, { desc = "reset hunk" })
+
+			map("n", "<leader>hS", gsmap.stage_buffer, { desc = "stage buffer" })
+			map("n", "<leader>hR", gsmap.reset_buffer, { desc = "reset buffer" })
+			map("n", "<leader>hp", gsmap.preview_hunk, { desc = "preview hunk" })
+			map("n", "<leader>hi", gsmap.preview_hunk_inline, { desc = "preview hunk inline" })
+
+			map("n", "<leader>hb", function()
+				gsmap.blame_line({ full = true })
+			end, { desc = "Blame line" })
+
+			map("n", "<leader>hd", gsmap.diffthis, { desc = "diff this" })
+
+			map("n", "<leader>hD", function()
+				gsmap.diffthis("~")
+			end, { desc = "Diff this colored" })
+
+			map("n", "<leader>hQ", function()
+				gsmap.setqflist("all")
+			end, { desc = "hunks list - workspace" })
+			map("n", "<leader>hq", gsmap.setqflist, { desc = "hunks list - buffer" })
+
+			-- Toggles
+			map("n", "<leader>tb", gsmap.toggle_current_line_blame, { desc = "toggle cur line blame" })
+			map("n", "<leader>td", gsmap.toggle_deleted, { desc = "toggle deleted" })
+			map("n", "<leader>tw", gsmap.toggle_word_diff, { desc = "toggle word diff" })
+
+			-- Text object
+			map({ "o", "x" }, "ih", gsmap.select_hunk, { desc = "Select hunk" })
+		end,
+	}),
 })
