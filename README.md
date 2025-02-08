@@ -180,5 +180,3 @@ The second step is to synchronize all the configured plugins, the synchronizatio
 ```
 
 Once the installation of the plugins is finished close the editor and reopen it to give Neovim a chance to load the new configurations, on the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSPs) necessary for the proper functioning of the editor, finishes the installation of language servers the editor is ready to be used, good development.
-
-For a graphical overview of the editor, visit the [screenshots page](/docs/screenshots.md)
