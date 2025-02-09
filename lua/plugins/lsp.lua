@@ -96,6 +96,7 @@ require("mason-tool-installer").setup({
 		"yamlfmt",
 		"shellcheck",
 		"prettier",
+		"yamllint",
 	},
 })
 -- setup multiple servers with same default options
