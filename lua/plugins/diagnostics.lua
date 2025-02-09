@@ -1,4 +1,4 @@
--- conform.nvim settings
+-- conform.nvim settings - Formatting capabilities {{{
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
@@ -16,8 +16,10 @@ require("conform").setup({
 		lsp_format = "fallback",
 	},
 })
+-- }}}
 
--- nvim-lint.nvim settings
+-- nvim-lint.nvim settings - Linting capabilities  {{{
+
 require("lint").linters_by_ft = {
 	markdown = { "markdownlint", "vale" },
 	yaml = { "yamllint" },
@@ -29,6 +31,8 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 		require("lint").try_lint()
 	end,
 })
+-- }}}
 
--- trouble.nvim settings
+-- trouble.nvim settings - Diagnostic display {{{
 require("trouble").setup()
+-- }}}
