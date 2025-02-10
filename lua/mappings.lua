@@ -47,7 +47,7 @@ wk.add({
 	{ "<A-s>", "<cmd>Telescope persisted theme=dropdown<cr>", desc = "select session" },
 	{ "<leader>sS", "<cmd>Telescope persisted<cr>", desc = "select session" },
 	{ "<leader>ss", "<cmd>SessionSave<cr>", desc = "save current session", mode = "n" },
-	{ "<leader>sl", "<cmd>SessionLoad<cr>", desc = "load session", mode = "n" },
+	{ "<leader>sl", "<cmd>SessionLoadLast<cr>", desc = "load session", mode = "n" },
 	{ "<leader>st", "<cmd>SessionStop<cr>", desc = "stop current session", mode = "n" },
 	{ "<A-l>", "<cmd>SessionLoadLast<cr>", desc = "load last session", mode = "n" },
 	-- git mappings
