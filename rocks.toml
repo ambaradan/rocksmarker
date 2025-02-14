@@ -82,13 +82,13 @@ nvim-lspconfig = "1.6.0"
 # Diagnostic plugins
 nvim-lint = "scm"
 "conform.nvim" = "8.4.0"
-"trouble.nvim" = "3.7.0"
+"trouble.nvim" = "3.7.1"
 
 # Markdown plugins
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.2.0"
+"markview.nvim" = "25.3.0"
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
