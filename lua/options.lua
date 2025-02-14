@@ -1,47 +1,48 @@
-local o = vim.o
+local o = vim.o --set local variable
 
-vim.g.mapleader = " "
+vim.g.mapleader = " " -- leader key
+vim.g.markdown_recommended_style = 0 -- disable Markdown recommended style
 
-vim.g.markdown_recommended_style = 0
 -- enable folding
-vim.opt.foldmethod = "marker"
-vim.opt.foldmarker = "{{{,}}}"
-vim.opt.foldenable = true
+o.foldmethod = "marker"
+o.foldmarker = "{{{,}}}"
+o.foldenable = true
+
 -- options for 'status' and 'tab' lines
--- to global display the status line
-o.laststatus = 3
--- not used - no tabline support
--- o.showtabline = 2
--- enable true color 24-bit RGB
-o.termguicolors = true
--- show the mode you are on the last line
-o.showmode = false
+o.laststatus = 3 -- to global display the status line
+-- o.showtabline = 2 -- not used - no tabline support
+
+o.termguicolors = true -- enable true color 24-bit RGB
+o.showmode = false -- show the mode you are on the last line
+
 -- compatibility with the two Linux registers
 vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
 -- require by persisted.nvim
 o.sessionoptions = "buffers,curdir,folds,globals,tabpages,winpos,winsize"
 
 -- Indenting
-o.expandtab = true
-o.shiftwidth = 4
-o.smartindent = true
-o.tabstop = 4
-o.softtabstop = 4
--- hide tilde '~' for blank lines
-vim.opt.fillchars = { eob = " " }
-o.ignorecase = true
-o.smartcase = true
--- enable the use of the mouse - all modes
-o.mouse = "a"
+o.expandtab = true -- Convert tabs to spaces
+o.shiftwidth = 4 -- provide proper indentation to the code
+-- o.smartindent = true
+o.tabstop = 4 -- Number of spaces a tab represents
+o.softtabstop = 4 -- how many spaces moves right when you press <Tab>
 
-o.number = true
+vim.opt.fillchars = { eob = " " } -- hide tilde '~' for blank lines
+o.ignorecase = true -- to search case insensitively
+o.smartcase = true -- when the search pattern is typed
 
-o.signcolumn = "yes"
-o.splitbelow = true
-o.splitright = true
-o.timeoutlen = 400
-o.undofile = true
-o.cursorline = true
+o.mouse = "a" -- enable the use of the mouse - all modes
+
+o.number = true -- Enable line numbers
+
+o.signcolumn = "yes" -- displaying the signs
+
+o.splitbelow = true -- create a vertical split and open
+o.splitright = true -- new file in the right-hand side of the split
+
+o.timeoutlen = 400 -- how long wait after each keystroke before aborting it
+o.undofile = true -- automatically save undo history
+o.cursorline = true -- highlight the current line
 
 -- disable providers - remove warnings in ':checkhealth'
 vim.g.loaded_python3_provider = 0
