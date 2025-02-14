@@ -27,3 +27,6 @@ lauxlib
 hpp
 liblua
 bashrc
+Markdownlint
+linter
+markdownlint
