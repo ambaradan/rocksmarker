@@ -359,7 +359,11 @@ require("cokeline").setup({
 -- }}}
 
 -- fidget.nvim settings - messages display {{{
-require("fidget").setup()
+require("fidget").setup({
+	notification = {
+		override_vim_notify = true,
+	},
+})
 -- }}}
 
 -- gitsign.nvim settings - git support {{{
