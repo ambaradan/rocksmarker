@@ -1,6 +1,6 @@
 local o = vim.o --set local variable
 
-vim.g.mapleader = " " -- leader key
+vim.g.mapleader = vim.keycode("<Space>") -- leader key
 vim.g.markdown_recommended_style = 0 -- disable Markdown recommended style
 
 -- enable folding
