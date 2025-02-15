@@ -67,3 +67,13 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
 	end,
 })
+
+-- indent with 2 spaces for these file types
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("indent_set", { clear = true }),
+	pattern = { "yaml", "yml", "sh", "lua" },
+	callback = function()
+		vim.bo.shiftwidth = 2
+		vim.bo.tabstop = 2
+	end,
+})
