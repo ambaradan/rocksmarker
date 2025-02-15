@@ -57,6 +57,8 @@ vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("markdown_set", { clear = true }),
 	pattern = { "gitcommit", "markdown" },
 	callback = function()
+		vim.opt_local.list = true
+		vim.opt_local.listchars = "tab:» ,lead:•,trail:•"
 		vim.opt_local.wrap = true
 		vim.opt_local.linebreak = true
 		vim.opt_local.number = false
