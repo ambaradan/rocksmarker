@@ -147,3 +147,7 @@ wk.add({
 		end,
 	}),
 })
+
+-- Move to the end of yanked text after yank and paste
+vim.cmd("vnoremap <silent> y y`]")
+vim.cmd("vnoremap <silent> p p`]")
