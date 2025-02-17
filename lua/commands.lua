@@ -1,8 +1,3 @@
--- -- mason, write correct names only
--- vim.api.nvim_create_user_command("MasonInstallAll", function()
--- 	vim.cmd("MasonInstall markdownlint vale stylua shfmt yamlfmt shellcheck prettier")
--- end, {})
-
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = vim.api.nvim_create_augroup("checktime", { clear = true }),
@@ -64,9 +59,9 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.wo.number = false
 		vim.wo.conceallevel = 2
 		vim.wo.scrolloff = 5
-		vim.opt_local.spell = true
-		vim.opt_local.spelllang = "en,it"
-		vim.opt_local.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
+		vim.wo.spell = true
+		vim.bo.spelllang = "en,it"
+		vim.bo.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
 	end,
 })
 
