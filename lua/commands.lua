@@ -7,7 +7,7 @@
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = vim.api.nvim_create_augroup("checktime", { clear = true }),
 	callback = function()
-		if vim.o.buftype ~= "nofile" then
+		if vim.o.buftype ~= "c" then
 			vim.cmd("checktime")
 		end
 	end,
@@ -57,13 +57,13 @@ vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("markdown_set", { clear = true }),
 	pattern = { "gitcommit", "markdown" },
 	callback = function()
-		vim.opt_local.list = true
-		vim.opt_local.listchars = "tab:» ,lead:•,trail:•"
-		vim.opt_local.wrap = true
-		vim.opt_local.linebreak = true
-		vim.opt_local.number = false
-		vim.opt_local.conceallevel = 2
-		vim.opt_local.scrolloff = 5
+		vim.wo.list = true
+		vim.wo.listchars = "tab:» ,lead:•,trail:•"
+		vim.wo.wrap = true
+		vim.wo.linebreak = true
+		vim.wo.number = false
+		vim.wo.conceallevel = 2
+		vim.wo.scrolloff = 5
 		vim.opt_local.spell = true
 		vim.opt_local.spelllang = "en,it"
 		vim.opt_local.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
