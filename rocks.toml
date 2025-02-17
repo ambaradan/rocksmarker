@@ -52,7 +52,7 @@ nvim-web-devicons = "0.100"
 "indent-blankline.nvim" = "3.8.7"
 "nvim-autopairs" = "scm"
 "telescope.nvim" = "scm"
-"neo-tree.nvim" = "3.29"
+"neo-tree.nvim" = "3.30"
 "rainbow-delimiters.nvim" = "0.8.0"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
@@ -74,21 +74,21 @@ cmp-buffer = "scm"
 cmp-path = "scm"
 
 # Plugins for LSP
-"mason.nvim" = "1.10.0"
-"mason-lspconfig.nvim" = "1.31.0"
+"mason.nvim" = "1.11.0"
+"mason-lspconfig.nvim" = "1.32.0"
 nvim-lspconfig = "1.6.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
 nvim-lint = "scm"
-"conform.nvim" = "8.4.0"
+"conform.nvim" = "9.0.0"
 "trouble.nvim" = "3.7.1"
 
 # Markdown plugins
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.3.0"
+"markview.nvim" = "25.3.1"
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
