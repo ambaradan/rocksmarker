@@ -74,3 +74,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.bo.tabstop = 2
 	end,
 })
+
+-- no spell for terminal buffer
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+	group = vim.api.nvim_create_augroup("spell_off", { clear = true }),
+	callback = function()
+		vim.wo.spell = false
+	end,
+})
