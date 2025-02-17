@@ -18,7 +18,7 @@ vim.o.foldenable = true
 vim.o.laststatus = 3 -- to global display the status line
 -- o.showtabline = 2 -- not used - no tabline support
 
-vim.o.termguicolors = true -- enable true color 23-bit RGB
+vim.o.termguicolors = true -- use true color
 vim.o.showmode = false -- show the mode you are on the last line
 
 -- synchronization with the Linux clipboard
