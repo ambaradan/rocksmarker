@@ -177,10 +177,11 @@ ls.add_snippets(nil, {
 				[[
                 !!! <1> "Admonition Title"
                 
-                    Text here
+                    <2>
                 ]],
 				{
 					i(1, "Note Abstract Info Tip Success Question Warning Failure Danger Bug Example Quote"),
+					i(2, "Here the text, indentation of 4 spaces"),
 				}
 			)
 		),
