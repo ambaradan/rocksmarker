@@ -180,7 +180,7 @@ ls.add_snippets(nil, {
                     Text here
                 ]],
 				{
-					i(1, "note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote"),
+					i(1, "Note Abstract Info Tip Success Question Warning Failure Danger Bug Example Quote"),
 				}
 			)
 		),
@@ -196,7 +196,7 @@ ls.add_snippets(nil, {
                 > {}
                 ]],
 				{
-					i(1, "NOTE, TIP, IMPORTANT,WARNING,CAUTION"),
+					i(1, "NOTE TIP IMPORTANT WARNING CAUTION"),
 					i(2, "content here"),
 				}
 			)
