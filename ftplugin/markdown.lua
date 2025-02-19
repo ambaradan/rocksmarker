@@ -82,44 +82,116 @@ ls.add_snippets(nil, {
 			{
 				trig = "frontmatter",
 				namr = "Frontmatter",
-				dscr = "Create Rocky Frontmatter",
+				dscr = "Create RockyDocs Frontmatter",
 			},
 			fmta(
 				[[
-                ---
-                title: <1>
-                author: <2>
-                contributors: <3>
-                tags:
-                    - tag 1
-                    - tag 2
-                    - tag 3
-                ---
-                ]],
+          ---
+          title: <1>
+          author: <2>
+          contributors: <3>
+          tags:
+              - <4>
+              - <5>
+              - <6>
+          ---
+            ]],
 				{
 					i(1, "Title of document"),
 					i(2, "Author of the document"),
 					i(3, "null"),
+					i(4, "tag 1"),
+					i(5, "tag 2"),
+					i(6, "tag 3"),
 				}
 			)
+		),
+		-- }}}
+		-- Headers snippets {{{
+		s(
+			{
+				trig = "h1",
+				namr = "Markdown H1 Header",
+				dscr = "Create a Markdown H1 header",
+			},
+			fmta("# <1>", {
+				i(1, "Header text"),
+			})
+		),
+		s(
+			{
+				trig = "h2",
+				namr = "Markdown H2 Header",
+				dscr = "Create a Markdown H2 header",
+			},
+			fmta("## <1>", {
+				i(1, "Header text"),
+			})
+		),
+		s(
+			{
+				trig = "h3",
+				namr = "Markdown H3 Header",
+				dscr = "Create a Markdown H3 header",
+			},
+			fmta("### <1>", {
+				i(1, "Header text"),
+			})
+		),
+		s(
+			{
+				trig = "h4",
+				namr = "Markdown H4 Header",
+				dscr = "Create a Markdown H4 header",
+			},
+			fmta("#### <1>", {
+				i(1, "Header text"),
+			})
+		),
+		s(
+			{
+				trig = "h5",
+				namr = "Markdown H5 Header",
+				dscr = "Create a Markdown H5 header",
+			},
+			fmta("##### <1>", {
+				i(1, "Header text"),
+			})
+		),
+		s(
+			{
+				trig = "h6",
+				namr = "Markdown H6 Header",
+				dscr = "Create a Markdown H6 header",
+			},
+			fmta("###### <1>", {
+				i(1, "Header text"),
+			})
 		),
 		-- }}}
 		-- admonitions snippets {{{
 		s(
 			{
 				trig = "admonition",
-				namr = "Material Admonitions",
-				dscr = "Add Material Admonition",
+				namr = "**Material Admonitions**",
+				dscr = [[
+**Add Material Admonition**
+**Available Types:**
+*Note, Abstract, Info, Tip, Success, Question
+Warning, Failure, Danger, Bug, Example, Quote*
+
+        ]],
 			},
 			fmta(
 				[[
-                !!! <1> "Admonition Title"
-                
-                    <2>
-                ]],
+          !!! <1> "<2>"
+          
+              <3>
+          ]],
 				{
-					i(1, "Note Abstract Info Tip Success Question Warning Failure Danger Bug Example Quote"),
-					i(2, "Here the text, indentation of 4 spaces"),
+					i(1, "Type"),
+					i(2, "Admonition Title"),
+					i(3, "Here the text, indentation of 4 spaces"),
 				}
 			)
 		),
@@ -127,15 +199,20 @@ ls.add_snippets(nil, {
 			{
 				trig = "admonition",
 				namr = "GitHub Admonition",
-				dscr = "Add GitHub Admonition",
+				dscr = [[
+**Add GitHub Admonition**
+**Available Types:**
+*NOTE, TIP, IMPORTANT, WARNING, CAUTION
+
+        ]],
 			},
 			fmt(
 				[[
-                > [!{}]
-                > {}
-                ]],
+          > [!{}]
+          > {}
+          ]],
 				{
-					i(1, "NOTE TIP IMPORTANT WARNING CAUTION"),
+					i(1, "Type"),
 					i(2, "content here"),
 				}
 			)
@@ -241,5 +318,35 @@ ls.add_snippets(nil, {
 			})
 		),
 		-- }}}
+		s(
+			{
+				trig = "link", -- Trigger for the snippet
+				namr = "Markdown Link", -- Name of the snippet
+				dscr = "Create a Markdown link", -- Description of the snippet
+			},
+			fmt(
+				[[
+                [{}]({})
+                ]],
+				{
+					i(1, "text link"),
+					i(2, "http://example.com"),
+				}
+			)
+		),
+		s({
+			trig = "link",
+			namr = "markdown_link",
+			dscr = "Create markdown link [txt](url)",
+		}, {
+			t("["),
+			i(1),
+			t("]("),
+			f(function(_, snip)
+				return snip.env.TM_SELECTED_TEXT[1] or {}
+			end, {}),
+			t(")"),
+			i(0),
+		}),
 	}, -- snippets mark
 })
