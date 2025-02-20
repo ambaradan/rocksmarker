@@ -5,11 +5,30 @@ vim.bo.softtabstop = 2
 vim.bo.shiftwidth = 2
 
 local ls = require("luasnip")
-local textnode = ls.text_node
-local snippet = ls.s
+local s = ls.snippet
+local i = ls.insert_node
+local fmt = require("luasnip.extras.fmt").fmt
+local fmta = require("luasnip.extras.fmt").fmta
 
-ls.add_snippets("sh", {
-	snippet({ trig = "#!" }, {
-		textnode("#!/usr/bin/env bash"),
-	}),
+ls.add_snippets(nil, {
+	sh = {
+		s(
+			{
+				trig = "shebang",
+				namr = "Shebang Line",
+				dscr = [[
+Insert a shebang line for scripts
+Common choices: *bash, python, sh, zsh*
+        ]],
+			},
+			fmta(
+				[[
+                #!/bin/env <1>
+                ]],
+				{
+					i(1, "bash"),
+				}
+			)
+		),
+	},
 })
