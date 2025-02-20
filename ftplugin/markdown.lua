@@ -604,6 +604,33 @@ sequenceDiagram
 				{}
 			)
 		),
+		s(
+			{
+				trig = "mermaid",
+				name = "Mermaid State",
+				dscr = "Insert a state template",
+			},
+			fmt(
+				[[
+```mermaid
+stateDiagram-v2
+{} --> Unstaged
+Unstaged --> Staged : git add <file>
+Staged --> Committed : git commit -m "message"
+Committed --> {}
+
+Unstaged --> {} : git reset
+Staged --> Unstaged : git reset <file>
+Committed --> Unstaged : git reset --soft HEAD~1
+```
+    ]],
+				{
+					i(1, "[*]"),
+					i(1, "[*]"),
+					i(1, "[*]"),
+				}
+			)
+		),
 		-- }}}
 	}, -- snippets mark
 })
