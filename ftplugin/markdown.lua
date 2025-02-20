@@ -531,21 +531,53 @@ Warning, Failure, Danger, Bug, Example, Quote*
 		s(
 			{
 				trig = "mermaid",
-				name = "Mermaid Diagram",
-				dscr = "Insert a Mermaid diagram template",
+				name = "Mermaid Flowchart",
+				dscr = "Insert a horizontal flowchart diagram",
 			},
 			fmt(
 				[[
-``` mermaid
+```mermaid
 graph LR
-  A%[Start%] --> B{Error?};
-  B -->|Yes| C%[Hmm...%];
-  C --> D%[Debug%];
+  A{} --> B{};
+  B -->|Yes| C{};
+  C --> D{};
   D --> B;
-  B ---->|No| E%[Yay!%];
+  B ---->|No| E{};
 ```
     ]],
-				{}
+				{
+					i(1, "[Develop]"),
+					i(2, "{Error}"),
+					i(3, "[Fix]"),
+					i(4, "[Debug]"),
+					i(5, "[Update]"),
+				}
+			)
+		),
+		s(
+			{
+				trig = "mermaid",
+				name = "Mermaid Flowchart",
+				dscr = "Insert a vertical flowchart diagram",
+			},
+			fmt(
+				[[
+```mermaid
+graph TB
+  A{} --> B{};
+  B -->|Yes| C{};
+  C --> D{};
+  D --> B;
+  B ---->|No| E{};
+```
+    ]],
+				{
+					i(1, "[Develop]"),
+					i(2, "{Error}"),
+					i(3, "[Fix]"),
+					i(4, "[Debug]"),
+					i(5, "[Update]"),
+				}
 			)
 		),
 		-- }}}
