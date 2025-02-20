@@ -583,8 +583,8 @@ graph TB
 		s(
 			{
 				trig = "mermaid",
-				name = "Mermaid Diagram",
-				dscr = "Insert a diagram template",
+				name = "Mermaid Sequence",
+				dscr = "Insert a sequence template",
 			},
 			fmt(
 				[[
