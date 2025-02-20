@@ -19,7 +19,7 @@ colorscheme = "bamboo"
 # tree-sitter parsers
 tree-sitter-cli = "0.25.1"
 tree-sitter-bash = "0.0.40"
-tree-sitter-css = "0.0.36"
+tree-sitter-css = "0.0.37"
 tree-sitter-git_config = "0.0.29"
 tree-sitter-git_rebase = "0.0.29"
 tree-sitter-gitattributes = "0.0.30"
@@ -37,7 +37,7 @@ tree-sitter-markdown_inline = "0.0.37"
 tree-sitter-toml = "0.0.31"
 tree-sitter-vim = "0.0.30"
 tree-sitter-vimdoc = "0.0.31"
-tree-sitter-yaml = "0.0.31"
+tree-sitter-yaml = "0.0.32"
 
 # UI plugins
 "bamboo.nvim" = "scm"
@@ -46,7 +46,7 @@ nvim-cokeline = "0.4.0"
 nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.1"
 "fidget.nvim" = "1.6.0"
-"gitsigns.nvim" = "1.0.0"
+"gitsigns.nvim" = "1.0.1"
 
 # Functional plugins
 "indent-blankline.nvim" = "3.8.7"
