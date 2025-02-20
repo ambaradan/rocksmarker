@@ -9,20 +9,6 @@ vim.wo.spell = true
 vim.bo.spelllang = "en,it"
 vim.bo.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
 
--- 		-- Task snippets
--- 		snip("task2", "- [${1| ,x|}] ${2:text}\n- [${3| ,x|}] ${4:text}\n${0}"),
--- 		snip("task3", "- [${1| ,x|}] ${2:text}\n- [${3| ,x|}] ${4:text}\n- [${5| ,x|}] ${6:text}\n${0}"),
--- 		snip(
--- 			"task4",
--- 			"- [${1| ,x|}] ${2:text}\n- [${3| ,x|}] ${4:text}\n- [${5| ,x|}] ${6:text}\n- [${7| ,x|}] ${8:text}\n${0}"
--- 		),
--- 		snip(
--- 			"task5",
--- 			"- [${1| ,x|}] ${2:text}\n- [${3| ,x|}] ${4:text}\n- [${5| ,x|}] ${6:text}\n- [${7| ,x|}] ${8:text}\n- [${9| ,x|}] ${10:text}\n${0}"
--- 		),
--- 	},
--- })
-
 local ls = require("luasnip")
 local s = ls.snippet
 local sn = ls.snippet_node
