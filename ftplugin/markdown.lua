@@ -532,7 +532,7 @@ Warning, Failure, Danger, Bug, Example, Quote*
 			{
 				trig = "mermaid",
 				name = "Mermaid Flowchart",
-				dscr = "Insert a horizontal flowchart diagram",
+				dscr = "Insert a horizontal flowchart template",
 			},
 			fmt(
 				[[
@@ -558,7 +558,7 @@ graph LR
 			{
 				trig = "mermaid",
 				name = "Mermaid Flowchart",
-				dscr = "Insert a vertical flowchart diagram",
+				dscr = "Insert a vertical flowchart template",
 			},
 			fmt(
 				[[
@@ -578,6 +578,30 @@ graph TB
 					i(4, "[Debug]"),
 					i(5, "[Update]"),
 				}
+			)
+		),
+		s(
+			{
+				trig = "mermaid",
+				name = "Mermaid Diagram",
+				dscr = "Insert a diagram template",
+			},
+			fmt(
+				[[
+```mermaid
+sequenceDiagram
+    participant User
+    participant Git
+    participant Repository
+    User->>Git: git add <file(s)>
+    Git-->>User: Staging files
+    User->>Git: git commit -m "Commit message"
+    Git->>Repository: Save changes
+    Repository-->>Git: Commit ID generated
+    Git-->>User: Commit successful
+```
+    ]],
+				{}
 			)
 		),
 		-- }}}
