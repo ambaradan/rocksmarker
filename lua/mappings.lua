@@ -30,6 +30,7 @@ wk.add({
 	{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "buffer list", mode = "n" },
 	{ "<leader>tc", "<cmd>Telescope command_history<cr>", desc = "command history", mode = "n" },
 	{ "<leader>tf", "<cmd>Telescope file_browser<cr>", desc = "find files", mode = "n" },
+	{ "<leader>to", "<cmd>Telescope oldfiles<cr>", desc = "find files", mode = "n" },
 	{ "<leader>tr", "<cmd>Telescope frecency theme=ivy<cr>", desc = "recent files", mode = "n" },
 	{ "<leader>tu", "<cmd>Telescope undo theme=ivy<cr>", desc = "undo changes", mode = "n" },
 	-- trouble.nvim
@@ -59,13 +60,13 @@ wk.add({
 	},
 	{
 		"<leader>sa",
-		"<cmd>SearchBoxMatchAll title=MatchAll exact=true<cr>",
+		"<cmd>SearchBoxMatchAll title=MatchAll exact=true clear_matches=false<cr>",
 		desc = "search (match all)",
 		mode = "n",
 	},
 	{
 		"<leader>sr",
-		"<cmd>SearchBoxReplace exact=true confirm=menu<cr>",
+		"<cmd>SearchBoxReplace title=SearchReplace exact=true confirm=menu<cr>",
 		desc = "search and replace",
 		mode = "n",
 	},
