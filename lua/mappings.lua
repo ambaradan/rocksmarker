@@ -54,19 +54,19 @@ wk.add({
 	-- searchbox mappings - searchbox.nvim
 	{
 		"<leader>si",
-		"<cmd>SearchBoxIncSearch title=IncSearch exact=true<cr>",
+		"<cmd>SearchBoxIncSearch title='Incremental Search' exact=true<cr>",
 		desc = "search (incremental)",
 		mode = "n",
 	},
 	{
 		"<leader>sa",
-		"<cmd>SearchBoxMatchAll title=MatchAll exact=true clear_matches=false<cr>",
+		"<cmd>SearchBoxMatchAll title='Search Match All' exact=true<cr>",
 		desc = "search (match all)",
 		mode = "n",
 	},
 	{
 		"<leader>sr",
-		"<cmd>SearchBoxReplace title=SearchReplace exact=true confirm=menu<cr>",
+		"<cmd>SearchBoxReplace title='Search and Replace' exact=true confirm=menu<cr>",
 		desc = "search and replace",
 		mode = "n",
 	},
