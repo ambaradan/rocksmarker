@@ -50,6 +50,25 @@ wk.add({
 	{ "<leader>sl", "<cmd>SessionLoadLast<cr>", desc = "load session", mode = "n" },
 	{ "<leader>st", "<cmd>SessionStop<cr>", desc = "stop current session", mode = "n" },
 	{ "<A-l>", "<cmd>SessionLoadLast<cr>", desc = "load last session", mode = "n" },
+	-- searchbox mappings - searchbox.nvim
+	{
+		"<leader>si",
+		"<cmd>SearchBoxIncSearch title=IncSearch exact=true<cr>",
+		desc = "search (incremental)",
+		mode = "n",
+	},
+	{
+		"<leader>sa",
+		"<cmd>SearchBoxMatchAll title=MatchAll exact=true<cr>",
+		desc = "search (match all)",
+		mode = "n",
+	},
+	{
+		"<leader>sr",
+		"<cmd>SearchBoxReplace exact=true confirm=menu<cr>",
+		desc = "search and replace",
+		mode = "n",
+	},
 	-- git mappings
 	{ "<leader>g", group = "git" },
 	{ "<leader>gc", "<cmd>Neotree git_status bottom<cr>", desc = "neo-tree git status", mode = "n" },
