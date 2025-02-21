@@ -30,6 +30,7 @@ wk.add({
 	{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "buffer list", mode = "n" },
 	{ "<leader>tc", "<cmd>Telescope command_history<cr>", desc = "command history", mode = "n" },
 	{ "<leader>tf", "<cmd>Telescope file_browser<cr>", desc = "find files", mode = "n" },
+	{ "<leader>to", "<cmd>Telescope oldfiles<cr>", desc = "find files", mode = "n" },
 	{ "<leader>tr", "<cmd>Telescope frecency theme=ivy<cr>", desc = "recent files", mode = "n" },
 	{ "<leader>tu", "<cmd>Telescope undo theme=ivy<cr>", desc = "undo changes", mode = "n" },
 	-- trouble.nvim
@@ -50,6 +51,25 @@ wk.add({
 	{ "<leader>sl", "<cmd>SessionLoadLast<cr>", desc = "load session", mode = "n" },
 	{ "<leader>st", "<cmd>SessionStop<cr>", desc = "stop current session", mode = "n" },
 	{ "<A-l>", "<cmd>SessionLoadLast<cr>", desc = "load last session", mode = "n" },
+	-- searchbox mappings - searchbox.nvim
+	{
+		"<leader>si",
+		"<cmd>SearchBoxIncSearch title='Incremental Search' exact=true<cr>",
+		desc = "search (incremental)",
+		mode = "n",
+	},
+	{
+		"<leader>sa",
+		"<cmd>SearchBoxMatchAll title='Search Match All' exact=true<cr>",
+		desc = "search (match all)",
+		mode = "n",
+	},
+	{
+		"<leader>sr",
+		"<cmd>SearchBoxReplace title='Search and Replace' exact=true confirm=menu<cr>",
+		desc = "search and replace",
+		mode = "n",
+	},
 	-- git mappings
 	{ "<leader>g", group = "git" },
 	{ "<leader>gc", "<cmd>Neotree git_status bottom<cr>", desc = "neo-tree git status", mode = "n" },
