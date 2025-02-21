@@ -1,16 +1,16 @@
 # Rocksmarker
 
 - [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
-    - [Purpose of the project](#purpose-of-the-project)
-    - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
-    - [Installation of Neovim](#installation-of-neovim)
-    - [Installing Lua 5.1](#installing-lua-51)
-        - [Version setting](#version-setting)
-        - [Add headers files](#add-headers-files)
-    - [Download the configuration](#download-the-configuration)
-        - [Main Editor](#main-editor)
-        - [Secondary editor](#secondary-editor)
-    - [Installing the configuration](#installing-the-configuration)
+  - [Purpose of the project](#purpose-of-the-project)
+  - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
+  - [Installation of Neovim](#installation-of-neovim)
+  - [Installing Lua 5.1](#installing-lua-51)
+    - [Version setting](#version-setting)
+    - [Add headers files](#add-headers-files)
+  - [Download the configuration](#download-the-configuration)
+    - [Main Editor](#main-editor)
+    - [Secondary editor](#secondary-editor)
+  - [Installing the configuration](#installing-the-configuration)
 
 ## Neovim IDE for Markdown code
 
