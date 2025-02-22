@@ -9,6 +9,8 @@ vim.wo.spell = true
 vim.bo.spelllang = "en,it"
 vim.bo.spellfile = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add"
 
+require("luasnip.session.snippet_collection").clear_snippets("markdown")
+
 local ls = require("luasnip")
 local s = ls.snippet
 local sn = ls.snippet_node
