@@ -77,7 +77,7 @@ cmp-path = "scm"
 # Plugins for LSP
 "mason.nvim" = "1.11.0"
 "mason-lspconfig.nvim" = "1.32.0"
-nvim-lspconfig = "1.6.0"
+nvim-lspconfig = "1.7.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
@@ -93,7 +93,7 @@ nvim-lint = "scm"
 
 # Configuration file set in 'lua/mappings.lua'
 [plugins."which-key.nvim"]
-version = "3.16.0"
+version = "3.17.0"
 config = "mappings"
 
 # Maintained the plugin to the development
