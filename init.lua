@@ -1,6 +1,9 @@
+-- Rocksmarker configuration initialization
+-- Calls for input of options and autocommands
 require("options")
 require("commands")
 
+-- rocks.nvim bootstrap
 do
 	-- Specifies where to install/use rocks.nvim
 	local install_location = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "rocks")
