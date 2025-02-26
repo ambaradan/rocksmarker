@@ -197,6 +197,8 @@ cmp.setup({
 })
 -- }}}
 
+require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/snippets" })
+
 -- luasnip.lua settings - markdown snippets {{{
 -- local ls = require("luasnip")
 -- local snip = ls.parser.parse_snippet
