@@ -33,6 +33,18 @@ require("bamboo").setup({
 		["markdownLinkText"] = { fg = "$light_blue", underline = false },
 		["MarkviewListItemStar"] = { fg = "$orange" },
 		["MarkviewListItemMinus"] = { fg = "$orange" },
+		-- Ascidoc support
+		["asciidocOneLineTitle"] = { fg = "$blue", fmt = "bold" },
+		["asciidocAttributeList"] = { fg = "$green" },
+		["asciidocQuotedBold"] = { fg = "$orange" },
+		["asciidocQuotedEmphasized"] = { fg = "$yellow" },
+		["asciidocQuotedMonospaced2"] = { fg = "$purple" },
+		["asciidocListBullet"] = { fg = "$green" },
+		["asciidocListingBlock"] = { fg = "$light_blue" },
+		["asciidocLiteralParagraph"] = { fg = "$light_blue" },
+		["asciidocTableDelimiter"] = { fg = "$green" },
+		["asciidocTablePrefix"] = { fg = "$green" },
+		-- Telescope
 		-- Telescope
 		["TelescopePreviewBorder"] = { fg = "$bg1" },
 		["TelescopePreviewTitle"] = { fg = "$blue" },
