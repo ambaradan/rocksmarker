@@ -31,3 +31,17 @@ Markdownlint
 linter
 markdownlint
 bug
+checktime
+augroup
+autocmd
+FocusGained
+TermClose
+TermLeave
+buftype
+timestamp
+LuaRocks
+Vimscript
+FileType
+buflisted
+keymap
+toml
