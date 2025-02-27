@@ -45,3 +45,5 @@ FileType
 buflisted
 keymap
 toml
+Incus
+lxc
