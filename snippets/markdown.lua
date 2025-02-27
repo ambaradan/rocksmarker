@@ -609,5 +609,16 @@ Committed --> Unstaged : git reset --soft HEAD~1
 			)
 		),
 		-- }}}
+		-- loretipsum snippet {{{
+		s({
+			trig = "loretipsum",
+			name = "Lorem Ipsum",
+			dscr = "Insert a paragraph of Lorem Ipsum text",
+		}, {
+			t(
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla porttitor accumsan tincidunt. Cras ultricies ligula sed magna dictum porta. Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Sed porttitor lectus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula."
+			),
+		}),
+		-- -- }}}
 	}, -- snippets mark
 })
