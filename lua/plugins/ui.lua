@@ -314,14 +314,17 @@ require("cokeline").setup({
 		fg = function(buffer)
 			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Conceal", "fg")
 		end,
-		bg = get_hex("FloatermBorder", "bg"),
+		bg = get_hex("TabLineFill", "bg"),
 	},
 
 	components = {
 		{
-			text = "｜",
+			text = " ",
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("Constant", "fg") or get_hex("Conceal", "fg")
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_modified and "bold,underline" or "underline"
 			end,
 		},
 		{
@@ -329,7 +332,10 @@ require("cokeline").setup({
 				return buffer.devicon.icon .. " "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("Constant", "fg") or nil
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_modified and "bold,underline" or "underline"
 			end,
 		},
 		{
@@ -337,38 +343,31 @@ require("cokeline").setup({
 				return buffer.index .. ": "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("Constant", "fg") or nil
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_focused and "bold,underline" or "underline"
 			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.unique_prefix
 			end,
-			-- fg = get_hex("Comment", "fg"),
-			-- style = "italic",
+			style = function(buffer)
+				return buffer.is_focused and "bold,underline" or "underline"
+			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.filename .. " "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("Constant", "fg") or nil
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
 			end,
 			style = function(buffer)
-				return buffer.is_focused and "bold" or nil
+				return buffer.is_focused and "bold,underline" or "underline"
 			end,
 		},
-		{
-			text = " ",
-		},
-		-- {
-		-- 	text = function(buffer)
-		-- 		return buffer.is_modified and "● " or " "
-		-- 	end,
-		-- 	fg = function(buffer)
-		-- 		return buffer.is_modified and orange or nil
-		-- 	end,
-		-- },
 	},
 })
 -- }}}
