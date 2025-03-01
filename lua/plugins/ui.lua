@@ -90,30 +90,26 @@ if not line_ok then
 end
 local get_col = require("cokeline/utils").get_hex
 local bamboo = {
-	fg = "#c7dab9",
-	bg = "#2f312c",
-	bg3 = get_col("TabLineFill", "bg"),
-	light_grey = get_col("Comment", "fg"),
+	fg = get_col("Pmenu", "fg"),
+	bg = get_col("TabLineFill", "bg"),
+	bg3 = get_col("Normal", "bg"),
+	grey = get_col("Comment", "fg"),
 	green = get_col("String", "fg"),
-	yellow = get_col("Type", "fg"),
-	purple = "#aaaaff",
+	yellow = get_col("Debug", "fg"),
+	-- purple = get_col("WildMenu", "bg"),
 	orange = get_col("WarningMsg", "fg"),
-	light_yellow = "#e2c792",
-	coral = "#f08080",
-	dark_blue = "#758094",
-
-	dark_coral = "#893f45",
+	coral = get_col("ErrorMsg", "fg"),
+	blue = get_col("Function", "fg"),
 }
-
 local vi_mode_colors = {
 	NORMAL = "green",
 	OP = "green",
 	INSERT = "yellow",
-	VISUAL = "purple",
+	VISUAL = "orange",
 	LINES = "orange",
-	BLOCK = "dark_coral",
+	BLOCK = "coral",
 	REPLACE = "coral",
-	COMMAND = "light_grey",
+	COMMAND = "grey",
 }
 
 local c = {
@@ -139,7 +135,7 @@ local c = {
 	gitBranch = {
 		provider = "git_branch",
 		hl = {
-			fg = "light_yellow",
+			fg = "orange",
 			style = "bold",
 		},
 		left_sep = "block",
@@ -160,7 +156,7 @@ local c = {
 	gitDiffChanged = {
 		provider = "git_diff_changed",
 		hl = {
-			fg = "fg",
+			fg = "blue",
 		},
 	},
 	separator = {
@@ -174,7 +170,7 @@ local c = {
 			},
 		},
 		hl = {
-			fg = "light_grey",
+			fg = "grey",
 		},
 		left_sep = " ",
 		right_sep = " ",
@@ -194,7 +190,7 @@ local c = {
 	diagnostic_hints = {
 		provider = "diagnostic_hints",
 		hl = {
-			fg = "dark_blue",
+			fg = "blue",
 		},
 	},
 	diagnostic_info = {
@@ -203,8 +199,8 @@ local c = {
 	lsp_client_names = {
 		provider = "lsp_client_names",
 		hl = {
-			fg = "light_grey",
-			style = "bold",
+			fg = "blue",
+			-- style = "bold",
 		},
 		left_sep = "block",
 	},
@@ -244,20 +240,20 @@ local c = {
 	line_percentage = {
 		provider = "line_percentage",
 		hl = {
-			fg = "dark_blue",
+			fg = "blue",
 			style = "bold",
 		},
 		left_sep = "block",
 		right_sep = "block",
 	},
-	scroll_bar = {
-		provider = "scroll_bar",
-		hl = {
-			fg = "green",
-			bg = "bg3",
-			style = "bold",
-		},
-	},
+	-- scroll_bar = {
+	-- 	provider = "scroll_bar",
+	-- 	hl = {
+	-- 		fg = "green",
+	-- 		bg = "bg3",
+	-- 		style = "bold",
+	-- 	},
+	-- },
 }
 -- Start statusline
 local left = {
@@ -283,7 +279,7 @@ local right = {
 	c.file_encoding,
 	c.position,
 	c.line_percentage,
-	c.scroll_bar,
+	-- c.scroll_bar,
 }
 
 local components = {
