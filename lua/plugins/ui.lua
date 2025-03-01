@@ -95,8 +95,8 @@ local bamboo = {
 	bg3 = get_col("Normal", "bg"),
 	grey = get_col("Comment", "fg"),
 	green = get_col("String", "fg"),
-	yellow = get_col("Debug", "fg"),
-	-- purple = get_col("WildMenu", "bg"),
+	yellow = get_col("DiagnosticWarn", "fg"),
+	purple = get_col("DiagnosticHint", "fg"),
 	orange = get_col("WarningMsg", "fg"),
 	coral = get_col("ErrorMsg", "fg"),
 	blue = get_col("Function", "fg"),
@@ -105,7 +105,7 @@ local vi_mode_colors = {
 	NORMAL = "green",
 	OP = "green",
 	INSERT = "yellow",
-	VISUAL = "orange",
+	VISUAL = "purple",
 	LINES = "orange",
 	BLOCK = "coral",
 	REPLACE = "coral",
@@ -156,7 +156,7 @@ local c = {
 	gitDiffChanged = {
 		provider = "git_diff_changed",
 		hl = {
-			fg = "blue",
+			fg = "purple",
 		},
 	},
 	separator = {
@@ -190,7 +190,7 @@ local c = {
 	diagnostic_hints = {
 		provider = "diagnostic_hints",
 		hl = {
-			fg = "blue",
+			fg = "purple",
 		},
 	},
 	diagnostic_info = {
@@ -199,26 +199,11 @@ local c = {
 	lsp_client_names = {
 		provider = "lsp_client_names",
 		hl = {
-			fg = "blue",
-			-- style = "bold",
+			fg = "grey",
 		},
 		left_sep = "block",
 	},
-	file_type = {
-		provider = {
-			name = "file_type",
-			opts = {
-				filetype_icon = true,
-				case = "titlecase",
-			},
-		},
-		hl = {
-			fg = "fg",
-			style = "bold",
-		},
-		left_sep = "block",
-		right_sep = "block",
-	},
+
 	file_encoding = {
 		provider = "file_encoding",
 		hl = {
@@ -232,7 +217,6 @@ local c = {
 		provider = "position",
 		hl = {
 			fg = "green",
-			style = "bold",
 		},
 		left_sep = "block",
 		right_sep = "block",
@@ -246,14 +230,6 @@ local c = {
 		left_sep = "block",
 		right_sep = "block",
 	},
-	-- scroll_bar = {
-	-- 	provider = "scroll_bar",
-	-- 	hl = {
-	-- 		fg = "green",
-	-- 		bg = "bg3",
-	-- 		style = "bold",
-	-- 	},
-	-- },
 }
 -- Start statusline
 local left = {
@@ -275,11 +251,9 @@ local middle = {
 }
 
 local right = {
-	-- c.file_type,
 	c.file_encoding,
 	c.position,
 	c.line_percentage,
-	-- c.scroll_bar,
 }
 
 local components = {
