@@ -307,93 +307,68 @@ feline.setup({
 -- }}}
 
 -- nvim-cokeline setting - bufferline {{{
-local status_ok, cokeline = pcall(require, "cokeline")
-if not status_ok then
-	print("cokeline not loaded!")
-	return
-end
-
 local get_hex = require("cokeline/utils").get_hex
 
-local red = vim.g.terminal_color_1
-local yellow = "#ffccb2"
-local space = { text = " " }
-local dark = get_hex("Normal", "bg")
-local text = get_hex("Comment", "fg")
-local grey = get_hex("ColorColumn", "bg")
-local light = get_hex("Comment", "fg")
-local purple = "#aaaaff"
-local high = "#e2c792"
-local white = "#F5F5F5"
-
-cokeline.setup({
+require("cokeline").setup({
 	default_hl = {
 		fg = function(buffer)
-			if buffer.is_focused then
-				return purple
-			end
-			return light
+			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Conceal", "fg")
 		end,
-		bg = get_hex("TabLineFill", "bg"),
+		bg = get_hex("FloatermBorder", "bg"),
 	},
+
 	components = {
 		{
 			text = "｜",
 			fg = function(buffer)
-				return buffer.is_modified and yellow or light
-			end,
-			bg = get_hex("TabLineFill", "bg"),
-		},
-		{
-			text = function(buffer)
-				return buffer.devicon.icon
-			end,
-			style = function(buffer)
-				if buffer.is_focused then
-					return "bold,underline"
-				end
-				return nil
+				return buffer.is_modified and get_hex("Constant", "fg") or get_hex("Conceal", "fg")
 			end,
 		},
 		{
 			text = function(buffer)
-				return buffer.filename
+				return buffer.devicon.icon .. " "
 			end,
 			fg = function(buffer)
-				if buffer.is_focused then
-					return purple
-				end
-			end,
-			style = function(buffer)
-				if buffer.is_focused then
-					return "bold,underline"
-				end
-
-				return nil
+				return buffer.is_modified and get_hex("Constant", "fg") or nil
 			end,
 		},
 		{
 			text = function(buffer)
-				if buffer.is_modified then
-					return " ✱"
-				end
-
-				return ""
+				return buffer.index .. ": "
 			end,
 			fg = function(buffer)
-				if buffer.is_focused then
-					return purple
-				end
-			end,
-			truncation = { priority = 1 },
-			style = function(buffer)
-				if buffer.is_focused then
-					return "bold,underline"
-				end
-
-				return nil
+				return buffer.is_modified and get_hex("Constant", "fg") or nil
 			end,
 		},
+		{
+			text = function(buffer)
+				return buffer.unique_prefix
+			end,
+			-- fg = get_hex("Comment", "fg"),
+			-- style = "italic",
+		},
+		{
+			text = function(buffer)
+				return buffer.filename .. " "
+			end,
+			fg = function(buffer)
+				return buffer.is_modified and get_hex("Constant", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_focused and "bold" or nil
+			end,
+		},
+		{
+			text = " ",
+		},
+		-- {
+		-- 	text = function(buffer)
+		-- 		return buffer.is_modified and "● " or " "
+		-- 	end,
+		-- 	fg = function(buffer)
+		-- 		return buffer.is_modified and orange or nil
+		-- 	end,
+		-- },
 	},
 })
 -- }}}
