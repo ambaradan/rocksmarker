@@ -88,16 +88,16 @@ local line_ok, feline = pcall(require, "feline")
 if not line_ok then
 	return
 end
-
+local get_col = require("cokeline/utils").get_hex
 local bamboo = {
 	fg = "#c7dab9",
 	bg = "#2f312c",
-	bg3 = "#3a3d37",
-	light_grey = "#838781",
-	green = "#8fb573",
-	yellow = "#ffccb2",
+	bg3 = get_col("TabLineFill", "bg"),
+	light_grey = get_col("Comment", "fg"),
+	green = get_col("String", "fg"),
+	yellow = get_col("Type", "fg"),
 	purple = "#aaaaff",
-	orange = "#ff9966",
+	orange = get_col("WarningMsg", "fg"),
 	light_yellow = "#e2c792",
 	coral = "#f08080",
 	dark_blue = "#758094",
