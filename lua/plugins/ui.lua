@@ -97,18 +97,20 @@ local bamboo = {
 	green = get_col("String", "fg"),
 	yellow = get_col("DiagnosticWarn", "fg"),
 	purple = get_col("DiagnosticHint", "fg"),
+	red = get_col("DiagnosticError", "fg"),
+	cyan = get_col("DiagnosticInfo", "fg"),
 	orange = get_col("WarningMsg", "fg"),
 	coral = get_col("ErrorMsg", "fg"),
 	blue = get_col("Function", "fg"),
 }
 local vi_mode_colors = {
-	NORMAL = "green",
+	NORMAL = "blue",
 	OP = "green",
-	INSERT = "yellow",
-	VISUAL = "purple",
+	INSERT = "green",
+	VISUAL = "orange",
 	LINES = "orange",
 	BLOCK = "coral",
-	REPLACE = "coral",
+	REPLACE = "red",
 	COMMAND = "grey",
 }
 
@@ -224,7 +226,7 @@ local c = {
 	line_percentage = {
 		provider = "line_percentage",
 		hl = {
-			fg = "blue",
+			fg = "cyan",
 			style = "bold",
 		},
 		left_sep = "block",
