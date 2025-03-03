@@ -88,32 +88,30 @@ local line_ok, feline = pcall(require, "feline")
 if not line_ok then
 	return
 end
-
+local get_col = require("cokeline/utils").get_hex
 local bamboo = {
-	fg = "#c7dab9",
-	bg = "#2f312c",
-	bg3 = "#3a3d37",
-	light_grey = "#838781",
-	green = "#8fb573",
-	yellow = "#ffccb2",
-	purple = "#aaaaff",
-	orange = "#ff9966",
-	light_yellow = "#e2c792",
-	coral = "#f08080",
-	dark_blue = "#758094",
-
-	dark_coral = "#893f45",
+	fg = get_col("Pmenu", "fg"),
+	bg = get_col("TabLineFill", "bg"),
+	bg3 = get_col("Normal", "bg"),
+	grey = get_col("Comment", "fg"),
+	green = get_col("String", "fg"),
+	yellow = get_col("DiagnosticWarn", "fg"),
+	purple = get_col("DiagnosticHint", "fg"),
+	red = get_col("DiagnosticError", "fg"),
+	cyan = get_col("DiagnosticInfo", "fg"),
+	orange = get_col("WarningMsg", "fg"),
+	coral = get_col("ErrorMsg", "fg"),
+	blue = get_col("Function", "fg"),
 }
-
 local vi_mode_colors = {
-	NORMAL = "green",
+	NORMAL = "blue",
 	OP = "green",
-	INSERT = "yellow",
-	VISUAL = "purple",
+	INSERT = "green",
+	VISUAL = "orange",
 	LINES = "orange",
-	BLOCK = "dark_coral",
-	REPLACE = "coral",
-	COMMAND = "light_grey",
+	BLOCK = "coral",
+	REPLACE = "red",
+	COMMAND = "grey",
 }
 
 local c = {
@@ -139,7 +137,7 @@ local c = {
 	gitBranch = {
 		provider = "git_branch",
 		hl = {
-			fg = "light_yellow",
+			fg = "orange",
 			style = "bold",
 		},
 		left_sep = "block",
@@ -160,7 +158,7 @@ local c = {
 	gitDiffChanged = {
 		provider = "git_diff_changed",
 		hl = {
-			fg = "fg",
+			fg = "purple",
 		},
 	},
 	separator = {
@@ -174,7 +172,7 @@ local c = {
 			},
 		},
 		hl = {
-			fg = "light_grey",
+			fg = "grey",
 		},
 		left_sep = " ",
 		right_sep = " ",
@@ -194,7 +192,7 @@ local c = {
 	diagnostic_hints = {
 		provider = "diagnostic_hints",
 		hl = {
-			fg = "dark_blue",
+			fg = "purple",
 		},
 	},
 	diagnostic_info = {
@@ -203,26 +201,11 @@ local c = {
 	lsp_client_names = {
 		provider = "lsp_client_names",
 		hl = {
-			fg = "light_grey",
-			style = "bold",
+			fg = "grey",
 		},
 		left_sep = "block",
 	},
-	file_type = {
-		provider = {
-			name = "file_type",
-			opts = {
-				filetype_icon = true,
-				case = "titlecase",
-			},
-		},
-		hl = {
-			fg = "fg",
-			style = "bold",
-		},
-		left_sep = "block",
-		right_sep = "block",
-	},
+
 	file_encoding = {
 		provider = "file_encoding",
 		hl = {
@@ -236,7 +219,6 @@ local c = {
 		provider = "position",
 		hl = {
 			fg = "green",
-			style = "bold",
 		},
 		left_sep = "block",
 		right_sep = "block",
@@ -244,19 +226,11 @@ local c = {
 	line_percentage = {
 		provider = "line_percentage",
 		hl = {
-			fg = "dark_blue",
+			fg = "cyan",
 			style = "bold",
 		},
 		left_sep = "block",
 		right_sep = "block",
-	},
-	scroll_bar = {
-		provider = "scroll_bar",
-		hl = {
-			fg = "green",
-			bg = "bg3",
-			style = "bold",
-		},
 	},
 }
 -- Start statusline
@@ -279,11 +253,9 @@ local middle = {
 }
 
 local right = {
-	-- c.file_type,
 	c.file_encoding,
 	c.position,
 	c.line_percentage,
-	c.scroll_bar,
 }
 
 local components = {
@@ -309,22 +281,22 @@ feline.setup({
 -- nvim-cokeline setting - bufferline {{{
 local get_hex = require("cokeline/utils").get_hex
 
-local green = vim.g.terminal_color_2
-local yellow = vim.g.terminal_color_3
-
 require("cokeline").setup({
 	default_hl = {
 		fg = function(buffer)
 			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Conceal", "fg")
 		end,
-		bg = get_hex("FloatermBorder", "bg"),
+		bg = get_hex("TabLineFill", "bg"),
 	},
 
 	components = {
 		{
-			text = "｜",
+			text = " ",
 			fg = function(buffer)
-				return buffer.is_modified and yellow or green
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_modified and "bold,underline" or "underline"
 			end,
 		},
 		{
@@ -332,38 +304,40 @@ require("cokeline").setup({
 				return buffer.devicon.icon .. " "
 			end,
 			fg = function(buffer)
-				return buffer.devicon.color
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_modified and "bold,underline" or "underline"
 			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.index .. ": "
 			end,
+			fg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_focused and "bold,underline" or "underline"
+			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.unique_prefix
 			end,
-			fg = get_hex("Comment", "fg"),
-			style = "italic",
+			style = function(buffer)
+				return buffer.is_focused and "bold,underline" or "underline"
+			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.filename .. " "
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold" or nil
-			end,
-		},
-		{
-			text = " ",
-		},
-		{
-			text = function(buffer)
-				return buffer.is_modified and "● " or " "
-			end,
 			fg = function(buffer)
-				return buffer.is_modified and green or nil
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+			style = function(buffer)
+				return buffer.is_focused and "bold,underline" or "underline"
 			end,
 		},
 	},
