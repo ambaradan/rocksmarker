@@ -1,6 +1,8 @@
+local augroup = vim.api.nvim_create_augroup("RocksmarkerSet", { clear = true })
+
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-	group = vim.api.nvim_create_augroup("checktime", { clear = true }),
+	group = augroup,
 	callback = function()
 		if vim.o.buftype ~= "c" then
 			vim.cmd("checktime")
@@ -10,7 +12,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 
 -- close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+	group = augroup,
 	pattern = {
 		"PlenaryTestPopup",
 		"help",
@@ -30,7 +32,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-	group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
+	group = augroup,
 	callback = function()
 		vim.highlight.on_yank()
 	end,
@@ -38,7 +40,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- vertical help
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("vertical_help", { clear = true }),
+	group = augroup,
 	pattern = "help",
 	callback = function()
 		vim.bo.bufhidden = "unload"
@@ -49,7 +51,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- no spell for terminal buffer
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
-	group = vim.api.nvim_create_augroup("term_spell_off", { clear = true }),
+	group = augroup,
 	callback = function()
 		vim.wo.spell = false
 	end,
