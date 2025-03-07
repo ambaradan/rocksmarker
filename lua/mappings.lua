@@ -1,20 +1,25 @@
 require("which-key").setup({
-	preset = "helix",
+	preset = "modern",
 })
 
+local map = vim.keymap.set
+local opts = { noremap = true, silent = true }
+-- main commands {{{
+map("n", "<leader>q", "<cmd>q<cr>", { desc = "quit editor" })
+map({ "i", "n" }, "<C-s>", "<cmd>w<cr>", opts) -- save buffer
+map("n", "<leader>s", function()
+	vim.cmd("w") -- Save function
+	vim.notify("File saved successfully!")
+end, opts)
+map("n", "<leader>b", "<cmd>enew<cr>", { desc = "new buffer" })
+map("n", "<Esc>", "<cmd>noh<CR>", opts) -- clear highlights
+map("n", "<leader>x", "<cmd>bd<cr>", { desc = "close buffer" })
+map("n", "<leader>X", "<cmd>%bd<cr>", { desc = "close all buffers" })
+map("n", "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', { desc = "search/replace" })
+map("n", ",", "<cmd>Telescope cmdline<cr>", { desc = "cmdline line" })
+-- }}}
 local wk = require("which-key")
 wk.add({
-	-- main commands
-	{
-		{ "<leader>q", "<cmd>q<cr>", desc = "quit editor" },
-		{ "<C-s>", "<cmd>w<cr>", desc = "save buffer", mode = { "i", "n" } },
-		{ "<leader>b", "<cmd>enew<cr>", desc = "new buffer" },
-		{ "<Esc>", "<cmd>noh<CR>", desc = "clear highlights" },
-		{ "<leader>x", "<cmd>bd<cr>", desc = "close buffer" },
-		{ "<leader>X", "<cmd>%bd<cr>", desc = "close all buffers" },
-		{ "<leader>R", '<cmd>lua require("spectre").toggle()<cr>', desc = "search/replace" },
-		{ ",", "<cmd>Telescope cmdline<cr>", desc = "cmdline line", mode = "n" },
-	},
 	-- neo-tree.nvim mappings
 	{ "<leader>f", group = "file manager" },
 	{ "<leader>fr", "<cmd>Neotree right toggle<cr>", desc = "neotree right" },
