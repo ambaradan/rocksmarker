@@ -38,18 +38,13 @@ map("n", "<leader>tb", "<cmd>Telescope buffers<cr>", { desc = "buffer list" })
 map("n", "<leader>tf", "<cmd>Telescope file_browser<cr>", { desc = "find files" })
 map("n", "<leader>to", "<cmd>Telescope oldfiles<cr>", { desc = "find files" })
 map("n", "<leader>tr", "<cmd>Telescope frecency theme=ivy<cr>", { desc = "recent files" })
+map("n", "<Leader>ts", "<cmd>Telescope current_buffer_fuzzy_find case_mode=smart_case<CR>", { desc = "Find in Buffer" })
 -- trouble.nvim
 map("n", "<leader>dt", "<cmd>Trouble diagnostics toggle<cr>", { desc = "global diagnostics" })
 map("n", "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "buffer diagnostics" })
 map("n", "<leader>ds", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "buffer symbols" })
 -- session mappings - persisted.nvim
 map("n", "<A-s>", "<cmd>Telescope persisted theme=dropdown<cr>", map_opts)
-
--- others mappings
-
--- others mappings
-
--- others mappings
 
 map("n", "<leader>sS", "<cmd>Telescope persisted<cr>", { desc = "select session" })
 map("n", "<leader>ss", "<cmd>SessionSave<cr>", { desc = "save current session" })
