@@ -60,19 +60,19 @@ map("n", "<leader>dc", "<cmd>DiffviewClose<cr>", { desc = "diffview close" })
 map(
 	"n",
 	"<leader>si",
-	"<cmd>SearchBoxIncSearch title='Incremental Search' exact=true<cr>",
+	"<cmd>SearchBoxIncSearch title=' Incremental Search' exact=true<cr>",
 	{ desc = "search (incremental)" }
 )
 map(
 	"n",
 	"<leader>sa",
-	"<cmd>SearchBoxMatchAll title='Search Match All' exact=true<cr>",
+	"<cmd>SearchBoxMatchAll title=' Search Match All' exact=true<cr>",
 	{ desc = "search (match all)" }
 )
 map(
 	"n",
 	"<leader>sr",
-	"<cmd>SearchBoxReplace title='Search and Replace' exact=true confirm=menu<cr>",
+	"<cmd>SearchBoxReplace title=' Search and Replace' exact=true confirm=menu<cr>",
 	{ desc = "search and replace" }
 )
 -- }}}
