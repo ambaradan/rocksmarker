@@ -58,7 +58,7 @@ nvim-web-devicons = "0.100"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
 "yanky.nvim" = "2.0.0"
-"persisted.nvim" = "2.0.2"
+"persisted.nvim" = "2.1.0"
 "diffview.nvim" = "scm"
 "nvim-highlight-colors" = "scm"
 "telescope-frecency.nvim" = "scm"
@@ -90,7 +90,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.3.2"
+"markview.nvim" = "25.3.3"
 
 # # Configuration file set in 'lua/mappings.lua'
 # [plugins."which-key.nvim"]
