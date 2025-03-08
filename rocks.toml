@@ -47,6 +47,7 @@ nvim-web-devicons = "0.100"
 "toggleterm.nvim" = "2.13.1"
 "fidget.nvim" = "1.6.0"
 "gitsigns.nvim" = "1.0.1"
+"which-key.nvim" = "3.17.0"
 
 # Functional plugins
 "indent-blankline.nvim" = "3.8.7"
@@ -91,10 +92,10 @@ nvim-lint = "scm"
 "zen-mode.nvim" = "1.4.0"
 "markview.nvim" = "25.3.2"
 
-# Configuration file set in 'lua/mappings.lua'
-[plugins."which-key.nvim"]
-version = "3.17.0"
-config = "mappings"
+# # Configuration file set in 'lua/mappings.lua'
+# [plugins."which-key.nvim"]
+# version = "3.17.0"
+# config = "mappings"
 
 # Maintained the plugin to the development
 # version due to bugs in version 2.0
@@ -142,6 +143,7 @@ items = [
     "nvim-cokeline",
     "gitsigns.nvim",
     "bamboo.nvim",
+    "which-key.nvim",
 ]
 
 # Plugins for specific functionality of Markdown code

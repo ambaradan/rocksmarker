@@ -2,6 +2,7 @@
 -- Calls for input of options and autocommands
 require("options")
 require("commands")
+require("mappings")
 
 -- rocks.nvim bootstrap
 do
