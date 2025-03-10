@@ -136,8 +136,12 @@ remap("n", "<leader>gh", "<cmd>Telescope git_commits<cr>", make_opt("git commits
 remap("n", "<leader>gb", "<cmd>Telescope git_bcommits<cr>", make_opt("git commits buffer"))
 -- }}}
 
+-- Remap the 'y' and 'p' commands in visual mode
+-- to preserve the cursor position
 vim.cmd("vnoremap <silent> y y`]")
 vim.cmd("vnoremap <silent> p p`]")
 
+-- Remap the 'J' and 'K' commands in visual mode
+-- to move the selected block up or down
 remap("v", "J", ":m '>+1<CR>gv=gv", make_opt("move block up"))
 remap("v", "K", ":m '<-2<CR>gv=gv", make_opt("move block down"))
