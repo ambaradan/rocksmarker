@@ -45,12 +45,11 @@ end, make_opt("format buffer"))
 -- }}}
 
 -- neo-tree.nvim mappings {{{
--- remap("n", "<leader>fr", "<cmd>Neotree right toggle<cr>", { desc = " neotree right" })
-remap("n", ".", "<cmd>Neotree float toggle<cr>", make_opt(" neotree float"))
-remap("n", "<leader>ff", "<cmd>Neotree float toggle<cr>", make_opt(" neotree float"))
+-- Toggle Neo-tree File Explorer in a floating window
 remap("n", "<F9>", function()
 	require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.fn.getcwd() })
 end, make_opt("Toggle Neo-tree File Explorer"))
+-- Toggle Neo-tree Git Status in a bottom window
 remap("n", "<leader>gc", function()
 	require("neo-tree.command").execute({ type = "git_status", toggle = true, position = "bottom" })
 end, make_opt("Toggle Neo-tree Git Status (Float)"))
@@ -60,9 +59,10 @@ remap("n", "<leader>fr", function()
 	require("neo-tree.command").execute({
 		reveal = file_path,
 		toggle = true,
-		dir = vim.fn.fnamemodify(file_path, ":p:h"),
+		position = "float",
+		dir = vim.fn.fnamemodify(file_path, ":p:h:h"),
 	})
-end, make_opt("Reveal File in Neo-tree"))
+end, make_opt("Reveal File in workspace"))
 
 -- }}}
 
