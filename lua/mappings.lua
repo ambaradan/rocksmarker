@@ -45,22 +45,22 @@ end, make_opt("format buffer"))
 -- }}}
 
 -- neo-tree.nvim mappings {{{
+
 -- Toggle Neo-tree File Explorer in a floating window
-remap("n", "<F9>", function()
+remap("n", ".", function()
 	require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.fn.getcwd() })
-end, make_opt("Toggle Neo-tree File Explorer"))
--- Toggle Neo-tree Git Status in a bottom window
-remap("n", "<leader>gc", function()
-	require("neo-tree.command").execute({ type = "git_status", toggle = true, position = "bottom" })
-end, make_opt("Toggle Neo-tree Git Status (Float)"))
--- Reveal current file in Neo-tree
+end, make_opt("Neo-tree File Explorer (float)"))
+-- Toggle Neo-tree File Explorer in a right window
+remap("n", "<C-n>", function()
+	require("neo-tree.command").execute({ toggle = true, position = "right", source = "filesystem" })
+end, make_opt("Neo-tree File Explorer (right)"))
+-- Reveal current file in Neo-tree filesystem
 remap("n", "<leader>fr", function()
-	local file_path = vim.api.nvim_buf_get_name(0)
 	require("neo-tree.command").execute({
-		reveal = file_path,
+		reveal = true,
 		toggle = true,
 		position = "float",
-		dir = vim.fn.fnamemodify(file_path, ":p:h:h"),
+		source = "filesystem",
 	})
 end, make_opt("Reveal File in workspace"))
 
@@ -177,28 +177,3 @@ vim.cmd("vnoremap <silent> p p`]")
 -- to move the selected block up or down
 remap("v", "J", ":m '>+1<CR>gv=gv", make_opt("move block up"))
 remap("v", "K", ":m '<-2<CR>gv=gv", make_opt("move block down"))
-
--- Yanky.nvim Paste Mappings
-
--- Paste from yank history after cursor in normal and visual mode
-remap("n", "p", "<Plug>(YankyPutAfter)", make_opt("Paste after cursor"))
-remap("x", "p", "<Plug>(YankyPutAfter)", make_opt("Paste after cursor"))
-
--- Paste from yank history before cursor in normal and visual mode
-remap("n", "P", "<Plug>(YankyPutBefore)", make_opt("Paste before cursor"))
-remap("x", "P", "<Plug>(YankyPutBefore)", make_opt("Paste before cursor"))
-
--- Cycle through yank history (previous entries)
-remap("n", "<c-p>", "<Plug>(YankyCycleForward)", make_opt("Cycle forward in yank history"))
-
--- Cycle through yank history (next entries)
-remap("n", "<c-n>", "<Plug>(YankyCycleBackward)", make_opt("Cycle backward in yank history"))
-
--- Move to older yank in yank history
-remap("n", "[y", "<Plug>(YankyPreviousEntry)", make_opt("Previous yank entry"))
-
--- Move to newer yank in yank history
-remap("n", "]y", "<Plug>(YankyNextEntry)", make_opt("Next yank entry"))
-
--- Open yank history telescope picker
-remap("n", "<leader>py", ":Telescope yank_history<CR>", make_opt("Open yank history"))
