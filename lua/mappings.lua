@@ -40,68 +40,90 @@ local function is_buffer_modified(bufnr)
 end
 -- }}}
 
--- Save buffer in Insert and Normal modes
+-- Save buffer in Insert and Normal modes {{{
 remap({ "i", "n" }, "<C-s>", function()
 	if is_buffer_modified() then
 		vim.cmd("write")
-		vim.notify(" Buffer saved", vim.log.levels.INFO, {
-			title = "Buffer Management",
-			timeout = 500,
+		vim.notify("Buffer saved", vim.log.levels.INFO, {
+			timeout = 250,
 		})
 	else
-		vim.notify(" No changes to save", vim.log.levels.WARN, {
-			title = "Buffer Management",
-			timeout = 1000,
+		vim.notify("No changes to save", vim.log.levels.WARN, {
+			timeout = 250,
 		})
 	end
 end, make_opt("Save buffer"))
+-- }}}
 
--- Create a new empty buffer
+-- Create a new empty buffer {{{
 remap("n", "<leader>b", function()
 	local current_buf = vim.api.nvim_get_current_buf()
-
-	if not is_buffer_modified(current_buf) then
-		vim.cmd("enew")
-		vim.notify("+ New buffer created", vim.log.levels.INFO, {
-			title = "Buffer Management",
-			timeout = 1000,
-		})
+	if is_buffer_modified(current_buf) then
+		-- Use vim.ui.select for handling modified buffer
+		vim.ui.select({ "Save and Create", "Create Without Saving", "Cancel" }, {
+			prompt = "Current buffer has unsaved changes:",
+		}, function(choice)
+			if choice == "Save and Create" then
+				-- Save current buffer
+				vim.cmd("write")
+				vim.cmd("enew")
+				vim.notify("Saved and created new buffer", vim.log.levels.INFO, {
+					timeout = 1500,
+				})
+			elseif choice == "Create Without Saving" then
+				-- Create new buffer without saving
+				vim.cmd("enew!")
+				vim.notify("New buffer created without saving", vim.log.levels.WARN, {
+					timeout = 1500,
+				})
+			else
+				-- Cancel operation
+				vim.notify("New buffer creation cancelled", vim.log.levels.INFO, {
+					timeout = 1000,
+				})
+			end
+		end)
 	else
-		vim.notify(" Current buffer has unsaved changes", vim.log.levels.WARN, {
-			title = "Buffer Management",
-			timeout = 2000,
+		-- If buffer is not modified, simply create a new buffer
+		vim.cmd("enew")
+		vim.notify("New buffer created", vim.log.levels.INFO, {
+			timeout = 1000,
 		})
 	end
 end, make_opt("new buffer"))
+-- }}}
 
--- Close the current buffer
+-- Close the current buffer {{{
 remap("n", "<leader>x", function()
 	local buf_modified = is_buffer_modified()
-
 	if buf_modified then
-		local choice = vim.fn.confirm("Buffer has unsaved changes. Close anyway?", "&Yes\n&No", 2)
-		if choice == 1 then
-			vim.cmd("bdelete!")
-			vim.notify("🗑️ Buffer closed forcefully", vim.log.levels.WARN, {
-				title = "Buffer Management",
-				timeout = 1500,
-			})
-		else
-			vim.notify("❌ Buffer close cancelled", vim.log.levels.INFO, {
-				title = "Buffer Management",
-				timeout = 1000,
-			})
-		end
+		-- Use vim.ui.select for confirmation
+		vim.ui.select({ "Close Anyway", "Cancel" }, {
+			prompt = "Buffer has unsaved changes:",
+			-- Simulate title-like behavior with a descriptive prompt
+			kind = "buffer_close_confirmation",
+		}, function(choice)
+			if choice == "Close Anyway" then
+				vim.cmd("bdelete!")
+				vim.notify("Buffer closed forcefully", vim.log.levels.WARN, {
+					timeout = 1500,
+				})
+			else
+				vim.notify("Buffer close cancelled", vim.log.levels.INFO, {
+					timeout = 1000,
+				})
+			end
+		end)
 	else
 		vim.cmd("bdelete")
-		vim.notify("✅ Buffer closed", vim.log.levels.INFO, {
-			title = "Buffer Management",
+		vim.notify("Buffer closed", vim.log.levels.INFO, {
 			timeout = 1000,
 		})
 	end
 end, make_opt("close buffer"))
+-- }}}
 
--- Close all buffers
+-- Close all buffers {{{
 remap("n", "<leader>X", function()
 	local modified_bufs = {}
 
@@ -112,32 +134,27 @@ remap("n", "<leader>X", function()
 	end
 
 	if #modified_bufs > 0 then
-		local choice = vim.fn.confirm(
-			string.format("%d buffer(s) have unsaved changes. Close all?", #modified_bufs),
-			"&Yes\n&No",
-			2
-		)
-		if choice == 1 then
-			vim.cmd("%bdelete!")
-			vim.notify(string.format("🗑️ Closed %d buffers forcefully", #modified_bufs), vim.log.levels.WARN, {
-				title = "Buffer Management",
-				timeout = 2000,
-			})
-		else
-			vim.notify("❌ Close all buffers cancelled", vim.log.levels.INFO, {
-				title = "Buffer Management",
-				timeout = 1000,
-			})
-		end
+		vim.ui.select({ "Yes", "No" }, {
+			prompt = string.format("%d buffer(s) have unsaved changes. Close all?", #modified_bufs),
+		}, function(choice)
+			if choice == "Yes" then
+				vim.cmd("%bdelete!")
+				vim.notify(string.format("Closed %d buffers forcefully", #modified_bufs), vim.log.levels.WARN, {
+					timeout = 2000,
+				})
+			else
+				vim.notify("Close all buffers cancelled", vim.log.levels.INFO, {
+					timeout = 1000,
+				})
+			end
+		end)
 	else
 		vim.cmd("%bdelete")
-		vim.notify("✅ All buffers closed", vim.log.levels.INFO, {
-			title = "Buffer Management",
+		vim.notify("All buffers closed", vim.log.levels.INFO, {
 			timeout = 1000,
 		})
 	end
 end, make_opt("close all buffers"))
-
 -- }}}
 
 -- Editor mappings {{{
