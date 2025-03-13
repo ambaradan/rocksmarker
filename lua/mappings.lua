@@ -123,6 +123,8 @@ remap("n", "<leader>x", function()
 end, make_opt("close buffer"))
 -- }}}
 
+-- }}}
+
 -- Close all buffers {{{
 remap("n", "<leader>X", function()
 	local modified_bufs = {}
@@ -312,39 +314,48 @@ remap("n", "<A-s>", function()
 	require("telescope").extensions.persisted.persisted({
 		theme = "dropdown",
 		layout_config = {
-			width = 0.6,
+			width = 0.3,
 			height = 0.4,
 			prompt_position = "bottom",
 		},
 	})
-end, make_opt("select session"))
+end, make_opt("Telescope Session Selection"))
+
 -- Load last session
 remap("n", "<A-l>", function()
 	require("persisted").load({ last = true })
+	vim.notify("Loaded last session", vim.log.levels.INFO)
 end, make_opt("load last session"))
--- Select session via Telescope
+
+-- Select session via Telescope (alternative mapping)
 remap("n", "<leader>sS", function()
 	require("telescope").extensions.persisted.persisted({
 		theme = "dropdown",
 		layout_config = {
-			width = 0.6,
+			width = 0.3,
 			height = 0.4,
 			prompt_position = "bottom",
 		},
 	})
-end, make_opt("select session"))
+end, make_opt("Telescope Session Selection"))
+
 -- Save current session
 remap("n", "<leader>ss", function()
 	require("persisted").save()
-end, make_opt("save current session"))
--- Load last session
+	vim.notify("Session saved", vim.log.levels.INFO)
+end, make_opt("Save Current Session"))
+
+-- Load last session (alternative mapping)
 remap("n", "<leader>sl", function()
 	require("persisted").load({ last = true })
-end, make_opt("load session"))
+	vim.notify("Loaded last session", vim.log.levels.INFO)
+end, make_opt("Load Last Session"))
+
 -- Stop current session
 remap("n", "<leader>st", function()
 	require("persisted").stop()
-end, make_opt("stop current session"))
+	vim.notify("Current session stopped", vim.log.levels.INFO)
+end, make_opt("Stop Current Session"))
 
 -- }}}
 
