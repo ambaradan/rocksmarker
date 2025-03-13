@@ -80,12 +80,58 @@ require("telescope").load_extension("persisted")
 
 -- toggleterm.nvim settings {{{
 local terminal = require("toggleterm")
+
 terminal.setup({
-	on_config_done = nil,
+	-- Basic configuration
 	size = 20,
 	open_mapping = [[<c-t>]],
 	hide_numbers = true,
+	direction = "float",
+	-- Float Terminal Settings
+	float_opts = {
+		border = "curved",
+		width = function()
+			return math.floor(vim.o.columns * 0.6) -- 60% of screen width
+		end,
+		height = function()
+			return math.floor(vim.o.lines * 0.5) -- 50% of screen height
+		end,
+		winblend = 10, -- Transparency level
+		row = function()
+			return vim.o.lines - math.floor(vim.o.lines * 0.4) - 8
+		end,
+		col = function()
+			return vim.o.columns - math.floor(vim.o.columns * 0.4) - 3
+		end,
+	},
+	-- Horizontal Terminal Configuration
+	horizontal = {
+		size = 15,
+		direction = "horizontal",
+	},
+	-- Highlight configuration
+	highlights = {
+		Normal = {
+			guibg = "Normal",
+		},
+		NormalFloat = {
+			link = "@comment",
+		},
+		FloatBorder = {
+			link = "FloatBorder",
+		},
+	},
+	-- Additional basic settings
+	start_in_insert = true,
+	close_on_exit = true,
+	shell = vim.o.shell,
 })
+
+-- Float Terminal Toggle
+vim.api.nvim_set_keymap("n", "<leader>tt", ":ToggleTerm direction=float<CR>", { noremap = true, silent = true })
+
+-- Horizontal Terminal Toggle
+vim.api.nvim_set_keymap("n", "<leader>th", ":ToggleTerm direction=horizontal<CR>", { noremap = true, silent = true })
 -- }}}
 
 -- neo-tree.nvim settings {{{
