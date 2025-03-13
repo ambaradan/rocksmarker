@@ -123,8 +123,6 @@ remap("n", "<leader>x", function()
 end, make_opt("close buffer"))
 -- }}}
 
--- }}}
-
 -- Close all buffers {{{
 remap("n", "<leader>X", function()
 	local modified_bufs = {}
@@ -157,6 +155,8 @@ remap("n", "<leader>X", function()
 		})
 	end
 end, make_opt("close all buffers"))
+-- }}}
+
 -- }}}
 
 -- Editor mappings {{{
@@ -315,7 +315,7 @@ remap("n", "<A-s>", function()
 		theme = "dropdown",
 		layout_config = {
 			width = 0.3,
-			height = 0.4,
+			height = 0.3,
 			prompt_position = "bottom",
 		},
 	})
@@ -410,10 +410,32 @@ end, make_opt("search and replace"))
 -- }}}
 
 -- diffview.nvim mappings {{{
-remap("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", make_opt("diffview file"))
-remap("n", "<leader>dh", "<cmd>DiffviewFileHistory<cr>", make_opt("diffview history"))
-remap("n", "<leader>df", "<cmd>DiffviewFileHistory %<cr>", make_opt("diffview file history"))
-remap("n", "<leader>dc", "<cmd>DiffviewClose<cr>", make_opt("diffview close"))
+
+-- Open Diffview for comparing current changes
+remap("n", "<leader>dv", function()
+	vim.cmd("DiffviewOpen")
+end, make_opt("Diffview - Compare all changes"))
+
+-- Open file history for the entire repository
+remap("n", "<leader>dh", function()
+	vim.cmd("DiffviewFileHistory")
+end, make_opt("Diffview repository history"))
+
+-- Open file history for the current buffer
+remap("n", "<leader>df", function()
+	vim.cmd("DiffviewFileHistory %")
+end, make_opt("Diffview current file history"))
+
+-- Close the active Diffview window
+remap("n", "<leader>dc", function()
+	vim.cmd("DiffviewClose")
+end, make_opt("Close Diffview"))
+
+-- Open diff for staged changes
+remap("n", "<leader>dH", function()
+	vim.cmd("DiffviewOpen HEAD")
+end, make_opt("Diffview Compare staged with HEAD"))
+
 -- }}}
 
 -- git mappings {{{
