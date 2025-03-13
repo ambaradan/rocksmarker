@@ -68,10 +68,10 @@ require("markdown").setup({
 			return "<Esc>gv<Cmd>lua require'markdown.inline'" .. ".toggle_emphasis_visual'" .. key .. "'<CR>"
 		end
 		-- mapping for INSERT mode (bold, italic, inline, highlight code)
-		vim.keymap.set("x", "<C-B>", toggle("b"), { buffer = bufnr })
-		vim.keymap.set("x", "<C-I>", toggle("i"), { buffer = bufnr })
-		vim.keymap.set("x", "<C-C>", toggle("c"), { buffer = bufnr })
-		vim.keymap.set("x", "<C-S>", toggle("s"), { buffer = bufnr })
+		vim.keymap.set("x", "<C-b>", toggle("b"), { buffer = bufnr })
+		vim.keymap.set("x", "<C-i>", toggle("i"), { buffer = bufnr })
+		vim.keymap.set("x", "<C-`>", toggle("c"), { buffer = bufnr })
+		vim.keymap.set("x", "<C-s>", toggle("s"), { buffer = bufnr })
 	end,
 })
 -- }}}
