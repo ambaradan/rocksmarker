@@ -9,7 +9,7 @@ colorscheme = "bamboo"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.43.1"
+"rocks.nvim" = "2.44.0"
 "rocks-config.nvim" = "3.1.0"
 # "rocks-git.nvim" = "2.5.2"
 # "rocks-lazy.nvim" = "1.1.2"
@@ -23,10 +23,10 @@ tree-sitter-css = "0.0.37"
 tree-sitter-git_config = "0.0.29"
 tree-sitter-git_rebase = "0.0.29"
 tree-sitter-gitattributes = "0.0.30"
-tree-sitter-gitcommit = "0.0.33"
+tree-sitter-gitcommit = "0.0.34"
 tree-sitter-gitignore = "0.0.29"
 tree-sitter-html = "0.0.36"
-tree-sitter-ini = "0.0.29"
+tree-sitter-ini = "0.0.30"
 tree-sitter-json = "0.0.36"
 tree-sitter-jsonc = "0.0.29"
 tree-sitter-lua = "0.0.33"
@@ -90,7 +90,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.3.3"
+"markview.nvim" = "25.5.0"
 
 # # Configuration file set in 'lua/mappings.lua'
 # [plugins."which-key.nvim"]
