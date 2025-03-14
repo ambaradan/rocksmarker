@@ -91,16 +91,11 @@ require("toggleterm").setup({
 	end,
 	open_mapping = [[<c-t>]],
 	hide_numbers = true,
-	direction = "horizontal",
+	direction = "float",
 	-- Additional basic settings
 	start_in_insert = true,
 	close_on_exit = true,
 	shell = vim.o.shell,
-	-- On Open Function to disable spell checking
-	on_open = function()
-		vim.cmd("setlocal nospell")
-	end,
-	-- Float Terminal Settings
 	float_opts = {
 		border = "curved",
 		width = function()
