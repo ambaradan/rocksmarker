@@ -96,6 +96,7 @@ require("toggleterm").setup({
 	start_in_insert = true,
 	close_on_exit = true,
 	shell = vim.o.shell,
+	-- Float Terminal Settings
 	float_opts = {
 		border = "curved",
 		width = function()
