@@ -79,35 +79,43 @@ require("telescope").load_extension("persisted")
 -- }}}
 
 -- toggleterm.nvim settings {{{
-local terminal = require("toggleterm")
 
-terminal.setup({
+require("toggleterm").setup({
 	-- Basic configuration
-	size = 20,
+	size = function(term)
+		if term.direction == "horizontal" then
+			return vim.o.lines * 0.4
+		elseif term.direction == "vertical" then
+			return vim.o.columns * 0.4
+		end
+	end,
 	open_mapping = [[<c-t>]],
 	hide_numbers = true,
-	direction = "float",
+	direction = "horizontal",
+	-- Additional basic settings
+	start_in_insert = true,
+	close_on_exit = true,
+	shell = vim.o.shell,
+	-- On Open Function to disable spell checking
+	on_open = function()
+		vim.cmd("setlocal nospell")
+	end,
 	-- Float Terminal Settings
 	float_opts = {
 		border = "curved",
 		width = function()
-			return math.floor(vim.o.columns * 0.6) -- 60% of screen width
+			return math.floor(vim.o.columns * 0.5) -- % of screen width
 		end,
 		height = function()
-			return math.floor(vim.o.lines * 0.5) -- 50% of screen height
+			return math.floor(vim.o.lines * 0.4) -- % of screen height
 		end,
 		winblend = 10, -- Transparency level
 		row = function()
-			return vim.o.lines - math.floor(vim.o.lines * 0.4) - 8
+			return 2 -- Row to the top of the screen
 		end,
 		col = function()
 			return vim.o.columns - math.floor(vim.o.columns * 0.4) - 3
 		end,
-	},
-	-- Horizontal Terminal Configuration
-	horizontal = {
-		size = 15,
-		direction = "horizontal",
 	},
 	-- Highlight configuration
 	highlights = {
@@ -121,17 +129,8 @@ terminal.setup({
 			link = "FloatBorder",
 		},
 	},
-	-- Additional basic settings
-	start_in_insert = true,
-	close_on_exit = true,
-	shell = vim.o.shell,
 })
 
--- Float Terminal Toggle
-vim.api.nvim_set_keymap("n", "<leader>tt", ":ToggleTerm direction=float<CR>", { noremap = true, silent = true })
-
--- Horizontal Terminal Toggle
-vim.api.nvim_set_keymap("n", "<leader>th", ":ToggleTerm direction=horizontal<CR>", { noremap = true, silent = true })
 -- }}}
 
 -- neo-tree.nvim settings {{{
