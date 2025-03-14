@@ -52,12 +52,3 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.cmd.wincmd("=")
 	end,
 })
-
--- no spell for terminal buffer
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-	group = augroup,
-	desc = "Disable spell checking when opening terminal buffers",
-	callback = function()
-		vim.wo.spell = false
-	end,
-})
