@@ -460,3 +460,24 @@ remap("n", "<leader>gb", function()
 end, make_opt("git commits buffer"))
 
 -- }}}
+
+-- Toggle terminal mappings
+
+-- Mapping for toggling terminal in horizontal mode
+
+remap({ "n", "i", "t" }, "<a-t>", function()
+	require("toggleterm").toggle(0, nil, nil, "horizontal")
+end, make_opt("Toggle Terminal (Horizontal)"))
+
+-- Mapping for toggling terminal in vertical mode
+remap({ "n", "i", "t" }, "<a-v>", function()
+	require("toggleterm").toggle(0, nil, nil, "vertical")
+end, make_opt("Toggle Terminal (Vertical)"))
+
+-- Mapping for toggling terminal in float mode
+remap({ "n", "i", "t" }, "<a-f>", function()
+	require("toggleterm").toggle(0, nil, nil, "float")
+end, make_opt("Toggle Terminal (Float)"))
+
+-- Mapping to exit terminal mode using Esc
+remap("t", "jk", [[<C-\><C-n>]], make_opt("Exit Terminal Mode"))

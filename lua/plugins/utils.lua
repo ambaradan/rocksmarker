@@ -79,13 +79,54 @@ require("telescope").load_extension("persisted")
 -- }}}
 
 -- toggleterm.nvim settings {{{
-local terminal = require("toggleterm")
-terminal.setup({
-	on_config_done = nil,
-	size = 20,
+
+require("toggleterm").setup({
+	-- Basic configuration
+	size = function(term)
+		if term.direction == "horizontal" then
+			return vim.o.lines * 0.4
+		elseif term.direction == "vertical" then
+			return vim.o.columns * 0.4
+		end
+	end,
 	open_mapping = [[<c-t>]],
 	hide_numbers = true,
+	direction = "float",
+	-- Additional basic settings
+	start_in_insert = true,
+	close_on_exit = true,
+	shell = vim.o.shell,
+	-- Float Terminal Settings
+	float_opts = {
+		border = "curved",
+		width = function()
+			return math.floor(vim.o.columns * 0.5) -- % of screen width
+		end,
+		height = function()
+			return math.floor(vim.o.lines * 0.4) -- % of screen height
+		end,
+		winblend = 10, -- Transparency level
+		row = function()
+			return 2 -- Row to the top of the screen
+		end,
+		col = function()
+			return vim.o.columns - math.floor(vim.o.columns * 0.4) - 3
+		end,
+	},
+	-- Highlight configuration
+	highlights = {
+		Normal = {
+			guibg = "Normal",
+		},
+		NormalFloat = {
+			link = "@comment",
+		},
+		FloatBorder = {
+			link = "FloatBorder",
+		},
+	},
 })
+
 -- }}}
 
 -- neo-tree.nvim settings {{{
