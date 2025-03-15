@@ -177,12 +177,20 @@ end, make_opt("format buffer"))
 remap("v", "<C-c>", '"+y', make_opt("Copy selected text to system clipboard"))
 -- Cut (delete and copy) selected text to system clipboard in visual mode
 remap("v", "<C-x>", '"+d', make_opt("Cut selected text to system clipboard"))
+-- Copy entire line to system clipboard
+remap("n", "<S-c>", function()
+	vim.cmd('normal! ^vg_"+y') -- Yank to system clipboard
+end, make_opt("Copy entire line to system clipboard"))
+-- Cut entire line to system clipboard
+remap("n", "<S-x>", function()
+	vim.cmd('normal! ^vg_"+d') -- Cut to system clipboard
+end, make_opt("Cut entire line to system clipboard"))
 -- Paste over selected text in both visual and normal mode
 remap({ "v", "n" }, "<C-v>", '"+p', make_opt("Paste over selected text"))
 -- Paste from system clipboard in insert mode
 remap("i", "<C-v>", "<C-r>+", make_opt("Paste from system clipboard"))
 -- Paste in visual mode without overwriting the current register
-remap("v", "<C-P>", '"_dP', make_opt("Paste without overwriting register"))
+remap("v", "<S-v>", '"_dP', make_opt("Paste without overwriting register"))
 -- Remap the 'y' and 'p' commands in visual mode
 -- to preserve the cursor position
 vim.cmd("vnoremap <silent> y y`]")
