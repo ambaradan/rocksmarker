@@ -85,10 +85,10 @@ require("bamboo").setup({
 
 -- lualine.nvim settings {{{
 
+local get_col = require("cokeline/utils").get_hex
 require("lualine").setup({
 	options = {
 		section_separators = { left = "", right = "" },
-		-- section_separators = { left = '', right = '' },
 		component_separators = { left = "", right = "" },
 	},
 	sections = {
@@ -104,8 +104,14 @@ require("lualine").setup({
 			},
 		},
 		lualine_b = {
-			"filename",
-			"branch",
+			{
+				"filename",
+				color = { fg = get_col("String", "fg") },
+			},
+			{
+				"branch",
+				color = { fg = get_col("Debug", "fg") },
+			},
 		},
 		lualine_c = {
 			{
@@ -132,7 +138,7 @@ require("lualine").setup({
 					return msg
 				end,
 				icon = " LSP:",
-				-- color = { fg = "$green", gui = "bold" },
+				color = { fg = get_col("Comment", "fg"), gui = "bold" },
 			},
 		},
 		lualine_y = {
@@ -146,7 +152,6 @@ require("lualine").setup({
 		},
 		lualine_z = {
 			{ "location", separator = { right = "" }, left_padding = 2 },
-			-- { 'location', separator = { right = '' }, left_padding = 2 },
 		},
 	},
 	inactive_sections = {
@@ -174,8 +179,14 @@ require("cokeline").setup({
 
 	components = {
 		{
-			text = " ",
+			text = "",
 			fg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+			end,
+		},
+		{
+			text = " ",
+			bg = function(buffer)
 				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
 			end,
 			style = function(buffer)
@@ -221,6 +232,12 @@ require("cokeline").setup({
 			end,
 			style = function(buffer)
 				return buffer.is_focused and "bold,underline" or "underline"
+			end,
+		},
+		{
+			text = "",
+			fg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
 			end,
 		},
 	},
