@@ -110,7 +110,7 @@ require("lualine").setup({
 		lualine_c = {
 			{
 				"diff",
-				symbols = { added = " ", modified = "󰝤 ", removed = " " },
+				symbols = { added = " ", modified = " ", removed = " " },
 			},
 			"%=",
 		},
