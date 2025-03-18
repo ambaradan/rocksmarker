@@ -202,7 +202,7 @@ require("cokeline").setup({
 			fg = function(buffer)
 				return buffer.is_modified and get_hex("Normal", "fg")
 					or buffer.is_focused and get_hex("Normal", "fg")
-					or get_hex("Normal", "bg")
+					or get_hex("StatusLine", "bg")
 			end,
 			bg = function(buffer)
 				return buffer.is_modified and get_hex("ErrorMsg", "fg")
@@ -242,7 +242,7 @@ require("cokeline").setup({
 			fg = function(buffer)
 				return buffer.is_modified and get_hex("Normal", "fg")
 					or buffer.is_focused and get_hex("Normal", "fg")
-					or get_hex("Normal", "bg")
+					or get_hex("StatusLine", "bg")
 			end,
 			bg = function(buffer)
 				return buffer.is_modified and get_hex("ErrorMsg", "fg")
