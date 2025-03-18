@@ -181,16 +181,18 @@ require("cokeline").setup({
 		{
 			text = "",
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
+			bg = get_hex("TabLineFill", "bg"),
 		},
 		{
 			text = " ",
 			bg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
-			end,
-			style = function(buffer)
-				return buffer.is_modified and "bold,underline" or "underline"
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
@@ -198,10 +200,14 @@ require("cokeline").setup({
 				return buffer.devicon.icon .. " "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("Normal", "bg")
+					or buffer.is_focused and get_hex("Normal", "fg")
+					or get_hex("Normal", "bg")
 			end,
-			style = function(buffer)
-				return buffer.is_modified and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
@@ -209,18 +215,24 @@ require("cokeline").setup({
 				return buffer.index .. ": "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("Normal", "bg")
+					or buffer.is_focused and get_hex("Normal", "fg")
+					or get_hex("Normal", "bg")
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.unique_prefix
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
@@ -228,17 +240,47 @@ require("cokeline").setup({
 				return buffer.filename .. " "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("Normal", "bg")
+					or buffer.is_focused and get_hex("Normal", "fg")
+					or get_hex("Normal", "bg")
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
+			end,
+			style = "bold",
+		},
+		{
+			-- style = "NONE",
+			text = function(buffer)
+				if buffer.diagnostics.errors > 0 then
+					return " "
+				end
+				if buffer.is_modified then
+					return " "
+				end
+				return " "
+			end,
+			fg = function(buffer)
+				return buffer.is_modified and get_hex("Normal", "bg")
+					or buffer.is_focused and get_hex("Normal", "bg")
+					or get_hex("Normal", "bg")
+			end,
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
-			text = "",
+			text = " ",
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("WarningMsg", "fg")
+					or buffer.is_focused and get_hex("MoreMsg", "fg")
+					or get_hex("Comment", "fg")
 			end,
+			bg = get_hex("TabLineFill", "bg"),
 		},
 	},
 })
