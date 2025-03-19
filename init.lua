@@ -1,8 +1,4 @@
 -- Rocksmarker configuration initialization
--- Calls for input of options and autocommands
-require("options")
-require("commands")
-require("mappings")
 
 -- rocks.nvim bootstrap
 do
@@ -53,3 +49,8 @@ if not pcall(require, "rocks") then
 
 	vim.fn.delete(rocks_location, "rf")
 end
+
+-- Calls for input of options and autocommands
+require("options")
+require("commands")
+require("mappings")

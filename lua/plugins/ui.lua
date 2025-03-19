@@ -83,199 +83,87 @@ require("bamboo").setup({
 })
 -- }}}
 
--- feline settings - status line {{{
-local line_ok, feline = pcall(require, "feline")
-if not line_ok then
-	return
-end
+-- lualine.nvim settings {{{
+
 local get_col = require("cokeline/utils").get_hex
-local bamboo = {
-	fg = get_col("Pmenu", "fg"),
-	bg = get_col("TabLineFill", "bg"),
-	bg3 = get_col("Normal", "bg"),
-	grey = get_col("Comment", "fg"),
-	green = get_col("String", "fg"),
-	yellow = get_col("DiagnosticWarn", "fg"),
-	purple = get_col("DiagnosticHint", "fg"),
-	red = get_col("DiagnosticError", "fg"),
-	cyan = get_col("DiagnosticInfo", "fg"),
-	orange = get_col("WarningMsg", "fg"),
-	coral = get_col("ErrorMsg", "fg"),
-	blue = get_col("Function", "fg"),
-}
-local vi_mode_colors = {
-	NORMAL = "blue",
-	OP = "green",
-	INSERT = "green",
-	VISUAL = "orange",
-	LINES = "orange",
-	BLOCK = "coral",
-	REPLACE = "red",
-	COMMAND = "grey",
-}
-
-local c = {
-	vim_mode = {
-		provider = {
-			name = "vi_mode",
-			opts = {
-				show_mode_name = true,
-				padding = "center",
+require("lualine").setup({
+	options = {
+		section_separators = { left = "", right = "" },
+		component_separators = { left = "", right = "" },
+	},
+	sections = {
+		lualine_a = {
+			{
+				"mode",
+				fmt = function(mode)
+					return " " .. mode
+				end,
+				separator = { left = "" },
+				right_padding = 2,
+				color = { gui = "bold" },
 			},
 		},
-		hl = function()
-			return {
-				name = require("feline.providers.vi_mode").get_mode_highlight_name(),
-				bg = require("feline.providers.vi_mode").get_mode_color(),
-				fg = "bg3",
-				style = "bold",
-			}
-		end,
-		left_sep = "block",
-		right_sep = "right_rounded",
-	},
-	gitBranch = {
-		provider = "git_branch",
-		hl = {
-			fg = "orange",
-			style = "bold",
-		},
-		left_sep = "block",
-		right_sep = "block",
-	},
-	gitDiffAdded = {
-		provider = "git_diff_added",
-		hl = {
-			fg = "green",
-		},
-	},
-	gitDiffRemoved = {
-		provider = "git_diff_removed",
-		hl = {
-			fg = "coral",
-		},
-	},
-	gitDiffChanged = {
-		provider = "git_diff_changed",
-		hl = {
-			fg = "purple",
-		},
-	},
-	separator = {
-		provider = "",
-	},
-	fileinfo = {
-		provider = {
-			name = "file_info",
-			opts = {
-				type = "relative-short",
+		lualine_b = {
+			{
+				"filename",
+				color = { fg = get_col("String", "fg") },
+			},
+			{
+				"branch",
+				color = { fg = get_col("Debug", "fg") },
 			},
 		},
-		hl = {
-			fg = "grey",
+		lualine_c = {
+			{
+				"diff",
+				symbols = { added = " ", modified = " ", removed = " " },
+			},
+			"%=",
 		},
-		left_sep = " ",
-		right_sep = " ",
-	},
-	diagnostic_errors = {
-		provider = "diagnostic_errors",
-		hl = {
-			fg = "coral",
+		lualine_x = {
+			{
+				function()
+					local msg = "No Active Lsp"
+					local buf_ft = vim.bo[0].filetype
+					local clients = vim.lsp.get_clients()
+					if next(clients) == nil then
+						return msg
+					end
+					for _, client in ipairs(clients) do
+						local filetypes = client.config.filetypes
+						if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+							return client.name
+						end
+					end
+					return msg
+				end,
+				icon = " LSP:",
+				color = { fg = get_col("Comment", "fg"), gui = "bold" },
+			},
+		},
+		lualine_y = {
+			{
+				"diagnostics",
+				sources = { "nvim_diagnostic" },
+				symbols = { error = " ", warn = " ", info = " " },
+			},
+			"filetype",
+			"progress",
+		},
+		lualine_z = {
+			{ "location", separator = { right = "" }, left_padding = 2 },
 		},
 	},
-	diagnostic_warnings = {
-		provider = "diagnostic_warnings",
-		hl = {
-			fg = "yellow",
-		},
+	inactive_sections = {
+		lualine_a = { "filename" },
+		lualine_b = {},
+		lualine_c = {},
+		lualine_x = {},
+		lualine_y = {},
+		lualine_z = { "location" },
 	},
-	diagnostic_hints = {
-		provider = "diagnostic_hints",
-		hl = {
-			fg = "purple",
-		},
-	},
-	diagnostic_info = {
-		provider = "diagnostic_info",
-	},
-	lsp_client_names = {
-		provider = "lsp_client_names",
-		hl = {
-			fg = "grey",
-		},
-		left_sep = "block",
-	},
-
-	file_encoding = {
-		provider = "file_encoding",
-		hl = {
-			fg = "orange",
-			style = "italic",
-		},
-		left_sep = "block",
-		right_sep = "block",
-	},
-	position = {
-		provider = "position",
-		hl = {
-			fg = "green",
-		},
-		left_sep = "block",
-		right_sep = "block",
-	},
-	line_percentage = {
-		provider = "line_percentage",
-		hl = {
-			fg = "cyan",
-			style = "bold",
-		},
-		left_sep = "block",
-		right_sep = "block",
-	},
-}
--- Start statusline
-local left = {
-	c.vim_mode,
-	c.gitBranch,
-	c.gitDiffAdded,
-	c.gitDiffRemoved,
-	c.gitDiffChanged,
-	c.fileinfo,
-	c.separator,
-}
-
-local middle = {
-	c.lsp_client_names,
-	c.diagnostic_errors,
-	c.diagnostic_warnings,
-	c.diagnostic_info,
-	c.diagnostic_hints,
-}
-
-local right = {
-	c.file_encoding,
-	c.position,
-	c.line_percentage,
-}
-
-local components = {
-	active = {
-		left,
-		middle,
-		right,
-	},
-	inactive = {
-		left,
-		middle,
-		right,
-	},
-}
-
-feline.setup({
-	components = components,
-	theme = bamboo,
-	vi_mode_colors = vi_mode_colors,
 })
+
 -- }}}
 
 -- nvim-cokeline setting - bufferline {{{
@@ -291,12 +179,20 @@ require("cokeline").setup({
 
 	components = {
 		{
-			text = " ",
+			text = "",
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
 			end,
-			style = function(buffer)
-				return buffer.is_modified and "bold,underline" or "underline"
+			bg = get_hex("TabLineFill", "bg"),
+		},
+		{
+			text = " ",
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
@@ -304,10 +200,14 @@ require("cokeline").setup({
 				return buffer.devicon.icon .. " "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("Normal", "fg")
+					or buffer.is_focused and get_hex("Normal", "bg")
+					or get_hex("StatusLine", "bg")
 			end,
-			style = function(buffer)
-				return buffer.is_modified and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
@@ -315,18 +215,24 @@ require("cokeline").setup({
 				return buffer.index .. ": "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("Normal", "fg")
+					or buffer.is_focused and get_hex("Normal", "bg")
+					or get_hex("Normal", "bg")
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
 			text = function(buffer)
 				return buffer.unique_prefix
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
 			end,
 		},
 		{
@@ -334,11 +240,47 @@ require("cokeline").setup({
 				return buffer.filename .. " "
 			end,
 			fg = function(buffer)
-				return buffer.is_modified and get_hex("WarningMsg", "fg") or nil
+				return buffer.is_modified and get_hex("Normal", "fg")
+					or buffer.is_focused and get_hex("Normal", "bg")
+					or get_hex("StatusLine", "bg")
 			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold,underline" or "underline"
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
 			end,
+			style = "bold",
+		},
+		{
+			-- style = "NONE",
+			text = function(buffer)
+				if buffer.diagnostics.errors > 0 then
+					return " "
+				end
+				if buffer.is_modified then
+					return " "
+				end
+				return " "
+			end,
+			fg = function(buffer)
+				return buffer.is_modified and get_hex("Normal", "fg")
+					or buffer.is_focused and get_hex("Normal", "bg")
+					or get_hex("Normal", "bg")
+			end,
+			bg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
+			end,
+		},
+		{
+			text = " ",
+			fg = function(buffer)
+				return buffer.is_modified and get_hex("ErrorMsg", "fg")
+					or buffer.is_focused and get_hex("Keyword", "fg")
+					or get_hex("Comment", "fg")
+			end,
+			bg = get_hex("TabLineFill", "bg"),
 		},
 	},
 })
