@@ -129,6 +129,7 @@ items = [
     "neogit",
     "nvim-spectre",
     "indent-blankline.nvim",
+    "rainbow-delimiters.nvim",
     "nvim-autopairs",
     "nvim-highlight-colors",
     "yanky.nvim",

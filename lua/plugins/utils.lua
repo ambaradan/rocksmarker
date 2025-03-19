@@ -206,6 +206,32 @@ require("ibl").setup({
 })
 -- }}}
 
+-- raimbow-delimiters setting {{{
+
+require("rainbow-delimiters.setup").setup({
+	strategy = {
+		[""] = require("rainbow-delimiters").strategy["global"],
+		vim = require("rainbow-delimiters").strategy["local"],
+	},
+	query = {
+		[""] = "rainbow-delimiters",
+		lua = "rainbow-blocks",
+		html = "rainbow-tags",
+		javascript = "rainbow-delimiters-react",
+	},
+	highlight = {
+		"RainbowDelimiterRed",
+		"RainbowDelimiterYellow",
+		"RainbowDelimiterBlue",
+		"RainbowDelimiterOrange",
+		"RainbowDelimiterGreen",
+		"RainbowDelimiterViolet",
+		"RainbowDelimiterCyan",
+	},
+})
+
+-- }}}
+
 -- nvim-autopairs.nvim settings {{{
 require("nvim-autopairs").setup({
 	disable_filetype = { "TelescopePrompt", "vim" },
