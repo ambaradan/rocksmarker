@@ -469,10 +469,9 @@ end, make_opt("git commits buffer"))
 
 -- }}}
 
--- Toggle terminal mappings
-
+-- Toggle terminal mappings {{{
+--
 -- Mapping for toggling terminal in horizontal mode
-
 remap({ "n", "i", "t" }, "<a-t>", function()
 	require("toggleterm").toggle(0, nil, nil, "horizontal")
 end, make_opt("Toggle Terminal (Horizontal)"))
@@ -489,3 +488,18 @@ end, make_opt("Toggle Terminal (Float)"))
 
 -- Mapping to exit terminal mode using Esc
 remap("t", "jk", [[<C-\><C-n>]], make_opt("Exit Terminal Mode"))
+
+-- }}}
+
+-- fidget.nvim mappings {{{
+remap("n", "<leader>lg", function()
+	require("telescope").extensions.fidget.fidget({
+		layout_config = {
+			width = 0.8,
+			height = 0.4,
+			prompt_position = "bottom",
+		},
+	})
+end, make_opt("Check messages"))
+
+--}}}

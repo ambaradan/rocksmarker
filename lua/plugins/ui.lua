@@ -288,8 +288,19 @@ require("cokeline").setup({
 
 -- fidget.nvim settings - messages display {{{
 require("fidget").setup({
+	progress = {
+		ignore = {
+			["cmp"] = true, -- for the cmp plugin
+			["lspinfo"] = true, -- for the lspinfo buffer
+			["qf"] = true, -- for the quickfix window
+			["vim"] = true, -- for Vim buffers
+		},
+	},
 	notification = {
 		override_vim_notify = true,
+		window = {
+			normal_hl = "Keyword",
+		},
 	},
 })
 -- }}}
