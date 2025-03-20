@@ -68,6 +68,7 @@ require("telescope").load_extension("file_browser")
 require("telescope").load_extension("cmdline")
 require("telescope").load_extension("frecency")
 require("telescope").load_extension("ui-select")
+require("telescope").load_extension("fidget")
 -- }}}
 
 -- persisted.nvim settings {{{
