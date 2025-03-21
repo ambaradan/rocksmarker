@@ -42,7 +42,7 @@ end
 
 -- Save buffer in Insert and Normal modes {{{
 remap({ "i", "n" }, "<C-s>", function()
-	local buffer_name = vim.fn.bufname()
+	local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
 	if is_buffer_modified() then
 		vim.cmd("write")
 		vim.notify("Buffer '" .. buffer_name .. "' saved", vim.log.levels.INFO, {
@@ -319,7 +319,7 @@ end, make_opt("toggle buffer symbols"))
 
 -- session mappings - persisted.nvim {{{
 
--- Function to get session file name and clean session name
+-- Get session file name and session name
 local get_session_names = function()
 	local session_file_name = vim.fn.fnamemodify(vim.g.persisted_loaded_session, ":t")
 	local clean_session_name = session_file_name:match(".*%%(.*)") or session_file_name
@@ -330,6 +330,7 @@ end
 remap("n", "<A-s>", function()
 	require("telescope").extensions.persisted.persisted({
 		theme = "dropdown",
+		sorting_strategy = "ascending",
 		layout_config = {
 			width = 0.3,
 			height = 0.3,
@@ -349,6 +350,7 @@ end, make_opt("load last session"))
 remap("n", "<leader>sS", function()
 	require("telescope").extensions.persisted.persisted({
 		theme = "dropdown",
+		sorting_strategy = "ascending",
 		layout_config = {
 			width = 0.3,
 			height = 0.4,
