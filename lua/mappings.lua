@@ -406,6 +406,8 @@ remap("n", "<leader>st", function()
 	vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
 end, make_opt("Stop Current Session"))
 
+-- }}}
+
 -- search and replace - nvim-spectre {{{
 --
 -- Toggle Spectre search/replace
