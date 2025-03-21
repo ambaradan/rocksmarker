@@ -36,7 +36,7 @@ tree-sitter-markdown_inline = "0.0.37"
 # tree-sitter-regex = "0.0.40"
 tree-sitter-toml = "0.0.31"
 tree-sitter-vim = "0.0.30"
-tree-sitter-vimdoc = "0.0.31"
+tree-sitter-vimdoc = "0.0.32"
 tree-sitter-yaml = "0.0.32"
 
 # UI plugins
@@ -50,11 +50,11 @@ nvim-web-devicons = "0.100"
 "which-key.nvim" = "3.17.0"
 
 # Functional plugins
-"indent-blankline.nvim" = "3.8.7"
+"indent-blankline.nvim" = "3.9.0"
 "nvim-autopairs" = "scm"
 "telescope.nvim" = "scm"
 "neo-tree.nvim" = "3.31.1"
-"rainbow-delimiters.nvim" = "0.8.0"
+"rainbow-delimiters.nvim" = "0.9.0"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
 "yanky.nvim" = "2.0.0"
@@ -90,7 +90,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.5.0"
+"markview.nvim" = "25.5.3"
 
 # # Configuration file set in 'lua/mappings.lua'
 # [plugins."which-key.nvim"]
