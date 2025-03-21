@@ -42,13 +42,14 @@ end
 
 -- Save buffer in Insert and Normal modes {{{
 remap({ "i", "n" }, "<C-s>", function()
+	local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
 	if is_buffer_modified() then
 		vim.cmd("write")
-		vim.notify("Buffer saved", vim.log.levels.INFO, {
+		vim.notify("Buffer '" .. buffer_name .. "' saved", vim.log.levels.INFO, {
 			timeout = 250,
 		})
 	else
-		vim.notify("No changes to save", vim.log.levels.WARN, {
+		vim.notify("No changes to " .. buffer_name, vim.log.levels.WARN, {
 			timeout = 250,
 		})
 	end
@@ -96,16 +97,17 @@ end, make_opt("new buffer"))
 -- Close the current buffer {{{
 remap("n", "<leader>x", function()
 	local buf_modified = is_buffer_modified()
+	local buffer_name = vim.fn.bufname()
 	if buf_modified then
 		-- Use vim.ui.select for confirmation
 		vim.ui.select({ "Close Anyway", "Cancel" }, {
-			prompt = "Buffer has unsaved changes:",
+			prompt = "Buffer '" .. buffer_name .. "' has unsaved changes:",
 			-- Simulate title-like behavior with a descriptive prompt
 			kind = "buffer_close_confirmation",
 		}, function(choice)
 			if choice == "Close Anyway" then
 				vim.cmd("bdelete!")
-				vim.notify("Buffer closed forcefully", vim.log.levels.WARN, {
+				vim.notify("Buffer '" .. buffer_name .. "' closed forcefully", vim.log.levels.WARN, {
 					timeout = 1500,
 				})
 			else
@@ -116,7 +118,7 @@ remap("n", "<leader>x", function()
 		end)
 	else
 		vim.cmd("bdelete")
-		vim.notify("Buffer closed", vim.log.levels.INFO, {
+		vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, {
 			timeout = 1000,
 		})
 	end
@@ -317,10 +319,18 @@ end, make_opt("toggle buffer symbols"))
 
 -- session mappings - persisted.nvim {{{
 
+-- Get session file name and session name
+local get_session_names = function()
+	local session_file_name = vim.fn.fnamemodify(vim.g.persisted_loaded_session, ":t")
+	local clean_session_name = session_file_name:match(".*%%(.*)") or session_file_name
+	return session_file_name, clean_session_name
+end
+
 -- Select session via Telescope
 remap("n", "<A-s>", function()
 	require("telescope").extensions.persisted.persisted({
 		theme = "dropdown",
+		sorting_strategy = "ascending",
 		layout_config = {
 			width = 0.3,
 			height = 0.3,
@@ -332,13 +342,15 @@ end, make_opt("Telescope Session Selection"))
 -- Load last session
 remap("n", "<A-l>", function()
 	require("persisted").load({ last = true })
-	vim.notify("Loaded last session", vim.log.levels.INFO)
+	local _, clean_session_name = get_session_names()
+	vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
 end, make_opt("load last session"))
 
 -- Select session via Telescope (alternative mapping)
 remap("n", "<leader>sS", function()
 	require("telescope").extensions.persisted.persisted({
 		theme = "dropdown",
+		sorting_strategy = "ascending",
 		layout_config = {
 			width = 0.3,
 			height = 0.4,
@@ -350,22 +362,23 @@ end, make_opt("Telescope Session Selection"))
 -- Save current session
 remap("n", "<leader>ss", function()
 	require("persisted").save()
-	vim.notify("Session saved", vim.log.levels.INFO)
+	local _, clean_session_name = get_session_names()
+	vim.notify("Session '" .. clean_session_name .. "' saved", vim.log.levels.INFO)
 end, make_opt("Save Current Session"))
 
 -- Load last session (alternative mapping)
 remap("n", "<leader>sl", function()
 	require("persisted").load({ last = true })
-	vim.notify("Loaded last session", vim.log.levels.INFO)
+	local _, clean_session_name = get_session_names()
+	vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
 end, make_opt("Load Last Session"))
 
 -- Stop current session
 remap("n", "<leader>st", function()
 	require("persisted").stop()
-	vim.notify("Current session stopped", vim.log.levels.INFO)
+	local _, clean_session_name = get_session_names()
+	vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
 end, make_opt("Stop Current Session"))
-
--- }}}
 
 -- search and replace - nvim-spectre {{{
 --
@@ -494,6 +507,7 @@ remap("t", "jk", [[<C-\><C-n>]], make_opt("Exit Terminal Mode"))
 -- fidget.nvim mappings {{{
 remap("n", "<leader>lg", function()
 	require("telescope").extensions.fidget.fidget({
+		sorting_strategy = "ascending",
 		layout_config = {
 			width = 0.8,
 			height = 0.4,
