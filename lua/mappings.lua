@@ -100,12 +100,17 @@ remap("n", "<leader>x", function()
 	local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
 	if buf_modified then
 		-- Use vim.ui.select for confirmation
-		vim.ui.select({ "Close Anyway", "Cancel" }, {
+		vim.ui.select({ "Save and Close", "Close Anyway", "Cancel" }, {
 			prompt = "Buffer '" .. buffer_name .. "' has unsaved changes:",
 			-- Simulate title-like behavior with a descriptive prompt
 			kind = "buffer_close_confirmation",
 		}, function(choice)
-			if choice == "Close Anyway" then
+			if choice == "Save and Close" then
+				vim.cmd("write | bdelete")
+				vim.notify("Buffer '" .. buffer_name .. "' saved and closed", vim.log.levels.INFO, {
+					timeout = 1500,
+				})
+			elseif choice == "Close Anyway" then
 				vim.cmd("bdelete!")
 				vim.notify("Buffer '" .. buffer_name .. "' closed forcefully", vim.log.levels.WARN, {
 					timeout = 1500,
@@ -126,20 +131,40 @@ end, make_opt("close buffer"))
 -- }}}
 
 -- Close all buffers {{{
+
+-- Function to save all buffers
+local function save_all_buffers()
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		if is_buffer_modified(bufnr) then
+			vim.api.nvim_buf_call(bufnr, function()
+				vim.cmd("w!")
+			end)
+		end
+	end
+end
+
 remap("n", "<leader>X", function()
 	local modified_bufs = {}
-
 	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
 		if is_buffer_modified(bufnr) then
 			table.insert(modified_bufs, bufnr)
 		end
 	end
-
 	if #modified_bufs > 0 then
-		vim.ui.select({ "Yes", "No" }, {
+		vim.ui.select({ "Yes (Save all)", "Yes (Discard changes)", "Cancel" }, {
 			prompt = string.format("%d buffer(s) have unsaved changes. Close all?", #modified_bufs),
 		}, function(choice)
-			if choice == "Yes" then
+			if choice == "Yes (Save all)" then
+				save_all_buffers()
+				vim.cmd("%bdelete!")
+				vim.notify(
+					string.format("Closed %d buffers with saving changes", #modified_bufs),
+					vim.log.levels.INFO,
+					{
+						timeout = 2000,
+					}
+				)
+			elseif choice == "Yes (Discard changes)" then
 				vim.cmd("%bdelete!")
 				vim.notify(string.format("Closed %d buffers forcefully", #modified_bufs), vim.log.levels.WARN, {
 					timeout = 2000,
@@ -157,6 +182,7 @@ remap("n", "<leader>X", function()
 		})
 	end
 end, make_opt("close all buffers"))
+
 -- }}}
 
 -- }}}
