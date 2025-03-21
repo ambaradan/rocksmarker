@@ -97,7 +97,7 @@ end, make_opt("new buffer"))
 -- Close the current buffer {{{
 remap("n", "<leader>x", function()
 	local buf_modified = is_buffer_modified()
-	local buffer_name = vim.fn.bufname()
+	local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
 	if buf_modified then
 		-- Use vim.ui.select for confirmation
 		vim.ui.select({ "Close Anyway", "Cancel" }, {
