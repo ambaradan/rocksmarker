@@ -199,6 +199,10 @@ function M.close_current_buffer()
 	else
 		--- If no unsaved changes, just close the buffer
 		vim.cmd("bdelete")
+		--- Notify that the buffer has been closed
+		vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, {
+			timeout = 250,
+		})
 	end
 end
 --- }}}
