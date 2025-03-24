@@ -1,3 +1,6 @@
+-- Require the color utilities module
+local colors = require("utils.colors")
+
 -- theme 'bamboo' settings {{{
 require("bamboo").setup({
 	-- Main options --
@@ -85,7 +88,6 @@ require("bamboo").setup({
 
 -- lualine.nvim settings {{{
 
-local get_col = require("cokeline/utils").get_hex
 require("lualine").setup({
 	options = {
 		section_separators = { left = "", right = "" },
@@ -106,11 +108,11 @@ require("lualine").setup({
 		lualine_b = {
 			{
 				"filename",
-				color = { fg = get_col("String", "fg") },
+				color = { fg = colors.get_col("String", "fg") },
 			},
 			{
 				"branch",
-				color = { fg = get_col("Debug", "fg") },
+				color = { fg = colors.get_col("Debug", "fg") },
 			},
 		},
 		lualine_c = {
@@ -138,7 +140,7 @@ require("lualine").setup({
 					return msg
 				end,
 				icon = " LSP:",
-				color = { fg = get_col("Comment", "fg"), gui = "bold" },
+				color = { fg = colors.get_col("Comment", "fg"), gui = "bold" },
 			},
 		},
 		lualine_y = {
