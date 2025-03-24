@@ -187,7 +187,7 @@ function M.close_current_buffer()
 					timeout = 250,
 				})
 				--- Close the buffer
-				vim.cmd("bdelete")
+				vim.cmd("bdelete!")
 			elseif choice == "Cancel" then
 				--- User canceled the action
 				vim.notify("Action canceled. Buffer '" .. buffer_name .. "' remains open.", vim.log.levels.INFO, {
