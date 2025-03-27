@@ -168,124 +168,69 @@ require("lualine").setup({
 
 -- }}}
 
--- nvim-cokeline setting - bufferline {{{
-local get_hex = require("cokeline/utils").get_hex
+-- bufferline.nvim settings {{{
 
-require("cokeline").setup({
-	default_hl = {
-		fg = function(buffer)
-			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Conceal", "fg")
+require("bufferline").setup({
+	options = {
+		-- Appearance settings
+		mode = "buffers", -- Display mode (buffers or tabs)
+		numbers = "both", -- Show buffer index and ordinal number
+		close_command = "bdelete! %d", -- Command to close a buffer
+		right_mouse_command = "bdelete! %d", -- Right-click buffer action
+		left_mouse_command = "buffer %d", -- Left-click buffer action
+		indicator = {
+			icon = "▎", -- Buffer indicator style
+			style = "icon",
+		},
+
+		-- Styling
+		buffer_close_icon = "󰅖",
+		modified_icon = "● ",
+		close_icon = " ",
+		left_trunc_marker = " ",
+		right_trunc_marker = " ",
+
+		-- Diagnostics integration
+		diagnostics = "nvim_lsp",
+		diagnostics_update_in_insert = false,
+		diagnostics_indicator = function(count, level)
+			local icon = level:match("error") and " " or " "
+			return icon .. count
 		end,
-		bg = get_hex("TabLineFill", "bg"),
-	},
 
-	components = {
-		{
-			text = "",
-			fg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-			bg = get_hex("TabLineFill", "bg"),
+		-- Custom coloring
+		highlights = {
+			buffer_selected = {
+				bold = true,
+				italic = true,
+			},
+			diagnostic_selected = {
+				bold = true,
+			},
 		},
-		{
-			text = " ",
-			bg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-		},
-		{
-			text = function(buffer)
-				return buffer.devicon.icon .. " "
-			end,
-			fg = function(buffer)
-				return buffer.is_modified and get_hex("Normal", "fg")
-					or buffer.is_focused and get_hex("Normal", "bg")
-					or get_hex("StatusLine", "bg")
-			end,
-			bg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-		},
-		{
-			text = function(buffer)
-				return buffer.index .. ": "
-			end,
-			fg = function(buffer)
-				return buffer.is_modified and get_hex("Normal", "fg")
-					or buffer.is_focused and get_hex("Normal", "bg")
-					or get_hex("Normal", "bg")
-			end,
-			bg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-		},
-		{
-			text = function(buffer)
-				return buffer.unique_prefix
-			end,
-			bg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-		},
-		{
-			text = function(buffer)
-				return buffer.filename .. " "
-			end,
-			fg = function(buffer)
-				return buffer.is_modified and get_hex("Normal", "fg")
-					or buffer.is_focused and get_hex("Normal", "bg")
-					or get_hex("StatusLine", "bg")
-			end,
-			bg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-			style = "bold",
-		},
-		{
-			-- style = "NONE",
-			text = function(buffer)
-				if buffer.diagnostics.errors > 0 then
-					return " "
-				end
-				if buffer.is_modified then
-					return " "
-				end
-				return " "
-			end,
-			fg = function(buffer)
-				return buffer.is_modified and get_hex("Normal", "fg")
-					or buffer.is_focused and get_hex("Normal", "bg")
-					or get_hex("Normal", "bg")
-			end,
-			bg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-		},
-		{
-			text = " ",
-			fg = function(buffer)
-				return buffer.is_modified and get_hex("ErrorMsg", "fg")
-					or buffer.is_focused and get_hex("Keyword", "fg")
-					or get_hex("Comment", "fg")
-			end,
-			bg = get_hex("TabLineFill", "bg"),
+
+		-- Separator styles
+		separator_style = "slant", -- Options: "slant", "thick", "thin", "padded"
+		always_show_bufferline = true,
+		show_buffer_icons = true,
+		show_buffer_close_icons = true,
+		show_close_icon = true,
+
+		-- Sorting
+		sort_by = "insert_after_current",
+
+		-- Offsets (e.g., for file tree)
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = "File Explorer",
+				highlight = "Directory",
+				separator = true,
+			},
 		},
 	},
 })
+
 -- }}}
 
 -- fidget.nvim settings - messages display {{{
