@@ -87,12 +87,12 @@ end, editor.make_opt("Reveal File in workspace"))
 
 -- }}}
 
--- nvim-cokeline {{{
+-- bufferline.nvim mappings {{{
 
--- Remap <Tab> to focus on the next buffer
-editor.remap("n", "<Tab>", "<Plug>(cokeline-focus-next)", editor.make_opt("next buffer"))
--- Remap <S-Tab> (Shift + Tab) to focus on the previous buffer
-editor.remap("n", "<S-Tab>", "<Plug>(cokeline-focus-prev)", editor.make_opt("previous buffer"))
+editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", editor.make_opt("Buffer Line Pick"))
+editor.remap("n", "<leader>bc", ":BufferLinePickClose<CR>", editor.make_opt("Buffer Line Pick Close"))
+editor.remap("n", "<TAB>", ":BufferLineCycleNext<CR>", editor.make_opt("Buffer Line Cycle Next"))
+editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", editor.make_opt("Buffer Line Cycle Prev"))
 
 -- }}}
 
