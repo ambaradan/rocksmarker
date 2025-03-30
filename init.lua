@@ -54,3 +54,9 @@ end
 require("options")
 require("commands")
 require("mappings")
+
+local pyvenv = require("utils.python_venv")
+pyvenv.setup()
+
+local mkdocs = require("utils.mkdocs")
+mkdocs.setup()
