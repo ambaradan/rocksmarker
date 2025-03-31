@@ -47,3 +47,6 @@ keymap
 toml
 Incus
 lxc
+MkDocs
+RockyDocs
+venv
