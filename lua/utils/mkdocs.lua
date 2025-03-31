@@ -132,28 +132,28 @@ end
 
 -- Ensures that documentation directories exist in the current project
 -- Creates them if they don't exist
-local function ensure_docs_directories()
-	-- Get the current working directory (project root)
-	local project_root = vim.fn.getcwd()
-
-	-- Define the documentation directory paths we want to ensure exist
-	-- Supports multiple documentation directory structures:
-	local docs_dirs = {
-		project_root .. "/docs", -- Standard docs directory (e.g., for M.material)
-		project_root .. "/docs/docs", -- Nested docs directory (e.g., for M.rockydocs)
-	}
-
-	-- Iterate through each documentation directory path
-	for _, dir in ipairs(docs_dirs) do
-		-- Check if directory doesn't exist (vim.fn.isdirectory returns 0 if not found)
-		if vim.fn.isdirectory(dir) == 0 then
-			-- Create directory with parent directories if needed ("p" flag)
-			vim.fn.mkdir(dir, "p")
-			-- Notify user that directory was created
-			vim.notify("Created docs directory: " .. dir, vim.log.levels.INFO)
-		end
-	end
-end
+-- local function ensure_docs_directories()
+-- 	-- Get the current working directory (project root)
+-- 	local project_root = vim.fn.getcwd()
+--
+-- 	-- Define the documentation directory paths we want to ensure exist
+-- 	-- Supports multiple documentation directory structures:
+-- 	local docs_dirs = {
+-- 		project_root .. "/docs", -- Standard docs directory (e.g., for M.material)
+-- 		project_root .. "/docs/docs", -- Nested docs directory (e.g., for M.rockydocs)
+-- 	}
+--
+-- 	-- Iterate through each documentation directory path
+-- 	for _, dir in ipairs(docs_dirs) do
+-- 		-- Check if directory doesn't exist (vim.fn.isdirectory returns 0 if not found)
+-- 		if vim.fn.isdirectory(dir) == 0 then
+-- 			-- Create directory with parent directories if needed ("p" flag)
+-- 			vim.fn.mkdir(dir, "p")
+-- 			-- Notify user that directory was created
+-- 			vim.notify("Created docs directory: " .. dir, vim.log.levels.INFO)
+-- 		end
+-- 	end
+-- end
 
 --- Set up MkDocs for Rocky Documentation with the specified templates and themes.
 --- @return boolean Indicates success or failure of the setup process
@@ -190,8 +190,8 @@ function M.rockydocs()
 		return false
 	end
 
-	-- Install requirements
-	vim.notify("Installing RockyDocs enviroments...", vim.log.levels.INFO)
+	-- Install requirements (always run this part)
+	vim.notify("Installing RockyDocs environments...", vim.log.levels.INFO)
 
 	local pip_cmd = venv.get_python_path() .. " -m pip install -r " .. vim.fn.shellescape(requirements_path)
 	local install_result = vim.fn.system(pip_cmd)
@@ -210,74 +210,97 @@ function M.rockydocs()
 		return false
 	end
 
-	-- Ensure docs directories exist
-	ensure_docs_directories()
+	-- Only proceed with file copying if the files don't exist
+	local files_copied = false
 
-	-- Copy rocky-mkdocs.yml template
-	if vim.fn.filereadable(template_path) == 1 then
-		local copy_cmd = "cp " .. vim.fn.shellescape(template_path) .. " " .. vim.fn.shellescape(mkdocs_target)
-		local copy_result = vim.fn.system(copy_cmd)
+	-- Copy rocky-mkdocs.yml template if it doesn't exist
+	if vim.fn.filereadable(mkdocs_target) == 0 then
+		if vim.fn.filereadable(template_path) == 1 then
+			local copy_cmd = "cp " .. vim.fn.shellescape(template_path) .. " " .. vim.fn.shellescape(mkdocs_target)
+			local copy_result = vim.fn.system(copy_cmd)
 
-		if vim.v.shell_error ~= 0 then
-			vim.notify("Failed to copy template:\n" .. copy_result, vim.log.levels.ERROR)
-			return false
+			if vim.v.shell_error ~= 0 then
+				vim.notify("Failed to copy template:\n" .. copy_result, vim.log.levels.ERROR)
+				return false
+			end
+			files_copied = true
+		else
+			vim.notify("No rocky-mkdocs.yml template found at: " .. template_path, vim.log.levels.ERROR)
+			return false -- Abort if the template does not exist
 		end
 	else
-		vim.notify("No rocky-mkdocs.yml template found at: " .. template_path, vim.log.levels.ERROR)
-		return false -- Abort if the template does not exist
+		vim.notify("mkdocs.yml already exists - skipping template copy", vim.log.levels.INFO)
 	end
 
-	-- Copy theme folder if it exists
-	if vim.fn.isdirectory(theme_path) == 1 then
-		-- Create target directory if it doesn't exist
-		if vim.fn.isdirectory(theme_target) == 0 then
-			vim.fn.mkdir(theme_target, "p")
-		end
+	-- Copy theme folder if it doesn't exist
+	if vim.fn.isdirectory(theme_target) == 0 then
+		if vim.fn.isdirectory(theme_path) == 1 then
+			-- Create target directory if it doesn't exist
+			if vim.fn.isdirectory(theme_target) == 0 then
+				vim.fn.mkdir(theme_target, "p")
+			end
 
-		local copy_theme_cmd = "rsync -a "
-			.. vim.fn.shellescape(theme_path)
-			.. "/ "
-			.. vim.fn.shellescape(theme_target)
-			.. "/"
-		local theme_result = vim.fn.system(copy_theme_cmd)
+			local copy_theme_cmd = "rsync -a "
+				.. vim.fn.shellescape(theme_path)
+				.. "/ "
+				.. vim.fn.shellescape(theme_target)
+				.. "/"
+			local theme_result = vim.fn.system(copy_theme_cmd)
 
-		if vim.v.shell_error ~= 0 then
-			vim.notify("Failed to copy theme:\n" .. theme_result, vim.log.levels.ERROR)
-			return false
+			if vim.v.shell_error ~= 0 then
+				vim.notify("Failed to copy theme:\n" .. theme_result, vim.log.levels.ERROR)
+				return false
+			end
+			files_copied = true
+			vim.notify("Successfully copied theme folder to project root", vim.log.levels.INFO)
+		else
+			vim.notify("No theme folder found at: " .. theme_path, vim.log.levels.ERROR)
+			return false -- Abort if the theme folder does not exist
 		end
-		vim.notify("Successfully copied theme folder to project root", vim.log.levels.INFO)
 	else
-		vim.notify("No theme folder found at: " .. theme_path, vim.log.levels.ERROR)
-		return false -- Abort if the theme folder does not exist
+		vim.notify("theme folder already exists - skipping copy", vim.log.levels.INFO)
 	end
 
-	-- Copy rocky-index.md to docs/docs/index.md
-	if vim.fn.filereadable(index_template_path) == 1 then
-		-- Ensure docs/docs directory exists
-		if vim.fn.isdirectory(docs_docs_dir) == 0 then
-			vim.fn.mkdir(docs_docs_dir, "p")
-		end
+	-- Copy rocky-index.md to docs/docs/index.md if it doesn't exist
+	if vim.fn.filereadable(index_target) == 0 then
+		if vim.fn.filereadable(index_template_path) == 1 then
+			-- Ensure docs/docs directory exists
+			if vim.fn.isdirectory(docs_docs_dir) == 0 then
+				vim.fn.mkdir(docs_docs_dir, "p")
+			end
 
-		local copy_index_cmd = "cp "
-			.. vim.fn.shellescape(index_template_path)
-			.. " "
-			.. vim.fn.shellescape(index_target)
-		local index_result = vim.fn.system(copy_index_cmd)
+			local copy_index_cmd = "cp "
+				.. vim.fn.shellescape(index_template_path)
+				.. " "
+				.. vim.fn.shellescape(index_target)
+			local index_result = vim.fn.system(copy_index_cmd)
 
-		if vim.v.shell_error ~= 0 then
-			vim.notify("Failed to copy index template:\n" .. index_result, vim.log.levels.ERROR)
-			return false
+			if vim.v.shell_error ~= 0 then
+				vim.notify("Failed to copy index template:\n" .. index_result, vim.log.levels.ERROR)
+				return false
+			end
+			files_copied = true
+			vim.notify("Successfully copied template to docs/docs/index.md", vim.log.levels.INFO)
+		else
+			vim.notify("No rocky-index.md template found at: " .. index_template_path, vim.log.levels.ERROR)
+			return false -- Abort if the index template does not exist
 		end
-		vim.notify("Successfully copied template to docs/docs/index.md", vim.log.levels.INFO)
 	else
-		vim.notify("No rocky-index.md template found at: " .. index_template_path, vim.log.levels.ERROR)
-		return false -- Abort if the index template does not exist
+		vim.notify("docs/docs/index.md already exists - skipping copy", vim.log.levels.INFO)
 	end
 
-	vim.notify(
-		"Successfully set up MkDocs with:\n- Rocky configuration\n- Theme folder\n- Documentation index",
-		vim.log.levels.INFO
-	)
+	if files_copied then
+		vim.notify(
+			"Successfully set up MkDocs with:\n- Rocky configuration\n- Theme folder\n- Documentation index",
+			vim.log.levels.INFO
+		)
+	else
+		vim.notify(
+			"Requirements installed successfully, but no files were copied as they already exist",
+			vim.log.levels.INFO
+		)
+	end
+
 	return true
 end
 
@@ -335,7 +358,7 @@ function M.serve()
 		vim.fn.jobstop(server_job_id)
 	end
 
-	local cmd = venv.get_python_path() .. " -m mkdocs serve -q --dirty"
+	local cmd = venv.get_python_path() .. " -m mkdocs serve -q"
 	vim.notify("Starting MkDocs server...", vim.log.levels.INFO)
 
 	-- Start the server as a background job
