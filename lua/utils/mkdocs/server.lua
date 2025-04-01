@@ -1,6 +1,6 @@
 local M = {}
 
-local venv = require("utils.python_venv")
+local venv = require("utils.mkdocs.venv")
 
 -- common utilities {{{
 
@@ -135,6 +135,9 @@ function M.material()
 		end
 
 		vim.notify("Successfully installed MkDocs and Material theme", vim.log.levels.INFO)
+
+		deactivate_venv()
+
 		return true
 	end
 end
@@ -289,6 +292,8 @@ function M.rockydocs()
 		)
 	end
 
+	deactivate_venv()
+
 	return true
 end
 
@@ -316,6 +321,9 @@ function M.new_project()
 		return false
 	else
 		vim.notify("Successfully created MkDocs project", vim.log.levels.INFO)
+
+		deactivate_venv()
+
 		return true
 	end
 end
@@ -437,9 +445,9 @@ end
 -- Setup commands for Neovim {{{
 
 function M.setup()
-	vim.api.nvim_create_user_command("MkSetupMaterial", M.material, {})
-	vim.api.nvim_create_user_command("MkSetupRockydocs", M.rockydocs, {})
-	vim.api.nvim_create_user_command("MkSetupStandard", M.new_project, {})
+	vim.api.nvim_create_user_command("MkdocsRockyDocsSetup", M.rockydocs, {})
+	vim.api.nvim_create_user_command("MkdocsMaterialSetup", M.material, {})
+	vim.api.nvim_create_user_command("MkdocsStandardSetup", M.new_project, {})
 	vim.api.nvim_create_user_command("MkdocsServe", M.serve, {})
 	vim.api.nvim_create_user_command("MkdocsStop", M.stop_serve, {})
 	vim.api.nvim_create_user_command("MkdocsBuild", M.build, {})
