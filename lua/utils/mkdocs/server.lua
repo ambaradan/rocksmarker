@@ -49,9 +49,6 @@ end
 --- Install MkDocs and the Material theme, ensuring a virtual environment is active.
 --- @return boolean Indicates success or failure of the installation process.
 function M.material()
-	-- Activate the virtual environment
-	activate_venv()
-
 	-- Check if the virtual environment is active
 	if not venv.is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
@@ -166,8 +163,6 @@ function M.rockydocs()
 	local docs_dir = target_path .. "/docs"
 	local docs_docs_dir = docs_dir .. "/docs" -- This folder will be created for rockydocs
 	local index_target = docs_docs_dir .. "/index.md"
-
-	activate_venv() -- Activate the virtual environment
 
 	-- Check if the virtual environment is active
 	if not venv.is_active() then
