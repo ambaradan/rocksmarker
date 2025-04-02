@@ -349,7 +349,7 @@ function M.serve()
 		vim.fn.jobstop(server_job_id)
 	end
 
-	local cmd = venv.get_python_path() .. " -m mkdocs serve -q --dirty"
+	local cmd = venv.get_python_path() .. " -m mkdocs serve -q"
 	vim.notify("Starting MkDocs server...", vim.log.levels.INFO)
 
 	-- Start the server as a background job
