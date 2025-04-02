@@ -9,7 +9,6 @@ local config = {
 		"/usr/local/bin", -- System tools
 		"/usr/bin",
 		os.getenv("HOME") .. "/.local/bin",
-		os.getenv("HOME") .. "/.pyenv/shims", -- pyenv support
 	},
 }
 -- }}}
