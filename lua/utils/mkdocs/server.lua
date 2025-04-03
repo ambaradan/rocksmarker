@@ -141,7 +141,7 @@ end
 
 -- }}}
 
--- Install MkDocs for RockyDocs {{{
+-- Install MkDocs for RockyDocs Project {{{
 
 --- Set up MkDocs for Rocky Documentation with the specified templates and themes.
 --- @return boolean Indicates success or failure of the setup process
@@ -437,6 +437,33 @@ end
 
 -- }}}
 
+-- Show the status of MkDocs and its environment {{{
+function M.mkdocs_status()
+	local status = "MkDocs status:\n"
+
+	if not venv.is_active() then
+		status = status .. "No active virtual environment\n"
+	else
+		status = status .. "Virtual environment: " .. vim.env.VIRTUAL_ENV .. "\n"
+		status = status .. "MkDocs installed: " .. (M.is_installed() and "Yes" or "No") .. "\n"
+
+		if vim.fn.filereadable("mkdocs.yml") == 1 then
+			status = status .. "MkDocs project detected in current directory\n"
+		else
+			status = status .. "No MkDocs project in current directory\n"
+		end
+	end
+
+	if server_job_id and vim.fn.jobwait({ server_job_id }, 0)[1] == -1 then
+		status = status .. "MkDocs server: Running\n"
+	else
+		status = status .. "MkDocs server: Not running\n"
+	end
+
+	vim.notify(status, vim.log.levels.INFO)
+end
+-- }}}
+
 -- Setup commands for Neovim {{{
 
 function M.setup()
@@ -446,30 +473,7 @@ function M.setup()
 	vim.api.nvim_create_user_command("MkdocsServe", M.serve, {})
 	vim.api.nvim_create_user_command("MkdocsStop", M.stop_serve, {})
 	vim.api.nvim_create_user_command("MkdocsBuild", M.build, {})
-	vim.api.nvim_create_user_command("MkdocsStatus", function()
-		local status = "MkDocs status:\n"
-
-		if not venv.is_active() then
-			status = status .. "No active virtual environment\n"
-		else
-			status = status .. "Virtual environment: " .. vim.env.VIRTUAL_ENV .. "\n"
-			status = status .. "MkDocs installed: " .. (M.is_installed() and "Yes" or "No") .. "\n"
-
-			if vim.fn.filereadable("mkdocs.yml") == 1 then
-				status = status .. "MkDocs project detected in current directory\n"
-			else
-				status = status .. "No MkDocs project in current directory\n"
-			end
-		end
-
-		if server_job_id and vim.fn.jobwait({ server_job_id }, 0)[1] == -1 then
-			status = status .. "MkDocs server: Running\n"
-		else
-			status = status .. "MkDocs server: Not running\n"
-		end
-
-		vim.notify(status, vim.log.levels.INFO)
-	end, {})
+	vim.api.nvim_create_user_command("MkdocsStatus", M.mkdocs_status, {})
 end
 
 -- }}}
