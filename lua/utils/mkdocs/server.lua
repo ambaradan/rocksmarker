@@ -78,7 +78,7 @@ function M.material()
 		return false
 	else
 		-- Path to the template mkdocs.yml file
-		local template_path = vim.fn.stdpath("config") .. "/lua/utils/template/material-mkdocs.yml"
+		local template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-mkdocs.yml"
 		local target_path = vim.fn.getcwd() .. "/mkdocs.yml"
 
 		-- Only proceed with file copying if the file doesn't exist
@@ -107,7 +107,7 @@ function M.material()
 		end
 
 		-- Path to the material-index.md file
-		local index_template_path = vim.fn.stdpath("config") .. "/lua/utils/template/material-index.md"
+		local index_template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-index.md"
 		local index_target_path = docs_dir .. "/index.md"
 
 		-- Only proceed with file copying if the file doesn't exist
@@ -148,7 +148,7 @@ end
 function M.rockydocs()
 	-- Get paths
 	local config_path = vim.fn.stdpath("config")
-	local template_dir = config_path .. "/lua/utils/template"
+	local template_dir = config_path .. "/lua/utils/templates"
 
 	-- Source paths
 	local requirements_path = template_dir .. "/rockydocs-requirements.txt"
