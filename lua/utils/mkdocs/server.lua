@@ -297,9 +297,23 @@ end
 -- Create a new MkDocs project in the current directory {{{
 function M.new_project()
 	activate_venv()
+
 	if not venv.is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
 		return false
+	end
+
+	-- Install MkDocs
+	if not M.is_installed() then
+		local cmd = venv.get_python_path() .. " -m pip install --upgrade pip"
+		vim.fn.system(cmd)
+		cmd = venv.get_python_path() .. " -m pip install mkdocs"
+		vim.notify("Installing MkDocs...", vim.log.levels.INFO)
+		vim.fn.system(cmd)
+		if vim.v.shell_error ~= 0 then
+			vim.notify("Failed to install MkDocs", vim.log.levels.ERROR)
+			return false
+		end
 	end
 
 	-- Check if MkDocs is installed
@@ -309,16 +323,14 @@ function M.new_project()
 
 	local cmd = venv.get_python_path() .. " -m mkdocs new ."
 	vim.notify("Creating new MkDocs project...", vim.log.levels.INFO)
-
 	vim.fn.system(cmd)
+
 	if vim.v.shell_error ~= 0 then
 		vim.notify("Failed to create MkDocs project", vim.log.levels.ERROR)
 		return false
 	else
 		vim.notify("Successfully created MkDocs project", vim.log.levels.INFO)
-
 		deactivate_venv()
-
 		return true
 	end
 end
