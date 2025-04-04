@@ -93,7 +93,7 @@ function M.material()
 				end
 				vim.notify("Copied mkdocs.yml in the project root", vim.log.levels.INFO)
 			else
-				vim.notify("No mkdocs.yml template found at: " .. template_path, vim.log.levels.WARN)
+				vim.notify("No mkdocs.yml template found at:\n" .. template_path, vim.log.levels.WARN)
 			end
 		else
 			vim.notify("mkdocs.yml already exists - skipping template copy", vim.log.levels.INFO)
@@ -125,7 +125,7 @@ function M.material()
 				end
 				vim.notify("Copied template to docs/index.md", vim.log.levels.INFO)
 			else
-				vim.notify("No material-index.md template found at: " .. index_template_path, vim.log.levels.WARN)
+				vim.notify("No material-index.md template found at:\n" .. index_template_path, vim.log.levels.WARN)
 			end
 		else
 			vim.notify("docs/index.md already exists - skipping copy", vim.log.levels.INFO)
@@ -172,7 +172,7 @@ function M.rockydocs()
 
 	-- Verify if the requirements template exists
 	if vim.fn.filereadable(requirements_path) == 0 then
-		vim.notify("Requirements template not found: " .. requirements_path, vim.log.levels.ERROR)
+		vim.notify("Requirements template not found:\n" .. requirements_path, vim.log.levels.ERROR)
 		return false
 	end
 
@@ -211,7 +211,7 @@ function M.rockydocs()
 			end
 			files_copied = true
 		else
-			vim.notify("No rocky-mkdocs.yml template found at: " .. template_path, vim.log.levels.ERROR)
+			vim.notify("No rocky-mkdocs.yml template found at:\n" .. template_path, vim.log.levels.ERROR)
 			return false -- Abort if the template does not exist
 		end
 	else
@@ -240,7 +240,7 @@ function M.rockydocs()
 			files_copied = true
 			vim.notify("Successfully copied theme folder to project root", vim.log.levels.INFO)
 		else
-			vim.notify("No theme folder found at: " .. theme_path, vim.log.levels.ERROR)
+			vim.notify("No theme folder found at:\n" .. theme_path, vim.log.levels.ERROR)
 			return false -- Abort if the theme folder does not exist
 		end
 	else
@@ -268,7 +268,7 @@ function M.rockydocs()
 			files_copied = true
 			vim.notify("Successfully copied template to docs/docs/index.md", vim.log.levels.INFO)
 		else
-			vim.notify("No rocky-index.md template found at: " .. index_template_path, vim.log.levels.ERROR)
+			vim.notify("No rocky-index.md template found at:\n" .. index_template_path, vim.log.levels.ERROR)
 			return false -- Abort if the index template does not exist
 		end
 	else
@@ -413,7 +413,7 @@ function M.build()
 	end
 
 	if not M.is_installed() then
-		vim.notify("MkDocs is not installed. Run :MkdocsInstall first", vim.log.levels.ERROR)
+		vim.notify("MkDocs is not installed. Install MkDocs Enviroment first", vim.log.levels.ERROR)
 		return false
 	end
 
