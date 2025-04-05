@@ -1,24 +1,45 @@
 local M = {}
 
--- Configuration {{{
-local config = {
-	venvs_dir = vim.fn.stdpath("data") .. "/venvs",
-	-- Paths that should always be available (Mason binaries, system tools)
-	preserved_paths = {
-		vim.fn.stdpath("data") .. "/mason/bin", -- Mason binaries
-		"/usr/local/bin", -- System tools
-		"/usr/bin",
-		os.getenv("HOME") .. "/.local/bin",
-	},
-}
--- }}}
+local config = require("utils.mkdocs.config").config
+local state = require("utils.mkdocs.config").state
 
--- State management {{{
-local state = {
-	original_path = vim.env.PATH,
-	original_python_path = vim.fn.exepath("python"),
-	active = false,
-}
+-- common utilities {{{
+
+-- Function to activate the virtual environment for Mkdocs commands
+function M.activate_venv()
+	if not M.is_active() then
+		M.activate()
+	end
+end
+
+-- Function to deactivate the virtual environment if active
+function M.deactivate_venv()
+	if M.is_active() then
+		M.deactivate()
+	end
+end
+
+-- Check if MkDocs is installed in the current virtual environment
+function M.is_installed()
+	if not M.is_active() then
+		vim.notify("No active virtual environment", vim.log.levels.WARN)
+		return false
+	end
+
+	local cmd = M.get_python_path() .. " -m pip show mkdocs"
+	local result = vim.fn.system(cmd)
+	return vim.v.shell_error == 0 and result:find("Name: mkdocs") ~= nil
+end
+
+-- Function to check if MkDocs is installed and notify the user
+function M.check_mkdocs_installed()
+	if not M.is_installed() then
+		vim.notify("MkDocs is not installed. Run :MkdocsInstall first", vim.log.levels.ERROR)
+		return false
+	end
+	return true
+end
+
 -- }}}
 
 -- Utility functions {{{
@@ -317,21 +338,6 @@ function M.status()
 
 		return string.format("No virtual environment\nPython: %s (%s) [from system]", python_name, python_version)
 	end
-end
-
--- }}}
-
--- Setup commands {{{
-
-function M.setup()
-	vim.api.nvim_create_user_command("PyVenvCreate", M.create, {})
-	vim.api.nvim_create_user_command("PyVenvActivate", M.activate, {})
-	vim.api.nvim_create_user_command("PyVenvDeactivate", M.deactivate, {})
-	vim.api.nvim_create_user_command("PyVenvStatus", function()
-		vim.notify(M.status(), vim.log.levels.INFO)
-	end, {})
-	vim.api.nvim_create_user_command("PyVenvList", M.list, {})
-	vim.api.nvim_create_user_command("PyVenvRemove", M.remove, {})
 end
 
 -- }}}

@@ -1,6 +1,6 @@
 -- Rocksmarker mappings
 local editor = require("utils.editor")
-local mkdocs = require("utils.mkdocs.server")
+-- local mkdocs = require("utils.mkdocs.server")
 
 -- Buffer mappings {{{
 
@@ -381,16 +381,16 @@ end, editor.make_opt("Check messages"))
 
 -- MkDocs Libs mappings {{{
 
-editor.remap("n", "<leader>mr", function()
-	mkdocs.serve()
-end, editor.make_opt("Serve MkDocs"))
-
-editor.remap("n", "<leader>mx", function()
-	mkdocs.stop_serve()
-end, editor.make_opt("Stop MkDocs"))
-
-editor.remap("n", "<leader>ms", function()
-	mkdocs.mkdocs_status()
-end, editor.make_opt("Status MkDocs"))
-
+-- editor.remap("n", "<leader>mr", function()
+-- 	mkdocs.serve()
+-- end, editor.make_opt("Serve MkDocs"))
+--
+-- editor.remap("n", "<leader>mx", function()
+-- 	mkdocs.stop_serve()
+-- end, editor.make_opt("Stop MkDocs"))
+--
+-- editor.remap("n", "<leader>ms", function()
+-- 	mkdocs.mkdocs_status()
+-- end, editor.make_opt("Status MkDocs"))
+--
 -- }}}
