@@ -7,21 +7,21 @@ local state = require("utils.mkdocs.config").state
 
 -- Function to activate the virtual environment for Mkdocs commands
 function M.activate_venv()
-	if not M.is_active() then
+	if not M.venv_is_active() then
 		M.activate()
 	end
 end
 
 -- Function to deactivate the virtual environment if active
 function M.deactivate_venv()
-	if M.is_active() then
+	if M.venv_is_active() then
 		M.deactivate()
 	end
 end
 
 -- Check if MkDocs is installed in the current virtual environment
-function M.is_installed()
-	if not M.is_active() then
+function M.mkdocs_is_installed()
+	if not M.venv_is_active() then
 		vim.notify("No active virtual environment", vim.log.levels.WARN)
 		return false
 	end
@@ -33,8 +33,8 @@ end
 
 -- Function to check if MkDocs is installed and notify the user
 function M.check_mkdocs_installed()
-	if not M.is_installed() then
-		vim.notify("MkDocs is not installed. Run :MkdocsInstall first", vim.log.levels.ERROR)
+	if not M.mkdocs_is_installed() then
+		vim.notify("MkDocs is not installed. Install MkDocs Environment first", vim.log.levels.ERROR)
 		return false
 	end
 	return true
@@ -79,7 +79,7 @@ function M.venv_exists()
 end
 
 -- Check if any virtual environment is active
-function M.is_active()
+function M.venv_is_active()
 	return state.active
 end
 
@@ -144,7 +144,7 @@ function M.activate()
 	end
 
 	-- Check if a virtual environment is already active
-	if M.is_active() then
+	if M.venv_is_active() then
 		-- Compare the currently active virtual environment with the one to be activated
 		if vim.env.VIRTUAL_ENV == get_project_venv_path() then
 			local venv_name = vim.fn.fnamemodify(vim.env.VIRTUAL_ENV, ":t") -- Extract name only
@@ -185,7 +185,7 @@ end
 
 function M.deactivate()
 	-- Check if a virtual environment is currently active
-	if not M.is_active() then
+	if not M.venv_is_active() then
 		vim.notify("No virtual environment is active", vim.log.levels.WARN)
 		return
 	end
@@ -291,7 +291,7 @@ function M.status()
 	local venv_name = ""
 
 	-- Check if a virtual environment is currently active
-	if M.is_active() then
+	if M.venv_is_active() then
 		python_path = M.get_python_path()
 		if not python_path or python_path == "" then
 			return "Active venv but Python path not found"

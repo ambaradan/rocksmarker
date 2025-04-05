@@ -1,6 +1,6 @@
 local M = {}
 
-local venv = require("utils.mkdocs.utils")
+local utils = require("utils.mkdocs.utils")
 
 -- Track the running server process
 local server_job_id = nil
@@ -11,22 +11,22 @@ local server_job_id = nil
 --- @return boolean Indicates success or failure of the installation process.
 function M.material()
 	-- Check if the virtual environment is active
-	if not venv.is_active() then
+	if not utils.venv_is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
 		return false
 	end
 
 	-- Check if MkDocs is installed
-	if venv.is_installed() then
+	if utils.mkdocs_is_installed() then
 		vim.notify("MkDocs is already installed", vim.log.levels.INFO)
 		return true
 	end
 
 	-- Construct the command to install MkDocs and Material theme
-	local cmd = venv.get_python_path() .. " -m pip install --upgrade pip"
+	local cmd = utils.get_python_path() .. " -m pip install --upgrade pip"
 	vim.fn.system(cmd)
 
-	cmd = venv.get_python_path() .. " -m pip install mkdocs mkdocs-material"
+	cmd = utils.get_python_path() .. " -m pip install mkdocs mkdocs-material"
 	-- Notify user about the installation process
 	vim.notify("Installing MkDocs and Material theme...", vim.log.levels.INFO)
 
@@ -94,7 +94,7 @@ function M.material()
 
 		vim.notify("Successfully installed MkDocs and Material theme", vim.log.levels.INFO)
 
-		venv.deactivate_venv()
+		utils.deactivate_venv()
 
 		return true
 	end
@@ -126,7 +126,7 @@ function M.rockydocs()
 	local index_target = docs_docs_dir .. "/index.md"
 
 	-- Check if the virtual environment is active
-	if not venv.is_active() then
+	if not utils.venv_is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
 		return false
 	end
@@ -140,7 +140,7 @@ function M.rockydocs()
 	-- Install requirements (always run this part)
 	vim.notify("Installing RockyDocs environments...", vim.log.levels.INFO)
 
-	local pip_cmd = venv.get_python_path() .. " -m pip install -r " .. vim.fn.shellescape(requirements_path)
+	local pip_cmd = utils.get_python_path() .. " -m pip install -r " .. vim.fn.shellescape(requirements_path)
 	local install_result = vim.fn.system(pip_cmd)
 
 	if vim.v.shell_error ~= 0 then
@@ -149,7 +149,7 @@ function M.rockydocs()
 	end
 
 	-- Verify MkDocs installation
-	local verify_cmd = venv.get_python_path() .. " -m pip show mkdocs >/dev/null 2>&1"
+	local verify_cmd = utils.get_python_path() .. " -m pip show mkdocs >/dev/null 2>&1"
 	vim.fn.system(verify_cmd)
 
 	if vim.v.shell_error ~= 0 then
@@ -248,7 +248,7 @@ function M.rockydocs()
 		)
 	end
 
-	venv.is_active()
+	utils.venv_is_active()
 
 	return true
 end
@@ -257,18 +257,18 @@ end
 
 -- Create a new MkDocs project in the current directory {{{
 function M.new_project()
-	venv.activate_venv()
+	utils.activate_venv()
 
-	if not venv.is_active() then
+	if not utils.venv_is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
 		return false
 	end
 
 	-- Install MkDocs
-	if not venv.is_installed() then
-		local cmd = venv.get_python_path() .. " -m pip install --upgrade pip"
+	if not utils.mkdocs_is_installed() then
+		local cmd = utils.get_python_path() .. " -m pip install --upgrade pip"
 		vim.fn.system(cmd)
-		cmd = venv.get_python_path() .. " -m pip install mkdocs"
+		cmd = utils.get_python_path() .. " -m pip install mkdocs"
 		vim.notify("Installing MkDocs...", vim.log.levels.INFO)
 		vim.fn.system(cmd)
 		if vim.v.shell_error ~= 0 then
@@ -282,7 +282,7 @@ function M.new_project()
 		return false
 	end
 
-	local cmd = venv.get_python_path() .. " -m mkdocs new ."
+	local cmd = utils.get_python_path() .. " -m mkdocs new ."
 	vim.notify("Creating new MkDocs project...", vim.log.levels.INFO)
 	vim.fn.system(cmd)
 
@@ -291,7 +291,7 @@ function M.new_project()
 		return false
 	else
 		vim.notify("Successfully created MkDocs project", vim.log.levels.INFO)
-		venv.deactivate_venv()
+		utils.deactivate_venv()
 		return true
 	end
 end
@@ -301,13 +301,13 @@ end
 -- Serve the MkDocs documentation {{{
 
 function M.serve()
-	venv.activate_venv() -- Activate the virtual environment
-	if not venv.is_active() then -- Check if the virtual environment is now active
+	utils.activate_venv() -- Activate the virtual environment
+	if not utils.venv_is_active() then -- Check if the virtual environment is now active
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
 		return false
 	end
 
-	if not venv.is_installed then -- Check if MkDocs is installed in the active virtual environment
+	if not utils.mkdocs_is_installed then -- Check if MkDocs is installed in the active virtual environment
 		vim.notify("MkDocs is not installed. Run :MkdocsInstall first", vim.log.levels.ERROR)
 		return false
 	end
@@ -322,7 +322,7 @@ function M.serve()
 		vim.fn.jobstop(server_job_id)
 	end
 
-	local cmd = venv.get_python_path() .. " -m mkdocs serve -q"
+	local cmd = utils.get_python_path() .. " -m mkdocs serve -q"
 	vim.notify("Starting MkDocs server...", vim.log.levels.INFO)
 
 	-- Start the server as a background job
@@ -342,7 +342,7 @@ function M.serve()
 			end
 		end,
 		on_exit = function()
-			venv.deactivate_venv()
+			utils.deactivate_venv()
 			server_job_id = nil
 		end,
 	})
@@ -365,7 +365,7 @@ function M.stop_serve()
 		vim.fn.jobstop(server_job_id)
 		vim.notify("Stopped MkDocs server", vim.log.levels.INFO)
 		server_job_id = nil
-		venv.deactivate_venv() -- Automatically deactivate the virtual environment after stopping
+		utils.deactivate_venv() -- Automatically deactivate the virtual environment after stopping
 		return true
 	else
 		vim.notify("MkDocs server is not running", vim.log.levels.WARN)
@@ -379,13 +379,13 @@ end
 -- Build the MkDocs documentation {{{
 
 function M.build()
-	venv.activate_venv()
-	if not venv.is_active() then
+	utils.activate_venv()
+	if not utils.venv_is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
 		return false
 	end
 
-	if not venv.is_installed() then
+	if not utils.mkdocs_is_installed() then
 		vim.notify("MkDocs is not installed. Install MkDocs Enviroment first", vim.log.levels.ERROR)
 		return false
 	end
@@ -395,7 +395,7 @@ function M.build()
 		return false
 	end
 
-	local cmd = venv.get_python_path() .. " -m mkdocs build"
+	local cmd = utils.get_python_path() .. " -m mkdocs build"
 	vim.notify("Building MkDocs documentation...", vim.log.levels.INFO)
 
 	vim.fn.system(cmd)
@@ -414,11 +414,11 @@ end
 function M.mkdocs_status()
 	local status = "MkDocs status:\n"
 
-	if not venv.is_active() then
+	if not utils.venv_is_active() then
 		status = status .. "No active virtual environment\n"
 	else
 		status = status .. "Virtual environment: " .. vim.env.VIRTUAL_ENV .. "\n"
-		status = status .. "MkDocs installed: " .. (venv.is_installed() and "Yes" or "No") .. "\n"
+		status = status .. "MkDocs installed: " .. (utils.mkdocs_is_installed() and "Yes" or "No") .. "\n"
 
 		if vim.fn.filereadable("mkdocs.yml") == 1 then
 			status = status .. "MkDocs project detected in current directory\n"
