@@ -1,15 +1,23 @@
 local M = {}
 
 local utils = require("utils.mkdocs.utils")
-
--- Track the running server process
-local server_job_id = nil
+local configs = require("utils.mkdocs.configs")
 
 -- Install MkDocs for standard mkdocs-material {{{
 
 --- Install MkDocs and the Material theme, ensuring a virtual environment is active.
 --- @return boolean Indicates success or failure of the installation process.
 function M.material()
+	-- Path to the material-index.md file
+	local index_template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-index.md"
+	local docs_dir = vim.fn.getcwd() .. "/docs"
+	local name_docs_dir = vim.fn.fnamemodify(docs_dir, ":t")
+	local index_target_path = docs_dir .. "/index.md"
+
+	-- Path to the template mkdocs.yml file
+	local template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-mkdocs.yml"
+	local target_path = vim.fn.getcwd() .. "/mkdocs.yml"
+
 	-- Check if the virtual environment is active
 	if not utils.venv_is_active() then
 		vim.notify("Please activate a virtual environment first", vim.log.levels.ERROR)
@@ -38,10 +46,6 @@ function M.material()
 		vim.notify("Failed to install MkDocs. Error:\n" .. result, vim.log.levels.ERROR)
 		return false
 	else
-		-- Path to the template mkdocs.yml file
-		local template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-mkdocs.yml"
-		local target_path = vim.fn.getcwd() .. "/mkdocs.yml"
-
 		-- Only proceed with file copying if the file doesn't exist
 		if vim.fn.filereadable(target_path) == 0 then
 			if vim.fn.filereadable(template_path) == 1 then
@@ -61,15 +65,10 @@ function M.material()
 		end
 
 		-- Ensure docs directory exists
-		local docs_dir = vim.fn.getcwd() .. "/docs"
 		if vim.fn.isdirectory(docs_dir) == 0 then
 			vim.fn.mkdir(docs_dir, "p")
-			vim.notify("Created docs directory: " .. docs_dir, vim.log.levels.INFO)
+			vim.notify("Created docs directory: " .. name_docs_dir, vim.log.levels.INFO)
 		end
-
-		-- Path to the material-index.md file
-		local index_template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-index.md"
-		local index_target_path = docs_dir .. "/index.md"
 
 		-- Only proceed with file copying if the file doesn't exist
 		if vim.fn.filereadable(index_target_path) == 0 then
@@ -307,10 +306,7 @@ function M.serve()
 		return false
 	end
 
-	if not utils.mkdocs_is_installed then -- Check if MkDocs is installed in the active virtual environment
-		vim.notify("MkDocs is not installed. Run :MkdocsInstall first", vim.log.levels.ERROR)
-		return false
-	end
+	utils.check_mkdocs_installed()
 
 	if vim.fn.filereadable("mkdocs.yml") ~= 1 then -- Ensure mkdocs.yml is present
 		vim.notify("No mkdocs.yml found in the current directory", vim.log.levels.ERROR)
@@ -318,15 +314,15 @@ function M.serve()
 	end
 
 	-- Stop any existing server first if already running
-	if server_job_id and vim.fn.jobwait({ server_job_id }, 0)[1] == -1 then
-		vim.fn.jobstop(server_job_id)
+	if configs.server_job_id and vim.fn.jobwait({ configs.server_job_id }, 0)[1] == -1 then
+		vim.fn.jobstop(configs.server_job_id)
 	end
 
 	local cmd = utils.get_python_path() .. " -m mkdocs serve -q"
 	vim.notify("Starting MkDocs server...", vim.log.levels.INFO)
 
 	-- Start the server as a background job
-	server_job_id = vim.fn.jobstart(cmd, {
+	configs.server_job_id = vim.fn.jobstart(cmd, {
 		on_stdout = function(_, data)
 			if data then
 				for _, line in ipairs(data) do
@@ -343,7 +339,7 @@ function M.serve()
 		end,
 		on_exit = function()
 			utils.deactivate_venv()
-			server_job_id = nil
+			configs.server_job_id = nil
 		end,
 	})
 
@@ -355,21 +351,21 @@ end
 -- Stop the running MkDocs server {{{
 
 function M.stop_serve()
-	if not server_job_id then
+	if not configs.server_job_id then
 		vim.notify("No MkDocs server is currently running", vim.log.levels.WARN)
 		return false
 	end
 
 	-- Check if the job is still running
-	if vim.fn.jobwait({ server_job_id }, 0)[1] == -1 then
-		vim.fn.jobstop(server_job_id)
+	if vim.fn.jobwait({ configs.server_job_id }, 0)[1] == -1 then
+		vim.fn.jobstop(configs.server_job_id)
 		vim.notify("Stopped MkDocs server", vim.log.levels.INFO)
-		server_job_id = nil
+		configs.server_job_id = nil
 		utils.deactivate_venv() -- Automatically deactivate the virtual environment after stopping
 		return true
 	else
 		vim.notify("MkDocs server is not running", vim.log.levels.WARN)
-		server_job_id = nil
+		configs.server_job_id = nil
 		return false
 	end
 end
@@ -427,7 +423,7 @@ function M.mkdocs_status()
 		end
 	end
 
-	if server_job_id and vim.fn.jobwait({ server_job_id }, 0)[1] == -1 then
+	if configs.server_job_id and vim.fn.jobwait({ configs.server_job_id }, 0)[1] == -1 then
 		status = status .. "MkDocs server: Running\n"
 	else
 		status = status .. "MkDocs server: Not running\n"

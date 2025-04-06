@@ -1,7 +1,7 @@
 local M = {}
 
-local config = require("utils.mkdocs.config").config
-local state = require("utils.mkdocs.config").state
+local config = require("utils.mkdocs.configs").config
+local state = require("utils.mkdocs.configs").state
 
 -- common utilities {{{
 
