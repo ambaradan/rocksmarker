@@ -9,14 +9,13 @@ local configs = require("utils.mkdocs.configs")
 --- @return boolean Indicates success or failure of the installation process.
 function M.material()
 	-- Path to the material-index.md file
-	local index_template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-index.md"
-	local docs_dir = vim.fn.getcwd() .. "/docs"
-	local name_docs_dir = vim.fn.fnamemodify(docs_dir, ":t")
-	local index_target_path = docs_dir .. "/index.md"
+	local material_index_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-index.md"
+	local material_docs_dir = vim.fn.getcwd() .. "/docs"
+	local material_index_target = material_docs_dir .. "/index.md"
 
 	-- Path to the template mkdocs.yml file
-	local template_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-mkdocs.yml"
-	local target_path = vim.fn.getcwd() .. "/mkdocs.yml"
+	local material_mkdocs_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-mkdocs.yml"
+	local material_mkdocs_target = vim.fn.getcwd() .. "/mkdocs.yml"
 
 	-- Check if the virtual environment is active
 	if not utils.venv_is_active() then
@@ -47,9 +46,12 @@ function M.material()
 		return false
 	else
 		-- Only proceed with file copying if the file doesn't exist
-		if vim.fn.filereadable(target_path) == 0 then
-			if vim.fn.filereadable(template_path) == 1 then
-				local copy_cmd = "cp " .. vim.fn.shellescape(template_path) .. " " .. vim.fn.shellescape(target_path)
+		if vim.fn.filereadable(material_mkdocs_target) == 0 then
+			if vim.fn.filereadable(material_mkdocs_path) == 1 then
+				local copy_cmd = "cp "
+					.. vim.fn.shellescape(material_mkdocs_path)
+					.. " "
+					.. vim.fn.shellescape(material_mkdocs_target)
 				local copy_result = vim.fn.system(copy_cmd)
 
 				if vim.v.shell_error ~= 0 then
@@ -58,25 +60,26 @@ function M.material()
 				end
 				vim.notify("Copied mkdocs.yml in the project root", vim.log.levels.INFO)
 			else
-				vim.notify("No mkdocs.yml template found at:\n" .. template_path, vim.log.levels.WARN)
+				vim.notify("No mkdocs.yml template found at:\n" .. material_mkdocs_path, vim.log.levels.WARN)
 			end
 		else
 			vim.notify("mkdocs.yml already exists - skipping template copy", vim.log.levels.INFO)
 		end
 
 		-- Ensure docs directory exists
-		if vim.fn.isdirectory(docs_dir) == 0 then
-			vim.fn.mkdir(docs_dir, "p")
+		if vim.fn.isdirectory(material_docs_dir) == 0 then
+			vim.fn.mkdir(material_docs_dir, "p")
+			local name_docs_dir = vim.fn.fnamemodify(material_docs_dir, ":t")
 			vim.notify("Created docs directory: " .. name_docs_dir, vim.log.levels.INFO)
 		end
 
 		-- Only proceed with file copying if the file doesn't exist
-		if vim.fn.filereadable(index_target_path) == 0 then
-			if vim.fn.filereadable(index_template_path) == 1 then
+		if vim.fn.filereadable(material_index_target) == 0 then
+			if vim.fn.filereadable(material_index_path) == 1 then
 				local copy_index_cmd = "cp "
-					.. vim.fn.shellescape(index_template_path)
+					.. vim.fn.shellescape(material_index_path)
 					.. " "
-					.. vim.fn.shellescape(index_target_path)
+					.. vim.fn.shellescape(material_index_target)
 				local index_result = vim.fn.system(copy_index_cmd)
 
 				if vim.v.shell_error ~= 0 then
@@ -85,7 +88,7 @@ function M.material()
 				end
 				vim.notify("Copied template to docs/index.md", vim.log.levels.INFO)
 			else
-				vim.notify("No material-index.md template found at:\n" .. index_template_path, vim.log.levels.WARN)
+				vim.notify("No material-index.md template found at:\n" .. material_index_path, vim.log.levels.WARN)
 			end
 		else
 			vim.notify("docs/index.md already exists - skipping copy", vim.log.levels.INFO)
