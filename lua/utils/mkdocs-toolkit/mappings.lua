@@ -1,8 +1,8 @@
 -- File: mappings.lua
 -- Description: File with Neovim commands and key mappings
 
-local mkdocs = require("utils.mkdocs.main")
-local venv = require("utils.mkdocs.utils")
+local mkdocs = require("utils.mkdocs-toolkit.main")
+local venv = require("utils.mkdocs-toolkit.utils")
 
 vim.api.nvim_create_user_command("MkdocsRockyDocsSetup", mkdocs.rockydocs, {})
 vim.api.nvim_create_user_command("MkdocsMaterialSetup", mkdocs.material, {})

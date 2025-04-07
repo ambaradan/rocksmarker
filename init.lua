@@ -54,4 +54,4 @@ end
 require("options")
 require("commands")
 require("mappings")
-require("utils.mkdocs.init")
+require("utils.mkdocs-toolkit.init")

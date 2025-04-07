@@ -1,7 +1,7 @@
 local M = {}
 
-local utils = require("utils.mkdocs.utils")
-local configs = require("utils.mkdocs.configs")
+local utils = require("utils.mkdocs-toolkit.utils")
+local configs = require("utils.mkdocs-toolkit.configs")
 
 -- Install MkDocs for standard mkdocs-material {{{
 
@@ -9,12 +9,12 @@ local configs = require("utils.mkdocs.configs")
 --- @return boolean Indicates success or failure of the installation process.
 function M.material()
 	-- Path to the material-index.md file
-	local material_index_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-index.md"
+	local material_index_path = vim.fn.stdpath("config") .. "/lua/utils/mkdocs-toolkit/templates/material/index.md"
 	local material_docs_dir = vim.fn.getcwd() .. "/docs"
 	local material_index_target = material_docs_dir .. "/index.md"
 
 	-- Path to the template mkdocs.yml file
-	local material_mkdocs_path = vim.fn.stdpath("config") .. "/lua/utils/templates/material-mkdocs.yml"
+	local material_mkdocs_path = vim.fn.stdpath("config") .. "/lua/utils/mkdocs-toolkit/templates/material/mkdocs.yml"
 	local material_mkdocs_target = vim.fn.getcwd() .. "/mkdocs.yml"
 
 	-- Check if the virtual environment is active
@@ -111,20 +111,20 @@ end
 function M.rockydocs()
 	-- Get paths
 	local config_path = vim.fn.stdpath("config")
-	local template_dir = config_path .. "/lua/utils/templates"
+	local template_dir = config_path .. "/lua/utils/mkdocs-toolkit/templates/rockydocs"
 
 	-- Source paths
-	local requirements_path = template_dir .. "/rockydocs-requirements.txt"
-	local template_path = template_dir .. "/rockydocs-mkdocs.yml"
+	local requirements_path = template_dir .. "/requirements.txt"
+	local template_path = template_dir .. "/mkdocs.yml"
 	local theme_path = template_dir .. "/theme"
-	local index_template_path = template_dir .. "/rockydocs-index.md"
+	local index_template_path = template_dir .. "/index.md"
 
 	-- Target paths
 	local target_path = vim.fn.getcwd()
 	local mkdocs_target = target_path .. "/mkdocs.yml"
 	local theme_target = target_path .. "/theme"
-	local docs_dir = target_path .. "/docs"
-	local docs_docs_dir = docs_dir .. "/docs" -- This folder will be created for rockydocs
+	-- local docs_dir = target_path .. "/docs"
+	local docs_docs_dir = target_path .. "/docs/docs" -- This folder will be created for rockydocs
 	local index_target = docs_docs_dir .. "/index.md"
 
 	-- Check if the virtual environment is active
