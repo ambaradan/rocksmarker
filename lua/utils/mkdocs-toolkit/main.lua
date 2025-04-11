@@ -111,21 +111,21 @@ end
 function M.rockydocs()
 	-- Get paths
 	local config_path = vim.fn.stdpath("config")
-	local template_dir = config_path .. "/lua/utils/mkdocs-toolkit/templates/rockydocs"
+	local rockydocs_dir = config_path .. "/lua/utils/mkdocs-toolkit/templates/rockydocs"
 
 	-- Source paths
-	local requirements_path = template_dir .. "/requirements.txt"
-	local template_path = template_dir .. "/mkdocs.yml"
-	local theme_path = template_dir .. "/theme"
-	local index_template_path = template_dir .. "/index.md"
+	local rockydocs_requirements = rockydocs_dir .. "/requirements.txt"
+	local mkdocs_path = rockydocs_dir .. "/mkdocs.yml"
+	local theme_path = rockydocs_dir .. "/theme"
+	local rockydocs_index_path = rockydocs_dir .. "/index.md"
 
 	-- Target paths
 	local target_path = vim.fn.getcwd()
 	local mkdocs_target = target_path .. "/mkdocs.yml"
 	local theme_target = target_path .. "/theme"
 	-- local docs_dir = target_path .. "/docs"
-	local docs_docs_dir = target_path .. "/docs/docs" -- This folder will be created for rockydocs
-	local index_target = docs_docs_dir .. "/index.md"
+	local rockydocs_docs_dir = target_path .. "/docs/docs" -- This folder will be created for rockydocs
+	local index_target = rockydocs_docs_dir .. "/index.md"
 
 	-- Check if the virtual environment is active
 	if not utils.venv_is_active() then
@@ -134,15 +134,15 @@ function M.rockydocs()
 	end
 
 	-- Verify if the requirements template exists
-	if vim.fn.filereadable(requirements_path) == 0 then
-		vim.notify("Requirements template not found:\n" .. requirements_path, vim.log.levels.ERROR)
+	if vim.fn.filereadable(rockydocs_requirements) == 0 then
+		vim.notify("Requirements template not found:\n" .. rockydocs_requirements, vim.log.levels.ERROR)
 		return false
 	end
 
 	-- Install requirements (always run this part)
 	vim.notify("Installing RockyDocs environments...", vim.log.levels.INFO)
 
-	local pip_cmd = utils.get_python_path() .. " -m pip install -r " .. vim.fn.shellescape(requirements_path)
+	local pip_cmd = utils.get_python_path() .. " -m pip install -r " .. vim.fn.shellescape(rockydocs_requirements)
 	local install_result = vim.fn.system(pip_cmd)
 
 	if vim.v.shell_error ~= 0 then
@@ -164,8 +164,8 @@ function M.rockydocs()
 
 	-- Copy rocky-mkdocs.yml template if it doesn't exist
 	if vim.fn.filereadable(mkdocs_target) == 0 then
-		if vim.fn.filereadable(template_path) == 1 then
-			local copy_cmd = "cp " .. vim.fn.shellescape(template_path) .. " " .. vim.fn.shellescape(mkdocs_target)
+		if vim.fn.filereadable(mkdocs_path) == 1 then
+			local copy_cmd = "cp " .. vim.fn.shellescape(mkdocs_path) .. " " .. vim.fn.shellescape(mkdocs_target)
 			local copy_result = vim.fn.system(copy_cmd)
 
 			if vim.v.shell_error ~= 0 then
@@ -174,7 +174,7 @@ function M.rockydocs()
 			end
 			files_copied = true
 		else
-			vim.notify("No rocky-mkdocs.yml template found at:\n" .. template_path, vim.log.levels.ERROR)
+			vim.notify("No rocky-mkdocs.yml template found at:\n" .. mkdocs_path, vim.log.levels.ERROR)
 			return false -- Abort if the template does not exist
 		end
 	else
@@ -212,14 +212,14 @@ function M.rockydocs()
 
 	-- Copy rocky-index.md to docs/docs/index.md if it doesn't exist
 	if vim.fn.filereadable(index_target) == 0 then
-		if vim.fn.filereadable(index_template_path) == 1 then
+		if vim.fn.filereadable(rockydocs_index_path) == 1 then
 			-- Ensure docs/docs directory exists
-			if vim.fn.isdirectory(docs_docs_dir) == 0 then
-				vim.fn.mkdir(docs_docs_dir, "p")
+			if vim.fn.isdirectory(rockydocs_docs_dir) == 0 then
+				vim.fn.mkdir(rockydocs_docs_dir, "p")
 			end
 
 			local copy_index_cmd = "cp "
-				.. vim.fn.shellescape(index_template_path)
+				.. vim.fn.shellescape(rockydocs_index_path)
 				.. " "
 				.. vim.fn.shellescape(index_target)
 			local index_result = vim.fn.system(copy_index_cmd)
@@ -231,7 +231,7 @@ function M.rockydocs()
 			files_copied = true
 			vim.notify("Successfully copied template to docs/docs/index.md", vim.log.levels.INFO)
 		else
-			vim.notify("No rocky-index.md template found at:\n" .. index_template_path, vim.log.levels.ERROR)
+			vim.notify("No rocky-index.md template found at:\n" .. rockydocs_index_path, vim.log.levels.ERROR)
 			return false -- Abort if the index template does not exist
 		end
 	else
@@ -280,7 +280,7 @@ function M.new_project()
 	end
 
 	-- Check if MkDocs is installed
-	if not M.check_mkdocs_installed() then
+	if not utils.check_mkdocs_installed() then
 		return false
 	end
 
