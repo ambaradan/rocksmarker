@@ -75,7 +75,7 @@ require("mason").setup({})
 require("mason-lspconfig").setup({
 	-- Replace the language servers listed here
 	-- with the ones you want to install
-	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "yamlls", "bashls", "taplo" },
+	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" },
 	handlers = {
 		function(server_name)
 			require("lspconfig")[server_name].setup({})
@@ -100,7 +100,7 @@ require("mason-tool-installer").setup({
 	},
 })
 -- setup multiple servers with same default options
-local servers = { "lua_ls", "html", "cssls", "marksman", "yamlls", "bashls", "taplo" }
+local servers = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" }
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
@@ -198,5 +198,41 @@ cmp.setup({
 -- }}}
 
 -- luasnip.lua settings - lua loader {{{
+
 require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/snippets" })
+
+-- }}}
+
+-- Support for 'harper_ls' {{{
+
+require("lspconfig").harper_ls.setup({
+	settings = {
+		["harper-ls"] = {
+			userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
+			fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
+			linters = {
+				SpellCheck = true,
+				SpelledNumbers = false,
+				AnA = true,
+				SentenceCapitalization = true,
+				UnclosedQuotes = true,
+				WrongQuotes = false,
+				LongSentences = true,
+				RepeatedWords = true,
+				Spaces = true,
+				Matcher = true,
+				CorrectNumberSuffix = true,
+			},
+			codeActions = {
+				ForceStable = false,
+			},
+			markdown = {
+				IgnoreLinkTitle = false,
+			},
+			diagnosticSeverity = "hint",
+			isolateEnglish = true,
+		},
+	},
+})
+
 -- }}}
