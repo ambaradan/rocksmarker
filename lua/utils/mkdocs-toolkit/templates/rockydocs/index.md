@@ -1,13 +1,13 @@
 # Introduction to Rocky Linux Documentation Project
 
-Rocky Linux is a free and open-source operating system that is binary-compatible with Red Hat Enterprise Linux (RHEL). The Rocky Linux Documentation Project is an effort to create and maintain comprehensive documentation for the Rocky Linux operating system. This project aims to provide users with accurate and up-to-date information on how to install, configure, and use Rocky Linux.
+Rocky Linux is a free and open source operating system that is binary-compatible with Red Hat Enterprise Linux (RHEL). The Rocky Linux Documentation Project is an effort to create and maintain comprehensive documentation for the Rocky Linux operating system. This project aims to provide users with accurate and up-to-date information about how to install, configure, and use Rocky Linux.
 
 ## Goals of the Project
 
-- Provide a central location for all Rocky Linux documentation
-- Create a community-driven documentation effort
-- Ensure that documentation is accurate, complete, and up-to-date
-- Support the growth and adoption of Rocky Linux
+- Provides a central location for all Rocky Linux documentation
+- Creates a community-driven documentation effort
+- Ensures that documentation is accurate, complete, and up-to-date
+- Supports the growth and adoption of Rocky Linux
 
 ## Types of Documentation
 
