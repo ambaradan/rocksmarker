@@ -1,4 +1,5 @@
 # Rocksmarker plugins declaration file.
+# latest 4.22.2025
 # List of non-Neovim rocks.
 # This includes things like `toml` or other lua packages.
 [rocks]
