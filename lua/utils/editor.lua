@@ -270,4 +270,28 @@ function M.close_all_buffers()
 end
 --- }}}
 
+--- Diagnostic Toggle {{{
+
+--- @desc Toggles diagnostic virtual text on or off.
+--- @params None
+function M.toggle_diagnostic_virtual_text()
+	--- Get the current diagnostic configuration.
+	local current_config = vim.diagnostic.config() or { virtual_text = false }
+	--- Toggle the virtual text state.
+	local new_virtual_text = not current_config.virtual_text
+	--- Update the diagnostic configuration with the new virtual text state.
+	vim.diagnostic.config({ virtual_text = new_virtual_text })
+	--- Notify the user about the new state of diagnostic virtual text.
+	vim.notify("Diagnostic virtual text: " .. (new_virtual_text and "ON" or "OFF"))
+end
+
+--- @desc Creates a user command to toggle diagnostics.
+--- @params None
+--- @usage Call the `:ToggleDiagnostics` command in Neovim to toggle diagnostic virtual text.
+vim.api.nvim_create_user_command("ToggleDiagnostics", function()
+	M.toggle_diagnostic_virtual_text()
+end, {})
+
+--- }}}
+
 return M

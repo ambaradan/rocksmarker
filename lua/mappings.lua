@@ -161,9 +161,9 @@ local function trouble_toggle(mode, opts)
 end
 
 -- Toggle global diagnostics
-editor.remap("n", "<leader>dt", function()
+editor.remap("n", "<leader>dw", function()
 	trouble_toggle("diagnostics")
-end, editor.make_opt("toggle global diagnostics"))
+end, editor.make_opt("toggle workspace diagnostics"))
 -- Toggle buffer-local diagnostics
 editor.remap("n", "<leader>db", function()
 	trouble_toggle("diagnostics", {
@@ -176,6 +176,11 @@ editor.remap("n", "<leader>ds", function()
 		focus = false,
 	})
 end, editor.make_opt("toggle buffer symbols"))
+
+-- Diagnostics toggle
+editor.remap("n", "<leader>dt", function()
+	editor.toggle_diagnostic_virtual_text()
+end, editor.make_opt("toggle virtual text diagnostics"))
 
 -- }}}
 
