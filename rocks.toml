@@ -54,7 +54,7 @@ nvim-web-devicons = "0.100"
 "indent-blankline.nvim" = "3.9.0"
 "nvim-autopairs" = "scm"
 "telescope.nvim" = "scm"
-"neo-tree.nvim" = "3.32"
+"neo-tree.nvim" = "3.33"
 "rainbow-delimiters.nvim" = "0.9.1"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
@@ -77,9 +77,9 @@ cmp-buffer = "scm"
 cmp-path = "scm"
 
 # Plugins for LSP
-"mason.nvim" = "1.11.0"
-"mason-lspconfig.nvim" = "1.32.0"
-nvim-lspconfig = "2.0.0"
+"mason.nvim" = "2.0.0"
+"mason-lspconfig.nvim" = "2.0.0"
+nvim-lspconfig = "2.1.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
@@ -91,7 +91,7 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-"markview.nvim" = "25.6.0"
+"markview.nvim" = "25.7.0"
 
 # Maintained the plugin to the development
 # version due to bugs in version 2.0
