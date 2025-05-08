@@ -63,6 +63,10 @@ vim.cmd("vnoremap <silent> p p`]")
 -- to move the selected block up or down
 editor.remap("v", "J", ":m '>+1<CR>gv=gv", editor.make_opt("move block up"))
 editor.remap("v", "K", ":m '<-2<CR>gv=gv", editor.make_opt("move block down"))
+-- Diagnostics toggle
+editor.remap("n", "<leader>dd", function()
+	editor.toggle_diagnostic_virtual_text()
+end, editor.make_opt("Toggle Diagnostics"))
 
 -- }}}
 
@@ -161,9 +165,9 @@ local function trouble_toggle(mode, opts)
 end
 
 -- Toggle global diagnostics
-editor.remap("n", "<leader>dw", function()
+editor.remap("n", "<leader>dt", function()
 	trouble_toggle("diagnostics")
-end, editor.make_opt("toggle workspace diagnostics"))
+end, editor.make_opt("toggle global diagnostics"))
 -- Toggle buffer-local diagnostics
 editor.remap("n", "<leader>db", function()
 	trouble_toggle("diagnostics", {
@@ -176,11 +180,6 @@ editor.remap("n", "<leader>ds", function()
 		focus = false,
 	})
 end, editor.make_opt("toggle buffer symbols"))
-
--- Diagnostics toggle
-editor.remap("n", "<leader>dt", function()
-	editor.toggle_diagnostic_virtual_text()
-end, editor.make_opt("toggle virtual text diagnostics"))
 
 -- }}}
 
