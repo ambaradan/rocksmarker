@@ -55,7 +55,10 @@ capabilities.textDocument.completion.completionItem = {
 	},
 }
 
--- Setup language servers.
+-- }}}
+
+-- Setup language servers {{{
+
 local lspconfig = require("lspconfig")
 
 lspconfig.lua_ls.setup({
@@ -66,6 +69,38 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
+
+-- Support for 'harper_ls'
+lspconfig.harper_ls.setup({
+	settings = {
+		["harper-ls"] = {
+			userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
+			fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
+			linters = {
+				SpellCheck = true,
+				SpelledNumbers = false,
+				AnA = true,
+				SentenceCapitalization = true,
+				UnclosedQuotes = true,
+				WrongQuotes = false,
+				LongSentences = true,
+				RepeatedWords = true,
+				Spaces = true,
+				Matcher = true,
+				CorrectNumberSuffix = true,
+			},
+			codeActions = {
+				ForceStable = false,
+			},
+			markdown = {
+				IgnoreLinkTitle = false,
+			},
+			diagnosticSeverity = "hint",
+			isolateEnglish = true,
+		},
+	},
+})
+
 -- }}}
 
 -- mason and mason-lspconfig settings - ensure_installed servers {{{
@@ -126,6 +161,7 @@ cmp.setup({
 		{ name = "nvim_lsp", keyword_length = 1 },
 		{ name = "buffer", keyword_length = 3 },
 		{ name = "luasnip", keyword_length = 2 },
+		{ name = "lorem_ipsum" },
 	},
 	window = {
 		documentation = cmp.config.window.bordered(),
@@ -200,39 +236,5 @@ cmp.setup({
 -- luasnip.lua settings - lua loader {{{
 
 require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/snippets" })
-
--- }}}
-
--- Support for 'harper_ls' {{{
-
-require("lspconfig").harper_ls.setup({
-	settings = {
-		["harper-ls"] = {
-			userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
-			fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
-			linters = {
-				SpellCheck = true,
-				SpelledNumbers = false,
-				AnA = true,
-				SentenceCapitalization = true,
-				UnclosedQuotes = true,
-				WrongQuotes = false,
-				LongSentences = true,
-				RepeatedWords = true,
-				Spaces = true,
-				Matcher = true,
-				CorrectNumberSuffix = true,
-			},
-			codeActions = {
-				ForceStable = false,
-			},
-			markdown = {
-				IgnoreLinkTitle = false,
-			},
-			diagnosticSeverity = "hint",
-			isolateEnglish = true,
-		},
-	},
-})
 
 -- }}}
