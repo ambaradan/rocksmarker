@@ -16,7 +16,7 @@ vim.o.foldmethod = "marker"
 vim.o.foldmarker = "{{{,}}}"
 
 vim.o.clipboard = "unnamedplus" -- sync with the Linux clipboard
-vim.o.fillchars = "eob:*" -- hide tilde '~' for blank lines
+vim.o.fillchars = "eob: " -- hide tilde '~' for blank lines
 vim.o.timeoutlen = 400 -- how long wait after each keystroke before aborting it
 vim.o.undofile = true -- automatically save undo history
 vim.o.cursorline = true -- highlight the current line
