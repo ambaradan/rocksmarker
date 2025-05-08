@@ -6,7 +6,7 @@
 
 # Rocks configuration section
 [config]
-colorscheme = "bamboo"
+colorscheme = "min-theme"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
@@ -41,7 +41,7 @@ tree-sitter-vimdoc = "0.0.32"
 tree-sitter-yaml = "0.0.34"
 
 # UI plugins
-"bamboo.nvim" = "scm"
+"min-theme.nvim" = "scm"
 "lualine.nvim" = "scm"
 "bufferline.nvim" = "4.9.1"
 nvim-web-devicons = "0.100"
@@ -139,7 +139,7 @@ items = [
     "fidget.nvim",
     "bufferline.nvim",
     "gitsigns.nvim",
-    "bamboo.nvim",
+    "min-theme.nvim",
     "which-key.nvim",
 ]
 

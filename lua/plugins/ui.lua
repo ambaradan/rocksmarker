@@ -1,95 +1,34 @@
 -- Require the color utilities module
-local colors = require("utils.colors")
+-- local colors = require("utils.colors")
+local colors = require("min-theme.colors")
+local utils = require("min-theme.utils")
 
--- theme 'bamboo' settings {{{
-require("bamboo").setup({
-	-- Main options --
-	-- NOTE: to use the light theme, set `vim.o.background = 'light'`
-	style = "vulgaris",
-	-- colors = {
-	-- },
-	highlights = {
-		["FloatBorder"] = { fg = "$grey" },
-		["IblIndent"] = { fg = "$bg1" },
-		["htmlH1"] = { fg = "$bg_blue" },
-		["htmlH2"] = { fg = "$green" },
-		["htmlH3"] = { fg = "$yellow" },
-		["htmlH4"] = { fg = "$purple" },
-		["htmlH5"] = { fg = "$coral" },
-		["htmlH6"] = { fg = "$red" },
-		["markdownListMarker"] = { fg = "$orange" },
-		["MarkviewHeading1"] = { fg = "$bg_blue", fmt = "underline" },
-		["MarkviewHeading2"] = { fg = "$green", fmt = "underline" },
-		["MarkviewHeading3"] = { fg = "$yellow", fmt = "underline" },
-		["MarkviewHeading4"] = { fg = "$purple", fmt = "underline" },
-		["MarkviewHeading5"] = { fg = "$coral", fmt = "underline" },
-		["MarkviewHeading6"] = { fg = "$red", fmt = "underline" },
-		["MarkviewInlineCode"] = { bg = "$yellow" },
-		["markdownUrl"] = { fg = "$purple", fmt = "none" },
-		["markdownCode"] = { fg = "$purple" },
-		["markdownCodeBlock"] = { fg = "$cyan" },
-		["markdownCodeDelimiter"] = { fg = "$yellow", bg = "$bg0" },
-		["MarkviewCode"] = { fg = "$yellow" },
-		["MarkviewCodeInfo"] = { fg = "$yellow" },
-		["markdownBold"] = { fg = "$orange", fmt = "bold" },
-		["markdownItalic"] = { fg = "$yellow", fmt = "italic" },
-		["markdownLinkText"] = { fg = "$light_blue", underline = false },
-		["MarkviewListItemStar"] = { fg = "$orange" },
-		["MarkviewListItemMinus"] = { fg = "$orange" },
-		-- Ascidoc support
-		["asciidocOneLineTitle"] = { fg = "$blue", fmt = "bold" },
-		["asciidocAttributeList"] = { fg = "$green" },
-		["asciidocQuotedBold"] = { fg = "$orange" },
-		["asciidocQuotedEmphasized"] = { fg = "$yellow" },
-		["asciidocQuotedMonospaced2"] = { fg = "$purple" },
-		["asciidocListBullet"] = { fg = "$green" },
-		["asciidocListingBlock"] = { fg = "$light_blue" },
-		["asciidocLiteralParagraph"] = { fg = "$light_blue" },
-		["asciidocTableDelimiter"] = { fg = "$green" },
-		["asciidocTablePrefix"] = { fg = "$green" },
-		-- Telescope
-		-- Telescope
-		["TelescopePreviewBorder"] = { fg = "$bg1" },
-		["TelescopePreviewTitle"] = { fg = "$blue" },
-		["TelescopeResultsBorder"] = { fg = "$bg1" },
-		["TelescopeResultsTitle"] = { fg = "$blue" },
-		["TelescopePromptBorder"] = { fg = "$bg1" },
-		["TelescopePromptTitle"] = { fg = "$blue" },
-		-- Whichkey
-		["WhichKeyBorder"] = { fg = "$bg1" },
-		["WhichKeyTitle"] = { fg = "$blue" },
-		["WhichKeyDesc"] = { fg = "$fg" },
-		["WhichKey"] = { fg = "$light_blue" },
-		-- Neotree
-		["NeoTreeFloatBorder"] = { fg = "$bg1" },
-		["NeoTreeNormal"] = { bg = "$bg0" },
-		["NeoTreeEndOfBuffer"] = { bg = "$bg0" },
-		["NeoTreeIndentMarker"] = { fg = "$bg1" },
-		["NeoTreeFloatTitle"] = { fg = "$blue" },
-		["NeoTreeDirectoryIcon"] = { fg = "$yellow" },
-		["NeoTreeDirectoryName"] = { fg = "$green" },
-		-- Neogit
-		["NeogitBranch"] = { fg = "$yellow" },
-		["NeogitPopupActionKey"] = { fg = "$blue" },
-		["NeogitSectionHeader"] = { fg = "$orange", fmt = "bold" },
-		["NeogitDiffDelete"] = { fg = "$red", bg = "$bg1" },
-		["NeogitDiffDeleteHighlight"] = { fg = "$red", bg = "$bg1" },
-		["NeogitDiffAdd"] = { fg = "$green", bg = "$bg1" },
-		["NeogitDiffAddHighlight"] = { fg = "$green", bg = "$bg1" },
-		["NeogitChangeModified"] = { fg = "$light_blue", fmt = "bold" },
-		["NeogitHunkHeaderHighlight"] = { fg = "$purple", bg = "$bg3" },
-		-- gitsign
-		["DiffAdd"] = { fg = "$green", bg = "none" },
-		["DiffChange"] = { fg = "$blue", bg = "none" },
-		["DiffDelete"] = { fg = "$red", bg = "none" },
+require("min-theme").setup({
+	-- (note: if your configuration sets vim.o.background the following option will do nothing!)
+	theme = "dark", -- String: 'dark' or 'light', determines the colorscheme used
+	transparent = false, -- Boolean: Sets the background to transparent
+	italics = {
+		comments = true, -- Boolean: Italicizes comments
+		keywords = true, -- Boolean: Italicizes keywords
+		functions = true, -- Boolean: Italicizes functions
+		strings = true, -- Boolean: Italicizes strings
+		variables = true, -- Boolean: Italicizes variables
 	},
+	overrides = function()
+		return {
+			-- FloatBorder customization
+			["FloatBorder"] = { fg = colors.border, bg = colors.none },
+			["IblIndent"] = { fg = colors.borderDarker },
+			["NormalFloat"] = { fg = colors.fgCommand },
+		}
+	end, -- A dictionary of group names, can be a function returning a dictionary or a table.
 })
--- }}}
 
 -- lualine.nvim settings {{{
 
 require("lualine").setup({
 	options = {
+		theme = "min-theme",
 		section_separators = { left = "", right = "" },
 		component_separators = { left = "", right = "" },
 	},
@@ -108,21 +47,20 @@ require("lualine").setup({
 		lualine_b = {
 			{
 				"filename",
-				color = { fg = colors.get_col("String", "fg") },
-			},
-			{
-				"branch",
-				color = { fg = colors.get_col("Debug", "fg") },
 			},
 		},
 		lualine_c = {
 			{
-				"diff",
-				symbols = { added = " ", modified = " ", removed = " " },
+				"branch",
 			},
-			"%=",
+			{
+				"diff",
+				colored = false,
+				symbols = { added = " ", modified = " ", removed = " " },
+			},
 		},
 		lualine_x = {
+			"%=",
 			{
 				function()
 					local msg = "No Active Lsp"
@@ -140,17 +78,23 @@ require("lualine").setup({
 					return msg
 				end,
 				icon = " LSP:",
-				color = { fg = colors.get_col("Comment", "fg"), gui = "bold" },
 			},
-		},
-		lualine_y = {
 			{
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
-				symbols = { error = " ", warn = " ", info = " " },
+				colored = false,
+				symbols = { error = " ", warn = " ", info = " ", hint = " " },
 			},
-			"filetype",
-			"progress",
+		},
+		lualine_y = {
+
+			{
+				"filetype",
+				colored = false,
+			},
+			{
+				"progress",
+			},
 		},
 		lualine_z = {
 			{ "location", separator = { right = "" }, left_padding = 2 },
