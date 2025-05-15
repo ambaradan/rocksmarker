@@ -20,6 +20,10 @@ require("min-theme").setup({
 			["FloatBorder"] = { fg = colors.border, bg = colors.none },
 			["IblIndent"] = { fg = colors.borderDarker },
 			["NormalFloat"] = { fg = colors.fgCommand },
+			["@markup.heading.1.vimdoc"] = { fg = colors.fgCommand },
+			["@markup.heading.3.vimdoc"] = { fg = colors.purple },
+			["@label.vimdoc"] = { fg = colors.orange },
+			["@markup.link.vimdoc"] = { fg = colors.blueLight },
 		}
 	end, -- A dictionary of group names, can be a function returning a dictionary or a table.
 })
