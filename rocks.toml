@@ -92,6 +92,7 @@ nvim-lint = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
 "markview.nvim" = "25.7.0"
+nvim-rockydocs = "scm"
 
 # Maintained the plugin to the development
 # version due to bugs in version 2.0
