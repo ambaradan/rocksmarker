@@ -194,7 +194,7 @@ require("fidget").setup({
 	notification = {
 		override_vim_notify = true,
 		window = {
-			normal_hl = "Keyword",
+			normal_hl = "fgCommand",
 		},
 	},
 })
