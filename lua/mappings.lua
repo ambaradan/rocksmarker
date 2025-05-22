@@ -185,9 +185,8 @@ end, editor.make_opt("toggle buffer symbols"))
 
 -- session mappings - persisted.nvim {{{
 
--- Import the get_session_names function from persisted.lua
-local utils = require("utils.persisted")
-local get_session_names = utils.get_session_names
+-- Import the get_session_names function
+local get_session_names = editor.get_session_names
 
 -- Select session via Telescope
 editor.remap("n", "<A-s>", function()
