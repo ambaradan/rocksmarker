@@ -1,3 +1,8 @@
+-- This script configures the user interface for Neovim,
+-- including colors, lualine, bufferline, and other visual
+-- elements. It sets up the min-theme for a consistent look
+-- and feel.
+
 -- Require the color utilities module
 -- local colors = require("utils.colors")
 local colors = require("min-theme.colors")

@@ -1,3 +1,8 @@
+-- This script configures various Neovim plugins for code
+-- diagnostics, formatting, and linting. It sets up conform
+-- for formatting, nvim-lint for linting, and trouble for
+-- diagnostic display.
+
 -- conform.nvim settings - Formatting capabilities {{{
 require("conform").setup({
 	formatters_by_ft = {

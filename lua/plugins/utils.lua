@@ -1,3 +1,9 @@
+-- This script configures various utility plugins for Neovim,
+-- including telescope, persisted, toggleterm, neo-tree,
+-- neogit, spectre, yanky, indent-blankline, and rainbow-delimiters.
+-- It sets up these plugins for a more efficient and productive
+-- editing experience.
+
 -- telescope.nvim settings {{{
 local actions = require("telescope.actions")
 require("telescope").setup({

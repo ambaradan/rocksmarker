@@ -1,3 +1,8 @@
+-- This script configures the markdown settings for Neovim,
+-- including markview, markdown, markdown-table-mode, and
+-- zen-mode. It sets up these plugins for a more efficient
+-- and productive markdown editing experience.
+
 -- markview.nvim settings {{{
 local presets = require("markview.presets").headings
 local table_presets = require("markview.presets").tables

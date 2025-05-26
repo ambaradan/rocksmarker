@@ -1,3 +1,7 @@
+-- This script configures the Language Server Protocol (LSP)
+-- settings for Neovim. It sets up the LSP capabilities,
+-- language servers, and other LSP-related settings.
+
 -- nvim-lspconfig settings - LSP capabilities {{{
 -- -- Reserve a space in the gutter
 -- -- This will avoid an annoying layout shift in the screen
