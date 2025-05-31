@@ -1,36 +1,45 @@
 local M = {}
 
 --- Function to set key mappings with options {{{
---- @param mode string The mode for the mapping (e.g., 'n', 'i', 'v').
---- @param lhs string The left-hand side of the mapping.
---- @param rhs string The right-hand side of the mapping.
---- @param desc string Optional description for the mapping.
+
+---@desc Sets a key mapping with a description.
+---@param mode string The mode to set the key mapping in (e.g., "n", "v", "i").
+---@param lhs string The left-hand side of the key mapping (the key to press).
+---@param rhs string The right-hand side of the key mapping (the command to execute).
+---@param desc string Description of the key mapping.
 function M.set_key_mapping(mode, lhs, rhs, desc)
 	local opts = M.make_opt(desc)
 	M.remap(mode, lhs, rhs, opts)
 end
 
---- Local function to remap keybinding.
+---@desc Local function to remap keybinding.
+---@param mode string The mode in which the key mapping should be applied
+---@param lhs string The key combination to be remapped
+---@param rhs string The action to be performed when the key combination is pressed
+---@param opts table A table of options for the key mapping
+---@return nil
 M.remap = function(mode, lhs, rhs, opts)
-	pcall(vim.keymap.del, mode, lhs)
+	pcall(vim.keymap.del, mode, lhs) -- Delete existing mapping to avoid conflicts
 	return vim.keymap.set(mode, lhs, rhs, opts)
 end
 
---- Function to create default options for key mappings.
---- @param desc string Description for the mapping.
+---@desc Creates default options for key mappings.
+---@param desc string Description of the key mapping.
+---@return table Options for the key mapping.
 function M.make_opt(desc)
 	return {
-		silent = true,
-		noremap = true,
-		desc = desc,
+		silent = true, -- Suppress output
+		noremap = true, -- Use non-recursive mapping
+		desc = desc, -- Description of the key mapping
 	}
 end
 -- }}}
 
---- Buffer modification control function {{{
---- @param bufnr number|nil The buffer number to check for modifications.
---- If not provided, defaults to the current buffer.
---- @return boolean True if the buffer is modified, false otherwise.
+-- - Buffer modification control function {{{
+
+---@desc Checks if a buffer has been modified.
+---@param bufnr number|nil Buffer number. If `nil`, defaults to the current buffer.
+---@return boolean `true` if the buffer is modified, `false` otherwise.
 function M.is_buffer_modified(bufnr)
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
 	-- Check if buffer is valid
@@ -52,9 +61,16 @@ function M.is_buffer_modified(bufnr)
 	end
 	return modified or false
 end
+
 -- }}}
 
 --- Saves all modified buffers in the current session {{{
+
+--- @desc Saves all modified buffers in Neovim.
+--- This function iterates through all open buffers
+--- and saves those that have been modified.
+--- It uses the `vim.api` to interact with Neovim's API
+--- for buffer management.
 --- @return nil
 function M.save_all_buffers()
 	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
