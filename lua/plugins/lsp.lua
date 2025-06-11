@@ -112,12 +112,18 @@ vim.lsp.config("harper_ls", {
 -- mason and mason-lspconfig settings - ensure_installed servers {{{
 -- IMPORTANT - setting servers to be installed
 -- with mason-lspconfig be done after setting 'capabilities'
--- local lspconfig = require("lspconfig")
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	-- Replace the language servers listed here
 	-- with the ones you want to install
 	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" },
+	handlers = {
+		function(server_name)
+			vim.lsp.config("[lsp]", {
+				capabilities = capabilities,
+			})
+		end,
+	},
 })
 -- }}}
 
@@ -136,14 +142,22 @@ require("mason-tool-installer").setup({
 		"yamllint",
 	},
 })
-
+-- setup multiple servers with same default options
+-- local servers = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" }
+--
+-- for _, lsp in ipairs(servers) do
+-- 	vim.lsp.config("[lsp]", {
+-- 		capabilities = capabilities,
+-- 	})
+-- end
 -- }}}
 
 -- Autocompletion features - blink.cmp {{{
 
 require("blink.cmp").setup({
 	keymap = {
-		preset = "default",
+		preset = "super-tab",
+		["<ESC>"] = { "cancel", "fallback" },
 	},
 	completion = {
 		trigger = {
@@ -169,7 +183,7 @@ require("blink.cmp").setup({
 		default = { "lsp", "path", "snippets", "buffer" },
 	},
 	cmdline = {
-		keymap = { preset = "inherit" },
+		keymap = { preset = "super-tab" },
 		completion = { menu = { auto_show = true } },
 	},
 	fuzzy = { implementation = "lua" },
