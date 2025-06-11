@@ -3,8 +3,9 @@
 -- language servers, and other LSP-related settings.
 
 -- nvim-lspconfig settings - LSP capabilities {{{
--- -- Reserve a space in the gutter
--- -- This will avoid an annoying layout shift in the screen
+
+-- Reserve a space in the gutter
+-- This will avoid an annoying layout shift in the screen
 -- vim.opt.signcolumn = "yes"
 -- Use LspAttach autocommand to only map the following keys
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -39,7 +40,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- capabilities setting
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -63,9 +64,7 @@ capabilities.textDocument.completion.completionItem = {
 
 -- Setup language servers {{{
 
-local lspconfig = require("lspconfig")
-
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
 	capabilities = capabilities,
 	settings = {
 		Lua = {
@@ -74,40 +73,44 @@ lspconfig.lua_ls.setup({
 	},
 })
 
+vim.lsp.config("vale_ls", {
+	capabilities = capabilities,
+	filetypes = { "markdown", "gitcommit" },
+})
+
 -- Support for 'harper_ls'
-lspconfig.harper_ls.setup({
+vim.lsp.config("harper_ls", {
 	settings = {
-		["harper-ls"] = {
-			userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
-			fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
-			linters = {
-				SpellCheck = true,
-				SpelledNumbers = false,
-				AnA = true,
-				SentenceCapitalization = true,
-				UnclosedQuotes = true,
-				WrongQuotes = false,
-				LongSentences = true,
-				RepeatedWords = true,
-				Spaces = true,
-				Matcher = true,
-				CorrectNumberSuffix = true,
-			},
-			codeActions = {
-				ForceStable = false,
-			},
-			markdown = {
-				IgnoreLinkTitle = false,
-			},
-			diagnosticSeverity = "hint",
-			isolateEnglish = true,
+		userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
+		fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
+		linters = {
+			SpellCheck = true,
+			SpelledNumbers = false,
+			AnA = true,
+			SentenceCapitalization = true,
+			UnclosedQuotes = true,
+			WrongQuotes = false,
+			LongSentences = true,
+			RepeatedWords = true,
+			Spaces = true,
+			Matcher = true,
+			CorrectNumberSuffix = true,
 		},
+		codeActions = {
+			ForceStable = false,
+		},
+		markdown = {
+			IgnoreLinkTitle = false,
+		},
+		diagnosticSeverity = "hint",
+		isolateEnglish = true,
 	},
 })
 
 -- }}}
 
--- mason and mason-lspconfig settings - ensure_installed servers {{{
+-- mason LSP-related {{{
+--
 -- IMPORTANT - setting servers to be installed
 -- with mason-lspconfig be done after setting 'capabilities'
 require("mason").setup({})
@@ -117,16 +120,17 @@ require("mason-lspconfig").setup({
 	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" },
 	handlers = {
 		function(server_name)
-			require("lspconfig")[server_name].setup({})
+			vim.lsp.config("[lsp]", {
+				capabilities = capabilities,
+			})
 		end,
 	},
 })
--- }}}
 
--- mason-tool-installer - LSPs for 'nvim-lint' and 'conform' {{{
+-- mason-tool-installer - LSPs for 'nvim-lint' and 'conform'
 require("mason-tool-installer").setup({
-	-- a list of all tools you want to ensure are installed upon
-	-- start
+	-- A list of all tools you want to ensure are installed upon
+	-- first start
 	ensure_installed = {
 		"markdownlint",
 		"vale",
@@ -138,107 +142,40 @@ require("mason-tool-installer").setup({
 		"yamllint",
 	},
 })
--- setup multiple servers with same default options
-local servers = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" }
 
-for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
-		capabilities = capabilities,
-	})
-end
 -- }}}
 
--- nvim-cmp settings - snippets support {{{
-local cmp = require("cmp")
-local luasnip = require("luasnip")
+-- Autocompletion features - blink.cmp {{{
 
-local select_opts = { behavior = cmp.SelectBehavior.Select }
-
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
+require("blink.cmp").setup({
+	keymap = {
+		preset = "super-tab",
+		["<ESC>"] = { "cancel", "fallback" },
+	},
+	completion = {
+		menu = {
+			-- auto_show = true,
+			scrollbar = false,
+			draw = {
+				treesitter = { "lsp" },
+			},
+			columns = {
+				{ "kind_icon", "label", gap = 1 },
+				{ "source_name" },
+			},
+			ghost_text = {
+				enabled = true,
+			},
+		},
 	},
 	sources = {
-		{ name = "path" },
-		{ name = "nvim_lsp", keyword_length = 1 },
-		{ name = "buffer", keyword_length = 3 },
-		{ name = "luasnip", keyword_length = 2 },
-		{ name = "lorem_ipsum" },
+		default = { "lsp", "path", "snippets", "buffer" },
 	},
-	window = {
-		documentation = cmp.config.window.bordered(),
+	cmdline = {
+		keymap = { preset = "super-tab" },
+		completion = { menu = { auto_show = true } },
 	},
-	formatting = {
-		fields = { "menu", "abbr", "kind" },
-		format = function(entry, item)
-			local menu_icon = {
-				nvim_lsp = "λ",
-				luasnip = "⋗",
-				buffer = "Ω",
-				path = "",
-			}
-
-			item.menu = menu_icon[entry.source.name]
-			return item
-		end,
-	},
-	mapping = {
-		["<Up>"] = cmp.mapping.select_prev_item(select_opts),
-		["<Down>"] = cmp.mapping.select_next_item(select_opts),
-
-		["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
-		["<C-n>"] = cmp.mapping.select_next_item(select_opts),
-
-		["<C-u>"] = cmp.mapping.scroll_docs(-4),
-		["<C-d>"] = cmp.mapping.scroll_docs(4),
-
-		["<C-e>"] = cmp.mapping.abort(),
-		["<C-y>"] = cmp.mapping.confirm({ select = true }),
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
-
-		["<C-f>"] = cmp.mapping(function(fallback)
-			if luasnip.jumpable(1) then
-				luasnip.jump(1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-
-		["<C-b>"] = cmp.mapping(function(fallback)
-			if luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-
-		["<Tab>"] = cmp.mapping(function(fallback)
-			local col = vim.fn.col(".") - 1
-
-			if cmp.visible() then
-				cmp.select_next_item(select_opts)
-			elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-				fallback()
-			else
-				cmp.complete()
-			end
-		end, { "i", "s" }),
-
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item(select_opts)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-	},
+	fuzzy = { implementation = "lua" },
 })
--- }}}
-
--- luasnip.lua settings - lua loader {{{
-
-require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/snippets" })
 
 -- }}}
