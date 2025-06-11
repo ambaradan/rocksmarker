@@ -73,7 +73,7 @@ friendly-snippets = "scm"
 # Plugins for LSP
 "mason.nvim" = "2.0.0"
 "mason-lspconfig.nvim" = "2.0.0"
-nvim-lspconfig = "2.2.0"
+nvim-lspconfig = "2.3.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
