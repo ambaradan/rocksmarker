@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- capabilities setting
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -72,6 +72,12 @@ lspconfig.lua_ls.setup({
 			diagnostics = { globals = { "vim" } },
 		},
 	},
+})
+
+lspconfig.vale_ls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	filetypes = { "markdown", "gitcommit" },
 })
 
 -- Support for 'harper_ls'
@@ -148,7 +154,7 @@ for _, lsp in ipairs(servers) do
 end
 -- }}}
 
--- Autocompletion features - blink.cmo {{{
+-- Autocompletion features - blink.cmp {{{
 
 require("blink.cmp").setup({
 	keymap = {
@@ -178,18 +184,10 @@ require("blink.cmp").setup({
 		default = { "lsp", "path", "snippets", "buffer" },
 	},
 	cmdline = {
-		keymap = {
-			["Tab"] = { "show", "accept" },
-			["<CR>"] = { "accept_and_enter", "fallback" },
-		},
-		completion = {
-			menu = {
-				auto_show = function(ctx)
-					return vim.fn.getcmdtype() == ":"
-				end,
-			},
-		},
+		keymap = { preset = "inherit" },
+		completion = { menu = { auto_show = true } },
 	},
+	fuzzy = { implementation = "lua" },
 })
 
 -- }}}
