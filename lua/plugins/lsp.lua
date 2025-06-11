@@ -3,8 +3,9 @@
 -- language servers, and other LSP-related settings.
 
 -- nvim-lspconfig settings - LSP capabilities {{{
--- -- Reserve a space in the gutter
--- -- This will avoid an annoying layout shift in the screen
+
+-- Reserve a space in the gutter
+-- This will avoid an annoying layout shift in the screen
 -- vim.opt.signcolumn = "yes"
 -- Use LspAttach autocommand to only map the following keys
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -111,17 +112,12 @@ vim.lsp.config("harper_ls", {
 -- mason and mason-lspconfig settings - ensure_installed servers {{{
 -- IMPORTANT - setting servers to be installed
 -- with mason-lspconfig be done after setting 'capabilities'
-local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig")
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	-- Replace the language servers listed here
 	-- with the ones you want to install
 	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" },
-	handlers = {
-		function(server_name)
-			require("lspconfig")[server_name].setup({})
-		end,
-	},
 })
 -- }}}
 
@@ -140,14 +136,7 @@ require("mason-tool-installer").setup({
 		"yamllint",
 	},
 })
--- setup multiple servers with same default options
-local servers = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" }
 
-for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
-		capabilities = capabilities,
-	})
-end
 -- }}}
 
 -- Autocompletion features - blink.cmp {{{
