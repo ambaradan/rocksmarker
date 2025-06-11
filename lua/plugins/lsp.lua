@@ -109,7 +109,8 @@ vim.lsp.config("harper_ls", {
 
 -- }}}
 
--- mason and mason-lspconfig settings - ensure_installed servers {{{
+-- mason LSP-related {{{
+--
 -- IMPORTANT - setting servers to be installed
 -- with mason-lspconfig be done after setting 'capabilities'
 require("mason").setup({})
@@ -125,12 +126,11 @@ require("mason-lspconfig").setup({
 		end,
 	},
 })
--- }}}
 
--- mason-tool-installer - LSPs for 'nvim-lint' and 'conform' {{{
+-- mason-tool-installer - LSPs for 'nvim-lint' and 'conform'
 require("mason-tool-installer").setup({
-	-- a list of all tools you want to ensure are installed upon
-	-- start
+	-- A list of all tools you want to ensure are installed upon
+	-- first start
 	ensure_installed = {
 		"markdownlint",
 		"vale",
@@ -142,14 +142,7 @@ require("mason-tool-installer").setup({
 		"yamllint",
 	},
 })
--- setup multiple servers with same default options
--- local servers = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" }
---
--- for _, lsp in ipairs(servers) do
--- 	vim.lsp.config("[lsp]", {
--- 		capabilities = capabilities,
--- 	})
--- end
+
 -- }}}
 
 -- Autocompletion features - blink.cmp {{{
@@ -160,10 +153,6 @@ require("blink.cmp").setup({
 		["<ESC>"] = { "cancel", "fallback" },
 	},
 	completion = {
-		trigger = {
-			-- show_on_trigger_character = true,
-			-- show_on_accept_on_trigger_character = true
-		},
 		menu = {
 			-- auto_show = true,
 			scrollbar = false,
