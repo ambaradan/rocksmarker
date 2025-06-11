@@ -63,9 +63,7 @@ capabilities.textDocument.completion.completionItem = {
 
 -- Setup language servers {{{
 
-local lspconfig = require("lspconfig")
-
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
 	capabilities = capabilities,
 	settings = {
 		Lua = {
@@ -74,40 +72,37 @@ lspconfig.lua_ls.setup({
 	},
 })
 
-lspconfig.vale_ls.setup({
-	on_attach = on_attach,
+vim.lsp.config("vale_ls", {
 	capabilities = capabilities,
 	filetypes = { "markdown", "gitcommit" },
 })
 
 -- Support for 'harper_ls'
-lspconfig.harper_ls.setup({
+vim.lsp.config("harper_ls", {
 	settings = {
-		["harper-ls"] = {
-			userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
-			fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
-			linters = {
-				SpellCheck = true,
-				SpelledNumbers = false,
-				AnA = true,
-				SentenceCapitalization = true,
-				UnclosedQuotes = true,
-				WrongQuotes = false,
-				LongSentences = true,
-				RepeatedWords = true,
-				Spaces = true,
-				Matcher = true,
-				CorrectNumberSuffix = true,
-			},
-			codeActions = {
-				ForceStable = false,
-			},
-			markdown = {
-				IgnoreLinkTitle = false,
-			},
-			diagnosticSeverity = "hint",
-			isolateEnglish = true,
+		userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
+		fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
+		linters = {
+			SpellCheck = true,
+			SpelledNumbers = false,
+			AnA = true,
+			SentenceCapitalization = true,
+			UnclosedQuotes = true,
+			WrongQuotes = false,
+			LongSentences = true,
+			RepeatedWords = true,
+			Spaces = true,
+			Matcher = true,
+			CorrectNumberSuffix = true,
 		},
+		codeActions = {
+			ForceStable = false,
+		},
+		markdown = {
+			IgnoreLinkTitle = false,
+		},
+		diagnosticSeverity = "hint",
+		isolateEnglish = true,
 	},
 })
 
@@ -116,6 +111,7 @@ lspconfig.harper_ls.setup({
 -- mason and mason-lspconfig settings - ensure_installed servers {{{
 -- IMPORTANT - setting servers to be installed
 -- with mason-lspconfig be done after setting 'capabilities'
+local lspconfig = require("lspconfig")
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	-- Replace the language servers listed here
