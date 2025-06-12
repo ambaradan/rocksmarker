@@ -1,0 +1,9 @@
+# Treesitter parser configuration files.
+
+# The list is dynamically updated ‘on demand’ by the rocks-treesitter.nvim
+# plugin. If the parser is missing for the open 'file type' in the buffer it is
+# downloaded and activated automatically.
+
+[plugins]
+tree-sitter-cli = "0.25.3"
+tree-sitter-toml = "0.0.31"
