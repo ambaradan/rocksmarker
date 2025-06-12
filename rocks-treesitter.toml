@@ -7,3 +7,4 @@
 [plugins]
 tree-sitter-cli = "0.25.3"
 tree-sitter-toml = "0.0.31"
+tree-sitter-gitcommit = "0.0.34"
