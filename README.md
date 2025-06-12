@@ -58,7 +58,7 @@ sudo make install
 ```
 
 > [!NOTE]
-> Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.10.2 (recommended). If omitted, the compilation will build the development branch 0.11.
+> Using the *git checkout stable* command to place *git* in the stable branch before cloning, ensures the use of the stable version 0.11+ (recommended). If omitted, the compilation will build the development branch 0.12+.
 
 ## Installing Lua 5.1
 
@@ -179,4 +179,23 @@ The second step is to synchronize all the configured plugins, the synchronizatio
 :Rocks sync
 ```
 
-Once the installation of the plugins is finished close the editor and reopen it to give Neovim a chance to load the new configurations, on the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSPs) necessary for the proper functioning of the editor, finishes the installation of language servers the editor is ready to be used, good development.
+Once the installation of the plugins is finished close the editor and reopen it to give Neovim a chance to load the new configurations.  
+On the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSPs) necessary for the proper functioning of the editor, finishes the installation of language servers the editor is ready to be used, good development.
+
+## TreeSitter in Rocksmarker
+
+Rocksmarker uses the functionality offered by the **rocks-treesitter.nvim** plugin provided by the *rocks.nvim* ecosystem. This plugin allows dynamic management of the installation and activation of the necessary parsers. Their installation is done 'on demand' when requested by the code in the open buffer.
+
+### What is TreeSitter?
+
+*TreeSitter* is an incremental programming language parser that builds a high-speed syntax tree. This syntax tree can be used to navigate and manipulate source code efficiently. TreeSitter is known for its speed and ability to efficiently parse source code, making it a valuable addition to Neovim.
+
+The integration of TreeSitter into Rocksmarker offers a number of benefits, including:
+
+- **High-speed syntax**: TreeSitter builds a high-speed syntax tree, which means that the syntax in your editor is always up-to-date and accurate.
+- **Code analysis**: TreeSitter can analyze your source code, which means you can use this information to provide smarter editing features, such as code navigation, folding, and syntax highlighting.
+- **Incremental**: TreeSitter is an incremental parser, which means that it parses only the code that has changed, rather than starting over each time a change is made. This results in a smoother and more responsive editing experience.
+
+### rocks-treesitter.nvim
+
+Rocks-treesitter.nvim is a plugin for Neovim that simplifies the installation and management of TreeSitter parsers. It provides a user-friendly way to install, update and uninstall TreeSitter parsers, this makes it easier to keep the Neovim development environment up-to-date and running.
