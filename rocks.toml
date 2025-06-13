@@ -71,6 +71,7 @@ nvim-spectre = "scm"
 "telescope-frecency.nvim" = "scm"
 "telescope-cmdline.nvim" = "0.2.1"
 "telescope-ui-select.nvim" = "scm"
+"telescope-undo.nvim" = "scm"
 "searchbox.nvim" = "scm"
 
 # Autocompletions plugins

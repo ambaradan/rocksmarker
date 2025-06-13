@@ -53,6 +53,9 @@ require("telescope").setup({
 			show_scores = true,
 			theme = "dropdown",
 		},
+		undo = {
+			theme = "ivy",
+		},
 		["ui-select"] = {
 			theme = "dropdown",
 			initial_mode = "normal",
@@ -75,6 +78,8 @@ require("telescope").load_extension("cmdline")
 require("telescope").load_extension("frecency")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("fidget")
+require("telescope").load_extension("undo")
+
 -- }}}
 
 -- persisted.nvim settings {{{

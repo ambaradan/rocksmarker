@@ -135,6 +135,11 @@ editor.remap("n", "<leader>fc", function()
 	})
 end, editor.make_opt("Recent files"))
 
+-- Undo (undo operations on file)
+editor.remap("n", "<leader>fu", function()
+	require("telescope").extensions.undo.undo({})
+end, editor.make_opt("Undo operations"))
+
 -- Fuzzy find in current buffer
 editor.remap("n", "<Leader>fz", function()
 	require("telescope.builtin").current_buffer_fuzzy_find({

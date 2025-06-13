@@ -12,12 +12,6 @@ function M.set_key_mapping(mode, lhs, rhs, desc)
 	M.remap(mode, lhs, rhs, opts)
 end
 
----@desc Local function to remap keybinding.
----@param mode string The mode in which the key mapping should be applied
----@param lhs string The key combination to be remapped
----@param rhs string The action to be performed when the key combination is pressed
----@param opts table A table of options for the key mapping
----@return nil
 M.remap = function(mode, lhs, rhs, opts)
 	pcall(vim.keymap.del, mode, lhs) -- Delete existing mapping to avoid conflicts
 	return vim.keymap.set(mode, lhs, rhs, opts)
