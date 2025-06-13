@@ -1,6 +1,8 @@
 # Rocksmarker
 
-- [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
+<!--toc:start-->
+- [Rocksmarker](#rocksmarker)
+    - [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
     - [Purpose of the project](#purpose-of-the-project)
     - [Prerequisites for Neovim, Lua, and Rocksmarker](#prerequisites-for-neovim-lua-and-rocksmarker)
     - [Installation of Neovim](#installation-of-neovim)
@@ -11,6 +13,8 @@
         - [Main Editor](#main-editor)
         - [Secondary editor](#secondary-editor)
     - [Installing the configuration](#installing-the-configuration)
+    - [Treesitter in Rocksmarker](#treesitter-in-rocksmarker)
+<!--toc:end-->
 
 ## Neovim IDE for Markdown code
 
