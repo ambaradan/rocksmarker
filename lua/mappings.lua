@@ -54,7 +54,7 @@ editor.remap({ "v", "n" }, "<C-v>", '"+p', editor.make_opt("Paste over selected 
 -- Paste from system clipboard in insert mode
 editor.remap("i", "<C-v>", "<C-r>+", editor.make_opt("Paste from system clipboard"))
 -- Paste in visual mode without overwriting the current register
-editor.remap("v", "<S-v>", '"_dP', editor.make_opt("Paste without overwriting register"))
+editor.remap("v", "<CS-v>", '"_dP', editor.make_opt("Paste without overwriting register"))
 -- Remap the 'y' and 'p' commands in visual mode
 -- to preserve the cursor position
 vim.cmd("vnoremap <silent> y y`]")
