@@ -58,7 +58,7 @@ require("min-theme").setup({
 			["@markup.raw.block.markdown"] = { fg = colors.fgSelection },
 			["@markup.link.markdown_inline"] = { underline = false },
 			["@markup.link.label.markdown_inline"] = { fg = colors.blueLight, underline = false },
-			["@markup.link.url.markdown_inline"] = { fg = colors.purple, underline = false },
+			["@markup.link.url.markdown_inline"] = { fg = colors.blue, underline = false },
 			["@string.escape.markdown_inline"] = { fg = colors.fgDisabled },
 		}
 	end, -- A dictionary of group names, can be a function returning a dictionary or a table.
