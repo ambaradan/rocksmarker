@@ -52,3 +52,19 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.cmd.wincmd("=")
 	end,
 })
+
+-- Re-enable cursorline when leaving markdown
+vim.api.nvim_create_autocmd("BufEnter", {
+	group = augroup,
+	callback = function()
+		-- Get the filetype of the buffer that was just entered
+		local current_filetype = vim.bo.filetype
+
+		-- Disable cursorline if it's a markdown buffer, otherwise enable it
+		if current_filetype == "markdown" then
+			vim.wo.cursorline = false
+		else
+			vim.wo.cursorline = true
+		end
+	end,
+})
