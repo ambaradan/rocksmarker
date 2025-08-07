@@ -1,5 +1,5 @@
 vim.wo.list = true
-vim.wo.listchars = "tab:» ,lead:•,trail:•"
+vim.wo.listchars = "tab:» ,lead:•,trail:⌟"
 vim.wo.wrap = true
 vim.wo.linebreak = true
 vim.wo.number = false

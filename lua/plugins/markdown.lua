@@ -3,65 +3,18 @@
 -- zen-mode. It sets up these plugins for a more efficient
 -- and productive markdown editing experience.
 
--- markview.nvim settings {{{
-local presets = require("markview.presets").headings
-local table_presets = require("markview.presets").tables
-
-require("markview").setup({
-	markdown = {
-		headings = presets.glow,
-		tables = table_presets.rounded,
+-- render-markdown.nvim settings {{{
+require("render-markdown").setup({
+	heading = {
+		sign = false,
+		icons = { "⌂ ", "¶ ", "§ ", "❡ ", "⁋ ", "※ " },
+		width = "block",
+		border = true,
+		border_virtual = true,
+		left_pad = 2,
+		right_pad = 4,
 	},
-})
-
-require("markview").setup({
-	markdown = {
-		code_blocks = {
-			style = "block",
-			enable = true,
-			sign = false,
-		},
-		-- tables = {
-		-- 	enable = false,
-		-- },
-		headings = {
-			heading_1 = {
-				icon = " 󰉫 ",
-				sign = " ",
-			},
-			heading_2 = {
-				sign = " ",
-				icon = " 󰉬 ",
-				shift_char = " ",
-			},
-			heading_3 = {
-				sign = " ",
-				icon = " 󰉭 ",
-				shift_char = " ",
-			},
-			heading_4 = {
-				sign = " ",
-				icon = " 󰉮 ",
-				shift_char = " ",
-			},
-			heading_5 = {
-				sign = " ",
-				icon = " 󰉯 ",
-				shift_char = " ",
-			},
-			heading_6 = {
-				sign = " ",
-				icon = " 󰉰 ",
-				shift_char = " ",
-			},
-		},
-	},
-	markdown_inline = {
-		enable = true,
-		hyperlinks = {
-			enable = true,
-		},
-	},
+	code = { sign = false, width = "block", left_pad = 2, right_pad = 4, min_width = 45 },
 })
 -- }}}
 
