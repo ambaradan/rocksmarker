@@ -95,7 +95,7 @@ nvim-lint = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
 nvim-rockydocs = "1.0.0"
-"render-markdown.nvim" = "8.6.0"
+"render-markdown.nvim" = "8.7.0"
 
 # Maintained the plugin to the development
 # version due to bugs in version 2.0
