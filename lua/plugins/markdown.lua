@@ -15,6 +15,7 @@ require("render-markdown").setup({
 		right_pad = 4,
 	},
 	code = { sign = false, width = "block", left_pad = 2, right_pad = 4, min_width = 45 },
+	pipe_table = { style = "normal" },
 })
 -- }}}
 

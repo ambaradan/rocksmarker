@@ -47,6 +47,8 @@ require("min-theme").setup({
 			["RenderMarkdownCode"] = { bg = colors.bgDarker },
 			["RenderMarkdownLink"] = { fg = colors.blue },
 			["RenderMarkdownCodeInline"] = { fg = colors.symbol, bg = colors.borderDarker },
+			["RenderMarkdownTableHead"] = { fg = colors.borderDarker },
+			["RenderMarkdownTableRow"] = { fg = colors.borderDarker },
 			["@markup.heading.1.markdown"] = { fg = colors.fgCommand, bold = true },
 			["@markup.heading.2.markdown"] = { fg = colors.fgCommand, bold = true },
 			["@markup.heading.3.markdown"] = { fg = colors.fgCommand, bold = true },
