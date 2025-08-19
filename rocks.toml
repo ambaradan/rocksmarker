@@ -39,7 +39,7 @@ config_path = "rocks-treesitter.toml"
 
 [plugins]
 # Rocks section
-"rocks.nvim" = "2.45.1"
+"rocks.nvim" = "2.46.0"
 "rocks-config.nvim" = "3.1.2"
 # "rocks-git.nvim" = "2.5.2"
 # "rocks-lazy.nvim" = "1.1.2"
@@ -65,7 +65,7 @@ nvim-web-devicons = "0.100"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
 "yanky.nvim" = "2.0.0"
-"persisted.nvim" = "2.1.0"
+"persisted.nvim" = "2.1.1"
 "diffview.nvim" = "scm"
 "nvim-highlight-colors" = "scm"
 "telescope-frecency.nvim" = "scm"
