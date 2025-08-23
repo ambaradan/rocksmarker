@@ -87,7 +87,7 @@ nvim-lspconfig = "2.4.0"
 
 # Diagnostic plugins
 nvim-lint = "scm"
-"conform.nvim" = "9.0.0"
+"conform.nvim" = "9.1.0"
 "trouble.nvim" = "3.7.1"
 
 # Markdown plugins
