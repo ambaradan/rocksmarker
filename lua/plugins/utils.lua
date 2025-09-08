@@ -228,8 +228,6 @@ require("rainbow-delimiters.setup").setup({
 	query = {
 		[""] = "rainbow-delimiters",
 		lua = "rainbow-blocks",
-		html = "rainbow-tags",
-		javascript = "rainbow-delimiters-react",
 	},
 	highlight = {
 		"RainbowDelimiterRed",
