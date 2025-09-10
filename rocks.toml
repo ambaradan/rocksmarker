@@ -60,7 +60,7 @@ nvim-web-devicons = "0.100"
 "indent-blankline.nvim" = "3.9.0"
 "nvim-autopairs" = "scm"
 "telescope.nvim" = "scm"
-"neo-tree.nvim" = "3.34"
+"neo-tree.nvim" = "3.35"
 "rainbow-delimiters.nvim" = "0.9.1"
 "telescope-file-browser.nvim" = "scm"
 nvim-spectre = "scm"
@@ -95,7 +95,7 @@ nvim-lint = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
 nvim-rockydocs = "1.0.0"
-"render-markdown.nvim" = "8.7.0"
+"render-markdown.nvim" = "8.8.0"
 
 # Maintained the plugin to the development
 # version due to bugs in version 2.0
