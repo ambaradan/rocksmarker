@@ -411,5 +411,22 @@
         "prefix": ["caution", "c"],
         "body": "> [!CAUTION]\n> ",
         "description": "Insert Caution"
+    },
+        "Insert highlight": {
+        "prefix": "highlight",
+        "body": "==${1}== ${0}",
+        "description": "Insert highlight"
+    },
+    "Insert Material Note": {
+        "prefix": ["note", "n"],
+        "body": "!!! note \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Note with title and indented content"
+    },
+    "Insert Material Warning": {
+        "prefix": ["warning", "wa"],
+        "body": "!!! warning\n\n${2:content}\n",
+        "description": "Insert Material Warning"
     }
+
 }
+
