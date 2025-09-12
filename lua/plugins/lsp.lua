@@ -117,7 +117,7 @@ require("mason").setup({})
 require("mason-lspconfig").setup({
 	-- Replace the language servers listed here
 	-- with the ones you want to install
-	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo" },
+	ensure_installed = { "lua_ls", "html", "cssls", "marksman", "harper_ls", "yamlls", "bashls", "taplo", "jsonls" },
 	handlers = {
 		function(server_name)
 			vim.lsp.config("[lsp]", {
@@ -140,6 +140,7 @@ require("mason-tool-installer").setup({
 		"shellcheck",
 		"prettier",
 		"yamllint",
+		"jsonlint",
 	},
 })
 
@@ -154,7 +155,7 @@ require("blink.cmp").setup({
 	},
 	completion = {
 		menu = {
-			-- auto_show = true,
+			auto_show = true,
 			scrollbar = false,
 			draw = {
 				treesitter = { "lsp" },
