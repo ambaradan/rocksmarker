@@ -31,6 +31,12 @@ require("min-theme").setup({
 			["@markup.heading.3.vimdoc"] = { fg = colors.purple },
 			["@label.vimdoc"] = { fg = colors.orange },
 			["@markup.link.vimdoc"] = { fg = colors.blueLight },
+			-- Blink UI
+			["BlinkCmpMenu"] = { bg = colors.bgDarker },
+			["BlinkCmpMenuSelection"] = { fg = colors.fgSelection, bg = colors.bgFloat },
+			["BlinkCmpDoc"] = { fg = colors.fgSelection, bg = colors.bgFloat },
+			["BlinkCmpDocSeparator"] = { fg = colors.border },
+			["BlinkCmpDocBorder"] = { bg = colors.bgFloat },
 			-- render-markdown set
 			["RenderMarkdownH1"] = { fg = colors.fgCommand, bold = true },
 			["RenderMarkdownH1Bg"] = { fg = colors.fgCommand, bg = colors.bgDarker },

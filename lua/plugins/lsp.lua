@@ -158,6 +158,7 @@ require("blink.cmp").setup({
 			auto_show = true,
 			scrollbar = false,
 			draw = {
+				align_to = "cursor",
 				treesitter = { "lsp" },
 			},
 			columns = {
