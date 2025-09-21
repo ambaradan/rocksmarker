@@ -80,7 +80,7 @@ require("lspconfig").lua_ls.setup({
 			-- Diagnostics configuration to handle globals and warnings
 			diagnostics = {
 				globals = { "vim", "describe", "it", "before_each", "after_each" }, -- Recognize additional globals (e.g., for testing)
-				disable = { "lowercase-global" }, -- Disable specific warnings
+				disable = { "lowercase-global", "undefined-field" }, -- Disable specific warnings
 			},
 			-- Workspace settings to manage library paths and performance
 			workspace = {
