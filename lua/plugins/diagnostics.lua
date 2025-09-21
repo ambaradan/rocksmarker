@@ -1,3 +1,4 @@
+-- lua/plugins/diagnostics.lua
 -- This script configures various Neovim plugins for code
 -- diagnostics, formatting, and linting. It sets up conform
 -- for formatting, nvim-lint for linting, and trouble for
@@ -14,7 +15,6 @@ require("conform").setup({
 		markdown = { "markdownlint" },
 		yaml = { "yamlfmt" },
 	},
-
 	format_on_save = {
 		-- These options will be passed to conform.format()
 		timeout_ms = 1000,
@@ -23,14 +23,23 @@ require("conform").setup({
 })
 -- }}}
 
--- nvim-lint.nvim settings - Linting capabilities  {{{
-
+-- nvim-lint.nvim settings - Linting capabilities {{{
 require("lint").linters_by_ft = {
 	markdown = { "markdownlint", "vale" },
 	yaml = { "yamllint" },
 	bash = { "shellcheck" },
 	json = { "jsonlint" },
 	vim = { "vint" },
+}
+
+-- Configure specific options for markdownlint
+-- Example: Disable line length rule (MD013)
+require("lint").linters.markdownlint.args = {
+	"--disable",
+	"MD013", -- Disable rule MD013 (line length)
+	"--disable",
+	"MD046", -- Disable rule MD046 (code block style)
+	"--",
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
