@@ -3,10 +3,6 @@
 -- language servers, and other LSP-related settings.
 
 -- nvim-lspconfig settings - LSP capabilities {{{
-
--- Reserve a space in the gutter
--- This will avoid an annoying layout shift in the screen
--- vim.opt.signcolumn = "yes"
 -- Use LspAttach autocommand to only map the following keys
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
@@ -14,6 +10,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "Lsp: " .. desc })
 		end
+
+		-- Key mappings for LSP features
 		map("gd", vim.lsp.buf.definition, "Goto Definition")
 		map("K", vim.lsp.buf.hover, "Hover Documentation")
 		map("<C-k>", vim.lsp.buf.signature_help, "Signature Help")
@@ -25,6 +23,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type Definition")
 		map("<leader>ds", "<cmd>Telescope lsp_document_symbols theme=dropdown<cr>", "Document Symbols")
 		map("<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols theme=dropdown<cr>", "Workspace Symbols")
+
+		-- Document highlight support
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		if client and client.server_capabilities.documentHighlightProvider then
 			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -39,9 +39,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- capabilities setting
+-- LSP capabilities configuration
 local capabilities = require("blink.cmp").get_lsp_capabilities()
-
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
 	snippetSupport = true,
@@ -59,12 +58,11 @@ capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
-
 -- }}}
 
 -- Setup language servers {{{
-
-vim.lsp.config("lua_ls", {
+-- Lua language server
+require("lspconfig").lua_ls.setup({
 	capabilities = capabilities,
 	settings = {
 		Lua = {
@@ -73,13 +71,14 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.config("vale_ls", {
+-- Vale language server for Markdown and Git commit messages
+require("lspconfig").vale_ls.setup({
 	capabilities = capabilities,
 	filetypes = { "markdown", "gitcommit" },
 })
 
--- Support for 'harper_ls'
-vim.lsp.config("harper_ls", {
+-- Harper language server for grammar and style checking
+require("lspconfig").harper_ls.setup({
 	settings = {
 		userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
 		fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
@@ -106,17 +105,13 @@ vim.lsp.config("harper_ls", {
 		isolateEnglish = true,
 	},
 })
-
 -- }}}
 
 -- mason LSP-related {{{
---
--- IMPORTANT - setting servers to be installed
--- with mason-lspconfig be done after setting 'capabilities'
+-- Mason setup for managing LSP servers
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	-- Replace the language servers listed here
-	-- with the ones you want to install
+	-- List of LSP servers to ensure are installed
 	ensure_installed = {
 		"lua_ls",
 		"html",
@@ -131,17 +126,16 @@ require("mason-lspconfig").setup({
 	},
 	handlers = {
 		function(server_name)
-			vim.lsp.config("[lsp]", {
+			require("lspconfig")[server_name].setup({
 				capabilities = capabilities,
 			})
 		end,
 	},
 })
 
--- mason-tool-installer - LSPs for 'nvim-lint' and 'conform'
+-- Mason tool installer for additional tools
 require("mason-tool-installer").setup({
-	-- A list of all tools you want to ensure are installed upon
-	-- first start
+	-- List of tools to ensure are installed
 	ensure_installed = {
 		"markdownlint",
 		"vale",
@@ -155,11 +149,10 @@ require("mason-tool-installer").setup({
 		"vint",
 	},
 })
-
 -- }}}
 
 -- Autocompletion features - blink.cmp {{{
-
+-- Setup for autocompletion using blink.cmp
 require("blink.cmp").setup({
 	keymap = {
 		preset = "super-tab",
@@ -167,7 +160,6 @@ require("blink.cmp").setup({
 	},
 	completion = {
 		menu = {
-			-- auto_show = true,
 			scrollbar = false,
 			draw = {
 				treesitter = { "lsp" },
@@ -190,5 +182,4 @@ require("blink.cmp").setup({
 	},
 	fuzzy = { implementation = "lua" },
 })
-
 -- }}}
