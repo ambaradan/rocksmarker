@@ -62,26 +62,62 @@ capabilities.textDocument.completion.completionItem = {
 
 -- Setup language servers {{{
 -- Lua language server
+
 require("lspconfig").lua_ls.setup({
-	capabilities = capabilities,
+	capabilities = capabilities, -- Use the capabilities defined earlier for LSP features
 	settings = {
 		Lua = {
-			diagnostics = { globals = { "vim" } },
+			-- Runtime configuration for Lua
+			runtime = {
+				version = "LuaJIT", -- Use LuaJIT for Neovim compatibility
+				path = vim.split(package.path, ";"), -- Set Lua package paths for module resolution
+			},
+			-- Completion settings for better suggestions
+			completion = {
+				callSnippet = "Replace", -- Replace existing text with snippet
+				displayContext = 5, -- Show 5 lines of context in completion
+			},
+			-- Diagnostics configuration to handle globals and warnings
+			diagnostics = {
+				globals = { "vim", "describe", "it", "before_each", "after_each" }, -- Recognize additional globals (e.g., for testing)
+				disable = { "lowercase-global" }, -- Disable specific warnings
+			},
+			-- Workspace settings to manage library paths and performance
+			workspace = {
+				library = {
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true, -- Include Neovim's Lua runtime files
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true, -- Include Neovim's LSP-related Lua files
+					-- Add other custom paths if needed (e.g., for plugins or projects)
+				},
+				ignoreDir = { ".git", "node_modules" }, -- Ignore specific directories for performance
+				maxPreload = 2000, -- Limit memory usage (in KB)
+				preloadFileSize = 500, -- Limit file size for preloading (in KB)
+			},
+			-- Disable built-in formatting to avoid conflicts with stylua
+			format = {
+				enable = false, -- Disable LuaLS formatting (use stylua instead)
+			},
+			-- Disable telemetry for privacy
+			telemetry = {
+				enable = false,
+			},
+			-- Enable hints for better code suggestions
+			hint = {
+				enable = true, -- Enable inline hints
+				arrayIndex = "Enable", -- Show hints for array indices
+				await = true, -- Show hints for `await` usage
+				paramName = "All", -- Show hints for parameter names
+				paramType = true, -- Show hints for parameter types
+				semicolon = "SameLine", -- Show hints for semicolons
+				setType = true, -- Show hints for set types
+			},
 		},
 	},
-})
-
--- Vale language server for Markdown and Git commit messages
-require("lspconfig").vale_ls.setup({
-	capabilities = capabilities,
-	filetypes = { "markdown", "gitcommit" },
 })
 
 -- Harper language server for grammar and style checking
 require("lspconfig").harper_ls.setup({
 	settings = {
-		userDictPath = vim.fn.stdpath("config") .. "/spell/exceptions.utf-8.add",
-		fileDictPath = vim.fn.stdpath("config") .. "/spell/file_dictionaries/",
 		linters = {
 			SpellCheck = true,
 			SpelledNumbers = false,
@@ -99,7 +135,11 @@ require("lspconfig").harper_ls.setup({
 			ForceStable = false,
 		},
 		markdown = {
-			IgnoreLinkTitle = false,
+			IgnoreLinkTitle = false, -- Check link titles for errors
+			IgnoreCodeBlocks = true, -- Ignore code blocks (avoid false positives)
+			IgnoreInlineCode = true, -- Ignore inline code (e.g., `code`)
+			CheckLists = true, -- Validate list formatting
+			CheckHeadings = true, -- Validate heading capitalization and formatting
 		},
 		diagnosticSeverity = "hint",
 		isolateEnglish = true,
