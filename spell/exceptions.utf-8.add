@@ -53,3 +53,5 @@ venv
 pyvenv
 utils
 ctrl
+TreeSitter
+treesitter
