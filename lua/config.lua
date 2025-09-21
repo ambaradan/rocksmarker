@@ -1,9 +1,12 @@
 -- lua/config.lua
 local M = {}
 
--- Imposta la modalità debug (true/false)
+--- Main configuration table.
+-- @field debug (boolean) Enable or disable debug messages.
+-- @field log_file_path (string) Path to the debug log file.
 M.config = {
-	debug = true, -- Abilita/disabilita i messaggi di debug
+	debug = true, -- Enable or disable debug messages
+	log_file_path = vim.fn.stdpath("data") .. "/rocksmarker_debug.log", -- Path to the log file
 }
 
 return M

@@ -1,42 +1,51 @@
 -- lua/utils/debug.lua
+-- Debug and logging utilities for Neovim.
+-- This module provides functions for logging messages, tables, and execution times.
+
 local M = {}
 
----@param message string The message to log to file
+-- Import configuration
+local config = require("config")
+	or {
+		config = {
+			debug = false,
+			log_file_path = vim.fn.stdpath("data") .. "/rocksmarker_debug.log",
+		},
+	}
+
+--- Writes a message to a logfile with a timestamp.
+-- @param message (string) The message to log.
 function M.log_to_file(message)
-	local log_file = vim.fn.stdpath("data") .. "/rocksmarker_debug.log"
+	local log_file = config.config.log_file_path
 	local timestamped_message = os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n"
 
-	-- Apre il file in modalità append
+	-- Open the file in append mode
 	vim.loop.fs_open(log_file, "a", 438, function(err, fd)
 		if err then
 			vim.notify("Failed to open log file: " .. log_file .. " - Error: " .. err, vim.log.levels.ERROR)
 			return
 		end
 
-		-- Scrive il messaggio nel file
-		vim.loop.fs_write(fd, timestamped_message, -1, function(err, bytes_written)
+		-- Write the message to the file
+		vim.loop.fs_write(fd, timestamped_message, -1, function(err)
 			if err then
 				vim.notify("Failed to write to log file: " .. err, vim.log.levels.ERROR)
 			end
-			-- Chiude il file
+			-- Close the file
 			vim.loop.fs_close(fd)
 		end)
 	end)
 end
 
--- Add root to package.path to import config.lua
-package.path = package.path .. ";../?.lua"
-
--- Import config.lua safely
-local config = require("config") or { config = { debug = false } }
-
---- Log a table in a readable format (useful for debugging complex structures)
----@param tbl table The table to log
----@param indent integer|nil The indentation level (default: 0)
+--- Logs a table in a readable format (useful for debugging complex structures).
+-- @param tbl (table) The table to log.
+-- @param indent (integer|nil) Indentation level (default: 0).
+-- @return (string) The string representation of the table.
 function M.log_table(tbl, indent)
 	indent = indent or 0
 	local indent_str = string.rep("  ", indent)
 	local log_str = ""
+
 	for k, v in pairs(tbl) do
 		if type(v) == "table" then
 			log_str = log_str .. string.format("%s%s:\n", indent_str, tostring(k))
@@ -45,26 +54,29 @@ function M.log_table(tbl, indent)
 			log_str = log_str .. string.format("%s%s: %s\n", indent_str, tostring(k), tostring(v))
 		end
 	end
+
 	M.log_debug(log_str)
+	return log_str
 end
 
---- Execute a function and log its execution time (useful for performance debugging)
----@param func function The function to execute
----@param ... any Arguments to pass to the function
----@return any ... The return values of the executed function
+--- Executes a function and logs its execution time (useful for performance debugging).
+-- @param func (function) The function to execute.
+-- @param ... (any) Arguments to pass to the function.
+-- @return (any) The return values of the executed function.
 function M.debug_execution_time(func, ...)
 	local start_time = os.clock()
 	local results = { func(...) }
 	local elapsed_time = os.clock() - start_time
+
 	M.log_debug(string.format("Function executed in %.4f seconds", elapsed_time))
 	return unpack(results)
 end
 
---- Print a debug message to the Neovim command line
----@param message string The message to print
+--- Logs a debug message to the log file.
+-- @param message (string) The message to log.
 function M.log_debug(message)
-	if config.config and config.config.debug then
-		vim.cmd("echo '" .. message:gsub("'", "''") .. "'")
+	if config.config.debug then
+		M.log_to_file(message)
 	end
 end
 

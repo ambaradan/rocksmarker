@@ -9,13 +9,11 @@ local debug_utils = require("utils.debug")
 ---@param rhs string The right-hand side of the key mapping (the command to execute).
 ---@param desc string Description of the key mapping.
 function M.set_key_mapping(mode, lhs, rhs, desc)
-	debug_utils.log_debug(string.format("Setting key mapping: mode=%s, lhs=%s, desc=%s", mode, lhs, desc))
 	local opts = M.make_opt(desc)
 	M.remap(mode, lhs, rhs, opts)
 end
 
 M.remap = function(mode, lhs, rhs, opts)
-	debug_utils.log_debug(string.format("Remapping: mode=%s, lhs=%s", mode, lhs))
 	pcall(vim.keymap.del, mode, lhs) -- Delete existing mapping to avoid conflicts
 	return vim.keymap.set(mode, lhs, rhs, opts)
 end
