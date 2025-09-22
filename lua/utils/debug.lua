@@ -4,7 +4,7 @@
 
 local M = {}
 
--- Import configuration
+-- Import configuration or use defaults
 local config = require("config")
 	or {
 		config = {
@@ -20,16 +20,16 @@ function M.log_to_file(message)
 	local timestamped_message = os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n"
 
 	-- Open the file in append mode
-	vim.loop.fs_open(log_file, "a", 438, function(err, fd)
-		if err then
-			vim.notify("Failed to open log file: " .. log_file .. " - Error: " .. err, vim.log.levels.ERROR)
+	vim.loop.fs_open(log_file, "a", 438, function(open_err, fd)
+		if open_err then
+			vim.notify("Failed to open log file: " .. log_file .. " - Error: " .. open_err, vim.log.levels.ERROR)
 			return
 		end
 
 		-- Write the message to the file
-		vim.loop.fs_write(fd, timestamped_message, -1, function(err)
-			if err then
-				vim.notify("Failed to write to log file: " .. err, vim.log.levels.ERROR)
+		vim.loop.fs_write(fd, timestamped_message, -1, function(write_err)
+			if write_err then
+				vim.notify("Failed to write to log file: " .. write_err, vim.log.levels.ERROR)
 			end
 			-- Close the file
 			vim.loop.fs_close(fd)
@@ -86,18 +86,18 @@ function M.show_latest_logs(num_lines)
 	num_lines = num_lines or 20 -- Default: show the last 20 lines
 	local log_file = config.config.log_file_path
 
-	vim.loop.fs_open(log_file, "r", 438, function(err, fd)
-		if err then
+	vim.loop.fs_open(log_file, "r", 438, function(open_err, fd)
+		if open_err then
 			vim.schedule(function()
-				vim.notify("Failed to open log file: " .. log_file .. " - Error: " .. err, vim.log.levels.ERROR)
+				vim.notify("Failed to open log file: " .. log_file .. " - Error: " .. open_err, vim.log.levels.ERROR)
 			end)
 			return
 		end
 
-		vim.loop.fs_stat(log_file, function(err, stat)
-			if err then
+		vim.loop.fs_stat(log_file, function(stat_err, stat)
+			if stat_err then
 				vim.schedule(function()
-					vim.notify("Failed to read log file stats: " .. err, vim.log.levels.ERROR)
+					vim.notify("Failed to read log file stats: " .. stat_err, vim.log.levels.ERROR)
 				end)
 				return
 			end
@@ -106,11 +106,12 @@ function M.show_latest_logs(num_lines)
 			local buffer_size = math.min(file_size, 1024 * 10) -- Read up to 10KB from the end
 			local offset = math.max(0, file_size - buffer_size)
 
-			vim.loop.fs_read(fd, buffer_size, offset, function(err, data)
+			vim.loop.fs_read(fd, buffer_size, offset, function(read_err, data)
 				vim.loop.fs_close(fd)
-				if err then
+
+				if read_err then
 					vim.schedule(function()
-						vim.notify("Failed to read log file: " .. err, vim.log.levels.ERROR)
+						vim.notify("Failed to read log file: " .. read_err, vim.log.levels.ERROR)
 					end)
 					return
 				end
@@ -146,10 +147,9 @@ function M.show_latest_logs(num_lines)
 		end)
 	end)
 end
-
 -- Create a user command to show the latest logs
 vim.api.nvim_create_user_command("ShowLatestLogs", function(opts)
-	local num_lines = tonumber(opts.args) or 20
+	local num_lines = tonumber(opts.args) or 40
 	M.show_latest_logs(num_lines)
 end, {
 	nargs = "?",
