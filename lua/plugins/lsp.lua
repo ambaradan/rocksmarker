@@ -147,17 +147,6 @@ require("lspconfig").harper_ls.setup({
 	},
 })
 
--- Load the utils.lsp_toggle module
-local lsp_toggle = require("utils.lsp-toggle")
-
--- Create custom commands to enable, disable, and toggle harper_ls
-vim.api.nvim_create_user_command("HarperEnable", lsp_toggle.enable_harper_ls, {})
-vim.api.nvim_create_user_command("HarperDisable", lsp_toggle.disable_harper_ls, {})
-vim.api.nvim_create_user_command("HarperToggle", lsp_toggle.toggle_harper_ls, {})
-
--- (Optional) Key mapping to toggle harper_ls
--- vim.keymap.set("n", "<leader>th", lsp_toggle.toggle_harper_ls, { desc = "Toggle harper_ls" })
-
 -- }}}
 
 -- mason LSP-related {{{
