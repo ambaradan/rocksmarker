@@ -13,7 +13,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "Lsp: " .. desc })
-			debug_utils.log_debug("Mapped LSP key: " .. keys .. " for " .. desc)
 		end
 
 		-- Key mappings for LSP features
