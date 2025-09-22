@@ -43,4 +43,12 @@ function M.toggle_harper_ls()
 	end
 end
 
+-- -- Create custom commands to enable, disable, and toggle harper_ls
+vim.api.nvim_create_user_command("HarperEnable", M.enable_harper_ls, {})
+vim.api.nvim_create_user_command("HarperDisable", M.disable_harper_ls, {})
+vim.api.nvim_create_user_command("HarperToggle", M.toggle_harper_ls, {})
+
+-- (Optional) Key mapping to toggle harper_ls
+vim.keymap.set("n", "<leader>ht", M.toggle_harper_ls, { desc = "Toggle harper_ls" })
+
 return M
