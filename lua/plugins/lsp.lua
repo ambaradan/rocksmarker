@@ -147,6 +147,9 @@ require("lspconfig").harper_ls.setup({
 	},
 })
 
+-- function and command for Harper LSP
+require("utils.lsp_toggle")
+
 -- }}}
 
 -- mason LSP-related {{{
