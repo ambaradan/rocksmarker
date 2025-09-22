@@ -1,15 +1,19 @@
 -- lua/plugins/lsp.lua
--- This script configures the Language Server Protocol (LSP)
--- settings for Neovim. It sets up the LSP capabilities,
--- language servers, and other LSP-related settings.
+-- This script configures the Language Server Protocol (LSP) settings for Neovim.
+-- It includes debug logging for LSP events and performance.
+
+local debug_utils = require("utils.debug")
 
 -- nvim-lspconfig settings - LSP capabilities {{{
 -- Use LspAttach autocommand to only map the following keys
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
 	callback = function(event)
+		debug_utils.log_debug("LSP attached to buffer: " .. vim.api.nvim_buf_get_name(event.buf))
+
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "Lsp: " .. desc })
+			debug_utils.log_debug("Mapped LSP key: " .. keys .. " for " .. desc)
 		end
 
 		-- Key mappings for LSP features
@@ -19,7 +23,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("<leader>rn", vim.lsp.buf.rename, "Rename")
 		map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 		map("gD", vim.lsp.buf.declaration, "Goto Declaration")
-		map("gr", "<cmd>Telescope lsp_references theme=ivy<cr>", "Goto References")
+		map("gr", [[<cmd>Telescope lsp_references theme=ivy<cr>]], "Goto References")
 		map("gI", require("telescope.builtin").lsp_implementations, "Goto Implementation")
 		map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type Definition")
 		map("<leader>ds", "<cmd>Telescope lsp_document_symbols theme=dropdown<cr>", "Document Symbols")
@@ -28,20 +32,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Document highlight support
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		if client and client.server_capabilities.documentHighlightProvider then
+			debug_utils.log_debug("Enabling document highlight for client: " .. client.name)
 			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 				buffer = event.buf,
-				callback = vim.lsp.buf.document_highlight,
+				callback = function()
+					debug_utils.debug_execution_time(vim.lsp.buf.document_highlight)
+				end,
 			})
 			vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 				buffer = event.buf,
-				callback = vim.lsp.buf.clear_references,
+				callback = function()
+					debug_utils.debug_execution_time(vim.lsp.buf.clear_references)
+				end,
 			})
 		end
 	end,
 })
+-- }}}
 
 -- LSP capabilities configuration
-local capabilities = require("blink.cmp").get_lsp_capabilities()
+local capabilities = debug_utils.debug_execution_time(function()
+	return require("blink.cmp").get_lsp_capabilities()
+end)
+
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
 	snippetSupport = true,
@@ -59,64 +72,61 @@ capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
--- }}}
+
+debug_utils.log_table(capabilities, 0)
 
 -- Setup language servers {{{
 -- Lua language server
-
+debug_utils.log_debug("Setting up Lua LSP...")
 require("lspconfig").lua_ls.setup({
-	capabilities = capabilities, -- Use the capabilities defined earlier for LSP features
+	capabilities = capabilities,
 	settings = {
 		Lua = {
-			-- Runtime configuration for Lua
 			runtime = {
-				version = "LuaJIT", -- Use LuaJIT for Neovim compatibility
-				path = vim.split(package.path, ";"), -- Set Lua package paths for module resolution
+				version = "LuaJIT",
+				path = vim.split(package.path, ";"),
 			},
-			-- Completion settings for better suggestions
 			completion = {
-				callSnippet = "Replace", -- Replace existing text with snippet
-				displayContext = 5, -- Show 5 lines of context in completion
+				callSnippet = "Replace",
+				displayContext = 5,
 			},
-			-- Diagnostics configuration to handle globals and warnings
 			diagnostics = {
-				globals = { "vim", "describe", "it", "before_each", "after_each" }, -- Recognize additional globals (e.g., for testing)
-				disable = { "lowercase-global", "undefined-field" }, -- Disable specific warnings
+				globals = { "vim", "describe", "it", "before_each", "after_each" },
+				disable = { "lowercase-global", "undefined-field" },
 			},
-			-- Workspace settings to manage library paths and performance
 			workspace = {
 				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true, -- Include Neovim's Lua runtime files
-					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true, -- Include Neovim's LSP-related Lua files
-					-- Add other custom paths if needed (e.g., for plugins or projects)
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 				},
-				ignoreDir = { ".git", "node_modules" }, -- Ignore specific directories for performance
-				maxPreload = 2000, -- Limit memory usage (in KB)
-				preloadFileSize = 500, -- Limit file size for preloading (in KB)
+				ignoreDir = { ".git", "node_modules" },
+				maxPreload = 2000,
+				preloadFileSize = 500,
 			},
-			-- Disable built-in formatting to avoid conflicts with stylua
 			format = {
-				enable = false, -- Disable LuaLS formatting (use stylua instead)
+				enable = false,
 			},
-			-- Disable telemetry for privacy
 			telemetry = {
 				enable = false,
 			},
-			-- Enable hints for better code suggestions
 			hint = {
-				enable = true, -- Enable inline hints
-				arrayIndex = "Enable", -- Show hints for array indices
-				await = true, -- Show hints for `await` usage
-				paramName = "All", -- Show hints for parameter names
-				paramType = true, -- Show hints for parameter types
-				semicolon = "SameLine", -- Show hints for semicolons
-				setType = true, -- Show hints for set types
+				enable = true,
+				arrayIndex = "Enable",
+				await = true,
+				paramName = "All",
+				paramType = true,
+				semicolon = "SameLine",
+				setType = true,
 			},
 		},
 	},
+	on_attach = function(_, bufnr)
+		debug_utils.log_debug("Lua LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
+	end,
 })
 
 -- Harper language server for grammar and style checking
+debug_utils.log_debug("Setting up Harper LSP...")
 require("lspconfig").harper_ls.setup({
 	settings = {
 		linters = {
@@ -136,27 +146,28 @@ require("lspconfig").harper_ls.setup({
 			ForceStable = false,
 		},
 		markdown = {
-			IgnoreLinkTitle = false, -- Check link titles for errors
-			IgnoreCodeBlocks = true, -- Ignore code blocks (avoid false positives)
-			IgnoreInlineCode = true, -- Ignore inline code (e.g., `code`)
-			CheckLists = true, -- Validate list formatting
-			CheckHeadings = true, -- Validate heading capitalization and formatting
+			IgnoreLinkTitle = false,
+			IgnoreCodeBlocks = true,
+			IgnoreInlineCode = true,
+			CheckLists = true,
+			CheckHeadings = true,
 		},
 		diagnosticSeverity = "hint",
 		isolateEnglish = true,
 	},
+	on_attach = function(_, bufnr)
+		debug_utils.log_debug("Harper LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
+	end,
 })
 
--- function and command for Harper LSP
+-- Function and command for Harper LSP
 require("utils.lsp_toggle")
-
 -- }}}
 
--- mason LSP-related {{{
--- Mason setup for managing LSP servers
+-- Mason LSP-related {{{
+debug_utils.log_debug("Setting up Mason...")
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	-- List of LSP servers to ensure are installed
 	ensure_installed = {
 		"lua_ls",
 		"html",
@@ -171,6 +182,7 @@ require("mason-lspconfig").setup({
 	},
 	handlers = {
 		function(server_name)
+			debug_utils.log_debug("Setting up LSP server: " .. server_name)
 			require("lspconfig")[server_name].setup({
 				capabilities = capabilities,
 			})
@@ -179,8 +191,8 @@ require("mason-lspconfig").setup({
 })
 
 -- Mason tool installer for additional tools
+debug_utils.log_debug("Setting up Mason tool installer...")
 require("mason-tool-installer").setup({
-	-- List of tools to ensure are installed
 	ensure_installed = {
 		"markdownlint",
 		"vale",
@@ -197,7 +209,7 @@ require("mason-tool-installer").setup({
 -- }}}
 
 -- Autocompletion features - blink.cmp {{{
--- Setup for autocompletion using blink.cmp
+debug_utils.log_debug("Setting up blink.cmp...")
 require("blink.cmp").setup({
 	keymap = {
 		preset = "super-tab",
@@ -210,7 +222,7 @@ require("blink.cmp").setup({
 				treesitter = { "lsp" },
 			},
 			columns = {
-				{ "kind_icon", "label", gap = 1 },
+				{ "kind_icon", "label", gap = 3 },
 				{ "source_name" },
 			},
 			ghost_text = {
