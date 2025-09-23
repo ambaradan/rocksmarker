@@ -1,3 +1,4 @@
+-- lua/plugins/diagnostic.lua
 -- This script configures various Neovim plugins for code
 -- diagnostics, formatting, and linting, with debug logging.
 
