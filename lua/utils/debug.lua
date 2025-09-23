@@ -149,7 +149,7 @@ function M.show_latest_logs(num_lines)
 end
 -- Create a user command to show the latest logs
 vim.api.nvim_create_user_command("ShowLatestLogs", function(opts)
-	local num_lines = tonumber(opts.args) or 40
+	local num_lines = tonumber(opts.args) or 500
 	M.show_latest_logs(num_lines)
 end, {
 	nargs = "?",
