@@ -59,16 +59,19 @@ function M.log_table(tbl, indent)
 	return log_str
 end
 
---- Executes a function and logs its execution time (useful for performance debugging).
+--- Executes a function and logs its execution time only if it exceeds a threshold.
 -- @param func (function) The function to execute.
+-- @param threshold (number|nil) Minimum execution time to log (default: 0.0001 seconds).
 -- @param ... (any) Arguments to pass to the function.
 -- @return (any) The return values of the executed function.
-function M.debug_execution_time(func, ...)
+function M.debug_execution_time(func, threshold, ...)
+	threshold = threshold or 0.0001 -- Default threshold: 0.1 milliseconds
 	local start_time = os.clock()
 	local results = { func(...) }
 	local elapsed_time = os.clock() - start_time
-
-	M.log_debug(string.format("Function executed in %.4f seconds", elapsed_time))
+	if elapsed_time >= threshold then
+		M.log_debug(string.format("Function executed in %.4f seconds", elapsed_time))
+	end
 	return unpack(results)
 end
 
