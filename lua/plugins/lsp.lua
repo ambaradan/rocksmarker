@@ -72,7 +72,7 @@ capabilities.textDocument.completion.completionItem = {
 	},
 }
 
-debug_utils.log_table(capabilities, 0)
+-- debug_utils.log_table(capabilities, 0)
 
 -- Setup language servers {{{
 -- Lua language server
@@ -156,6 +156,12 @@ require("lspconfig").harper_ls.setup({
 	},
 	on_attach = function(_, bufnr)
 		debug_utils.log_debug("Harper LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
+	end,
+})
+
+require("lspconfig").marksman.setup({
+	on_attach = function(_, bufnr)
+		debug_utils.log_debug("Marksman LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
 	end,
 })
 
