@@ -159,6 +159,35 @@ require("lspconfig").harper_ls.setup({
 	end,
 })
 
+-- Taplo LSP configuration for TOML files
+require("lspconfig").taplo.setup({
+	-- Taplo-specific settings
+	settings = {
+		format = {
+			enable = true, -- Enable automatic formatting
+		},
+		completion = {
+			enable = true,
+			triggerCharacters = { ".", '"', "'" }, -- Characters that trigger completion
+		},
+		diagnostics = {
+			enable = true,
+			severity = "Error", -- Severity level for diagnostics
+		},
+		schema = {
+			enable = false, -- Enable schema validation (optional)
+			urls = {
+				-- Add custom TOML schema URLs here if needed
+			},
+		},
+	},
+	-- File types for which Taplo should be enabled
+	filetypes = { "toml" },
+	on_attach = function(_, bufnr)
+		debug_utils.log_debug("Taplo LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
+	end,
+})
+
 require("lspconfig").marksman.setup({
 	on_attach = function(_, bufnr)
 		debug_utils.log_debug("Marksman LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
