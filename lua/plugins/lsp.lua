@@ -249,24 +249,6 @@ require("blink.cmp").setup({
 		preset = "super-tab",
 		["<ESC>"] = { "cancel", "fallback" },
 	},
-	completion = {
-		menu = {
-			scrollbar = false,
-			draw = {
-				treesitter = { "lsp" },
-			},
-			columns = {
-				{ "kind_icon", "label", gap = 3 },
-				{ "source_name" },
-			},
-			ghost_text = {
-				enabled = true,
-			},
-		},
-	},
-	sources = {
-		default = { "lsp", "path", "snippets", "buffer" },
-	},
 	cmdline = {
 		keymap = { preset = "super-tab" },
 		completion = { menu = { auto_show = true } },
