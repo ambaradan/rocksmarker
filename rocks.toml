@@ -94,8 +94,8 @@ nvim-lint = "scm"
 "markdown-table-mode.nvim" = "scm"
 "markdown.nvim" = "scm"
 "zen-mode.nvim" = "1.4.0"
-nvim-rockydocs = "1.0.0"
 "render-markdown.nvim" = "8.9.0"
+nvim-mkdocs-material = "0.1.3"
 
 # Maintained the plugin to the development
 # version due to bugs in version 2.0
@@ -151,6 +151,7 @@ items = [
 [bundles.markdown]
 items = [
     "markdown.nvim",
+    "nvim-mkdocs-material",
     "render-markdown.nvim",
     "markdown-table-mode.nvim",
     "zen-mode.nvim",

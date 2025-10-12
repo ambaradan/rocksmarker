@@ -2,6 +2,12 @@
 -- Import the debug utilities
 local debug_utils = require("utils.debug")
 
+-- mkdocs-material settings {{{
+
+require("mkdocs_material").setup({})
+
+-- }}}
+
 -- render-markdown.nvim settings {{{
 
 -- Log the start of render-markdown configuration
