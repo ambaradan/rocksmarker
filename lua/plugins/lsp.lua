@@ -72,8 +72,6 @@ capabilities.textDocument.completion.completionItem = {
 	},
 }
 
--- debug_utils.log_table(capabilities, 0)
-
 -- Setup language servers {{{
 -- Lua language server
 debug_utils.log_debug("Setting up Lua LSP...")
@@ -250,8 +248,7 @@ require("blink.cmp").setup({
 		["<ESC>"] = { "cancel", "fallback" },
 	},
 	cmdline = {
-		keymap = { preset = "super-tab" },
-		completion = { menu = { auto_show = true } },
+		keymap = { preset = "default" },
 	},
 	fuzzy = { implementation = "lua" },
 })
