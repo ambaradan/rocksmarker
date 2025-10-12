@@ -1,58 +1,52 @@
--- init.lua
-local debug_utils = require("utils.debug")
+do
+	-- Specifies where to install/use rocks.nvim
+	local install_location = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "rocks")
 
--- Configuration for LuaRocks integration in Neovim
-debug_utils.log_debug("Starting LuaRocks configuration...")
+	-- Set up configuration options related to rocks.nvim (recommended to leave as default)
+	local rocks_config = {
+		rocks_path = vim.fs.normalize(install_location),
+	}
 
-local rocks_config = {
-	rocks_path = vim.env.HOME .. "/.local/share/nvim/rocks",
-}
+	vim.g.rocks_nvim = rocks_config
 
--- Log the LuaRocks path
-debug_utils.log_debug("LuaRocks path set to: " .. rocks_config.rocks_path)
+	-- Configure the package path (so that plugin code can be found)
+	local luarocks_path = {
+		vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
+		vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
+	}
+	package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
 
--- Set global variable for LuaRocks configuration
-vim.g.rocks_nvim = rocks_config
-debug_utils.log_debug("Global variable 'rocks_nvim' set successfully.")
+	-- Configure the C path (so that e.g. tree-sitter parsers can be found)
+	local luarocks_cpath = {
+		vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
+		vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
+	}
+	package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
 
--- Configure Lua package.path to include LuaRocks paths
-local luarocks_path = {
-	vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
-	vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
-}
-package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
-debug_utils.log_debug("Updated Lua package.path with LuaRocks paths.")
-debug_utils.log_table(luarocks_path, 0)
+	-- Add rocks.nvim to the runtimepath
+	vim.opt.runtimepath:append(
+		vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*")
+	)
+end
 
--- Configure Lua package.cpath to include LuaRocks compiled libraries
-local luarocks_cpath = {
-	vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
-	vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
-}
-package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
-debug_utils.log_debug("Updated Lua package.cpath with LuaRocks compiled library paths.")
-debug_utils.log_table(luarocks_cpath, 0)
+-- If rocks.nvim is not installed then install it!
+if not pcall(require, "rocks") then
+	local rocks_location = vim.fs.joinpath(vim.fn.stdpath("cache") --[[@as string]], "rocks.nvim")
 
--- Add LuaRocks to Neovim's runtimepath
-vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "*", "*"))
-debug_utils.log_debug("Added LuaRocks to Neovim's runtimepath.")
+	if not vim.uv.fs_stat(rocks_location) then
+		-- Pull down rocks.nvim
+		local url = "https://github.com/lumen-oss/rocks.nvim"
+		vim.fn.system({ "git", "clone", "--filter=blob:none", url, rocks_location })
+		-- Make sure the clone was successfull
+		assert(vim.v.shell_error == 0, "rocks.nvim installation failed. Try exiting and re-entering Neovim!")
+	end
 
--- Load user-defined configurations
-debug_utils.log_debug("Loading user-defined configurations...")
+	-- If the clone was successful then source the bootstrapping script
+	vim.cmd.source(vim.fs.joinpath(rocks_location, "bootstrap.lua"))
 
-debug_utils.debug_execution_time(function()
-	require("options")
-end)
-debug_utils.log_debug("Loaded 'options' module.")
+	vim.fn.delete(rocks_location, "rf")
+end
 
-debug_utils.debug_execution_time(function()
-	require("commands")
-end)
-debug_utils.log_debug("Loaded 'commands' module.")
-
-debug_utils.debug_execution_time(function()
-	require("mappings")
-end)
-debug_utils.log_debug("Loaded 'mappings' module.")
-
-debug_utils.log_debug("Neovim initialization completed successfully.")
+require("options")
+require("commands")
+require("mappings")
