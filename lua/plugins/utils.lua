@@ -25,15 +25,21 @@ if not telescope_ok then
 else
 	telescope.setup({
 		defaults = {
-			mappings = {
-				i = {
-					["<esc>"] = actions.close,
-				},
-			},
+			prompt_prefix = "   ",
+			selection_caret = " ",
+			entry_prefix = " ",
 			layout_config = {
 				horizontal = {
-					height = 0.85,
+					prompt_position = "top",
+					preview_width = 0.55,
 				},
+				width = 0.87,
+				height = 0.80,
+			},
+		},
+		mappings = {
+			i = {
+				["<esc>"] = actions.close,
 			},
 		},
 		pickers = {
