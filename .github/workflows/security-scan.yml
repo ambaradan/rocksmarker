@@ -1,14 +1,12 @@
 name: Security Scanning
-
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   schedule:
     # Run weekly on Sundays at 3:00 AM UTC
     - cron: '0 3 * * 0'
-
 jobs:
   luacheck:
     name: Luacheck Security Analysis
@@ -16,18 +14,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
       - name: Setup Lua
         uses: leafo/gh-actions-lua@v12
         with:
           luaVersion: "5.1"
-
       - name: Setup LuaRocks
         uses: leafo/gh-actions-luarocks@v6
-
       - name: Install Luacheck
         run: luarocks install luacheck
-
       - name: Run Luacheck with security focus
         run: |
           luacheck lua/ --formatter plain --codes || true
@@ -36,14 +30,24 @@ jobs:
           echo "- File operations: io.open, io.write"
           echo "- Unsafe string operations: loadstring, dofile"
           grep -r "os\.execute\|io\.popen\|loadstring\|dofile\|load(" lua/ || echo "No obvious security patterns found"
-
+  toml-lint:
+    name: TOML Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Install toml-cli
+        run: npm install -g toml-cli
+      - name: Validate TOML files
+        run: |
+          echo "Checking TOML syntax..."
+          find . -type f -name "*.toml" -exec toml-lint {} \;
   dependency-check:
     name: Dependency Security Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
       - name: Check for known vulnerabilities
         run: |
           echo "Checking for common security issues in dependencies..."
@@ -54,7 +58,6 @@ jobs:
           else
             echo "No rockspec file found - minimal dependencies"
           fi
-
   secret-scanning:
     name: Secret Scanning
     runs-on: ubuntu-latest
@@ -63,26 +66,22 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
       - name: Scan for secrets using gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
-
   permissions-check:
     name: File Permissions Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
       - name: Check for executable files
         run: |
           echo "Checking for unexpected executable files..."
           find . -type f -executable -not -path "./.git/*" -not -path "./spec/*" || true
           echo "Review any unexpected executable files above"
-
       - name: Check for sensitive file patterns
         run: |
           echo "Checking for sensitive patterns..."
