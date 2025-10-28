@@ -77,7 +77,7 @@ function M.save_current_buffer()
 		return
 	end
 	if M.is_buffer_modified() then
-		vim.cmd("write")
+		vim.cmd("write!") -- Force save
 		vim.notify(
 			"Buffer '" .. vim.fn.fnamemodify(buffer_name, ":t") .. "' saved",
 			vim.log.levels.INFO,
