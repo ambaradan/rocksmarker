@@ -1,6 +1,6 @@
 local M = {}
 
---- Function to set key mappings with options {{{{
+--- Function to set key mappings with options
 ---@desc Sets a key mapping with a description.
 ---@param mode string The mode to set the key mapping in (e.g., "n", "v", "i").
 ---@param lhs string The left-hand side of the key mapping (the key to press).
@@ -26,9 +26,8 @@ function M.make_opt(desc)
 		desc = desc, -- Description of the key mapping
 	}
 end
--- }}}
 
--- Buffer modification control function {{{{
+-- Buffer modification control function
 ---@desc Checks if a buffer has been modified.
 ---@param bufnr number|nil Buffer number. If `nil`, defaults to the current buffer.
 ---@return boolean `true` if the buffer is modified, `false` otherwise.
@@ -48,9 +47,8 @@ function M.is_buffer_modified(bufnr)
 	end
 	return modified or false
 end
--- }}}
 
---- Saves all modified buffers in the current session {{{{
+--- Saves all modified buffers in the current session
 --- @desc Saves all modified buffers in Neovim.
 --- This function iterates through all open buffers
 --- and saves those that have been modified.
@@ -64,9 +62,8 @@ function M.save_all_buffers()
 		end
 	end
 end
--- }}}
 
---- Saves the current buffer in the Neovim session {{{{
+--- Saves the current buffer in the Neovim session
 --- If the buffer has unsaved changes, saves it and notifies the user.
 --- Otherwise, notifies the user that there are no changes to save.
 --- @return nil
@@ -87,9 +84,8 @@ function M.save_current_buffer()
 		vim.notify("No changes to " .. vim.fn.fnamemodify(buffer_name, ":t"), vim.log.levels.WARN, { timeout = 250 })
 	end
 end
--- }}}
 
---- Creates a new buffer in the current session {{{{
+--- Creates a new buffer in the current session
 --- If the current buffer has unsaved changes, prompts the user
 --- to choose between saving and creating, creating without saving, or cancelling.
 --- @return nil
@@ -115,9 +111,8 @@ function M.create_new_buffer()
 		vim.notify("New buffer created", vim.log.levels.INFO, { timeout = 1000 })
 	end
 end
---- }}}
 
---- Closes the current buffer in the Neovim session {{{{
+--- Closes the current buffer in the Neovim session
 --- If the buffer has unsaved changes, prompts the user to save before closing.
 --- Otherwise, closes the buffer immediately.
 --- @return nil
@@ -154,9 +149,8 @@ function M.close_current_buffer()
 		vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, { timeout = 250 })
 	end
 end
---- }}}
 
---- Closes all buffers in the current Neovim session {{{{
+--- Closes all buffers in the current Neovim session
 --- Prompts the user to choose between saving all, discarding changes,
 --- or cancelling if any buffers have unsaved modifications.
 --- @return nil
@@ -195,9 +189,8 @@ function M.close_all_buffers()
 		vim.notify("All buffers closed", vim.log.levels.INFO, { timeout = 1000 })
 	end
 end
---- }}}
 
---- Diagnostic Toggle {{{{
+--- Diagnostic Toggle
 --- @desc Toggles diagnostic virtual text on or off.
 --- @params None
 function M.toggle_diagnostic_virtual_text()
@@ -213,14 +206,12 @@ end
 vim.api.nvim_create_user_command("ToggleDiagnostics", function()
 	M.toggle_diagnostic_virtual_text()
 end, {})
---- }}}
 
--- Persisted - Get session file name and session name {{{{
+-- Persisted - Get session file name and session name
 function M.get_session_names()
 	local session_file_name = vim.fn.fnamemodify(vim.g.persisted_loaded_session, ":t")
 	local clean_session_name = session_file_name:match(".*%%(.*)") or session_file_name
 	return session_file_name, clean_session_name
 end
--- }}}
 
 return M
