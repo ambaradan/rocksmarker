@@ -1,94 +1,82 @@
--- This script configures various utility plugins for Neovim,
--- including telescope, persisted, toggleterm, neo-tree,
--- neogit, spectre, yanky, indent-blankline, and rainbow-delimiters.
--- It sets up these plugins for a more efficient and productive
--- editing experience.
+-- lua/plugins/utils.lua
 
-local debug_utils = require("utils.debug")
-
--- telescope.nvim settings {{{
--- Log the start of Telescope setup
-debug_utils.log_debug("Setting up Telescope...")
-
+-- telescope.nvim settings {{{{
 -- Load Telescope actions
 local actions_ok, actions = pcall(require, "telescope.actions")
 if not actions_ok then
-	debug_utils.log_debug("Failed to load telescope.actions: " .. actions)
-else
-	debug_utils.log_debug("Successfully loaded telescope.actions")
+	return
 end
 
 -- Configure Telescope
 local telescope_ok, telescope = pcall(require, "telescope")
 if not telescope_ok then
-	debug_utils.log_debug("Failed to load Telescope: " .. telescope)
-else
-	telescope.setup({
-		defaults = {
-			prompt_prefix = "   ",
-			selection_caret = " ",
-			entry_prefix = " ",
+	return
+end
+
+telescope.setup({
+	defaults = {
+		prompt_prefix = "   ",
+		selection_caret = " ",
+		entry_prefix = " ",
+		layout_config = {
+			horizontal = {
+				prompt_position = "top",
+				preview_width = 0.55,
+			},
+			width = 0.87,
+			height = 0.80,
+		},
+	},
+	mappings = {
+		i = {
+			["<esc>"] = actions.close,
+		},
+	},
+	pickers = {
+		buffers = {
+			sort_lastused = true,
+			sort_mru = true,
+			previewer = false,
+			hidden = true,
+			theme = "dropdown",
+		},
+		command_history = { theme = "dropdown" },
+		git_status = { theme = "ivy" },
+		git_commits = { theme = "ivy" },
+		oldfiles = { previewer = false, theme = "dropdown" },
+	},
+	extensions = {
+		file_browser = {
+			theme = "ivy",
+			hide_parent_dir = true,
+			hijack_netrw = true,
+			mappings = {
+				["i"] = {},
+				["n"] = {},
+			},
+		},
+		frecency = {
+			show_scores = true,
+			theme = "dropdown",
+		},
+		undo = {
+			theme = "ivy",
+		},
+		["ui-select"] = {
+			theme = "dropdown",
+			initial_mode = "normal",
+			sorting_strategy = "ascending",
+			layout_strategy = "horizontal",
 			layout_config = {
 				horizontal = {
-					prompt_position = "top",
-					preview_width = 0.55,
-				},
-				width = 0.87,
-				height = 0.80,
-			},
-		},
-		mappings = {
-			i = {
-				["<esc>"] = actions.close,
-			},
-		},
-		pickers = {
-			buffers = {
-				sort_lastused = true,
-				sort_mru = true,
-				previewer = false,
-				hidden = true,
-				theme = "dropdown",
-			},
-			command_history = { theme = "dropdown" },
-			git_status = { theme = "ivy" },
-			git_commits = { theme = "ivy" },
-			oldfiles = { previewer = false, theme = "dropdown" },
-		},
-		extensions = {
-			file_browser = {
-				theme = "ivy",
-				hide_parent_dir = true,
-				hijack_netrw = true,
-				mappings = {
-					["i"] = {},
-					["n"] = {},
-				},
-			},
-			frecency = {
-				show_scores = true,
-				theme = "dropdown",
-			},
-			undo = {
-				theme = "ivy",
-			},
-			["ui-select"] = {
-				theme = "dropdown",
-				initial_mode = "normal",
-				sorting_strategy = "ascending",
-				layout_strategy = "horizontal",
-				layout_config = {
-					horizontal = {
-						width = 0.5,
-						height = 0.4,
-						preview_width = 0.6,
-					},
+					width = 0.5,
+					height = 0.4,
+					preview_width = 0.6,
 				},
 			},
 		},
-	})
-	debug_utils.log_debug("Successfully configured Telescope")
-end
+	},
+})
 
 -- Load Telescope extensions
 local extensions = {
@@ -101,50 +89,36 @@ local extensions = {
 }
 
 for _, ext in ipairs(extensions) do
-	debug_utils.log_debug("Loading Telescope extension: " .. ext)
-	local ok, err = pcall(function()
+	pcall(function()
 		telescope.load_extension(ext)
 	end)
-	if not ok then
-		debug_utils.log_debug("Failed to load Telescope extension " .. ext .. ": " .. err)
-	else
-		debug_utils.log_debug("Successfully loaded Telescope extension: " .. ext)
-	end
 end
-
 -- }}}
 
--- persisted.nvim settings {{{
--- Log the start of persisted.nvim setup
-debug_utils.log_debug("Setting up persisted.nvim...")
-
+-- persisted.nvim settings {{{{
 -- Configure persisted.nvim
 local persisted_ok, persisted = pcall(require, "persisted")
 if not persisted_ok then
-	debug_utils.log_debug("Failed to load persisted.nvim: " .. persisted)
-else
-	persisted.setup({
-		autoload = false,
-	})
-	debug_utils.log_debug("Successfully configured persisted.nvim")
+	return
 end
+
+persisted.setup({
+	autoload = false,
+})
 
 -- Enable Telescope support for persisted.nvim
-debug_utils.log_debug("Loading Telescope extension for persisted.nvim...")
-local telescope_persisted_ok, telescope_error = pcall(function()
+pcall(function()
 	require("telescope").load_extension("persisted")
 end)
-
-if not telescope_persisted_ok then
-	debug_utils.log_debug("Failed to load Telescope extension for persisted.nvim: " .. telescope_error)
-else
-	debug_utils.log_debug("Successfully loaded Telescope extension for persisted.nvim")
-end
 -- }}}
 
--- toggleterm.nvim settings {{{
+-- toggleterm.nvim settings {{{{
+local toggleterm_ok, toggleterm = pcall(require, "toggleterm")
+if not toggleterm_ok then
+	return
+end
 
-require("toggleterm").setup({
+toggleterm.setup({
 	-- Basic configuration
 	size = function(term)
 		if term.direction == "horizontal" then
@@ -190,20 +164,22 @@ require("toggleterm").setup({
 		},
 	},
 })
-
 -- }}}
 
--- neo-tree.nvim settings {{{
+-- neo-tree.nvim settings {{{{
+local neo_tree_ok, neo_tree = pcall(require, "neo-tree")
+if not neo_tree_ok then
+	return
+end
 
 local function calculate_width_percentage(percentage)
 	local screen_width = vim.o.columns
 	return math.floor(screen_width * (percentage / 100))
 end
 
-require("neo-tree").setup({
+neo_tree.setup({
 	-- Close Neo-tree if it is the last window in the tab
 	close_if_last_window = false,
-
 	-- File system configuration
 	filesystem = {
 		bind_to_cwd = true, -- Open Neo-tree at the current working directory
@@ -236,7 +212,6 @@ require("neo-tree").setup({
 			},
 		},
 	},
-
 	-- Buffer explorer configuration
 	buffers = {
 		follow_current_file = {
@@ -244,7 +219,6 @@ require("neo-tree").setup({
 		},
 		group_empty_dirs = true, -- Group empty directories together
 	},
-
 	-- Git status configuration
 	git_status = {
 		window = {
@@ -301,7 +275,6 @@ require("neo-tree").setup({
 			trailing_slash = true, -- Add trailing slash to directory names
 		},
 	},
-
 	-- Window configuration
 	window = {
 		position = "left", -- Position: "left", "right", "top", "bottom"
@@ -316,7 +289,6 @@ require("neo-tree").setup({
 			["<esc>"] = "cancel",
 		},
 	},
-
 	-- Filesystem filters
 	filesystem_filters = {
 		exclude = {
@@ -325,7 +297,6 @@ require("neo-tree").setup({
 			"node_modules",
 		},
 	},
-
 	-- Event handlers
 	event_handlers = {
 		{
@@ -339,8 +310,13 @@ require("neo-tree").setup({
 })
 -- }}}
 
--- neogit.nvim settings - git manager {{{
-require("neogit").setup({
+-- neogit.nvim settings - git manager {{{{
+local neogit_ok, neogit = pcall(require, "neogit")
+if not neogit_ok then
+	return
+end
+
+neogit.setup({
 	kind = "tab",
 	disable_builtin_notifications = true,
 	graph_style = "unicode",
@@ -359,14 +335,24 @@ require("neogit").setup({
 })
 -- }}}
 
--- spectre.nvim settings - search and replace plugin {{{
-require("spectre").setup({
+-- spectre.nvim settings - search and replace plugin {{{{
+local spectre_ok, spectre = pcall(require, "spectre")
+if not spectre_ok then
+	return
+end
+
+spectre.setup({
 	live_update = false, -- auto execute search again when you write to any file
 })
 -- }}}
 
--- yanky.nvim settings {{{
-require("yanky").setup({
+-- yanky.nvim settings {{{{
+local yanky_ok, yanky = pcall(require, "yanky")
+if not yanky_ok then
+	return
+end
+
+yanky.setup({
 	highlight = {
 		on_put = true,
 		on_yank = true,
@@ -383,12 +369,20 @@ require("yanky").setup({
 		sync_with_ring = true,
 	},
 })
--- enable Telescope support
-require("telescope").load_extension("yank_history")
+
+-- Enable Telescope support
+pcall(function()
+	require("telescope").load_extension("yank_history")
+end)
 -- }}}
 
--- indent-blankline.nvim settings {{{
-require("ibl").setup({
+-- indent-blankline.nvim settings {{{{
+local ibl_ok, ibl = pcall(require, "ibl")
+if not ibl_ok then
+	return
+end
+
+ibl.setup({
 	indent = { highlight = "IblIndent", char = "│" },
 	exclude = {
 		filetypes = {
@@ -406,9 +400,13 @@ require("ibl").setup({
 })
 -- }}}
 
--- raimbow-delimiters setting {{{
+-- rainbow-delimiters setting {{{{
+local rainbow_delimiters_ok, rainbow_delimiters = pcall(require, "rainbow-delimiters.setup")
+if not rainbow_delimiters_ok then
+	return
+end
 
-require("rainbow-delimiters.setup").setup({
+rainbow_delimiters.setup({
 	strategy = {
 		[""] = require("rainbow-delimiters").strategy["global"],
 		vim = require("rainbow-delimiters").strategy["local"],
@@ -427,17 +425,26 @@ require("rainbow-delimiters.setup").setup({
 		"RainbowDelimiterCyan",
 	},
 })
-
 -- }}}
 
--- nvim-autopairs.nvim settings {{{
-require("nvim-autopairs").setup({
+-- nvim-autopairs.nvim settings {{{{
+local autopairs_ok, autopairs = pcall(require, "nvim-autopairs")
+if not autopairs_ok then
+	return
+end
+
+autopairs.setup({
 	disable_filetype = { "TelescopePrompt", "vim" },
 })
 -- }}}
 
--- nvim-highlight-colors.nvim settings {{{
-require("nvim-highlight-colors").setup({
+-- nvim-highlight-colors.nvim settings {{{{
+local highlight_colors_ok, highlight_colors = pcall(require, "nvim-highlight-colors")
+if not highlight_colors_ok then
+	return
+end
+
+highlight_colors.setup({
 	render = "virtual",
 })
 -- }}}

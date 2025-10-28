@@ -1,92 +1,77 @@
 -- lua/plugins/markdown.lua
--- Import the debug utilities
-local debug_utils = require("utils.debug")
 
 -- mkdocs-material settings {{{
-
-require("mkdocs_material").setup({})
-
+local mkdocs_ok, mkdocs_material = pcall(require, "mkdocs_material")
+if mkdocs_ok then
+	mkdocs_material.setup({})
+end
 -- }}}
 
 -- render-markdown.nvim settings {{{
-
--- Log the start of render-markdown configuration
-debug_utils.log_debug("Configuring render-markdown.nvim...")
-
 local render_ok, render_markdown = pcall(require, "render-markdown")
 if not render_ok then
-	debug_utils.log_debug("Failed to load render-markdown: " .. render_markdown)
-else
-	render_markdown.setup({
-		heading = {
-			sign = false,
-			icons = { "⌂ ", "¶ ", "§ ", "❡ ", "⁋ ", "※ " },
-			width = "block",
-			border = true,
-			border_virtual = true,
-			left_pad = 2,
-			right_pad = 4,
-		},
-		code = { sign = false, width = "block", left_pad = 2, right_pad = 4, min_width = 45 },
-		pipe_table = { style = "normal" },
-		latex = { enabled = false },
-	})
-	debug_utils.log_debug("Successfully configured render-markdown.nvim")
+	return
 end
+
+render_markdown.setup({
+	heading = {
+		sign = false,
+		icons = { "⌂ ", "¶ ", "§ ", "❡ ", "⁋ ", "※ " },
+		width = "block",
+		border = true,
+		border_virtual = true,
+		left_pad = 2,
+		right_pad = 4,
+	},
+	code = { sign = false, width = "block", left_pad = 2, right_pad = 4, min_width = 45 },
+	pipe_table = { style = "normal" },
+	latex = { enabled = false },
+})
 -- }}}
 
 -- markdown-plus.nvim settings {{{
-
-require("markdown-plus").setup({})
-
+local markdown_plus_ok, markdown_plus = pcall(require, "markdown-plus")
+if markdown_plus_ok then
+	markdown_plus.setup({})
+end
 -- }}}
 
 -- markdown-table-mode.nvim settings {{{
-
--- Log the start of markdown-table-mode configuration
-debug_utils.log_debug("Configuring markdown-table-mode.nvim...")
-
 local table_mode_ok, table_mode = pcall(require, "markdown-table-mode")
 if not table_mode_ok then
-	debug_utils.log_debug("Failed to load markdown-table-mode: " .. table_mode)
-else
-	table_mode.setup({
-		filetype = {
-			"*.md",
-		},
-		options = {
-			insert = true, -- when typing "|"
-			insert_leave = true, -- when leaving insert mode
-		},
-	})
-	debug_utils.log_debug("Successfully configured markdown-table-mode.nvim")
+	return
 end
+
+table_mode.setup({
+	filetype = {
+		"*.md",
+	},
+	options = {
+		insert = true, -- when typing "|"
+		insert_leave = true, -- when leaving insert mode
+	},
+})
 -- }}}
 
 -- zen-mode.nvim settings {{{
-
--- Log the start of zen-mode configuration
-debug_utils.log_debug("Configuring zen-mode.nvim...")
-
 local zen_mode_ok, zen_mode = pcall(require, "zen-mode")
 if not zen_mode_ok then
-	debug_utils.log_debug("Failed to load zen-mode: " .. zen_mode)
-else
-	zen_mode.setup({
-		window = {
-			width = 0.85,
-			options = {
-				number = false,
-				list = true,
-				relativenumber = false,
-			},
-		},
-		plugins = {
-			options = {
-				laststatus = 0,
-			},
-		},
-	})
-	debug_utils.log_debug("Successfully configured zen-mode.nvim")
+	return
 end
--- }-- lua/plugins/markdown.lua}
+
+zen_mode.setup({
+	window = {
+		width = 0.85,
+		options = {
+			number = false,
+			list = true,
+			relativenumber = false,
+		},
+	},
+	plugins = {
+		options = {
+			laststatus = 0,
+		},
+	},
+})
+-- }}}

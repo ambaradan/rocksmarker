@@ -1,20 +1,12 @@
--- lua/plugins/lsp.lua
 -- This script configures the Language Server Protocol (LSP) settings for Neovim.
--- It includes debug logging for LSP events and performance.
 
-local debug_utils = require("utils.debug")
-
--- nvim-lspconfig settings - LSP capabilities {{{
--- Use LspAttach autocommand to only map the following keys
+-- nvim-lspconfig settings - LSP capabilities {{{{
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
 	callback = function(event)
-		debug_utils.log_debug("LSP attached to buffer: " .. vim.api.nvim_buf_get_name(event.buf))
-
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "Lsp: " .. desc })
 		end
-
 		-- Key mappings for LSP features
 		map("gd", vim.lsp.buf.definition, "Goto Definition")
 		map("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -31,28 +23,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Document highlight support
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		if client and client.server_capabilities.documentHighlightProvider then
-			debug_utils.log_debug("Enabling document highlight for client: " .. client.name)
 			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 				buffer = event.buf,
-				callback = function()
-					debug_utils.debug_execution_time(vim.lsp.buf.document_highlight)
-				end,
+				callback = vim.lsp.buf.document_highlight,
 			})
 			vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 				buffer = event.buf,
-				callback = function()
-					debug_utils.debug_execution_time(vim.lsp.buf.clear_references)
-				end,
+				callback = vim.lsp.buf.clear_references,
 			})
 		end
 	end,
 })
 -- }}}
 
--- LSP capabilities configuration
-local capabilities = debug_utils.debug_execution_time(function()
-	return require("blink.cmp").get_lsp_capabilities()
-end)
+-- LSP capabilities configuration {{{{
+local capabilities_ok, capabilities = pcall(require, "blink.cmp")
+if not capabilities_ok then
+	return
+end
+capabilities = capabilities.get_lsp_capabilities()
 
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -71,11 +60,16 @@ capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
+-- }}}
 
--- Setup language servers {{{
+-- Setup language servers {{{{
 -- Lua language server
-debug_utils.log_debug("Setting up Lua LSP...")
-require("lspconfig").lua_ls.setup({
+local lua_ls_ok, lua_ls = pcall(require, "lspconfig")
+if not lua_ls_ok then
+	return
+end
+
+lua_ls.lua_ls.setup({
 	capabilities = capabilities,
 	settings = {
 		Lua = {
@@ -117,14 +111,10 @@ require("lspconfig").lua_ls.setup({
 			},
 		},
 	},
-	on_attach = function(_, bufnr)
-		debug_utils.log_debug("Lua LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
-	end,
 })
 
 -- Harper language server for grammar and style checking
-debug_utils.log_debug("Setting up Harper LSP...")
-require("lspconfig").harper_ls.setup({
+lua_ls.harper_ls.setup({
 	settings = {
 		linters = {
 			SpellCheck = true,
@@ -152,54 +142,45 @@ require("lspconfig").harper_ls.setup({
 		diagnosticSeverity = "hint",
 		isolateEnglish = true,
 	},
-	on_attach = function(_, bufnr)
-		debug_utils.log_debug("Harper LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
-	end,
 })
 
 -- Taplo LSP configuration for TOML files
-require("lspconfig").taplo.setup({
-	-- Taplo-specific settings
+lua_ls.taplo.setup({
 	settings = {
 		format = {
-			enable = true, -- Enable automatic formatting
+			enable = true,
 		},
 		completion = {
 			enable = true,
-			triggerCharacters = { ".", '"', "'" }, -- Characters that trigger completion
+			triggerCharacters = { ".", '"', "'" },
 		},
 		diagnostics = {
 			enable = true,
-			severity = "Error", -- Severity level for diagnostics
+			severity = "Error",
 		},
 		schema = {
-			enable = false, -- Enable schema validation (optional)
-			urls = {
-				-- Add custom TOML schema URLs here if needed
-			},
+			enable = false,
 		},
 	},
-	-- File types for which Taplo should be enabled
 	filetypes = { "toml" },
-	on_attach = function(_, bufnr)
-		debug_utils.log_debug("Taplo LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
-	end,
 })
 
-require("lspconfig").marksman.setup({
-	on_attach = function(_, bufnr)
-		debug_utils.log_debug("Marksman LSP attached to buffer: " .. vim.api.nvim_buf_get_name(bufnr))
-	end,
-})
-
--- Function and command for Harper LSP
-require("utils.lsp_toggle")
+-- Marksman LSP for Markdown
+lua_ls.marksman.setup({})
 -- }}}
 
--- Mason LSP-related {{{
-debug_utils.log_debug("Setting up Mason...")
-require("mason").setup({})
-require("mason-lspconfig").setup({
+-- Mason LSP-related {{{{
+local mason_ok, mason = pcall(require, "mason")
+if not mason_ok then
+	return
+end
+mason.setup({})
+
+local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not mason_lspconfig_ok then
+	return
+end
+mason_lspconfig.setup({
 	ensure_installed = {
 		"lua_ls",
 		"html",
@@ -214,8 +195,7 @@ require("mason-lspconfig").setup({
 	},
 	handlers = {
 		function(server_name)
-			debug_utils.log_debug("Setting up LSP server: " .. server_name)
-			require("lspconfig")[server_name].setup({
+			lua_ls[server_name].setup({
 				capabilities = capabilities,
 			})
 		end,
@@ -223,8 +203,11 @@ require("mason-lspconfig").setup({
 })
 
 -- Mason tool installer for additional tools
-debug_utils.log_debug("Setting up Mason tool installer...")
-require("mason-tool-installer").setup({
+local mason_tool_installer_ok, mason_tool_installer = pcall(require, "mason-tool-installer")
+if not mason_tool_installer_ok then
+	return
+end
+mason_tool_installer.setup({
 	ensure_installed = {
 		"markdownlint",
 		"vale",
@@ -240,9 +223,12 @@ require("mason-tool-installer").setup({
 })
 -- }}}
 
--- Autocompletion features - blink.cmp {{{
-debug_utils.log_debug("Setting up blink.cmp...")
-require("blink.cmp").setup({
+-- Autocompletion features - blink.cmp {{{{
+local blink_cmp_ok, blink_cmp = pcall(require, "blink.cmp")
+if not blink_cmp_ok then
+	return
+end
+blink_cmp.setup({
 	keymap = {
 		preset = "super-tab",
 		["<ESC>"] = { "cancel", "fallback" },
@@ -253,3 +239,6 @@ require("blink.cmp").setup({
 	fuzzy = { implementation = "lua" },
 })
 -- }}}
+
+-- Function and command for Harper LSP
+pcall(require, "utils.lsp_toggle")
