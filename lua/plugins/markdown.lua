@@ -35,30 +35,10 @@ else
 end
 -- }}}
 
--- markdown.nvim settings {{{
+-- markdown-plus.nvim settings {{{
 
--- Log the start of markdown.nvim configuration
-debug_utils.log_debug("Configuring markdown.nvim...")
+require("markdown-plus").setup({})
 
-local markdown_ok, markdown = pcall(require, "markdown")
-if not markdown_ok then
-	debug_utils.log_debug("Failed to load markdown.nvim: " .. markdown)
-else
-	markdown.setup({
-		on_attach = function(bufnr)
-			-- Helper function to toggle markdown emphasis
-			local function toggle(key)
-				return "<Esc>gv<Cmd>lua require'markdown.inline'.toggle_emphasis_visual'" .. key .. "'<CR>"
-			end
-			-- Keymaps for INSERT mode (bold, italic, inline code, strikethrough)
-			vim.keymap.set("x", "<C-b>", toggle("b"), { buffer = bufnr })
-			vim.keymap.set("x", "<C-i>", toggle("i"), { buffer = bufnr })
-			vim.keymap.set("x", "<C-`>", toggle("c"), { buffer = bufnr })
-			vim.keymap.set("x", "<C-s>", toggle("s"), { buffer = bufnr })
-		end,
-	})
-	debug_utils.log_debug("Successfully configured markdown.nvim")
-end
 -- }}}
 
 -- markdown-table-mode.nvim settings {{{
