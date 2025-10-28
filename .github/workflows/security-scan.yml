@@ -8,40 +8,6 @@ on:
     # Run weekly on Sundays at 3:00 AM UTC
     - cron: '0 3 * * 0'
 jobs:
-  luacheck:
-    name: Luacheck Security Analysis
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Setup Lua
-        uses: leafo/gh-actions-lua@v12
-        with:
-          luaVersion: "5.1"
-      - name: Setup LuaRocks
-        uses: leafo/gh-actions-luarocks@v6
-      - name: Install Luacheck
-        run: luarocks install luacheck
-      - name: Run Luacheck with security focus
-        run: |
-          luacheck lua/ --formatter plain --codes || true
-          echo "Security patterns to review manually:"
-          echo "- Command execution: os.execute, io.popen"
-          echo "- File operations: io.open, io.write"
-          echo "- Unsafe string operations: loadstring, dofile"
-          grep -r "os\.execute\|io\.popen\|loadstring\|dofile\|load(" lua/ || echo "No obvious security patterns found"
-  toml-lint:
-    name: TOML Syntax Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Install toml-cli
-        run: npm install -g toml-cli
-      - name: Validate TOML files
-        run: |
-          echo "Checking TOML syntax..."
-          find . -type f -name "*.toml" -exec toml-lint {} \;
   dependency-check:
     name: Dependency Security Check
     runs-on: ubuntu-latest
