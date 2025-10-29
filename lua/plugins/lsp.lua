@@ -1,12 +1,23 @@
--- lua/plugins/lsp.lua
+-- This script configures the Language Server Protocol (LSP) settings for Neovim.
+-- Ensure Neovim version compatibility
+if vim.fn.has("nvim-0.11") ~= 1 then
+  vim.notify("This configuration requires Neovim 0.11 or later.", vim.log.levels.ERROR)
+  return
+end
 
--- nvim-lspconfig settings - LSP capabilities
+-- Constants for better maintainability
+local LSP_ATTACH_GROUP = "LspAttachMap"
+local TELESCOPE_THEME = "ivy" -- You can make this configurable
+
+-- LspAttach autocommand for key mappings and document highlights
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
+  group = vim.api.nvim_create_augroup(LSP_ATTACH_GROUP, { clear = true }),
   callback = function(event)
+    -- Helper function to set keymaps for LSP features
     local map = function(keys, func, desc)
-      vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "Lsp: " .. desc })
+      vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
     end
+
     -- Key mappings for LSP features
     map("gd", vim.lsp.buf.definition, "Goto Definition")
     map("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -14,11 +25,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<leader>rn", vim.lsp.buf.rename, "Rename")
     map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
     map("gD", vim.lsp.buf.declaration, "Goto Declaration")
-    map("gr", [[<cmd>Telescope lsp_references theme=ivy<cr>]], "Goto References")
-    map("gI", require("telescope.builtin").lsp_implementations, "Goto Implementation")
-    map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type Definition")
-    map("<leader>ds", "<cmd>Telescope lsp_document_symbols theme=dropdown<cr>", "Document Symbols")
-    map("<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols theme=dropdown<cr>", "Workspace Symbols")
+
+    -- Use pcall to safely require Telescope
+    local telescope_ok, telescope = pcall(require, "telescope.builtin")
+    if telescope_ok then
+      map("gr", string.format("<cmd>Telescope lsp_references theme=%s<cr>", TELESCOPE_THEME), "Goto References")
+      map("gI", telescope.lsp_implementations, "Goto Implementation")
+      map("<leader>D", telescope.lsp_type_definitions, "Type Definition")
+    else
+      vim.notify("Telescope not installed. Some LSP features will be limited.", vim.log.levels.WARN)
+    end
+
+    map("<leader>ds", string.format("<cmd>Telescope lsp_document_symbols theme=dropdown<cr>"), "Document Symbols")
+    map(
+      "<leader>ws",
+      string.format("<cmd>Telescope lsp_dynamic_workspace_symbols theme=dropdown<cr>"),
+      "Workspace Symbols"
+    )
 
     -- Document highlight support
     local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -36,39 +59,53 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- LSP capabilities configuration
-local capabilities_ok, capabilities = pcall(require, "blink.cmp")
-if not capabilities_ok then
-  return
-end
-capabilities = capabilities.get_lsp_capabilities()
+local function get_lsp_capabilities()
+  local capabilities_ok, capabilities = pcall(require, "blink.cmp")
+  if not capabilities_ok then
+    vim.notify("blink.cmp not found. Using default capabilities.", vim.log.levels.WARN)
+    return vim.lsp.protocol.make_client_capabilities()
+  end
+  capabilities = capabilities.get_lsp_capabilities()
 
-capabilities.textDocument.completion.completionItem = {
-  documentationFormat = { "markdown", "plaintext" },
-  snippetSupport = true,
-  preselectSupport = true,
-  insertReplaceSupport = true,
-  labelDetailsSupport = true,
-  deprecatedSupport = true,
-  commitCharactersSupport = true,
-  tagSupport = { valueSet = { 1 } },
-  resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
+  -- Extend capabilities with additional features
+  capabilities.textDocument.completion.completionItem = {
+    documentationFormat = { "markdown", "plaintext" },
+    snippetSupport = true,
+    preselectSupport = true,
+    insertReplaceSupport = true,
+    labelDetailsSupport = true,
+    deprecatedSupport = true,
+    commitCharactersSupport = true,
+    tagSupport = { valueSet = { 1 } },
+    resolveSupport = {
+      properties = {
+        "documentation",
+        "detail",
+        "additionalTextEdits",
+      },
     },
-  },
-}
+  }
+  return capabilities
+end
 
 -- Setup language servers
--- Lua language server
-local lua_ls_ok, lua_ls = pcall(require, "lspconfig")
-if not lua_ls_ok then
+local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_ok then
+  vim.notify("lspconfig not installed.", vim.log.levels.ERROR)
   return
 end
 
-lua_ls.lua_ls.setup({
-  capabilities = capabilities,
+-- Helper function to setup LSP servers with error handling
+local function setup_lsp_server(server_name, config)
+  if not lspconfig[server_name] then
+    vim.notify("LSP server not found: " .. server_name, vim.log.levels.WARN)
+    return
+  end
+  lspconfig[server_name].setup(vim.tbl_deep_extend("force", { capabilities = get_lsp_capabilities() }, config or {}))
+end
+
+-- Lua language server
+setup_lsp_server("lua_ls", {
   settings = {
     Lua = {
       runtime = {
@@ -92,12 +129,8 @@ lua_ls.lua_ls.setup({
         maxPreload = 2000,
         preloadFileSize = 500,
       },
-      format = {
-        enable = false,
-      },
-      telemetry = {
-        enable = false,
-      },
+      format = { enable = false },
+      telemetry = { enable = false },
       hint = {
         enable = true,
         arrayIndex = "Enable",
@@ -112,7 +145,7 @@ lua_ls.lua_ls.setup({
 })
 
 -- Harper language server for grammar and style checking
-lua_ls.harper_ls.setup({
+setup_lsp_server("harper_ls", {
   settings = {
     linters = {
       SpellCheck = true,
@@ -127,9 +160,7 @@ lua_ls.harper_ls.setup({
       Matcher = true,
       CorrectNumberSuffix = true,
     },
-    codeActions = {
-      ForceStable = false,
-    },
+    codeActions = { ForceStable = false },
     markdown = {
       IgnoreLinkTitle = false,
       IgnoreCodeBlocks = true,
@@ -143,40 +174,36 @@ lua_ls.harper_ls.setup({
 })
 
 -- Taplo LSP configuration for TOML files
-lua_ls.taplo.setup({
+setup_lsp_server("taplo", {
   settings = {
-    format = {
-      enable = true,
-    },
+    format = { enable = true },
     completion = {
       enable = true,
       triggerCharacters = { ".", '"', "'" },
     },
-    diagnostics = {
-      enable = true,
-      severity = "Error",
-    },
-    schema = {
-      enable = false,
-    },
+    diagnostics = { enable = true, severity = "Error" },
+    schema = { enable = false },
   },
   filetypes = { "toml" },
 })
 
 -- Marksman LSP for Markdown
-lua_ls.marksman.setup({})
+setup_lsp_server("marksman", {})
 
--- Mason LSP-related
+-- Mason LSP-related setup
 local mason_ok, mason = pcall(require, "mason")
 if not mason_ok then
+  vim.notify("mason.nvim not installed.", vim.log.levels.ERROR)
   return
 end
 mason.setup({})
 
 local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not mason_lspconfig_ok then
+  vim.notify("mason-lspconfig not installed.", vim.log.levels.ERROR)
   return
 end
+
 mason_lspconfig.setup({
   ensure_installed = {
     "lua_ls",
@@ -192,9 +219,7 @@ mason_lspconfig.setup({
   },
   handlers = {
     function(server_name)
-      lua_ls[server_name].setup({
-        capabilities = capabilities,
-      })
+      setup_lsp_server(server_name, {})
     end,
   },
 })
@@ -202,8 +227,10 @@ mason_lspconfig.setup({
 -- Mason tool installer for additional tools
 local mason_tool_installer_ok, mason_tool_installer = pcall(require, "mason-tool-installer")
 if not mason_tool_installer_ok then
+  vim.notify("mason-tool-installer not installed.", vim.log.levels.ERROR)
   return
 end
+
 mason_tool_installer.setup({
   ensure_installed = {
     "markdownlint",
@@ -222,18 +249,21 @@ mason_tool_installer.setup({
 -- Autocompletion features - blink.cmp
 local blink_cmp_ok, blink_cmp = pcall(require, "blink.cmp")
 if not blink_cmp_ok then
+  vim.notify("blink.cmp not installed.", vim.log.levels.ERROR)
   return
 end
+
 blink_cmp.setup({
   keymap = {
     preset = "super-tab",
     ["<ESC>"] = { "cancel", "fallback" },
   },
-  cmdline = {
-    keymap = { preset = "default" },
-  },
+  cmdline = { keymap = { preset = "default" } },
   fuzzy = { implementation = "lua" },
 })
 
 -- Function and command for Harper LSP
-pcall(require, "utils.lsp_toggle")
+local success, _ = pcall(require, "utils.lsp_toggle")
+if not success then
+  vim.notify("Failed to load utils.lsp_toggle", vim.log.levels.WARN)
+end
