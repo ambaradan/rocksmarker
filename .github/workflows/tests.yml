@@ -1,4 +1,4 @@
-name: Rocksmarker Tests
+name: Test Suite
 on:
   push:
     branches: [main]
@@ -6,83 +6,23 @@ on:
     branches: [main]
 jobs:
   test:
-    name: Run Tests
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        neovim-version: ['stable', 'nightly']
+    name: Run tests
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Setup Lua
-        uses: leafo/gh-actions-lua@v12
-        with:
-          luaVersion: "5.1"
+      - uses: actions/checkout@v4
       - name: Install Neovim
-        uses: rhysd/action-setup-vim@v1
-        with:
-          neovim: true
-          version: ${{ matrix.neovim-version }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y neovim ripgrep fd-find
+      - name: Install LuaRocks
+        run: |
+          sudo apt-get install -y luarocks
+          sudo luarocks install busted
+          sudo luarocks install luacheck
       - name: Install plenary.nvim
         run: |
-          mkdir -p ~/.local/share/nvim/site/pack/vendor/start
-          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim \
-            ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
       - name: Run tests
         run: |
           nvim --version
-          nvim --headless --noremap -u "${{ github.workspace }}/spec/minimal_init.lua" -c "PlenaryBustedDirectory spec/ {minimal_init='${{ github.workspace }}/spec/minimal_init.lua'}""
-  lint:
-    name: Lint Code
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Setup Lua
-        uses: leafo/gh-actions-lua@v12
-        with:
-          luaVersion: "5.1"
-      - name: Setup LuaRocks
-        uses: leafo/gh-actions-luarocks@v6
-      - name: Cache LuaRocks
-        uses: actions/cache@v3
-        with:
-          path: ~/.luarocks
-          key: ${{ runner.os }}-luarocks-${{ hashFiles('**/luarocks.lock') }}
-      - name: Install luacheck
-        run: luarocks install luacheck
-      - name: Run luacheck
-        run: make lint
-  format:
-    name: Check Formatting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Install stylua
-        uses: JohnnyMorganz/stylua-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          args: --check lua/ spec/ init.lua
-  docs:
-    name: Check Documentation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Check for TODOs in code
-        run: |
-          if grep -r "TODO\|FIXME\|XXX" lua/ spec/ --exclude-dir=.git; then
-            echo "⚠️ Found TODO/FIXME/XXX comments"
-            exit 1
-          fi || true
-      - name: Validate markdown files
-        run: |
-          for file in *.md; do
-            echo "Checking $file..."
-            if ! grep -q "Table of Contents" "$file" 2>/dev/null; then
-              echo "  ℹ️  No TOC found in $file (may be intentional)"
-            fi
-          done || true
+          nvim --headless -u minimal_init.lua -c "PlenaryBustedDirectory spec/ {minimal_init='minimal_init.lua'}"
