@@ -1,6 +1,6 @@
--- This script configures the Language Server Protocol (LSP) settings for Neovim.
+-- lua/plugins/lsp.lua
 
--- nvim-lspconfig settings - LSP capabilities {{{{
+-- nvim-lspconfig settings - LSP capabilities
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
   callback = function(event)
@@ -34,9 +34,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
--- }}}
 
--- LSP capabilities configuration {{{{
+-- LSP capabilities configuration
 local capabilities_ok, capabilities = pcall(require, "blink.cmp")
 if not capabilities_ok then
   return
@@ -60,9 +59,8 @@ capabilities.textDocument.completion.completionItem = {
     },
   },
 }
--- }}}
 
--- Setup language servers {{{{
+-- Setup language servers
 -- Lua language server
 local lua_ls_ok, lua_ls = pcall(require, "lspconfig")
 if not lua_ls_ok then
@@ -167,9 +165,8 @@ lua_ls.taplo.setup({
 
 -- Marksman LSP for Markdown
 lua_ls.marksman.setup({})
--- }}}
 
--- Mason LSP-related {{{{
+-- Mason LSP-related
 local mason_ok, mason = pcall(require, "mason")
 if not mason_ok then
   return
@@ -221,9 +218,8 @@ mason_tool_installer.setup({
     "vint",
   },
 })
--- }}}
 
--- Autocompletion features - blink.cmp {{{{
+-- Autocompletion features - blink.cmp
 local blink_cmp_ok, blink_cmp = pcall(require, "blink.cmp")
 if not blink_cmp_ok then
   return
@@ -238,7 +234,6 @@ blink_cmp.setup({
   },
   fuzzy = { implementation = "lua" },
 })
--- }}}
 
 -- Function and command for Harper LSP
 pcall(require, "utils.lsp_toggle")
