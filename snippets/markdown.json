@@ -1,47 +1,71 @@
 {
     "header 1": {
         "prefix": "h1",
-        "body": ["# ${0}"],
+        "body": [
+            "# ${0}"
+        ],
         "description": "Add header level 1"
     },
     "header 2": {
         "prefix": "h2",
-        "body": ["## ${0}"],
+        "body": [
+            "## ${0}"
+        ],
         "description": "Add header level 2"
     },
     "header 3": {
         "prefix": "h3",
-        "body": ["### ${0}"],
+        "body": [
+            "### ${0}"
+        ],
         "description": "Add header level 3"
     },
     "header 4": {
         "prefix": "h4",
-        "body": ["#### ${0}"],
+        "body": [
+            "#### ${0}"
+        ],
         "description": "Add header level 4"
     },
     "header 5": {
         "prefix": "h5",
-        "body": ["##### ${0}"],
+        "body": [
+            "##### ${0}"
+        ],
         "description": "Add header level 5"
     },
     "header 6": {
         "prefix": "h6",
-        "body": ["###### ${0}"],
+        "body": [
+            "###### ${0}"
+        ],
         "description": "Add header level 6"
     },
     "Links": {
-        "prefix": ["l", "link"],
-        "body": ["[${1:text}](${2:url}) ${0}"],
+        "prefix": [
+            "l",
+            "link"
+        ],
+        "body": [
+            "[${1:text}](${2:url}) ${0}"
+        ],
         "description": "Add links"
     },
     "URLS": {
-        "prefix": ["u", "url"],
-        "body": ["<${1}> ${0}"],
+        "prefix": [
+            "u",
+            "url"
+        ],
+        "body": [
+            "<${1}> ${0}"
+        ],
         "description": "Add urls"
     },
     "Images": {
         "prefix": "img",
-        "body": ["![${1:alt text}](${2:path}) ${0}"],
+        "body": [
+            "![${1:alt text}](${2:path}) ${0}"
+        ],
         "description": "Add images"
     },
     "Insert strikethrough": {
@@ -50,17 +74,26 @@
         "description": "Insert strikethrough"
     },
     "Insert bold text": {
-        "prefix": ["bold", "b"],
+        "prefix": [
+            "bold",
+            "b"
+        ],
         "body": "**${1}** $0",
         "description": "Insert bold text"
     },
     "Insert italic text": {
-        "prefix": ["i", "italic"],
+        "prefix": [
+            "i",
+            "italic"
+        ],
         "body": "*${1}* $0",
         "description": "Insert italic text"
     },
     "Insert bold and italic text": {
-        "prefix": ["bold and italic", "bi"],
+        "prefix": [
+            "bold and italic",
+            "bi"
+        ],
         "body": "***${1}*** $0",
         "description": "Insert bold and italic text"
     },
@@ -76,17 +109,31 @@
     },
     "Insert code block": {
         "prefix": "codeblock",
-        "body": ["```${1:language}", "$0", "```"],
+        "body": [
+            "```${1:language}",
+            "$0",
+            "```"
+        ],
         "description": "Insert fenced code block"
     },
     "Insert unordered list": {
         "prefix": "unordered list",
-        "body": ["- ${1:first}", "- ${2:second}", "- ${3:third}", "$0"],
+        "body": [
+            "- ${1:first}",
+            "- ${2:second}",
+            "- ${3:third}",
+            "$0"
+        ],
         "description": "Insert unordered list"
     },
     "Insert ordered list": {
         "prefix": "ordered list",
-        "body": ["1. ${1:first}", "2. ${2:second}", "3. ${3:third}", "$0"],
+        "body": [
+            "1. ${1:first}",
+            "2. ${2:second}",
+            "3. ${3:third}",
+            "$0"
+        ],
         "description": "Insert ordered list"
     },
     "Insert horizontal rule": {
@@ -96,12 +143,19 @@
     },
     "Insert task list": {
         "prefix": "task",
-        "body": ["- [${1| ,x|}] ${2:text}", "${0}"],
+        "body": [
+            "- [${1| ,x|}] ${2:text}",
+            "${0}"
+        ],
         "description": "Insert task list"
     },
     "Insert task list 2": {
         "prefix": "task2",
-        "body": ["- [${1| ,x|}] ${2:text}", "- [${3| ,x|}] ${4:text}", "${0}"],
+        "body": [
+            "- [${1| ,x|}] ${2:text}",
+            "- [${3| ,x|}] ${4:text}",
+            "${0}"
+        ],
         "description": "Insert task list with 2 tasks"
     },
     "Insert task list 3": {
@@ -379,37 +433,281 @@
     },
     "Insert subscript": {
         "prefix": "sub",
-        "body": ["${1}<sub>${0}"],
+        "body": [
+            "${1}<sub>${0}"
+        ],
         "description": "Create a subscript."
     },
     "Insert superscript": {
         "prefix": "sup",
-        "body": ["${1}<sup>${0}"],
+        "body": [
+            "${1}<sup>${0}"
+        ],
         "description": "Create a superscript."
     },
     "Insert Note": {
-        "prefix": ["note", "n"],
+        "prefix": [
+            "note",
+            "n"
+        ],
         "body": "> [!NOTE]\n> ",
         "description": "Insert Note"
     },
     "Insert Tip": {
-        "prefix": ["tip", "t"],
+        "prefix": [
+            "tip",
+            "t"
+        ],
         "body": "> [!TIP]\n> ",
         "description": "Insert Tip"
     },
     "Insert Important": {
-        "prefix": ["important", "imp"],
+        "prefix": [
+            "important",
+            "imp"
+        ],
         "body": "> [!IMPORTANT]\n> ",
         "description": "Insert Important"
     },
     "Insert Warning": {
-        "prefix": ["warning", "w"],
+        "prefix": [
+            "warning",
+            "w"
+        ],
         "body": "> [!WARNING]\n> ",
         "description": "Insert Warning"
     },
     "Insert Caution": {
-        "prefix": ["caution", "c"],
+        "prefix": [
+            "caution",
+            "c"
+        ],
         "body": "> [!CAUTION]\n> ",
         "description": "Insert Caution"
+    },
+    "Insert Admonition Note": {
+        "prefix": [
+            "note",
+            "no",
+            "material-admonition-note"
+        ],
+        "body": "!!! note \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Note"
+    },
+    "Insert Admonition Abstract": {
+        "prefix": [
+            "abstract",
+            "abs",
+            "material-admonition-abstract"
+        ],
+        "body": "!!! abstract \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Abstract"
+    },
+    "Insert Admonition Info": {
+        "prefix": [
+            "info",
+            "in",
+            "material-admonition-info"
+        ],
+        "body": "!!! info \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Info"
+    },
+    "Insert Admonition Tip": {
+        "prefix": [
+            "tip",
+            "ti",
+            "material-admonition-tip"
+        ],
+        "body": "!!! tip \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Tip"
+    },
+    "Insert Admonition Success": {
+        "prefix": [
+            "success",
+            "su",
+            "material-admonition-succes"
+        ],
+        "body": "!!! success \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Success"
+    },
+    "Insert Admonition Question": {
+        "prefix": [
+            "question",
+            "que",
+            "material-admonition-question"
+        ],
+        "body": "!!! question \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Question"
+    },
+    "Insert Admonition Warning": {
+        "prefix": [
+            "warning",
+            "wa",
+            "material-admonition-warning"
+        ],
+        "body": "!!! warning \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Warning"
+    },
+    "Insert Admonition Failure": {
+        "prefix": [
+            "failure",
+            "fa",
+            "material-admonition-failure"
+        ],
+        "body": "!!! failure \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Failure"
+    },
+    "Insert Admonition Danger": {
+        "prefix": [
+            "danger",
+            "da",
+            "material-admonition-danger"
+        ],
+        "body": "!!! danger \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Danger"
+    },
+    "Insert Admonition Bug": {
+        "prefix": [
+            "bug",
+            "bu",
+            "material-admonition-bug"
+        ],
+        "body": "!!! bug \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Bug"
+    },
+    "Insert Admonition Example": {
+        "prefix": [
+            "example",
+            "ex",
+            "material-admonition-example"
+        ],
+        "body": "!!! example \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Example"
+    },
+    "Insert Admonition Quote": {
+        "prefix": [
+            "quote",
+            "qu",
+            "material-admonition-quote"
+        ],
+        "body": "!!! quote \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Quote"
+    },
+    "Insert Admonition Expandable Note": {
+        "prefix": [
+            "note",
+            "no",
+            "material-expandable-admonition-note"
+        ],
+        "body": "??? note \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Note"
+    },
+    "Insert Admonition Expandable Abstract": {
+        "prefix": [
+            "abstract",
+            "abs",
+            "material-expandable-admonition-abstract"
+        ],
+        "body": "??? abstract \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Abstract"
+    },
+    "Insert Admonition Expandable Info": {
+        "prefix": [
+            "info",
+            "in",
+            "material-expandable-admonition-info"
+        ],
+        "body": "??? info \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Info"
+    },
+    "Insert Admonition Expandable Tip": {
+        "prefix": [
+            "tip",
+            "ti",
+            "material-expandable-admonition-tip"
+        ],
+        "body": "??? tip \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Tip"
+    },
+    "Insert Admonition Expandable Success": {
+        "prefix": [
+            "success",
+            "su",
+            "material-expandable-admonition-succes"
+        ],
+        "body": "??? success \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Success"
+    },
+    "Insert Admonition Expandable Question": {
+        "prefix": [
+            "question",
+            "que",
+            "material-expandable-admonition-question"
+        ],
+        "body": "??? question \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Question"
+    },
+    "Insert Admonition Expandable Warning": {
+        "prefix": [
+            "warning",
+            "wa",
+            "material-expandable-admonition-warning"
+        ],
+        "body": "??? warning \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Warning"
+    },
+    "Insert Admonition Expandable Failure": {
+        "prefix": [
+            "failure",
+            "fa",
+            "material-expandable-admonition-failure"
+        ],
+        "body": "??? failure \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Failure"
+    },
+    "Insert Admonition Expandable Danger": {
+        "prefix": [
+            "danger",
+            "da",
+            "material-expandable-admonition-danger"
+        ],
+        "body": "??? danger \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Danger"
+    },
+    "Insert Admonition Expandable Bug": {
+        "prefix": [
+            "bug",
+            "bu",
+            "material-expandable-admonition-bug"
+        ],
+        "body": "??? bug \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Bug"
+    },
+    "Insert Admonition Expandable Example": {
+        "prefix": [
+            "example",
+            "ex",
+            "material-expandable-admonition-example"
+        ],
+        "body": "??? example \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Example"
+    },
+    "Insert Admonition Expandable Quote": {
+        "prefix": [
+            "quote",
+            "qu",
+            "material-expandable-admonition-quote"
+        ],
+        "body": "??? quote \"${1:title}\"\n\n    ${2:content}\n",
+        "description": "Insert Material Quote"
+    },
+    "Insert Material Highlight": {
+        "prefix": [
+            "highlight",
+            "hi",
+            "material-highlight"
+        ],
+        "body": "==${1:text}==${0}",
+        "description": "Insert Material Highlight"
     }
 }
