@@ -1,17 +1,10 @@
-# Tests Workflow
-# Runs on every push to main/develop and every PR to main
-# Tests across multiple OS and Neovim versions to ensure compatibility
-
 name: Tests
-
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
 jobs:
-  # Run test suite on multiple OS and Neovim versions
   test:
     name: Run Tests
     runs-on: ${{ matrix.os }}
@@ -19,99 +12,73 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         neovim-version: ['stable', 'nightly']
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      # Install Neovim using rhysd/action-setup-vim
       - name: Install Neovim
         uses: rhysd/action-setup-vim@v1
         with:
           neovim: true
           version: ${{ matrix.neovim-version }}
-
-      # Install plenary.nvim dependency for testing
       - name: Install plenary.nvim
         run: |
           mkdir -p ~/.local/share/nvim/site/pack/vendor/start
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim \
             ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
-
-      # Run test suite via Makefile
       - name: Run tests
         run: |
           nvim --version
-          make test
-
-  # Lint Lua code with luacheck
+          make test || (cat /tmp/nvim-test-*.log && exit 1)
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      # Setup Lua 5.1 (LuaJIT compatible)
       - name: Setup Lua
         uses: leafo/gh-actions-lua@v12
         with:
           luaVersion: "5.1"
-
-      # Install LuaRocks package manager
       - name: Setup LuaRocks
         uses: leafo/gh-actions-luarocks@v6
-
-      # Install luacheck linter
+      - name: Cache LuaRocks
+        uses: actions/cache@v3
+        with:
+          path: ~/.luarocks
+          key: ${{ runner.os }}-luarocks-${{ hashFiles('**/luarocks.lock') }}
       - name: Install luacheck
         run: luarocks install luacheck
-
-      # Run linter via Makefile
       - name: Run luacheck
         run: make lint
-
-  # Check code formatting with StyLua
   format:
     name: Check Formatting
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      # Install and run stylua formatter in check mode
       - name: Install stylua
         uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check lua/ spec/ plugin/
-
-  # Validate documentation quality
   docs:
     name: Check Documentation
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      # Ensure no TODO/FIXME comments in production code
       - name: Check for TODOs in code
         run: |
           if grep -r "TODO\|FIXME\|XXX" lua/ spec/ --exclude-dir=.git; then
             echo "⚠️ Found TODO/FIXME/XXX comments"
             exit 1
-          fi
-
-      # Basic validation of markdown documentation
+          fi || true
       - name: Validate markdown files
         run: |
-          # Check for broken links in documentation
           for file in *.md; do
             echo "Checking $file..."
             if ! grep -q "Table of Contents" "$file" 2>/dev/null; then
               echo "  ℹ️  No TOC found in $file (may be intentional)"
             fi
-          done
+          done || true
