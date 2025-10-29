@@ -1,6 +1,6 @@
 -- lua/plugins/utils.lua
 
--- telescope.nvim settings {{{{
+-- telescope.nvim settings
 -- Load Telescope actions
 local actions_ok, actions = pcall(require, "telescope.actions")
 if not actions_ok then
@@ -93,10 +93,8 @@ for _, ext in ipairs(extensions) do
     telescope.load_extension(ext)
   end)
 end
--- }}}
 
--- persisted.nvim settings {{{{
--- Configure persisted.nvim
+-- persisted.nvim settings
 local persisted_ok, persisted = pcall(require, "persisted")
 if not persisted_ok then
   return
@@ -110,9 +108,8 @@ persisted.setup({
 pcall(function()
   require("telescope").load_extension("persisted")
 end)
--- }}}
 
--- toggleterm.nvim settings {{{{
+-- toggleterm.nvim settings
 local toggleterm_ok, toggleterm = pcall(require, "toggleterm")
 if not toggleterm_ok then
   return
@@ -164,9 +161,8 @@ toggleterm.setup({
     },
   },
 })
--- }}}
 
--- neo-tree.nvim settings {{{{
+-- neo-tree.nvim settings
 local neo_tree_ok, neo_tree = pcall(require, "neo-tree")
 if not neo_tree_ok then
   return
@@ -308,9 +304,8 @@ neo_tree.setup({
     },
   },
 })
--- }}}
 
--- neogit.nvim settings - git manager {{{{
+-- neogit.nvim settings - git manager
 local neogit_ok, neogit = pcall(require, "neogit")
 if not neogit_ok then
   return
@@ -333,9 +328,8 @@ neogit.setup({
     verify_commit = vim.fn.executable("gpg") == 1,
   },
 })
--- }}}
 
--- spectre.nvim settings - search and replace plugin {{{{
+-- spectre.nvim settings - search and replace plugin
 local spectre_ok, spectre = pcall(require, "spectre")
 if not spectre_ok then
   return
@@ -344,9 +338,8 @@ end
 spectre.setup({
   live_update = false, -- auto execute search again when you write to any file
 })
--- }}}
 
--- yanky.nvim settings {{{{
+-- yanky.nvim settings
 local yanky_ok, yanky = pcall(require, "yanky")
 if not yanky_ok then
   return
@@ -374,9 +367,8 @@ yanky.setup({
 pcall(function()
   require("telescope").load_extension("yank_history")
 end)
--- }}}
 
--- indent-blankline.nvim settings {{{{
+-- indent-blankline.nvim settings
 local ibl_ok, ibl = pcall(require, "ibl")
 if not ibl_ok then
   return
@@ -398,9 +390,8 @@ ibl.setup({
   },
   scope = { enabled = false },
 })
--- }}}
 
--- rainbow-delimiters setting {{{{
+-- rainbow-delimiters setting
 local rainbow_delimiters_ok, rainbow_delimiters = pcall(require, "rainbow-delimiters.setup")
 if not rainbow_delimiters_ok then
   return
@@ -425,9 +416,8 @@ rainbow_delimiters.setup({
     "RainbowDelimiterCyan",
   },
 })
--- }}}
 
--- nvim-autopairs.nvim settings {{{{
+-- nvim-autopairs.nvim settings
 local autopairs_ok, autopairs = pcall(require, "nvim-autopairs")
 if not autopairs_ok then
   return
@@ -447,4 +437,3 @@ end
 highlight_colors.setup({
   render = "virtual",
 })
--- }}}

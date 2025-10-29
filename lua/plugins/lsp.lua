@@ -1,17 +1,8 @@
--- This script configures the Language Server Protocol (LSP) settings for Neovim.
--- Ensure Neovim version compatibility
-if vim.fn.has("nvim-0.11") ~= 1 then
-  vim.notify("This configuration requires Neovim 0.11 or later.", vim.log.levels.ERROR)
-  return
-end
-
--- Constants for better maintainability
-local LSP_ATTACH_GROUP = "LspAttachMap"
-local TELESCOPE_THEME = "ivy" -- You can make this configurable
+-- lua/plugins/lsp.lua
 
 -- LspAttach autocommand for key mappings and document highlights
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup(LSP_ATTACH_GROUP, { clear = true }),
+  group = vim.api.nvim_create_augroup(LspAttachMap, { clear = true }),
   callback = function(event)
     -- Helper function to set keymaps for LSP features
     local map = function(keys, func, desc)
@@ -29,7 +20,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Use pcall to safely require Telescope
     local telescope_ok, telescope = pcall(require, "telescope.builtin")
     if telescope_ok then
-      map("gr", string.format("<cmd>Telescope lsp_references theme=%s<cr>", TELESCOPE_THEME), "Goto References")
+      map("gr", string.format("<cmd>Telescope lsp_references theme=%s<cr>", "ivy"), "Goto References")
       map("gI", telescope.lsp_implementations, "Goto Implementation")
       map("<leader>D", telescope.lsp_type_definitions, "Type Definition")
     else

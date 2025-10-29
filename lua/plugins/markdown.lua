@@ -1,6 +1,6 @@
 -- lua/plugins/markdown.lua
 
--- mkdocs-material settings {{{
+-- mkdocs-material settings
 local mkdocs_ok, mkdocs_material = pcall(require, "mkdocs_material")
 if mkdocs_ok then
   mkdocs_material.setup({})
@@ -27,16 +27,14 @@ render_markdown.setup({
   pipe_table = { style = "normal" },
   latex = { enabled = false },
 })
--- }}}
 
--- markdown-plus.nvim settings {{{
+-- markdown-plus.nvim settings
 local markdown_plus_ok, markdown_plus = pcall(require, "markdown-plus")
 if markdown_plus_ok then
   markdown_plus.setup({})
 end
--- }}}
 
--- markdown-table-mode.nvim settings {{{
+-- markdown-table-mode.nvim settings
 local table_mode_ok, table_mode = pcall(require, "markdown-table-mode")
 if not table_mode_ok then
   return
@@ -51,9 +49,8 @@ table_mode.setup({
     insert_leave = true, -- when leaving insert mode
   },
 })
--- }}}
 
--- zen-mode.nvim settings {{{
+-- zen-mode.nvim settings
 local zen_mode_ok, zen_mode = pcall(require, "zen-mode")
 if not zen_mode_ok then
   return
@@ -74,4 +71,3 @@ zen_mode.setup({
     },
   },
 })
--- }}}

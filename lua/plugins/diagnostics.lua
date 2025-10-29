@@ -1,7 +1,6 @@
--- This script configures various Neovim plugins for code
--- diagnostics, formatting, and linting.
+-- lua/plugins/diagnostic.lua
 
--- conform.nvim settings - Formatting capabilities {{{{
+-- conform.nvim settings - Formatting capabilities
 local conform_ok, conform = pcall(require, "conform")
 if not conform_ok then
   return
@@ -22,9 +21,8 @@ conform.setup({
     lsp_format = "fallback",
   },
 })
--- }}}
 
--- nvim-lint.nvim settings - Linting capabilities {{{{
+-- nvim-lint.nvim settings - Linting capabilities
 local lint_ok, lint = pcall(require, "lint")
 if not lint_ok then
   return
@@ -52,13 +50,11 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     lint.try_lint()
   end,
 })
--- }}}
 
--- trouble.nvim settings - Diagnostic display {{{{
+-- trouble.nvim settings - Diagnostic display
 local trouble_ok, trouble = pcall(require, "trouble")
 if not trouble_ok then
   return
 end
 
 trouble.setup()
--- }}}

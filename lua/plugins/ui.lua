@@ -9,7 +9,7 @@ else
   colors = min_theme_colors
 end
 
--- min-theme setup {{{{
+-- min-theme setup
 local min_theme_ok, min_theme = pcall(require, "min-theme")
 if not min_theme_ok then
   return
@@ -71,9 +71,8 @@ min_theme.setup({
     }
   end,
 })
--- }}}
 
--- lualine.nvim settings {{{{
+-- lualine.nvim settings
 local lualine_ok, lualine = pcall(require, "lualine")
 if not lualine_ok then
   return
@@ -161,9 +160,8 @@ lualine.setup({
     lualine_z = { "location" },
   },
 })
--- }}}
 
--- bufferline.nvim settings {{{{
+-- bufferline.nvim settings
 local bufferline_ok, bufferline = pcall(require, "bufferline")
 if not bufferline_ok then
   return
@@ -223,9 +221,8 @@ bufferline.setup({
     },
   },
 })
--- }}}
 
--- fidget.nvim settings - messages display {{{{
+-- fidget.nvim settings - messages display
 local fidget_ok, fidget = pcall(require, "fidget")
 if not fidget_ok then
   return
@@ -247,9 +244,8 @@ fidget.setup({
     },
   },
 })
--- }}}
 
--- gitsign.nvim settings - git support {{{{
+-- gitsign.nvim settings - git support
 local gitsigns_ok, gitsigns = pcall(require, "gitsigns")
 if not gitsigns_ok then
   return
@@ -325,9 +321,8 @@ gitsigns.setup({
     map({ "o", "x" }, "ih", gitsigns.select_hunk, { desc = "Select hunk" })
   end,
 })
--- }}}
 
--- which-key.nvim settings {{{{
+-- which-key.nvim settings
 local which_key_ok, which_key = pcall(require, "which-key")
 if not which_key_ok then
   return
@@ -336,4 +331,3 @@ end
 which_key.setup({
   preset = "modern",
 })
--- }}}
