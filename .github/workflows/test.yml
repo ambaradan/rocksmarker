@@ -2,14 +2,18 @@ name: Test
 on: [push, pull_request]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        neovim-version: ['stable', 'nightly']
     steps:
       - uses: actions/checkout@v4
       - name: Set up Neovim
         uses: rhysd/action-setup-vim@v1
         with:
           neovim: true
-          version: stable
+          version: ${{ matrix.neovim-version }}
       - name: Install plenary.nvim
         run: |
           git clone https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
