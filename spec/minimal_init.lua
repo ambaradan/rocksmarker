@@ -1,60 +1,45 @@
--- Set the runtimepath to include the plugin being tested
-vim.opt.runtimepath:prepend(vim.fn.getcwd())
+-- spec/minimal_init.lua
 
--- Load plenary.nvim (required for testing)
-vim.cmd([[runtime plugin/plenary.vim]])
+-- Salva le funzioni originali per ripristinarle dopo i test
+local original_system = vim.fn.system
+local original_fs_stat = vim.uv and vim.uv.fs_stat or function() end
+local original_delete = vim.fn.delete
+local original_notify = vim.notify
 
--- Temporary setup for rocks.nvim configuration
-local function setup_rocks_nvim()
-  -- Specifies where to install/use rocks.nvim
-  local install_location = vim.fs.joinpath(vim.fn.stdpath("data"), "rocks")
-
-  -- Set up configuration options related to rocks.nvim
-  local rocks_config = {
-    rocks_path = vim.fs.normalize(install_location),
-  }
-  vim.g.rocks_nvim = rocks_config
-
-  -- Configure the Lua package path to find rocks.nvim plugin code
-  local luarocks_path = {
-    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
-    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
-  }
-  package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
-
-  -- Configure the C package path for Lua (e.g., for tree-sitter parsers)
-  local luarocks_cpath = {
-    vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
-    vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
-  }
-  package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
-
-  -- Add rocks.nvim to the runtimepath
-  vim.opt.runtimepath:append(
-    vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*")
-  )
-
-  -- Install rocks.nvim if it is not already installed
-  if not pcall(require, "rocks") then
-    local rocks_location = vim.fs.joinpath(vim.fn.stdpath("cache"), "rocks.nvim")
-    if not vim.uv.fs_stat(rocks_location) then
-      -- Clone rocks.nvim repository
-      local url = "https://github.com/lumen-oss/rocks.nvim"
-      vim.fn.system({ "git", "clone", "--filter=blob:none", url, rocks_location })
-      -- Ensure the clone was successful
-      assert(vim.v.shell_error == 0, "Failed to clone rocks.nvim. Check your connection and try again!")
-    end
-    -- Source the bootstrapping script if the clone was successful
-    vim.cmd.source(vim.fs.joinpath(rocks_location, "bootstrap.lua"))
-    -- Clean up the cloned repository
-    vim.fn.delete(rocks_location, "rf")
+-- Mock per `vim.fn.system`
+vim.fn.system = function(cmd)
+  if type(cmd) == "table" and cmd[1] == "git" then
+    print("MOCK: Simulating git command:", table.concat(cmd, " "))
+    return 0 -- Simula successo
   end
+  return original_system(cmd)
 end
 
--- Execute the rocks.nvim setup
-setup_rocks_nvim()
+-- Mock per `vim.uv.fs_stat`
+vim.uv = vim.uv or {}
+vim.uv.fs_stat = function(path)
+  if path:match("rocks%.nvim") then
+    return nil -- Simula che rocks.nvim non sia installato
+  end
+  return { type = "directory" } -- Simula che il percorso esista
+end
 
--- Load additional plugin configurations
-require("options")
-require("commands")
-require("mappings")
+-- Mock per `vim.fn.delete`
+vim.fn.delete = function(path, flags)
+  print("MOCK: Simulating deletion of", path)
+  return 0 -- Simula successo
+end
+
+-- Mock per `vim.notify`
+vim.notify = function(msg, level)
+  print("MOCK NOTIFY:", msg, level)
+end
+
+-- Carica il tuo `init.lua` reale
+dofile(vim.fn.getcwd() .. "/init.lua")
+
+-- Ripristina le funzioni originali dopo i test (opzionale)
+-- _G.vim.fn.system = original_system
+-- _G.vim.uv.fs_stat = original_fs_stat
+-- _G.vim.fn.delete = original_delete
+-- _G.vim.notify = original_notify
