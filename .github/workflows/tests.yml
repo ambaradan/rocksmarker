@@ -32,7 +32,7 @@ jobs:
       - name: Run tests
         run: |
           nvim --version
-          nvim --headless -u minimal_init.lua -c "PlenaryBustedDirectory spec/ {minimal_init='minimal_init.lua'}"
+          nvim --headless --noremap -u "${{ github.workspace }}/spec/minimal_init.lua" -c "PlenaryBustedDirectory spec/ {minimal_init='${{ github.workspace }}/spec/minimal_init.lua'}""
   lint:
     name: Lint Code
     runs-on: ubuntu-latest

@@ -54,9 +54,6 @@ end
 -- Execute the rocks.nvim setup
 setup_rocks_nvim()
 
--- Load the plugin being tested
-require("rocksmarker")
-
 -- Load additional plugin configurations
 require("options")
 require("commands")
