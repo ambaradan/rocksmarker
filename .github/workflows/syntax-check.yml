@@ -52,3 +52,15 @@ jobs:
           echo "Checking markdown files..."
           markdownlint README.md
           markdownlint docs/
+  json-lint:
+    name: JSON Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Install jsonlint-cli
+        run: npm install -g jsonlint-cli
+      - name: Validate JSON files
+        run: |
+          echo "Checking JSON syntax..."
+          find . -type f -name "*.json" -not -path "./node_modules/*" -exec jsonlint-cli {} \;
