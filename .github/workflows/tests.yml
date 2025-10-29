@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+      - name: Setup Lua
+        uses: leafo/gh-actions-lua@v12
+        with:
+          luaVersion: "5.1"
       - name: Install Neovim
         uses: rhysd/action-setup-vim@v1
         with:
@@ -28,7 +32,7 @@ jobs:
       - name: Run tests
         run: |
           nvim --version
-          make test || (cat /tmp/nvim-test-*.log && exit 1)
+          nvim --headless --noremap -u script/minimal_init.lua -c "PlenaryBustedDirectory spec/ {minimal_init='script/minimal_init.lua'}"
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
