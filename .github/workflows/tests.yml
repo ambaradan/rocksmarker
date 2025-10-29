@@ -1,7 +1,7 @@
-name: Tests
+name: Rocksmarker Tests
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
     branches: [main]
 jobs:
