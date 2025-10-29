@@ -14,15 +14,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y neovim ripgrep fd-find
-      - name: Install LuaRocks
+      - name: Install LuaRocks and Busted
         run: |
           sudo apt-get install -y luarocks
           sudo luarocks install busted
-          sudo luarocks install luacheck
       - name: Install plenary.nvim
         run: |
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+      - name: Set up Neovim config
+        run: |
+          mkdir -p ~/.config/nvim
+          cp spec/minimal_init.lua ~/.config/nvim/init.lua
       - name: Run tests
         run: |
           nvim --version
-          nvim --headless -u minimal_init.lua -c "PlenaryBustedDirectory spec/ {minimal_init='minimal_init.lua'}"
+          nvim --headless -u spec/minimal_init.lua -c "PlenaryBustedDirectory spec/ {minimal_init='spec/minimal_init.lua'}"
