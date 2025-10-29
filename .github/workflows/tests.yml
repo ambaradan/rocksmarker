@@ -61,7 +61,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --check lua/ spec/ plugin/
+          args: --check lua/ spec/ init.lua
   docs:
     name: Check Documentation
     runs-on: ubuntu-latest
