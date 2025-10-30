@@ -2,7 +2,7 @@
 
 -- LspAttach autocommand for key mappings and document highlights
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup(LspAttachMap, { clear = true }),
+  group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
   callback = function(event)
     -- Helper function to set keymaps for LSP features
     local map = function(keys, func, desc)
