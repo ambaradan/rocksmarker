@@ -1,12 +1,22 @@
 {
-  "runtime.version": "LuaJIT",
-  "runtime.path": [
-    "lua/?.lua",
-    "lua/?/init.lua"
-  ],
-  "diagnostics.globals": ["vim"],
-  "workspace.checkThirdParty": false,
-  "workspace.library": [
-    "$VIMRUNTIME"
-  ]
+    "runtime.version": "LuaJIT",
+    "runtime.path": [
+        "lua/?.lua",
+        "lua/?/init.lua"
+    ],
+    "diagnostics.globals": [
+        "vim",
+        "describe",
+        "it",
+        "before_each",
+        "after_each"
+    ],
+    "diagnostics.disable": [
+        "lowercase-global",
+        "undefined-field"
+    ],
+    "workspace.checkThirdParty": false,
+    "workspace.library": [
+        "$VIMRUNTIME"
+    ]
 }
