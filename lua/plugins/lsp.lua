@@ -1,78 +1,80 @@
 -- lua/plugins/lsp.lua
 
 -- Create an autocommand group for LSP attachments
-vim.api.nvim_create_augroup("LspAttachMarkdown", { clear = true })
+vim.api.nvim_create_augroup("LspAttachAll", { clear = true })
 
 -- Set up the autocommand for LspAttach event
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = "LspAttachMarkdown",
+  group = "LspAttachAll",
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
 
-    -- Check if the attached client is Marksman
-    if client and client.name == "marksman" then
-      local function map(keys, func, desc)
-        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
-      end
+    -- Check if client is valid
+    if not client then
+      return
+    end
 
-      -- Key mappings for LSP features
-      map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-      map("K", vim.lsp.buf.hover, "Hover Documentation")
-      map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-      map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-      map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+    local function map(keys, func, desc)
+      vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+    end
 
-      -- Use Telescope for references, implementations, and symbols (if available)
-      local telescope_ok, telescope = pcall(require, "telescope.builtin")
-      if telescope_ok then
-        map("gr", function()
-          telescope.lsp_references({ theme = "ivy" })
-        end, "[G]oto [R]eferences")
-        map("gI", function()
-          telescope.lsp_implementations({ theme = "ivy" })
-        end, "[G]oto [I]mplementation")
-        map("<leader>D", function()
-          telescope.lsp_type_definitions({ theme = "dropdown" })
-        end, "Type [D]efinition")
-        map("<leader>ds", function()
-          telescope.lsp_document_symbols({ theme = "dropdown" })
-        end, "[D]ocument [S]ymbols")
-        map("<leader>ws", function()
-          telescope.lsp_dynamic_workspace_symbols({ theme = "dropdown" })
-        end, "[W]orkspace [S]ymbols")
-      else
-        vim.notify("Telescope not installed. Some LSP features will be limited.", vim.log.levels.WARN)
-      end
+    -- Key mappings for LSP features (applicate a tutti i server LSP)
+    map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+    map("K", vim.lsp.buf.hover, "Hover Documentation")
+    map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+    map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+    map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-      -- Document highlight (if supported)
-      if client.server_capabilities.documentHighlightProvider then
-        local hl_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-          group = hl_group,
-          buffer = bufnr,
-          callback = vim.lsp.buf.document_highlight,
-        })
-        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-          group = hl_group,
-          buffer = bufnr,
-          callback = vim.lsp.buf.clear_references,
-        })
-        vim.api.nvim_create_autocmd("LspDetach", {
-          group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
-          callback = function(detach_event)
-            vim.lsp.buf.clear_references()
-            vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = detach_event.buf })
-          end,
-        })
-      end
+    -- Use Telescope for references, implementations, and symbols (if available)
+    local telescope_ok, telescope = pcall(require, "telescope.builtin")
+    if telescope_ok then
+      map("gr", function()
+        telescope.lsp_references({ theme = "ivy" })
+      end, "[G]oto [R]eferences")
+      map("gI", function()
+        telescope.lsp_implementations({ theme = "ivy" })
+      end, "[G]oto [I]mplementation")
+      map("<leader>D", function()
+        telescope.lsp_type_definitions({ theme = "dropdown" })
+      end, "Type [D]efinition")
+      map("<leader>ds", function()
+        telescope.lsp_document_symbols({ theme = "dropdown" })
+      end, "[D]ocument [S]ymbols")
+      map("<leader>ws", function()
+        telescope.lsp_dynamic_workspace_symbols({ theme = "dropdown" })
+      end, "[W]orkspace [S]ymbols")
+    else
+      vim.notify("Telescope not installed. Some LSP features will be limited.", vim.log.levels.WARN)
+    end
 
-      -- Toggle inlay hints (if supported)
-      if client.server_capabilities.inlayHintProvider then
-        map("<leader>th", function()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}), { bufnr = bufnr })
-        end, "[T]oggle Inlay [H]ints")
-      end
+    -- Document highlight (if supported)
+    if client.server_capabilities.documentHighlightProvider then
+      local hl_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight,
+      })
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references,
+      })
+      vim.api.nvim_create_autocmd("LspDetach", {
+        group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+        callback = function(detach_event)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = detach_event.buf })
+        end,
+      })
+    end
+
+    -- Toggle inlay hints (if supported)
+    if client.server_capabilities.inlayHintProvider then
+      map("<leader>th", function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}), { bufnr = bufnr })
+      end, "[T]oggle Inlay [H]ints")
     end
   end,
 })
