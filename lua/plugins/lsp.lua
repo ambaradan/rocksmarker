@@ -1,81 +1,121 @@
 -- lua/plugins/lsp.lua
 
--- LspAttach autocommand for key mappings and document highlights
+-- Create an autocommand group for LSP attachments
+vim.api.nvim_create_augroup("LspAttachMarkdown", { clear = true })
+
+-- Set up the autocommand for LspAttach event
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("LspAttachMap", { clear = true }),
-  callback = function(event)
-    -- Helper function to set keymaps for LSP features
-    local map = function(keys, func, desc)
-      vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-    end
+  group = "LspAttachMarkdown",
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
 
-    -- Key mappings for LSP features
-    map("gd", vim.lsp.buf.definition, "Goto Definition")
-    map("K", vim.lsp.buf.hover, "Hover Documentation")
-    map("<C-k>", vim.lsp.buf.signature_help, "Signature Help")
-    map("<leader>rn", vim.lsp.buf.rename, "Rename")
-    map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
-    map("gD", vim.lsp.buf.declaration, "Goto Declaration")
+    -- Check if the attached client is Marksman
+    if client and client.name == "marksman" then
+      local function map(keys, func, desc)
+        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+      end
 
-    -- Use pcall to safely require Telescope
-    local telescope_ok, telescope = pcall(require, "telescope.builtin")
-    if telescope_ok then
-      map("gr", string.format("<cmd>Telescope lsp_references theme=%s<cr>", "ivy"), "Goto References")
-      map("gI", telescope.lsp_implementations, "Goto Implementation")
-      map("<leader>D", telescope.lsp_type_definitions, "Type Definition")
-    else
-      vim.notify("Telescope not installed. Some LSP features will be limited.", vim.log.levels.WARN)
-    end
+      -- Key mappings for LSP features
+      map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+      map("K", vim.lsp.buf.hover, "Hover Documentation")
+      map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+      map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+      map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-    map("<leader>ds", string.format("<cmd>Telescope lsp_document_symbols theme=dropdown<cr>"), "Document Symbols")
-    map(
-      "<leader>ws",
-      string.format("<cmd>Telescope lsp_dynamic_workspace_symbols theme=dropdown<cr>"),
-      "Workspace Symbols"
-    )
+      -- Use Telescope for references, implementations, and symbols (if available)
+      local telescope_ok, telescope = pcall(require, "telescope.builtin")
+      if telescope_ok then
+        map("gr", function()
+          telescope.lsp_references({ theme = "ivy" })
+        end, "[G]oto [R]eferences")
+        map("gI", function()
+          telescope.lsp_implementations({ theme = "ivy" })
+        end, "[G]oto [I]mplementation")
+        map("<leader>D", function()
+          telescope.lsp_type_definitions({ theme = "dropdown" })
+        end, "Type [D]efinition")
+        map("<leader>ds", function()
+          telescope.lsp_document_symbols({ theme = "dropdown" })
+        end, "[D]ocument [S]ymbols")
+        map("<leader>ws", function()
+          telescope.lsp_dynamic_workspace_symbols({ theme = "dropdown" })
+        end, "[W]orkspace [S]ymbols")
+      else
+        vim.notify("Telescope not installed. Some LSP features will be limited.", vim.log.levels.WARN)
+      end
 
-    -- Document highlight support
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client.server_capabilities.documentHighlightProvider then
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        buffer = event.buf,
-        callback = vim.lsp.buf.document_highlight,
-      })
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        buffer = event.buf,
-        callback = vim.lsp.buf.clear_references,
-      })
+      -- Document highlight (if supported)
+      if client.server_capabilities.documentHighlightProvider then
+        local hl_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+          group = hl_group,
+          buffer = bufnr,
+          callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+          group = hl_group,
+          buffer = bufnr,
+          callback = vim.lsp.buf.clear_references,
+        })
+        vim.api.nvim_create_autocmd("LspDetach", {
+          group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+          callback = function(detach_event)
+            vim.lsp.buf.clear_references()
+            vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = detach_event.buf })
+          end,
+        })
+      end
+
+      -- Toggle inlay hints (if supported)
+      if client.server_capabilities.inlayHintProvider then
+        map("<leader>th", function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}), { bufnr = bufnr })
+        end, "[T]oggle Inlay [H]ints")
+      end
     end
   end,
 })
 
--- LSP capabilities configuration
+--- Get LSP capabilities with support for Markdown and other features.
+---@return table The LSP client capabilities.
 local function get_lsp_capabilities()
-  local capabilities_ok, capabilities = pcall(require, "blink.cmp")
-  if not capabilities_ok then
-    vim.notify("blink.cmp not found. Using default capabilities.", vim.log.levels.WARN)
-    return vim.lsp.protocol.make_client_capabilities()
-  end
-  capabilities = capabilities.get_lsp_capabilities()
+  -- Initialize with default client capabilities
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-  -- Extend capabilities with additional features
-  capabilities.textDocument.completion.completionItem = {
-    documentationFormat = { "markdown", "plaintext" },
-    snippetSupport = true,
-    preselectSupport = true,
-    insertReplaceSupport = true,
-    labelDetailsSupport = true,
-    deprecatedSupport = true,
-    commitCharactersSupport = true,
-    tagSupport = { valueSet = { 1 } },
-    resolveSupport = {
-      properties = {
-        "documentation",
-        "detail",
-        "additionalTextEdits",
+  -- Try to extend capabilities with blink.cmp
+  local blink_cmp_ok, blink_cmp = pcall(require, "blink.cmp")
+  if blink_cmp_ok then
+    capabilities = blink_cmp.get_lsp_capabilities(capabilities)
+  else
+    vim.notify("blink.cmp not found. Using default capabilities.", vim.log.levels.WARN)
+  end
+
+  -- Ensure the structure exists
+  capabilities.textDocument = capabilities.textDocument or {}
+  capabilities.textDocument.completion = capabilities.textDocument.completion or {}
+  capabilities.textDocument.completion.completionItem = capabilities.textDocument.completion.completionItem or {}
+
+  -- Extend completion item capabilities with Markdown support
+  capabilities.textDocument.completion.completionItem =
+    vim.tbl_deep_extend("force", capabilities.textDocument.completion.completionItem, {
+      documentationFormat = { "markdown", "plaintext" }, -- Enable Markdown and plaintext documentation
+      snippetSupport = true, -- Enable snippet support
+      preselectSupport = true, -- Enable preselect support
+      insertReplaceSupport = true, -- Enable insert/replace support
+      labelDetailsSupport = true, -- Enable label details support
+      deprecatedSupport = true, -- Enable deprecated items support
+      commitCharactersSupport = true, -- Enable commit characters support
+      tagSupport = { valueSet = { 1 } }, -- Enable tag support
+      resolveSupport = {
+        properties = {
+          "documentation", -- Enable documentation resolution
+          "detail", -- Enable detail resolution
+          "additionalTextEdits", -- Enable additional text edits
+        },
       },
-    },
-  }
+    })
+
   return capabilities
 end
 
@@ -179,7 +219,10 @@ setup_lsp_server("taplo", {
 })
 
 -- Marksman LSP for Markdown
-setup_lsp_server("marksman", {})
+setup_lsp_server("marksman", {
+  capabilities = get_lsp_capabilities(), -- Use extended capabilities
+  filetypes = { "markdown", "md" }, -- Specify filetypes for Marksman
+})
 
 -- Mason LSP-related setup
 local mason_ok, mason = pcall(require, "mason")
