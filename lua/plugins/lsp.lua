@@ -237,60 +237,80 @@ setup_lsp_server("lua_ls", {
 
 -- Configure Harper language server for grammar and style checking in Neovim.
 -- Harper is a privacy-first, offline grammar checker for developers and writers.
-setup_lsp_server("harper_ls", {
-  settings = {
-    -- All Harper-specific settings must be nested under the "harper-ls" key.
-    ["harper-ls"] = {
-      -- Linters configuration: enable or disable specific grammar and style checks.
-      linters = {
-        SpellCheck = true, -- Enable spell checking.
-        SpelledNumbers = false, -- Disable warnings for spelled-out numbers.
-        AnA = true, -- Check for correct usage of "a" and "an".
-        SentenceCapitalization = true, -- Ensure sentences start with a capital letter.
-        UnclosedQuotes = true, -- Detect unclosed quotes.
-        WrongQuotes = false, -- Disable warnings for incorrect quote usage.
-        LongSentences = true, -- Warn about long sentences.
-        RepeatedWords = true, -- Detect repeated words.
-        Spaces = true, -- Check for spacing issues.
-        Matcher = true, -- Enable pattern matching for style issues.
-        CorrectNumberSuffix = true, -- Correct number suffixes (e.g., "1st", "2nd").
-      },
+-- setup_lsp_server("harper_ls", {
+--   settings = {
+--     -- All Harper-specific settings must be nested under the "harper-ls" key.
+--     ["harper-ls"] = {
+--       -- Linters configuration: enable or disable specific grammar and style checks.
+--       linters = {
+--         SpellCheck = true, -- Enable spell checking.
+--         SpelledNumbers = false, -- Disable warnings for spelled-out numbers.
+--         AnA = true, -- Check for correct usage of "a" and "an".
+--         SentenceCapitalization = true, -- Ensure sentences start with a capital letter.
+--         UnclosedQuotes = true, -- Detect unclosed quotes.
+--         WrongQuotes = false, -- Disable warnings for incorrect quote usage.
+--         LongSentences = true, -- Warn about long sentences.
+--         RepeatedWords = true, -- Detect repeated words.
+--         Spaces = true, -- Check for spacing issues.
+--         Matcher = true, -- Enable pattern matching for style issues.
+--         CorrectNumberSuffix = true, -- Correct number suffixes (e.g., "1st", "2nd").
+--       },
+--
+--       -- Code actions configuration: control how code actions are displayed.
+--       codeActions = {
+--         ForceStable = false, -- Do not force stable code actions.
+--       },
+--
+--       -- Markdown-specific settings: control how Harper handles Markdown files.
+--       markdown = {
+--         IgnoreLinkTitle = false, -- Do not ignore link titles in Markdown.
+--         IgnoreCodeBlocks = true, -- Ignore code blocks in Markdown.
+--         IgnoreInlineCode = true, -- Ignore inline code in Markdown.
+--         CheckLists = true, -- Check lists in Markdown.
+--         CheckHeadings = true, -- Check headings in Markdown.
+--       },
+--
+--       -- Set the severity level for diagnostics.
+--       -- Options: "error", "warning", "information", "hint"
+--       diagnosticSeverity = "hint",
+--
+--       -- Isolate English language checks to avoid false positives in mixed-language documents.
+--       isolateEnglish = true,
+--     },
+--   },
+-- })
 
-      -- Code actions configuration: control how code actions are displayed.
-      codeActions = {
-        ForceStable = false, -- Do not force stable code actions.
-      },
-
-      -- Markdown-specific settings: control how Harper handles Markdown files.
-      markdown = {
-        IgnoreLinkTitle = false, -- Do not ignore link titles in Markdown.
-        IgnoreCodeBlocks = true, -- Ignore code blocks in Markdown.
-        IgnoreInlineCode = true, -- Ignore inline code in Markdown.
-        CheckLists = true, -- Check lists in Markdown.
-        CheckHeadings = true, -- Check headings in Markdown.
-      },
-
-      -- Set the severity level for diagnostics.
-      -- Options: "error", "warning", "information", "hint"
-      diagnosticSeverity = "hint",
-
-      -- Isolate English language checks to avoid false positives in mixed-language documents.
-      isolateEnglish = true,
-    },
-  },
-})
-
--- Taplo LSP configuration for TOML files
+-- Configure Taplo language server for TOML file support in Neovim.
+-- Taplo provides advanced features like formatting, completion, and diagnostics for TOML files.
 setup_lsp_server("taplo", {
+  -- Settings specific to Taplo LSP.
   settings = {
-    format = { enable = true },
+    -- Formatting configuration: enable or disable automatic formatting.
+    format = {
+      enable = true, -- Enable automatic formatting of TOML files.
+    },
+
+    -- Completion configuration: control how code completion works.
     completion = {
-      enable = true,
+      enable = true, -- Enable code completion for TOML files.
+      -- Characters that trigger completion suggestions.
       triggerCharacters = { ".", '"', "'" },
     },
-    diagnostics = { enable = true, severity = "Error" },
-    schema = { enable = false },
+
+    -- Diagnostics configuration: control how errors and warnings are displayed.
+    diagnostics = {
+      enable = true, -- Enable diagnostics for TOML files.
+      severity = "Error", -- Set the default severity level for diagnostics to "Error".
+    },
+
+    -- Schema support configuration: enable or disable JSON schema validation.
+    schema = {
+      enable = false, -- Disable JSON schema validation for TOML files.
+    },
   },
+
+  -- Specify the filetypes for which Taplo should be activated.
+  -- In this case, Taplo is only enabled for TOML files.
   filetypes = { "toml" },
 })
 
@@ -298,6 +318,28 @@ setup_lsp_server("taplo", {
 setup_lsp_server("marksman", {
   capabilities = get_lsp_capabilities(), -- Use extended capabilities
   filetypes = { "markdown", "md" }, -- Specify filetypes for Marksman
+})
+
+-- Configure vale_ls for prose linting in Neovim.
+-- Vale is a syntax-aware linter for prose (Markdown, text, LaTeX, etc.).
+setup_lsp_server("vale_ls", {
+  -- Use extended client capabilities for full LSP feature support.
+  capabilities = get_lsp_capabilities(),
+
+  -- Specify the filetypes for which vale_ls should be activated.
+  filetypes = { "markdown", "text", "tex", "rst" },
+
+  -- Optional: Set the root directory pattern to look for .vale.ini.
+  -- root_dir = require('lspconfig.util').root_pattern('.vale.ini'),
+
+  -- Enable single file support.
+  single_file_support = true,
+
+  -- Optional: Add any additional settings for vale_ls.
+  settings = {
+    -- If you have specific Vale settings, they can be added here.
+    -- Vale will automatically look for a .vale.ini file in the project root.
+  },
 })
 
 -- Mason LSP-related setup
@@ -326,6 +368,7 @@ mason_lspconfig.setup({
     "taplo",
     "jsonls",
     "vimls",
+    "vale_ls",
   },
   handlers = {
     function(server_name)
