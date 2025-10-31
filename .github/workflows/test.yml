@@ -19,4 +19,4 @@ jobs:
           git clone https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
       - name: Run tests
         run: |
-          nvim --headless -c "PlenaryBustedDirectory { './spec/' } { minimal_init = './spec/minimal_init.lua' }" -c "qa!"
+          nvim --headless -c 'PlenaryBustedDirectory({"./spec/"}, { minimal_init = "./spec/minimal_init.lua" })' -c "qa!"
