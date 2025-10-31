@@ -19,6 +19,14 @@ describe("init.lua", function()
     vim.fn.system = function(cmd)
       if type(cmd) == "table" and cmd[1] == "git" and cmd[3] and cmd[3]:match("rocks%.nvim") then
         print("MOCK: Simulating git clone of rocks.nvim")
+        -- Create a mock directory and bootstrap.lua file
+        local mock_rocks_path = vim.fn.stdpath("cache") .. "/rocks.nvim"
+        vim.fn.mkdir(mock_rocks_path, "p")
+        local bootstrap_file = io.open(mock_rocks_path .. "/bootstrap.lua", "w")
+        if bootstrap_file then
+          bootstrap_file:write("-- Mock bootstrap.lua file\n")
+          bootstrap_file:close()
+        end
         return 0
       end
       return original_system(cmd)
