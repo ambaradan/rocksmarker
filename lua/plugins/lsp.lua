@@ -235,51 +235,6 @@ setup_lsp_server("lua_ls", {
   },
 })
 
--- Configure Harper language server for grammar and style checking in Neovim.
--- Harper is a privacy-first, offline grammar checker for developers and writers.
--- setup_lsp_server("harper_ls", {
---   settings = {
---     -- All Harper-specific settings must be nested under the "harper-ls" key.
---     ["harper-ls"] = {
---       -- Linters configuration: enable or disable specific grammar and style checks.
---       linters = {
---         SpellCheck = true, -- Enable spell checking.
---         SpelledNumbers = false, -- Disable warnings for spelled-out numbers.
---         AnA = true, -- Check for correct usage of "a" and "an".
---         SentenceCapitalization = true, -- Ensure sentences start with a capital letter.
---         UnclosedQuotes = true, -- Detect unclosed quotes.
---         WrongQuotes = false, -- Disable warnings for incorrect quote usage.
---         LongSentences = true, -- Warn about long sentences.
---         RepeatedWords = true, -- Detect repeated words.
---         Spaces = true, -- Check for spacing issues.
---         Matcher = true, -- Enable pattern matching for style issues.
---         CorrectNumberSuffix = true, -- Correct number suffixes (e.g., "1st", "2nd").
---       },
---
---       -- Code actions configuration: control how code actions are displayed.
---       codeActions = {
---         ForceStable = false, -- Do not force stable code actions.
---       },
---
---       -- Markdown-specific settings: control how Harper handles Markdown files.
---       markdown = {
---         IgnoreLinkTitle = false, -- Do not ignore link titles in Markdown.
---         IgnoreCodeBlocks = true, -- Ignore code blocks in Markdown.
---         IgnoreInlineCode = true, -- Ignore inline code in Markdown.
---         CheckLists = true, -- Check lists in Markdown.
---         CheckHeadings = true, -- Check headings in Markdown.
---       },
---
---       -- Set the severity level for diagnostics.
---       -- Options: "error", "warning", "information", "hint"
---       diagnosticSeverity = "hint",
---
---       -- Isolate English language checks to avoid false positives in mixed-language documents.
---       isolateEnglish = true,
---     },
---   },
--- })
-
 -- Configure Taplo language server for TOML file support in Neovim.
 -- Taplo provides advanced features like formatting, completion, and diagnostics for TOML files.
 setup_lsp_server("taplo", {
@@ -314,10 +269,17 @@ setup_lsp_server("taplo", {
   filetypes = { "toml" },
 })
 
--- Marksman LSP for Markdown
+-- Marksman provides advanced Markdown language features such as syntax checking,
+-- formatting, and navigation.
 setup_lsp_server("marksman", {
-  capabilities = get_lsp_capabilities(), -- Use extended capabilities
-  filetypes = { "markdown", "md" }, -- Specify filetypes for Marksman
+  -- The `get_lsp_capabilities()` function returns a table of capabilities that enhance
+  -- the interaction between Neovim and the LSP server.
+  capabilities = get_lsp_capabilities(),
+
+  -- Specify the filetypes for which Marksman should be activated.
+  -- Marksman is enabled for both "markdown" and "md" filetypes to cover all common
+  -- Markdown file extensions.
+  filetypes = { "markdown", "md" },
 })
 
 -- Configure vale_ls for prose linting in Neovim.
@@ -342,82 +304,137 @@ setup_lsp_server("vale_ls", {
   },
 })
 
--- Mason LSP-related setup
+-- Configure Harper language server for grammar and style checking in Neovim.
+-- Harper is a privacy-first, offline grammar checker for developers and writers.
+setup_lsp_server("harper_ls", {
+  settings = {
+    -- All Harper-specific settings must be nested under the "harper-ls" key.
+    ["harper-ls"] = {
+      -- Linters configuration: enable or disable specific grammar and style checks.
+      linters = {
+        SpellCheck = true, -- Enable spell checking.
+        SpelledNumbers = false, -- Disable warnings for spelled-out numbers.
+        AnA = true, -- Check for correct usage of "a" and "an".
+        SentenceCapitalization = true, -- Ensure sentences start with a capital letter.
+        UnclosedQuotes = true, -- Detect unclosed quotes.
+        WrongQuotes = false, -- Disable warnings for incorrect quote usage.
+        LongSentences = true, -- Warn about long sentences.
+        RepeatedWords = true, -- Detect repeated words.
+        Spaces = true, -- Check for spacing issues.
+        Matcher = true, -- Enable pattern matching for style issues.
+        CorrectNumberSuffix = true, -- Correct number suffixes (e.g., "1st", "2nd").
+      },
+
+      -- Code actions configuration: control how code actions are displayed.
+      codeActions = {
+        ForceStable = false, -- Do not force stable code actions.
+      },
+
+      -- Markdown-specific settings: control how Harper handles Markdown files.
+      markdown = {
+        IgnoreLinkTitle = false, -- Do not ignore link titles in Markdown.
+        IgnoreCodeBlocks = true, -- Ignore code blocks in Markdown.
+        IgnoreInlineCode = true, -- Ignore inline code in Markdown.
+        CheckLists = true, -- Check lists in Markdown.
+        CheckHeadings = true, -- Check headings in Markdown.
+      },
+
+      -- Set the severity level for diagnostics.
+      -- Options: "error", "warning", "information", "hint"
+      diagnosticSeverity = "hint",
+
+      -- Isolate English language checks to avoid false positives in mixed-language documents.
+      isolateEnglish = true,
+    },
+  },
+})
+
+-- Setup Mason for managing LSP servers and related tools.
 local mason_ok, mason = pcall(require, "mason")
 if not mason_ok then
   vim.notify("mason.nvim not installed.", vim.log.levels.ERROR)
   return
 end
-mason.setup({})
+mason.setup({}) -- Initialize Mason with default settings.
 
+-- Setup Mason-LSPConfig to bridge Mason and nvim-lspconfig.
 local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not mason_lspconfig_ok then
   vim.notify("mason-lspconfig not installed.", vim.log.levels.ERROR)
   return
 end
-
 mason_lspconfig.setup({
+  -- List of LSP servers to automatically install.
   ensure_installed = {
-    "lua_ls",
-    "html",
-    "cssls",
-    "marksman",
-    "harper_ls",
-    "yamlls",
-    "bashls",
-    "taplo",
-    "jsonls",
-    "vimls",
-    "vale_ls",
+    "lua_ls", -- Lua language server
+    "html", -- HTML language server
+    "cssls", -- CSS language server
+    "marksman", -- Markdown language server
+    "harper_ls", -- Grammar and style checker for prose
+    "yamlls", -- YAML language server
+    "bashls", -- Bash language server
+    "taplo", -- TOML language server
+    "jsonls", -- JSON language server
+    "vimls", -- Vimscript language server
+    "vale_ls", -- Prose linter for Markdown and text
   },
+  -- Handler to automatically set up each installed LSP server.
   handlers = {
     function(server_name)
-      setup_lsp_server(server_name, {})
+      setup_lsp_server(server_name, {}) -- Use the custom setup function for each server
     end,
   },
 })
 
--- Mason tool installer for additional tools
+-- Mason tool installer for additional formatting, linting, and utility tools.
 local mason_tool_installer_ok, mason_tool_installer = pcall(require, "mason-tool-installer")
 if not mason_tool_installer_ok then
   vim.notify("mason-tool-installer not installed.", vim.log.levels.ERROR)
   return
 end
-
 mason_tool_installer.setup({
+  -- List of tools to automatically install for formatting, linting, and validation.
   ensure_installed = {
-    "markdownlint",
-    "vale",
-    "stylua",
-    "shfmt",
-    "yamlfmt",
-    "shellcheck",
-    "prettier",
-    "yamllint",
-    "jsonlint",
-    "vint",
+    "markdownlint", -- Lint Markdown files
+    "vale", -- Prose linter for Markdown and text
+    "stylua", -- Lua code formatter
+    "shfmt", -- Shell script formatter
+    "yamlfmt", -- YAML formatter
+    "shellcheck", -- Shell script static analysis
+    "prettier", -- Code formatter for multiple languages
+    "yamllint", -- YAML linter
+    "jsonlint", -- JSON linter
+    "vint", -- Vimscript linter
   },
-  auto_update = true,
-  run_on_start = true,
+  auto_update = true, -- Automatically update installed tools
+  run_on_start = true, -- Install tools on Neovim startup
 })
 
--- Autocompletion features - blink.cmp
+-- Configure blink.cmp for autocompletion in Neovim.
 local blink_cmp_ok, blink_cmp = pcall(require, "blink.cmp")
 if not blink_cmp_ok then
   vim.notify("blink.cmp not installed.", vim.log.levels.ERROR)
   return
 end
-
 blink_cmp.setup({
+  -- Keymap configuration for completion behavior.
   keymap = {
-    preset = "super-tab",
-    ["<ESC>"] = { "cancel", "fallback" },
+    preset = "super-tab", -- Use Tab/Shift-Tab for navigation and confirmation
+    ["<ESC>"] = { "cancel", "fallback" }, -- Cancel completion or fallback to default behavior
   },
-  cmdline = { keymap = { preset = "default" } },
-  fuzzy = { implementation = "lua" },
+  -- Command-line mode completion settings.
+  cmdline = {
+    keymap = {
+      preset = "default", -- Use default keymaps for command-line mode
+    },
+  },
+  -- Fuzzy matching settings for completion results.
+  fuzzy = {
+    implementation = "lua", -- Use Lua-based fuzzy matching for performance
+  },
 })
 
--- Function and command for Harper LSP
+-- Load utility function to toggle Harper LSP for grammar and style checking.
 local success, _ = pcall(require, "utils.lsp_toggle")
 if not success then
   vim.notify("Failed to load utils.lsp_toggle", vim.log.levels.WARN)
