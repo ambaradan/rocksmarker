@@ -1,6 +1,5 @@
 -- Rocksmarker mappings
 local editor = require("utils.editor")
-local explorer = require("snacks.explorer")
 
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
@@ -18,10 +17,18 @@ editor.remap("n", "<leader>x", function()
   editor.close_current_buffer()
 end, editor.make_opt("close buffer"))
 
--- Close all buffers
+editor.remap("n", "<C-x>", function()
+  require("snacks").bufdelete()
+end, editor.make_opt("close buffer"))
+
 editor.remap("n", "<leader>X", function()
-  editor.close_all_buffers()
+  require("snacks").bufdelete.all()
 end, editor.make_opt("close all buffers"))
+
+-- Close all buffers
+-- editor.remap("n", "<leader>X", function()
+--   editor.close_all_buffers()
+-- end, editor.make_opt("close all buffers"))
 
 -- Editor mappings
 -- Remap <leader>q to quit the current buffer/window

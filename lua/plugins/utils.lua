@@ -13,9 +13,17 @@ snacks.setup({
       explorer = { enabled = true },
       indent = { enabled = false },
       input = { enabled = true },
-      notifier = {
-        enabled = true,
-        timeout = 3000,
+      {
+        finder = "files",
+        format = "file",
+        show_empty = true,
+        hidden = true,
+        ignored = false,
+        follow = false,
+        supports_live = true,
+      },
+      {
+        finder = "explorer",
       },
     },
   },
