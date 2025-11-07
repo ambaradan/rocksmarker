@@ -1,5 +1,25 @@
 -- lua/plugins/utils.lua
 
+local snacks_ok, snacks = pcall(require, "snacks")
+if not snacks_ok then
+  return
+end
+
+snacks.setup({
+  defaults = {
+    opts = {
+      bigfile = { enabled = true },
+      dashboard = { enabled = false },
+      explorer = { enabled = true },
+      indent = { enabled = false },
+      input = { enabled = true },
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+      },
+    },
+  },
+})
 -- telescope.nvim settings
 -- Load Telescope actions
 local actions_ok, actions = pcall(require, "telescope.actions")

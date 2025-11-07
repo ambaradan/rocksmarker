@@ -1,5 +1,6 @@
 -- Rocksmarker mappings
 local editor = require("utils.editor")
+local explorer = require("snacks.explorer")
 
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
@@ -25,6 +26,10 @@ end, editor.make_opt("close all buffers"))
 -- Editor mappings
 -- Remap <leader>q to quit the current buffer/window
 editor.remap("n", "<leader>q", "<cmd>q<cr>", editor.make_opt("quit editor"))
+
+editor.remap("n", "<C-o>", function()
+  require("snacks").explorer.open()
+end, editor.make_opt("open file"))
 
 -- Remap <Esc> to clear search highlights
 -- Useful after searching to remove highlight remnants
