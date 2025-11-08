@@ -50,13 +50,9 @@ config_path = "rocks-treesitter.toml"
 "min-theme.nvim" = "scm"
 "lualine.nvim" = "scm"
 "bufferline.nvim" = "4.9.1"
-"toggleterm.nvim" = "2.13.1"
 "fidget.nvim" = "1.6.0"
 "gitsigns.nvim" = "1.0.2"
 "which-key.nvim" = "3.17.0"
-
-# Functional plugins
-"indent-blankline.nvim" = "3.9.0"
 "nvim-autopairs" = "scm"
 "neo-tree.nvim" = "3.35"
 "rainbow-delimiters.nvim" = "0.9.1"
@@ -92,7 +88,7 @@ nvim-mkdocs-material = "0.1.3"
 "markdown-plus.nvim" = "1.6.0"
 "snacks.nvim" = "2.22.0"
 
-[plugins."telescope.nvim" ]
+[plugins."telescope.nvim"]
 version = "0.1.9"
 pin = true
 
@@ -121,13 +117,12 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 # Common editor utilities
 [bundles.utils]
 items = [
+    "snacks.nvim",
     "telescope.nvim",
     "persisted.nvim",
-    "toggleterm.nvim",
     "neo-tree.nvim",
     "neogit",
     "nvim-spectre",
-    "indent-blankline.nvim",
     "rainbow-delimiters.nvim",
     "nvim-autopairs",
     "nvim-highlight-colors",

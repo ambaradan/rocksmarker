@@ -17,6 +17,9 @@ snacks.setup({
   },
   -- Altre configurazioni di snacks.nvim
   defaults = {
+    opts = {
+      indent = { enabled = true },
+    },
     -- Configurazioni predefinite per i pickers
     files = {
       finder = "files",
@@ -82,12 +85,8 @@ telescope.setup({
 
 -- Load Telescope extensions
 local extensions = {
-  "file_browser",
   "cmdline",
-  "frecency",
-  "ui-select",
   "fidget",
-  "undo",
 }
 
 for _, ext in ipairs(extensions) do
@@ -110,59 +109,6 @@ persisted.setup({
 pcall(function()
   require("telescope").load_extension("persisted")
 end)
-
--- toggleterm.nvim settings
-local toggleterm_ok, toggleterm = pcall(require, "toggleterm")
-if not toggleterm_ok then
-  return
-end
-
-toggleterm.setup({
-  -- Basic configuration
-  size = function(term)
-    if term.direction == "horizontal" then
-      return vim.o.lines * 0.4
-    elseif term.direction == "vertical" then
-      return vim.o.columns * 0.4
-    end
-  end,
-  open_mapping = [[<c-t>]],
-  hide_numbers = true,
-  direction = "float",
-  -- Additional basic settings
-  start_in_insert = true,
-  close_on_exit = true,
-  shell = vim.o.shell,
-  -- Float Terminal Settings
-  float_opts = {
-    border = "curved",
-    width = function()
-      return math.floor(vim.o.columns * 0.5) -- % of screen width
-    end,
-    height = function()
-      return math.floor(vim.o.lines * 0.4) -- % of screen height
-    end,
-    winblend = 10, -- Transparency level
-    row = function()
-      return 2 -- Row to the top of the screen
-    end,
-    col = function()
-      return vim.o.columns - math.floor(vim.o.columns * 0.4) - 3
-    end,
-  },
-  -- Highlight configuration
-  highlights = {
-    Normal = {
-      guibg = "Normal",
-    },
-    NormalFloat = {
-      link = "@comment",
-    },
-    FloatBorder = {
-      link = "FloatBorder",
-    },
-  },
-})
 
 -- neo-tree.nvim settings
 local neo_tree_ok, neo_tree = pcall(require, "neo-tree")
@@ -371,27 +317,27 @@ pcall(function()
 end)
 
 -- indent-blankline.nvim settings
-local ibl_ok, ibl = pcall(require, "ibl")
-if not ibl_ok then
-  return
-end
-
-ibl.setup({
-  indent = { highlight = "IblIndent", char = "│" },
-  exclude = {
-    filetypes = {
-      "help",
-      "terminal",
-      "dashboard",
-      "packer",
-      "TelescopePrompt",
-      "TelescopeResults",
-      "",
-    },
-    buftypes = { "terminal", "nofile" },
-  },
-  scope = { enabled = false },
-})
+-- local ibl_ok, ibl = pcall(require, "ibl")
+-- if not ibl_ok then
+--   return
+-- end
+--
+-- ibl.setup({
+--   indent = { highlight = "IblIndent", char = "│" },
+--   exclude = {
+--     filetypes = {
+--       "help",
+--       "terminal",
+--       "dashboard",
+--       "packer",
+--       "TelescopePrompt",
+--       "TelescopeResults",
+--       "",
+--     },
+--     buftypes = { "terminal", "nofile" },
+--   },
+--   scope = { enabled = false },
+-- })
 
 -- rainbow-delimiters setting
 local rainbow_delimiters_ok, rainbow_delimiters = pcall(require, "rainbow-delimiters.setup")
