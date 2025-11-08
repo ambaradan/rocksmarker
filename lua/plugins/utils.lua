@@ -74,19 +74,6 @@ telescope.setup({
     oldfiles = { previewer = false, theme = "dropdown" },
   },
   extensions = {
-    file_browser = {
-      theme = "ivy",
-      hide_parent_dir = true,
-      hijack_netrw = true,
-      mappings = {
-        ["i"] = {},
-        ["n"] = {},
-      },
-    },
-    frecency = {
-      show_scores = true,
-      theme = "dropdown",
-    },
     undo = {
       theme = "ivy",
     },

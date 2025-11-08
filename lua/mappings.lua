@@ -35,7 +35,11 @@ end, editor.make_opt("close all buffers"))
 editor.remap("n", "<leader>q", "<cmd>q<cr>", editor.make_opt("quit editor"))
 
 editor.remap("n", "<C-o>", function()
-  require("snacks").explorer.open()
+  require("snacks").picker.pick({
+    source = "explorer",
+    layout = { layout = { position = "right" } },
+    title = "File Manager",
+  })
 end, editor.make_opt("open file"))
 
 -- Remap <Esc> to clear search highlights
@@ -127,29 +131,12 @@ editor.remap("n", "<leader>fb", function()
   })
 end, editor.make_opt("Buffer list"))
 
--- File browser with Telescope
-editor.remap("n", "<leader>ff", function()
-  require("telescope").extensions.file_browser.file_browser({
-    path = "%:p:h", -- Open in current file's directory
-    select_buffer = true,
-    grouped = true,
-    hidden = true,
-  })
-end, editor.make_opt("Find files"))
-
 -- Old files (recently opened)
 editor.remap("n", "<leader>fo", function()
   require("telescope.builtin").oldfiles({
     only_cwd = true, -- Only show files from current working directory
   })
 end, editor.make_opt("Recently opened files"))
-
--- Frecency (frequency-based recent files)
-editor.remap("n", "<leader>fc", function()
-  require("telescope").extensions.frecency.frecency({
-    workspace = "CWD",
-  })
-end, editor.make_opt("Recent files"))
 
 -- Undo (undo operations on file)
 editor.remap("n", "<leader>fu", function()
@@ -278,32 +265,6 @@ editor.remap("n", "<leader>rp", function()
     select_word = true,
   })
 end, editor.make_opt("Search word on current file"))
-
--- search and replace - searchbox.nvim
--- Incremental Search
-editor.remap("n", "<leader>si", function()
-  require("searchbox").incsearch({
-    title = "Incremental Search",
-    exact = true,
-  })
-end, editor.make_opt("search (incremental)"))
-
--- Search Match All
-editor.remap("n", "<leader>sa", function()
-  require("searchbox").match_all({
-    title = "Search Match All",
-    exact = true,
-  })
-end, editor.make_opt("search (match all)"))
-
--- Search and Replace
-editor.remap("n", "<leader>sr", function()
-  require("searchbox").replace({
-    title = "Search and Replace",
-    exact = true,
-    confirm = "menu",
-  })
-end, editor.make_opt("search and replace"))
 
 -- diffview.nvim mappings
 -- Open Diffview for comparing current changes
