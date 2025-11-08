@@ -42,6 +42,14 @@ editor.remap("n", "<C-o>", function()
   })
 end, editor.make_opt("open file"))
 
+editor.remap("n", "<C-f>", function()
+  require("snacks").picker.pick({
+    source = "files",
+    layout = { layout = { position = "top" } },
+    title = "Open file",
+  })
+end, editor.make_opt("open file"))
+
 -- Remap <Esc> to clear search highlights
 -- Useful after searching to remove highlight remnants
 editor.remap("n", "<Esc>", "<cmd>noh<CR>", editor.make_opt("clear highlights"))
