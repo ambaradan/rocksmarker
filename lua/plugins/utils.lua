@@ -13,6 +13,7 @@ snacks.setup({
       explorer = { enabled = true },
       indent = { enabled = false },
       input = { enabled = true },
+      select = { enabled = true },
       {
         finder = "files",
         format = "file",
