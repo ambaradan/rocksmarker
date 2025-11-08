@@ -294,14 +294,34 @@ editor.remap("n", "<leader>gM", function()
 end, editor.make_opt("git manager (buffer)"))
 
 -- Git commits history via Telescope
-editor.remap("n", "<leader>gh", function()
-  require("telescope.builtin").git_commits()
-end, editor.make_opt("git commits history"))
+editor.remap("n", "<leader>gl", function()
+  require("snacks").picker.pick({
+    source = "git_log",
+    title = "Git commits log",
+  })
+end, editor.make_opt("git commits log"))
 
 -- Git commits for current buffer via Telescope
 editor.remap("n", "<leader>gb", function()
-  require("telescope.builtin").git_bcommits()
-end, editor.make_opt("git commits buffer"))
+  require("snacks").picker.pick({
+    source = "git_log_file",
+    title = "Git buffer log",
+  })
+end, editor.make_opt("git buffer log"))
+
+editor.remap("n", "<leader>gd", function()
+  require("snacks").picker.pick({
+    source = "git_diff",
+    title = "Git buffer diff",
+  })
+end, editor.make_opt("git buffer diff"))
+
+editor.remap("n", "<leader>gs", function()
+  require("snacks").picker.pick({
+    source = "git_status",
+    title = "Git status",
+  })
+end, editor.make_opt("git status"))
 
 -- Toggle terminal mappings
 -- Mapping for toggling terminal in horizontal mode
