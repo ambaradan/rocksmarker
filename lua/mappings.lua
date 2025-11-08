@@ -125,22 +125,27 @@ editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", editor.make_opt("Buffer
 -- telescope.nvim mappings
 -- Buffer list with Telescope
 editor.remap("n", "<leader>fb", function()
-  require("telescope.builtin").buffers({
-    sort_mru = true,
-    ignore_current_buffer = true,
+  require("snacks").picker.pick({
+    source = "buffers",
+    layout = { preset = "bottom" },
+    title = "Buffer list",
   })
 end, editor.make_opt("Buffer list"))
 
--- Old files (recently opened)
+-- Recent files (recently opened)
 editor.remap("n", "<leader>fo", function()
-  require("telescope.builtin").oldfiles({
-    only_cwd = true, -- Only show files from current working directory
+  require("snacks").picker.pick({
+    source = "recent",
+    title = "Recent Files",
   })
 end, editor.make_opt("Recently opened files"))
 
 -- Undo (undo operations on file)
 editor.remap("n", "<leader>fu", function()
-  require("telescope").extensions.undo.undo({})
+  require("snacks").picker.pick({
+    source = "undo",
+    title = "Undo operations",
+  })
 end, editor.make_opt("Undo operations"))
 
 -- Fuzzy find in current buffer
@@ -155,38 +160,21 @@ editor.remap("n", "<Leader>fz", function()
   })
 end, editor.make_opt("Find in Buffer"))
 
--- trouble.nvim
--- Create a toggle function for Trouble
-local function trouble_toggle(mode, opts)
-  opts = opts or {}
-  local trouble = require("trouble")
-
-  -- Check if Trouble is already open
-  if trouble.is_open() then
-    trouble.close()
-  else
-    trouble.open(mode, opts)
-  end
-end
-
 -- Toggle global diagnostics
-editor.remap("n", "<leader>dt", function()
-  trouble_toggle("diagnostics")
+editor.remap("n", "<leader>dw", function()
+  require("snacks").picker.pick({
+    source = "diagnostics",
+    title = "Workspace Diagnostics",
+  })
 end, editor.make_opt("toggle global diagnostics"))
 
--- Toggle buffer-local diagnostics
+-- Toggle buffer diagnostics
 editor.remap("n", "<leader>db", function()
-  trouble_toggle("diagnostics", {
-    filter = { buf = 0 }, -- Focus on current buffer
+  require("snacks").picker.pick({
+    source = "diagnostics_buffer",
+    title = "Buffer Diagnostics",
   })
 end, editor.make_opt("toggle buffer diagnostics"))
-
--- Toggle symbols overview
-editor.remap("n", "<leader>ds", function()
-  trouble_toggle("symbols", {
-    focus = false,
-  })
-end, editor.make_opt("toggle buffer symbols"))
 
 -- session mappings - persisted.nvim
 -- Import the get_session_names function
