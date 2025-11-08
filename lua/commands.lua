@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "qf",
     "startuptime",
     "checkhealth",
-    "spectre_panel",
+    "grug-far",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false

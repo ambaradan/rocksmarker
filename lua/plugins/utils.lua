@@ -19,6 +19,8 @@ snacks.setup({
   defaults = {
     opts = {
       indent = { enabled = true },
+      explorer = { enabled = true },
+      input = { enabled = true },
     },
     -- Configurazioni predefinite per i pickers
     files = {
@@ -275,16 +277,6 @@ neogit.setup({
     kind = "floating",
     verify_commit = vim.fn.executable("gpg") == 1,
   },
-})
-
--- spectre.nvim settings - search and replace plugin
-local spectre_ok, spectre = pcall(require, "spectre")
-if not spectre_ok then
-  return
-end
-
-spectre.setup({
-  live_update = false, -- auto execute search again when you write to any file
 })
 
 -- yanky.nvim settings

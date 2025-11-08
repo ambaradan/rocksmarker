@@ -242,23 +242,25 @@ editor.remap("n", "<leader>st", function()
   vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
 end, editor.make_opt("Stop Current Session"))
 
--- search and replace - nvim-spectre
--- Toggle Spectre search/replace
+-- search and replace
 editor.remap("n", "<leader>R", function()
-  require("spectre").toggle()
+  require("grug-far").open()
 end, editor.make_opt("Search and rplace"))
 
 -- Search current word globally
-editor.remap("n", "<leader>rw", function()
-  require("spectre").open_visual({
-    select_word = true,
+editor.remap({ "n", "x" }, "<leader>rw", function()
+  require("grug-far").open({
+    prefills = { search = vim.fn.expand("<cword>") },
   })
 end, editor.make_opt("Search current word"))
 
 -- Search current word in current file
-editor.remap("n", "<leader>rp", function()
-  require("spectre").open_file_search({
-    select_word = true,
+editor.remap({ "n", "x" }, "<leader>rp", function()
+  require("grug-far").open({
+    prefills = {
+      paths = vim.fn.expand("%"),
+      search = vim.fn.expand("<cword>"),
+    },
   })
 end, editor.make_opt("Search word on current file"))
 
