@@ -6,29 +6,33 @@ if not snacks_ok then
 end
 
 snacks.setup({
-  defaults = {
-    opts = {
-      bigfile = { enabled = true },
-      dashboard = { enabled = false },
-      explorer = { enabled = true },
-      indent = { enabled = false },
-      input = { enabled = true },
-      select = { enabled = true },
-      {
-        finder = "files",
-        format = "file",
-        show_empty = true,
-        hidden = true,
-        ignored = false,
-        follow = false,
-        supports_live = true,
-      },
-      {
-        finder = "explorer",
+  picker = {
+    select = {
+      enable = true, -- Abilita la sostituzione di vim.ui.select
+      -- Opzioni aggiuntive per ui_select
+      layout = {
+        preset = "bottom", -- Esempio di preset per il layout
       },
     },
   },
+  -- Altre configurazioni di snacks.nvim
+  defaults = {
+    -- Configurazioni predefinite per i pickers
+    files = {
+      finder = "files",
+      format = "file",
+      show_empty = true,
+      hidden = true,
+      ignored = false,
+      follow = false,
+      supports_live = true,
+    },
+    explorer = {
+      finder = "explorer",
+    },
+  },
 })
+
 -- telescope.nvim settings
 -- Load Telescope actions
 local actions_ok, actions = pcall(require, "telescope.actions")
@@ -73,24 +77,6 @@ telescope.setup({
     git_status = { theme = "ivy" },
     git_commits = { theme = "ivy" },
     oldfiles = { previewer = false, theme = "dropdown" },
-  },
-  extensions = {
-    undo = {
-      theme = "ivy",
-    },
-    ["ui-select"] = {
-      theme = "dropdown",
-      initial_mode = "normal",
-      sorting_strategy = "ascending",
-      layout_strategy = "horizontal",
-      layout_config = {
-        horizontal = {
-          width = 0.5,
-          height = 0.4,
-          preview_width = 0.6,
-        },
-      },
-    },
   },
 })
 

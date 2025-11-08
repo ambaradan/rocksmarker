@@ -66,8 +66,6 @@ nvim-spectre = "scm"
 "diffview.nvim" = "scm"
 "nvim-highlight-colors" = "scm"
 "telescope-cmdline.nvim" = "0.2.3"
-"telescope-ui-select.nvim" = "scm"
-"telescope-undo.nvim" = "scm"
 
 # Autocompletions plugins
 "blink.cmp" = "1.7.0"
