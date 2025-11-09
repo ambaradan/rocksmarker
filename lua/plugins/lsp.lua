@@ -32,30 +32,41 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
     map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
     map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
-    -- Check if Telescope is available for enhanced LSP features.
-    -- Telescope provides a more interactive way to view references, implementations, and symbols.
-    local telescope_ok, telescope = pcall(require, "telescope.builtin")
-    if telescope_ok then
-      map("gr", function()
-        telescope.lsp_references({ theme = "ivy" })
-      end, "[G]oto [R]eferences")
-      map("gI", function()
-        telescope.lsp_implementations({ theme = "ivy" })
-      end, "[G]oto [I]mplementation")
-      map("<leader>D", function()
-        telescope.lsp_type_definitions({ theme = "dropdown" })
-      end, "Type [D]efinition")
-      map("<leader>ds", function()
-        telescope.lsp_document_symbols({ theme = "dropdown" })
-      end, "[D]ocument [S]ymbols")
-      map("<leader>ws", function()
-        telescope.lsp_dynamic_workspace_symbols({ theme = "dropdown" })
-      end, "[W]orkspace [S]ymbols")
-    else
-      -- Notify the user if Telescope is not installed.
-      vim.notify("Telescope not installed. Some LSP features will be limited.", vim.log.levels.WARN)
-    end
+    map("gr", function()
+      require("snacks").picker.pick({
+        source = "lsp_references",
+        title = "Lsp References",
+        layout = { layout = { position = "bottom" } },
+      })
+    end, "[G]oto [R]eferences")
+    map("gI", function()
+      require("snacks").picker.pick({
+        source = "lsp_implementations",
+        title = "Lsp Implementations",
+        layout = { layout = { position = "bottom" } },
+      })
+    end, "[G]oto [I]mplementation")
+    map("<leader>D", function()
+      require("snacks").picker.pick({
+        source = "lsp_definitions",
+        title = "Lsp Definitions",
+        layout = { layout = { position = "bottom" } },
+      })
+    end, "Type [D]efinition")
+    map("<leader>ds", function()
+      require("snacks").picker.pick({
+        source = "lsp_symbols",
+        title = "Lsp Symbols",
+        layout = { layout = { position = "bottom" } },
+      })
+    end, "[D]ocument [S]ymbols")
+    map("<leader>ws", function()
+      require("snacks").picker.pick({
+        source = "lsp_workspace_symbols",
+        title = "Lsp workspace symbols",
+        layout = { layout = { position = "bottom" } },
+      })
+    end, "[W]orkspace [S]ymbols")
 
     -- Enable document highlighting if the LSP client supports it.
     -- This highlights references to the symbol under the cursor.

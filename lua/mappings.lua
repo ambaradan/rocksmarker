@@ -54,10 +54,6 @@ end, editor.make_opt("open file"))
 -- Useful after searching to remove highlight remnants
 editor.remap("n", "<Esc>", "<cmd>noh<CR>", editor.make_opt("clear highlights"))
 
--- Remap ',' to open Telescope cmdline
--- Provides quick access to command-line interface via Telescope
-editor.remap("n", ",", "<cmd>Telescope cmdline<cr>", editor.make_opt("cmdline line"))
-
 -- conform - manual formatting
 editor.remap("n", "<leader>F", function()
   require("conform").format({ lsp_fallback = true })
@@ -130,8 +126,7 @@ editor.remap("n", "<leader>bc", ":BufferLinePickClose<CR>", editor.make_opt("Buf
 editor.remap("n", "<TAB>", ":BufferLineCycleNext<CR>", editor.make_opt("Buffer Line Cycle Next"))
 editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", editor.make_opt("Buffer Line Cycle Prev"))
 
--- telescope.nvim mappings
--- Buffer list with Telescope
+-- Buffer list
 editor.remap("n", "<leader>fb", function()
   require("snacks").picker.pick({
     source = "buffers",
@@ -156,18 +151,6 @@ editor.remap("n", "<leader>fu", function()
   })
 end, editor.make_opt("Undo operations"))
 
--- Fuzzy find in current buffer
-editor.remap("n", "<Leader>fz", function()
-  require("telescope.builtin").current_buffer_fuzzy_find({
-    case_mode = "smart_case",
-    previewer = false,
-    layout_config = {
-      width = 0.8,
-      height = 0.6,
-    },
-  })
-end, editor.make_opt("Find in Buffer"))
-
 -- Toggle global diagnostics
 editor.remap("n", "<leader>dw", function()
   require("snacks").picker.pick({
@@ -181,6 +164,7 @@ editor.remap("n", "<leader>db", function()
   require("snacks").picker.pick({
     source = "diagnostics_buffer",
     title = "Buffer Diagnostics",
+    layout = { layout = { position = "bottom" } },
   })
 end, editor.make_opt("toggle buffer diagnostics"))
 
@@ -188,18 +172,10 @@ end, editor.make_opt("toggle buffer diagnostics"))
 -- Import the get_session_names function
 local get_session_names = editor.get_session_names
 
--- Select session via Telescope
+-- Select session
 editor.remap("n", "<A-s>", function()
-  require("telescope").extensions.persisted.persisted({
-    theme = "dropdown",
-    sorting_strategy = "ascending",
-    layout_config = {
-      width = 0.3,
-      height = 0.3,
-      prompt_position = "bottom",
-    },
-  })
-end, editor.make_opt("Telescope Session Selection"))
+  require("persisted").select()
+end, editor.make_opt("Session Selection"))
 
 -- Load last session
 editor.remap("n", "<A-l>", function()
@@ -207,19 +183,6 @@ editor.remap("n", "<A-l>", function()
   local _, clean_session_name = get_session_names()
   vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
 end, editor.make_opt("load last session"))
-
--- Select session via Telescope (alternative mapping)
-editor.remap("n", "<leader>sS", function()
-  require("telescope").extensions.persisted.persisted({
-    theme = "dropdown",
-    sorting_strategy = "ascending",
-    layout_config = {
-      width = 0.3,
-      height = 0.4,
-      prompt_position = "bottom",
-    },
-  })
-end, editor.make_opt("Telescope Session Selection"))
 
 -- Save current session
 editor.remap("n", "<leader>ss", function()
@@ -245,7 +208,7 @@ end, editor.make_opt("Stop Current Session"))
 -- search and replace
 editor.remap("n", "<leader>R", function()
   require("grug-far").open()
-end, editor.make_opt("Search and rplace"))
+end, editor.make_opt("Search and replace"))
 
 -- Search current word globally
 editor.remap({ "n", "x" }, "<leader>rw", function()
@@ -264,32 +227,6 @@ editor.remap({ "n", "x" }, "<leader>rp", function()
   })
 end, editor.make_opt("Search word on current file"))
 
--- diffview.nvim mappings
--- Open Diffview for comparing current changes
-editor.remap("n", "<leader>dv", function()
-  vim.cmd("DiffviewOpen")
-end, editor.make_opt("Diffview - Compare all changes"))
-
--- Open file history for the entire repository
-editor.remap("n", "<leader>dh", function()
-  vim.cmd("DiffviewFileHistory")
-end, editor.make_opt("Diffview repository history"))
-
--- Open file history for the current buffer
-editor.remap("n", "<leader>df", function()
-  vim.cmd("DiffviewFileHistory %")
-end, editor.make_opt("Diffview current file history"))
-
--- Close the active Diffview window
-editor.remap("n", "<leader>dc", function()
-  vim.cmd("DiffviewClose")
-end, editor.make_opt("Close Diffview"))
-
--- Open diff for staged changes
-editor.remap("n", "<leader>dH", function()
-  vim.cmd("DiffviewOpen HEAD")
-end, editor.make_opt("Diffview Compare staged with HEAD"))
-
 -- Git mappings
 -- Open Neogit for workspace
 editor.remap("n", "<leader>gm", function()
@@ -303,7 +240,7 @@ editor.remap("n", "<leader>gM", function()
   })
 end, editor.make_opt("git manager (buffer)"))
 
--- Git commits history via Telescope
+-- Git commits log
 editor.remap("n", "<leader>gl", function()
   require("snacks").picker.pick({
     source = "git_log",
@@ -311,7 +248,7 @@ editor.remap("n", "<leader>gl", function()
   })
 end, editor.make_opt("git commits log"))
 
--- Git commits for current buffer via Telescope
+-- Git commits for current buffer
 editor.remap("n", "<leader>gb", function()
   require("snacks").picker.pick({
     source = "git_log_file",
@@ -333,22 +270,23 @@ editor.remap("n", "<leader>gs", function()
   })
 end, editor.make_opt("git status"))
 
+editor.remap("n", "<leader>hl", function()
+  require("snacks").picker.pick({
+    source = "help",
+    title = "Help search",
+    layout = { layout = { position = "bottom" } },
+  })
+end, editor.make_opt("help search"))
+
 -- Toggle terminal mappings
 editor.remap({ "n", "i", "t" }, "<a-t>", function()
   require("snacks").terminal()
 end, editor.make_opt("Toggle Terminal"))
 
+-- Toggle zen mode mappings
+editor.remap({ "n", "i", "t" }, "<a-z>", function()
+  require("snacks").zen.zoom()
+end, editor.make_opt("zen mode"))
+
 -- Mapping to exit terminal mode using Esc
 editor.remap("t", "jk", [[<C-\><C-n>]], editor.make_opt("Exit Terminal Mode"))
-
--- fidget.nvim mappings
-editor.remap("n", "<leader>lg", function()
-  require("telescope").extensions.fidget.fidget({
-    sorting_strategy = "ascending",
-    layout_config = {
-      width = 0.8,
-      height = 0.4,
-      prompt_position = "bottom",
-    },
-  })
-end, editor.make_opt("Check messages"))

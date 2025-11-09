@@ -8,10 +8,38 @@ end
 snacks.setup({
   picker = {
     select = {
-      enable = true, -- Abilita la sostituzione di vim.ui.select
-      -- Opzioni aggiuntive per ui_select
+      enable = true,
       layout = {
-        preset = "bottom", -- Esempio di preset per il layout
+        preset = "bottom",
+      },
+    },
+  },
+  zen = {
+    center = true,
+    win = {
+      style = "zen",
+      width = 0.9,
+      height = 0,
+    },
+    toggles = {
+      dim = false,
+      git_signs = true,
+      mini_diff_signs = false,
+    },
+    show = {
+      statusline = false,
+      tabline = false,
+    },
+    zoom = {
+      toggles = {},
+      center = false,
+      show = {
+        statusline = false,
+        tabline = false,
+      },
+      win = {
+        backdrop = false,
+        width = 0, -- Larghezza massima
       },
     },
   },
@@ -38,65 +66,6 @@ snacks.setup({
   },
 })
 
--- telescope.nvim settings
--- Load Telescope actions
-local actions_ok, actions = pcall(require, "telescope.actions")
-if not actions_ok then
-  return
-end
-
--- Configure Telescope
-local telescope_ok, telescope = pcall(require, "telescope")
-if not telescope_ok then
-  return
-end
-
-telescope.setup({
-  defaults = {
-    prompt_prefix = "   ",
-    selection_caret = " ",
-    entry_prefix = " ",
-    layout_config = {
-      horizontal = {
-        prompt_position = "top",
-        preview_width = 0.55,
-      },
-      width = 0.87,
-      height = 0.80,
-    },
-  },
-  mappings = {
-    i = {
-      ["<esc>"] = actions.close,
-    },
-  },
-  pickers = {
-    buffers = {
-      sort_lastused = true,
-      sort_mru = true,
-      previewer = false,
-      hidden = true,
-      theme = "dropdown",
-    },
-    command_history = { theme = "dropdown" },
-    git_status = { theme = "ivy" },
-    git_commits = { theme = "ivy" },
-    oldfiles = { previewer = false, theme = "dropdown" },
-  },
-})
-
--- Load Telescope extensions
-local extensions = {
-  "cmdline",
-  "fidget",
-}
-
-for _, ext in ipairs(extensions) do
-  pcall(function()
-    telescope.load_extension(ext)
-  end)
-end
-
 -- persisted.nvim settings
 local persisted_ok, persisted = pcall(require, "persisted")
 if not persisted_ok then
@@ -106,11 +75,6 @@ end
 persisted.setup({
   autoload = false,
 })
-
--- Enable Telescope support for persisted.nvim
-pcall(function()
-  require("telescope").load_extension("persisted")
-end)
 
 -- neo-tree.nvim settings
 local neo_tree_ok, neo_tree = pcall(require, "neo-tree")
@@ -265,10 +229,6 @@ neogit.setup({
   kind = "tab",
   disable_builtin_notifications = true,
   graph_style = "unicode",
-  integrations = {
-    telescope = true,
-    diffview = true,
-  },
   status = {
     -- show_head_commit_hash = true,
     recent_commit_count = 20,
@@ -302,34 +262,6 @@ yanky.setup({
     sync_with_ring = true,
   },
 })
-
--- Enable Telescope support
-pcall(function()
-  require("telescope").load_extension("yank_history")
-end)
-
--- indent-blankline.nvim settings
--- local ibl_ok, ibl = pcall(require, "ibl")
--- if not ibl_ok then
---   return
--- end
---
--- ibl.setup({
---   indent = { highlight = "IblIndent", char = "│" },
---   exclude = {
---     filetypes = {
---       "help",
---       "terminal",
---       "dashboard",
---       "packer",
---       "TelescopePrompt",
---       "TelescopeResults",
---       "",
---     },
---     buftypes = { "terminal", "nofile" },
---   },
---   scope = { enabled = false },
--- })
 
 -- rainbow-delimiters setting
 local rainbow_delimiters_ok, rainbow_delimiters = pcall(require, "rainbow-delimiters.setup")
