@@ -43,6 +43,12 @@ snacks.setup({
       },
     },
   },
+  notifier = {
+    enabled = true,
+    timeout = 3000,
+    style = "minimal",
+    margin = { top = 2, right = 1, bottom = 0 },
+  },
   defaults = {
     opts = {
       indent = { enabled = true },
@@ -50,7 +56,6 @@ snacks.setup({
       input = { enabled = true },
       lazygit = { enabled = true },
     },
-    -- Default configurations for pickers
     files = {
       finder = "files",
       format = "file",
@@ -59,9 +64,6 @@ snacks.setup({
       ignored = false,
       follow = false,
       supports_live = true,
-    },
-    explorer = {
-      finder = "explorer",
     },
   },
 })

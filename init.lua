@@ -56,3 +56,11 @@ end
 require("options")
 require("commands")
 require("mappings")
+
+-- Salva la funzione originale (opzionale)
+local original_notify = vim.notify
+
+-- Sovrascrivi vim.notify per usare Snacks.notifier
+vim.notify = function(msg, level, opts)
+  require("snacks").notifier(msg, level, opts)
+end

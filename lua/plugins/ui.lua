@@ -71,6 +71,8 @@ min_theme.setup({
       ["@string.escape.markdown_inline"] = { fg = colors.fgDisabled },
       -- snacks.nvim highlights
       ["SnacksPickerTree"] = { fg = colors.bgDarker },
+      ["SnacksNotifierBorderInfo"] = { fg = colors.bgDarker, bg = colors.bg },
+      ["SnacksNotifierBorderWarn"] = { fg = colors.bgDarker, bg = colors.bg },
     }
   end,
 })
@@ -226,27 +228,27 @@ bufferline.setup({
 })
 
 -- fidget.nvim settings - messages display
-local fidget_ok, fidget = pcall(require, "fidget")
-if not fidget_ok then
-  return
-end
-
-fidget.setup({
-  progress = {
-    ignore = {
-      ["cmp"] = true, -- for the cmp plugin
-      ["lspinfo"] = true, -- for the lspinfo buffer
-      ["qf"] = true, -- for the quickfix window
-      ["vim"] = true, -- for Vim buffers
-    },
-  },
-  notification = {
-    override_vim_notify = true,
-    window = {
-      normal_hl = "fgCommand",
-    },
-  },
-})
+-- local fidget_ok, fidget = pcall(require, "fidget")
+-- if not fidget_ok then
+--   return
+-- end
+--
+-- fidget.setup({
+--   progress = {
+--     ignore = {
+--       ["cmp"] = true, -- for the cmp plugin
+--       ["lspinfo"] = true, -- for the lspinfo buffer
+--       ["qf"] = true, -- for the quickfix window
+--       ["vim"] = true, -- for Vim buffers
+--     },
+--   },
+--   notification = {
+--     override_vim_notify = true,
+--     window = {
+--       normal_hl = "fgCommand",
+--     },
+--   },
+-- })
 
 -- gitsign.nvim settings - git support
 local gitsigns_ok, gitsigns = pcall(require, "gitsigns")
