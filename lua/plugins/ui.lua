@@ -73,6 +73,9 @@ min_theme.setup({
       ["SnacksPickerTree"] = { fg = colors.bgDarker },
       ["SnacksNotifierBorderInfo"] = { fg = colors.bgDarker, bg = colors.bg },
       ["SnacksNotifierBorderWarn"] = { fg = colors.bgDarker, bg = colors.bg },
+      ["SnacksIndent"] = { fg = colors.bgDarker },
+      ["SnacksIndentScope"] = { fg = colors.bgFloat },
+      ["SnacksPickerFile"] = { fg = colors.fgCommand },
     }
   end,
 })

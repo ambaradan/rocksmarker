@@ -5,7 +5,19 @@ if not snacks_ok then
   return
 end
 
-snacks.setup({
+require("snacks").setup({
+  indent = {
+    enabled = true,
+  },
+  explorer = {
+    enabled = true,
+  },
+  input = {
+    enabled = true,
+  },
+  lazygit = {
+    enabled = true,
+  },
   picker = {
     select = {
       enable = true,
@@ -47,15 +59,9 @@ snacks.setup({
     enabled = true,
     timeout = 3000,
     style = "minimal",
-    margin = { top = 2, right = 1, bottom = 0 },
+    margin = { top = 1, right = 1, bottom = 0 },
   },
   defaults = {
-    opts = {
-      indent = { enabled = true },
-      explorer = { enabled = true },
-      input = { enabled = true },
-      lazygit = { enabled = true },
-    },
     files = {
       finder = "files",
       format = "file",

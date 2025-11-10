@@ -24,10 +24,9 @@ end, editor.make_opt("close all buffers"))
 -- Remap <leader>q to quit the current buffer/window
 editor.remap("n", "<leader>q", "<cmd>q<cr>", editor.make_opt("quit editor"))
 
-editor.remap("n", "<C-o>", function()
+editor.remap("n", "<C-e>", function()
   require("snacks").picker.pick({
     source = "explorer",
-    layout = { layout = { position = "right" } },
     title = "File Manager",
   })
 end, editor.make_opt("open file"))
@@ -88,27 +87,6 @@ editor.remap("v", "K", ":m '<-2<CR>gv=gv", editor.make_opt("move block down"))
 editor.remap("n", "<leader>dd", function()
   editor.toggle_diagnostic_virtual_text()
 end, editor.make_opt("Toggle Diagnostics"))
-
--- neo-tree.nvim mappings
--- Toggle Neo-tree File Explorer in a floating window
--- editor.remap("n", ".", function()
---   require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.fn.getcwd() })
--- end, editor.make_opt("Neo-tree File Explorer (float)"))
-
--- Toggle Neo-tree File Explorer in a right window
--- editor.remap("n", "<C-n>", function()
---   require("neo-tree.command").execute({ toggle = true, position = "right", source = "filesystem" })
--- end, editor.make_opt("Neo-tree File Explorer (right)"))
-
--- Reveal current file in Neo-tree filesystem
--- editor.remap("n", "<leader>fr", function()
---   require("neo-tree.command").execute({
---     reveal = true,
---     toggle = true,
---     position = "float",
---     source = "filesystem",
---   })
--- end, editor.make_opt("Reveal File in workspace"))
 
 -- bufferline.nvim mappings
 editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", editor.make_opt("Buffer Line Pick"))
@@ -263,6 +241,11 @@ editor.remap("n", "<F7>", function()
     layout = { layout = { position = "bottom" } },
   })
 end, editor.make_opt("highlights search"))
+
+-- Toggle zen mode mappings
+editor.remap({ "n", "i", "t" }, "<leader>lg", function()
+  require("snacks").lazygit()
+end, editor.make_opt("open lazygit"))
 
 -- Toggle terminal mappings
 editor.remap({ "n", "i", "t" }, "<a-t>", function()
