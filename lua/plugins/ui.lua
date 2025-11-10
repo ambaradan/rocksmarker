@@ -69,6 +69,8 @@ min_theme.setup({
       ["@markup.link.label.markdown_inline"] = { fg = colors.blueLight, underline = false },
       ["@markup.link.url.markdown_inline"] = { fg = colors.blue, underline = false },
       ["@string.escape.markdown_inline"] = { fg = colors.fgDisabled },
+      -- snacks.nvim highlights
+      ["SnacksPickerTree"] = { fg = colors.bgDarker },
     }
   end,
 })
