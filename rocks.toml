@@ -81,12 +81,6 @@ nvim-lint = "scm"
 "render-markdown.nvim" = "8.9.0"
 "markdown-plus.nvim" = "1.6.0"
 
-# Maintained the plugin to the development
-# version due to bugs in version 2.0
-[plugins.neogit]
-version = "scm"
-pin = true
-
 # Plugins for language server support
 # and auto completion
 [bundles.lsp]
@@ -108,7 +102,6 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 items = [
     "snacks.nvim",
     "persisted.nvim",
-    "neogit",
     "grug-far.nvim",
     "rainbow-delimiters.nvim",
     "nvim-autopairs",

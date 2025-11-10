@@ -218,18 +218,6 @@ editor.remap({ "n", "x" }, "<leader>rp", function()
 end, editor.make_opt("Search word on current file"))
 
 -- Git mappings
--- Open Neogit for workspace
-editor.remap("n", "<leader>gm", function()
-  require("neogit").open()
-end, editor.make_opt("git manager (workspace)"))
-
--- Open Neogit for current buffer's directory
-editor.remap("n", "<leader>gM", function()
-  require("neogit").open({
-    cwd = vim.fn.expand("%:p:h"), -- Current buffer's directory
-  })
-end, editor.make_opt("git manager (buffer)"))
-
 -- Git commits log
 editor.remap("n", "<leader>gl", function()
   require("snacks").picker.pick({
