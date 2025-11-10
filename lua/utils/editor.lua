@@ -112,75 +112,75 @@ end
 --- If the buffer has unsaved changes, prompts the user to save before closing.
 --- Otherwise, closes the buffer immediately.
 --- @return nil
-function M.close_current_buffer()
-  local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
-  if M.is_buffer_modified() then
-    vim.ui.select({ "Save and close", "Close without saving", "Cancel" }, {
-      prompt = "Buffer '" .. buffer_name .. "' has unsaved changes. Choose an option:",
-      format_item = function(item)
-        return item
-      end,
-    }, function(choice)
-      if choice == "Save and close" then
-        M.save_current_buffer()
-        vim.cmd("bdelete")
-        vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, { timeout = 250 })
-      elseif choice == "Close without saving" then
-        vim.cmd("bdelete!")
-        vim.notify("Buffer '" .. buffer_name .. "' closed without saving.", vim.log.levels.INFO, { timeout = 250 })
-      else
-        vim.notify(
-          "Action canceled. Buffer '" .. buffer_name .. "' remains open.",
-          vim.log.levels.INFO,
-          { timeout = 250 }
-        )
-      end
-    end)
-  else
-    vim.cmd("bdelete")
-    vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, { timeout = 250 })
-  end
-end
+-- function M.close_current_buffer()
+--   local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
+--   if M.is_buffer_modified() then
+--     vim.ui.select({ "Save and close", "Close without saving", "Cancel" }, {
+--       prompt = "Buffer '" .. buffer_name .. "' has unsaved changes. Choose an option:",
+--       format_item = function(item)
+--         return item
+--       end,
+--     }, function(choice)
+--       if choice == "Save and close" then
+--         M.save_current_buffer()
+--         vim.cmd("bdelete")
+--         vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, { timeout = 250 })
+--       elseif choice == "Close without saving" then
+--         vim.cmd("bdelete!")
+--         vim.notify("Buffer '" .. buffer_name .. "' closed without saving.", vim.log.levels.INFO, { timeout = 250 })
+--       else
+--         vim.notify(
+--           "Action canceled. Buffer '" .. buffer_name .. "' remains open.",
+--           vim.log.levels.INFO,
+--           { timeout = 250 }
+--         )
+--       end
+--     end)
+--   else
+--     vim.cmd("bdelete")
+--     vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO, { timeout = 250 })
+--   end
+-- end
 
 --- Closes all buffers in the current Neovim session
 --- Prompts the user to choose between saving all, discarding changes,
 --- or cancelling if any buffers have unsaved modifications.
 --- @return nil
-function M.close_all_buffers()
-  local modified_bufs = {}
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if M.is_buffer_modified(bufnr) then
-      table.insert(modified_bufs, bufnr)
-    end
-  end
-  if #modified_bufs > 0 then
-    vim.ui.select({ "Yes (Save all)", "Yes (Discard changes)", "Cancel" }, {
-      prompt = string.format("%d buffer(s) have unsaved changes. Close all?", #modified_bufs),
-    }, function(choice)
-      if choice == "Yes (Save all)" then
-        M.save_all_buffers()
-        vim.cmd("%bdelete!")
-        vim.notify(
-          string.format("Closed %d buffers with saving changes", #modified_bufs),
-          vim.log.levels.INFO,
-          { timeout = 2000 }
-        )
-      elseif choice == "Yes (Discard changes)" then
-        vim.cmd("%bdelete!")
-        vim.notify(
-          string.format("Closed %d buffers forcefully", #modified_bufs),
-          vim.log.levels.WARN,
-          { timeout = 2000 }
-        )
-      else
-        vim.notify("Close all buffers cancelled", vim.log.levels.INFO, { timeout = 1000 })
-      end
-    end)
-  else
-    vim.cmd("%bdelete")
-    vim.notify("All buffers closed", vim.log.levels.INFO, { timeout = 1000 })
-  end
-end
+-- function M.close_all_buffers()
+--   local modified_bufs = {}
+--   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+--     if M.is_buffer_modified(bufnr) then
+--       table.insert(modified_bufs, bufnr)
+--     end
+--   end
+--   if #modified_bufs > 0 then
+--     vim.ui.select({ "Yes (Save all)", "Yes (Discard changes)", "Cancel" }, {
+--       prompt = string.format("%d buffer(s) have unsaved changes. Close all?", #modified_bufs),
+--     }, function(choice)
+--       if choice == "Yes (Save all)" then
+--         M.save_all_buffers()
+--         vim.cmd("%bdelete!")
+--         vim.notify(
+--           string.format("Closed %d buffers with saving changes", #modified_bufs),
+--           vim.log.levels.INFO,
+--           { timeout = 2000 }
+--         )
+--       elseif choice == "Yes (Discard changes)" then
+--         vim.cmd("%bdelete!")
+--         vim.notify(
+--           string.format("Closed %d buffers forcefully", #modified_bufs),
+--           vim.log.levels.WARN,
+--           { timeout = 2000 }
+--         )
+--       else
+--         vim.notify("Close all buffers cancelled", vim.log.levels.INFO, { timeout = 1000 })
+--       end
+--     end)
+--   else
+--     vim.cmd("%bdelete")
+--     vim.notify("All buffers closed", vim.log.levels.INFO, { timeout = 1000 })
+--   end
+-- end
 
 --- Diagnostic Toggle
 --- @desc Toggles diagnostic virtual text on or off.
