@@ -12,23 +12,13 @@ editor.remap("n", "<leader>b", function()
   editor.create_new_buffer()
 end, editor.make_opt("new buffer"))
 
--- Close the current buffer
 editor.remap("n", "<leader>x", function()
-  editor.close_current_buffer()
-end, editor.make_opt("close buffer"))
-
-editor.remap("n", "<C-x>", function()
   require("snacks").bufdelete()
 end, editor.make_opt("close buffer"))
 
 editor.remap("n", "<leader>X", function()
   require("snacks").bufdelete.all()
 end, editor.make_opt("close all buffers"))
-
--- Close all buffers
--- editor.remap("n", "<leader>X", function()
---   editor.close_all_buffers()
--- end, editor.make_opt("close all buffers"))
 
 -- Editor mappings
 -- Remap <leader>q to quit the current buffer/window
@@ -101,24 +91,24 @@ end, editor.make_opt("Toggle Diagnostics"))
 
 -- neo-tree.nvim mappings
 -- Toggle Neo-tree File Explorer in a floating window
-editor.remap("n", ".", function()
-  require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.fn.getcwd() })
-end, editor.make_opt("Neo-tree File Explorer (float)"))
+-- editor.remap("n", ".", function()
+--   require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.fn.getcwd() })
+-- end, editor.make_opt("Neo-tree File Explorer (float)"))
 
 -- Toggle Neo-tree File Explorer in a right window
-editor.remap("n", "<C-n>", function()
-  require("neo-tree.command").execute({ toggle = true, position = "right", source = "filesystem" })
-end, editor.make_opt("Neo-tree File Explorer (right)"))
+-- editor.remap("n", "<C-n>", function()
+--   require("neo-tree.command").execute({ toggle = true, position = "right", source = "filesystem" })
+-- end, editor.make_opt("Neo-tree File Explorer (right)"))
 
 -- Reveal current file in Neo-tree filesystem
-editor.remap("n", "<leader>fr", function()
-  require("neo-tree.command").execute({
-    reveal = true,
-    toggle = true,
-    position = "float",
-    source = "filesystem",
-  })
-end, editor.make_opt("Reveal File in workspace"))
+-- editor.remap("n", "<leader>fr", function()
+--   require("neo-tree.command").execute({
+--     reveal = true,
+--     toggle = true,
+--     position = "float",
+--     source = "filesystem",
+--   })
+-- end, editor.make_opt("Reveal File in workspace"))
 
 -- bufferline.nvim mappings
 editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", editor.make_opt("Buffer Line Pick"))
@@ -277,6 +267,14 @@ editor.remap("n", "<leader>hl", function()
     layout = { layout = { position = "bottom" } },
   })
 end, editor.make_opt("help search"))
+
+editor.remap("n", "<F7>", function()
+  require("snacks").picker.pick({
+    source = "highlights",
+    title = "Highlights search",
+    layout = { layout = { position = "bottom" } },
+  })
+end, editor.make_opt("highlights search"))
 
 -- Toggle terminal mappings
 editor.remap({ "n", "i", "t" }, "<a-t>", function()
