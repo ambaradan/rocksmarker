@@ -1,5 +1,9 @@
 -- Rocksmarker mappings
 local editor = require("utils.editor")
+local snacks_ok, snacks = pcall(require, "snacks")
+if not snacks_ok then
+  return
+end
 
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
@@ -13,11 +17,11 @@ editor.remap("n", "<leader>b", function()
 end, editor.make_opt("new buffer"))
 
 editor.remap("n", "<leader>x", function()
-  require("snacks").bufdelete()
+  snacks.bufdelete()
 end, editor.make_opt("close buffer"))
 
 editor.remap("n", "<leader>X", function()
-  require("snacks").bufdelete.all()
+  snacks.bufdelete.all()
 end, editor.make_opt("close all buffers"))
 
 -- Editor mappings
@@ -25,14 +29,14 @@ end, editor.make_opt("close all buffers"))
 editor.remap("n", "<leader>q", "<cmd>q<cr>", editor.make_opt("quit editor"))
 
 editor.remap("n", "<C-e>", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "explorer",
     title = "File Manager",
   })
 end, editor.make_opt("open file"))
 
 editor.remap("n", "<C-f>", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "files",
     layout = { layout = { position = "bottom", height = 0.4 } },
     title = "Open file",
@@ -40,7 +44,7 @@ editor.remap("n", "<C-f>", function()
 end, editor.make_opt("open file"))
 
 editor.remap("n", "<F8>", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "lsp_symbols",
     title = "Markdown Headers",
     layout = { layout = { position = "right", width = 0.3 }, preview = false },
@@ -48,7 +52,7 @@ editor.remap("n", "<F8>", function()
 end, editor.make_opt("open file"))
 
 editor.remap("n", "<F6>", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "diagnostics_buffer",
     title = "Markdown Diagnotics",
     layout = { layout = { position = "right", width = 0.4 }, preview = false },
@@ -112,7 +116,7 @@ editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", editor.make_opt("Buffer
 
 -- Buffer list
 editor.remap("n", "<leader>fb", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "buffers",
     layout = { preset = "bottom" },
     title = "Buffer list",
@@ -121,7 +125,7 @@ end, editor.make_opt("Buffer list"))
 
 -- Recent files (recently opened)
 editor.remap("n", "<leader>fo", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "recent",
     title = "Recent Files",
   })
@@ -129,7 +133,7 @@ end, editor.make_opt("Recently opened files"))
 
 -- Undo (undo operations on file)
 editor.remap("n", "<leader>fu", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "undo",
     title = "Undo operations",
   })
@@ -137,7 +141,7 @@ end, editor.make_opt("Undo operations"))
 
 -- Toggle global diagnostics
 editor.remap("n", "<leader>dw", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "diagnostics",
     title = "Workspace Diagnostics",
   })
@@ -145,7 +149,7 @@ end, editor.make_opt("toggle global diagnostics"))
 
 -- Toggle buffer diagnostics
 editor.remap("n", "<leader>db", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "diagnostics_buffer",
     title = "Buffer Diagnostics",
     layout = { layout = { position = "bottom" } },
@@ -214,7 +218,7 @@ end, editor.make_opt("Search word on current file"))
 -- Git mappings
 -- Git commits log
 editor.remap("n", "<leader>gl", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "git_log",
     title = "Git commits log",
   })
@@ -222,28 +226,28 @@ end, editor.make_opt("git commits log"))
 
 -- Git commits for current buffer
 editor.remap("n", "<leader>gb", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "git_log_file",
     title = "Git buffer log",
   })
 end, editor.make_opt("git buffer log"))
 
 editor.remap("n", "<leader>gd", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "git_diff",
     title = "Git buffer diff",
   })
 end, editor.make_opt("git buffer diff"))
 
 editor.remap("n", "<leader>gs", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "git_status",
     title = "Git status",
   })
 end, editor.make_opt("git status"))
 
 editor.remap("n", "<leader>hl", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "help",
     title = "Help search",
     layout = { layout = { position = "bottom" } },
@@ -251,7 +255,7 @@ editor.remap("n", "<leader>hl", function()
 end, editor.make_opt("help search"))
 
 editor.remap("n", "<F7>", function()
-  require("snacks").picker.pick({
+  snacks.picker.pick({
     source = "highlights",
     title = "Highlights search",
     layout = { layout = { position = "bottom" } },
@@ -260,17 +264,17 @@ end, editor.make_opt("highlights search"))
 
 -- Toggle zen mode mappings
 editor.remap({ "n", "i", "t" }, "<leader>lg", function()
-  require("snacks").lazygit()
+  snacks.lazygit()
 end, editor.make_opt("open lazygit"))
 
 -- Toggle terminal mappings
 editor.remap({ "n", "i", "t" }, "<a-t>", function()
-  require("snacks").terminal()
+  snacks.terminal()
 end, editor.make_opt("Toggle Terminal"))
 
 -- Toggle zen mode mappings
 editor.remap("n", "<a-z>", function()
-  require("snacks").zen.zoom()
+  snacks.zen.zoom()
 end, editor.make_opt("zen mode"))
 
 -- Mapping to exit terminal mode using Esc
