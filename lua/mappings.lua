@@ -4,7 +4,7 @@ local snacks_ok, snacks = pcall(require, "snacks")
 if not snacks_ok then
   return
 end
-
+local map = snacks.keymap.set
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
 editor.remap({ "i", "n" }, "<C-s>", function()
@@ -38,26 +38,32 @@ end, editor.make_opt("open file"))
 editor.remap("n", "<C-f>", function()
   snacks.picker.pick({
     source = "files",
-    layout = { layout = { position = "bottom", height = 0.4 } },
+    layout = { preset = "vscode" },
     title = "Open file",
   })
 end, editor.make_opt("open file"))
 
-editor.remap("n", "<F8>", function()
+map("n", "<F8>", function()
   snacks.picker.pick({
     source = "lsp_symbols",
     title = "Markdown Headers",
     layout = { layout = { position = "right", width = 0.3 }, preview = false },
   })
-end, editor.make_opt("open file"))
+end, {
+  ft = "markdown",
+  desc = "Markdown Header",
+})
 
-editor.remap("n", "<F6>", function()
+map("n", "<F6>", function()
   snacks.picker.pick({
     source = "diagnostics_buffer",
-    title = "Markdown Diagnotics",
+    title = "Markdown Diagnostics",
     layout = { layout = { position = "right", width = 0.4 }, preview = false },
   })
-end, editor.make_opt("open file"))
+end, {
+  ft = "markdown",
+  desc = "Markdown Diagnostics",
+})
 
 -- Remap <Esc> to clear search highlights
 -- Useful after searching to remove highlight remnants
@@ -161,16 +167,16 @@ end, editor.make_opt("toggle buffer diagnostics"))
 local get_session_names = editor.get_session_names
 
 -- Select session
-editor.remap("n", "<A-s>", function()
+map("n", "<A-s>", function()
   require("persisted").select()
-end, editor.make_opt("Session Selection"))
+end, { desc = "session selection" })
 
 -- Load last session
-editor.remap("n", "<A-l>", function()
+map("n", "<A-l>", function()
   require("persisted").load({ last = true })
   local _, clean_session_name = get_session_names()
   vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
-end, editor.make_opt("load last session"))
+end, { desc = "load last session" })
 
 -- Save current session
 editor.remap("n", "<leader>ss", function()
@@ -246,13 +252,13 @@ editor.remap("n", "<leader>gs", function()
   })
 end, editor.make_opt("git status"))
 
-editor.remap("n", "<leader>hl", function()
+map("n", "<leader>hl", function()
   snacks.picker.pick({
     source = "help",
     title = "Help search",
-    layout = { layout = { position = "bottom" } },
+    layout = { layout = { position = "top", height = 0.4 } },
   })
-end, editor.make_opt("help search"))
+end, { desc = "help search" })
 
 editor.remap("n", "<F7>", function()
   snacks.picker.pick({
@@ -279,3 +285,20 @@ end, editor.make_opt("zen mode"))
 
 -- Mapping to exit terminal mode using Esc
 editor.remap("t", "jk", [[<C-\><C-n>]], editor.make_opt("Exit Terminal Mode"))
+
+-- LSP mappings
+-- Set keymap for buffers with any LSP that supports code actions
+map("n", "<leader>ca", vim.lsp.buf.code_action, {
+  lsp = { method = "textDocument/codeAction" },
+  desc = "Code Action",
+})
+
+map("n", "<leader>ds", vim.lsp.buf.document_symbol, {
+  lsp = { method = "textDocument/documentSymbol" },
+  desc = "Document Symbols",
+})
+
+map("n", "K", vim.lsp.buf.hover, {
+  lsp = { method = "textDocument/hover" },
+  desc = "Hover Documentation",
+})

@@ -28,6 +28,7 @@ min_theme.setup({
   overrides = function()
     return {
       -- FloatBorder customization
+      ["Normal"] = { bg = colors.bg },
       ["FloatBorder"] = { fg = colors.border, bg = colors.none },
       ["IblIndent"] = { fg = colors.borderDarker },
       ["NormalFloat"] = { fg = colors.fgCommand },
