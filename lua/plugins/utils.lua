@@ -5,7 +5,7 @@ if not snacks_ok then
   return
 end
 
-require("snacks").setup({
+snacks.setup({
   indent = {
     enabled = true,
   },

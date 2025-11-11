@@ -70,6 +70,7 @@ min_theme.setup({
       ["@markup.link.url.markdown_inline"] = { fg = colors.blue, underline = false },
       ["@string.escape.markdown_inline"] = { fg = colors.fgDisabled },
       -- snacks.nvim highlights
+      ["SnacksNormal"] = { bg = colors.bg },
       ["SnacksPickerTree"] = { fg = colors.bgDarker },
       ["SnacksNotifierBorderInfo"] = { fg = colors.bgDarker, bg = colors.bg },
       ["SnacksNotifierBorderWarn"] = { fg = colors.bgDarker, bg = colors.bg },

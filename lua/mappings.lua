@@ -34,8 +34,24 @@ end, editor.make_opt("open file"))
 editor.remap("n", "<C-f>", function()
   require("snacks").picker.pick({
     source = "files",
-    layout = { layout = { position = "top" } },
+    layout = { layout = { position = "bottom", height = 0.4 } },
     title = "Open file",
+  })
+end, editor.make_opt("open file"))
+
+editor.remap("n", "<F8>", function()
+  require("snacks").picker.pick({
+    source = "lsp_symbols",
+    title = "Markdown Headers",
+    layout = { layout = { position = "right", width = 0.3 }, preview = false },
+  })
+end, editor.make_opt("open file"))
+
+editor.remap("n", "<F6>", function()
+  require("snacks").picker.pick({
+    source = "diagnostics_buffer",
+    title = "Markdown Diagnotics",
+    layout = { layout = { position = "right", width = 0.4 }, preview = false },
   })
 end, editor.make_opt("open file"))
 
@@ -253,7 +269,7 @@ editor.remap({ "n", "i", "t" }, "<a-t>", function()
 end, editor.make_opt("Toggle Terminal"))
 
 -- Toggle zen mode mappings
-editor.remap({ "n", "i", "t" }, "<a-z>", function()
+editor.remap("n", "<a-z>", function()
   require("snacks").zen.zoom()
 end, editor.make_opt("zen mode"))
 
