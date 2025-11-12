@@ -30,43 +30,43 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
     -- map("K", vim.lsp.buf.hover, "Hover Documentation")
     -- map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-    map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+    -- map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
     -- map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-    map("gr", function()
-      require("snacks").picker.pick({
-        source = "lsp_references",
-        title = "Lsp References",
-        layout = { layout = { position = "bottom" } },
-      })
-    end, "[G]oto [R]eferences")
-    map("gI", function()
-      require("snacks").picker.pick({
-        source = "lsp_implementations",
-        title = "Lsp Implementations",
-        layout = { layout = { position = "bottom" } },
-      })
-    end, "[G]oto [I]mplementation")
-    map("<leader>D", function()
-      require("snacks").picker.pick({
-        source = "lsp_definitions",
-        title = "Lsp Definitions",
-        layout = { layout = { position = "bottom" } },
-      })
-    end, "Type [D]efinition")
-    map("<leader>ds", function()
-      require("snacks").picker.pick({
-        source = "lsp_symbols",
-        title = "Lsp Symbols",
-        layout = { layout = { position = "bottom" } },
-      })
-    end, "[D]ocument [S]ymbols")
-    map("<leader>ws", function()
-      require("snacks").picker.pick({
-        source = "lsp_workspace_symbols",
-        title = "Lsp workspace symbols",
-        layout = { layout = { position = "bottom" } },
-      })
-    end, "[W]orkspace [S]ymbols")
+    -- map("gr", function()
+    --   require("snacks").picker.pick({
+    --     source = "lsp_references",
+    --     title = "Lsp References",
+    --     layout = { layout = { position = "bottom" } },
+    --   })
+    -- end, "[G]oto [R]eferences")
+    -- map("gI", function()
+    --   require("snacks").picker.pick({
+    --     source = "lsp_implementations",
+    --     title = "Lsp Implementations",
+    --     layout = { layout = { position = "bottom" } },
+    --   })
+    -- end, "[G]oto [I]mplementation")
+    -- map("<leader>D", function()
+    --   require("snacks").picker.pick({
+    --     source = "lsp_definitions",
+    --     title = "Lsp Definitions",
+    --     layout = { layout = { position = "bottom" } },
+    --   })
+    -- end, "Type [D]efinition")
+    -- map("<leader>ds", function()
+    --   require("snacks").picker.pick({
+    --     source = "lsp_symbols",
+    --     title = "Lsp Symbols",
+    --     layout = { layout = { position = "bottom" } },
+    --   })
+    -- end, "[D]ocument [S]ymbols")
+    -- map("<leader>ws", function()
+    --   require("snacks").picker.pick({
+    --     source = "lsp_workspace_symbols",
+    --     title = "Lsp workspace symbols",
+    --     layout = { layout = { position = "bottom" } },
+    --   })
+    -- end, "[W]orkspace [S]ymbols")
 
     -- Enable document highlighting if the LSP client supports it.
     -- This highlights references to the symbol under the cursor.
@@ -445,8 +445,36 @@ blink_cmp.setup({
   },
 })
 
+local M = {}
+
 -- Load utility function to toggle Harper LSP for grammar and style checking.
 local success, _ = pcall(require, "utils.lsp_toggle")
 if not success then
   vim.notify("Failed to load utils.lsp_toggle", vim.log.levels.WARN)
 end
+
+--- Diagnostic Toggle
+--- @desc Toggles diagnostic virtual text on or off.
+--- @params None
+function M.toggle_diagnostic_virtual_text()
+  local current_config = vim.diagnostic.config() or { virtual_text = false }
+  local new_virtual_text = not current_config.virtual_text
+  vim.diagnostic.config({ virtual_text = new_virtual_text })
+  vim.notify("Diagnostic virtual text: " .. (new_virtual_text and "ON" or "OFF"))
+end
+
+--- @desc Creates a user command to toggle diagnostics.
+--- @params None
+--- @usage Call the `:ToggleDiagnostics` command in Neovim to toggle diagnostic virtual text.
+vim.api.nvim_create_user_command("ToggleDiagnostics", function()
+  M.toggle_diagnostic_virtual_text()
+end, {})
+
+-- Persisted - Get session file name and session name
+function M.get_session_names()
+  local session_file_name = vim.fn.fnamemodify(vim.g.persisted_loaded_session, ":t")
+  local clean_session_name = session_file_name:match(".*%%(.*)") or session_file_name
+  return session_file_name, clean_session_name
+end
+
+return M
