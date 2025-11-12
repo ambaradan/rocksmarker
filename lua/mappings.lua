@@ -7,41 +7,41 @@ end
 local map = snacks.keymap.set
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
-editor.remap({ "i", "n" }, "<C-s>", function()
+map({ "i", "n" }, "<C-s>", function()
   editor.save_current_buffer()
-end, editor.make_opt("Save buffer"))
+end, { desc = "Save buffer" })
 
 -- Create a new empty buffer
-editor.remap("n", "<leader>b", function()
+map("n", "<leader>b", function()
   editor.create_new_buffer()
-end, editor.make_opt("new buffer"))
+end, { desc = "new buffer" })
 
-editor.remap("n", "<leader>x", function()
+map("n", "<leader>x", function()
   snacks.bufdelete()
-end, editor.make_opt("close buffer"))
+end, { desc = "close buffer" })
 
-editor.remap("n", "<leader>X", function()
+map("n", "<leader>X", function()
   snacks.bufdelete.all()
-end, editor.make_opt("close all buffers"))
+end, { desc = "close all buffers" })
 
 -- Editor mappings
 -- Remap <leader>q to quit the current buffer/window
-editor.remap("n", "<leader>q", "<cmd>q<cr>", editor.make_opt("quit editor"))
+map("n", "<leader>q", "<cmd>q<cr>", { desc = "quit editor" })
 
-editor.remap("n", "<C-e>", function()
+map("n", "<C-e>", function()
   snacks.picker.pick({
     source = "explorer",
     title = "File Manager",
   })
-end, editor.make_opt("open file"))
+end, { desc = "open file" })
 
-editor.remap("n", "<C-f>", function()
+map("n", "<C-f>", function()
   snacks.picker.pick({
     source = "files",
     layout = { preset = "vscode" },
     title = "Open file",
   })
-end, editor.make_opt("open file"))
+end, { desc = "open file" })
 
 map("n", "<F8>", function()
   snacks.picker.pick({
@@ -67,58 +67,57 @@ end, {
 
 -- Remap <Esc> to clear search highlights
 -- Useful after searching to remove highlight remnants
-editor.remap("n", "<Esc>", "<cmd>noh<CR>", editor.make_opt("clear highlights"))
+editor.remap("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 
 -- conform - manual formatting
-editor.remap("n", "<leader>F", function()
+map("n", "<leader>F", function()
   require("conform").format({ lsp_fallback = true })
-end, editor.make_opt("format buffer"))
+end, { desc = "format buffer" })
 
 -- Copy selected text to system clipboard in visual mode
-editor.remap("v", "<C-c>", '"+y', editor.make_opt("Copy selected text to system clipboard"))
+map("v", "<C-c>", '"+y', { desc = "Copy selected text to system clipboard" })
 
 -- Cut (delete and copy) selected text to system clipboard in visual mode
-editor.remap("v", "<C-x>", '"+d', editor.make_opt("Cut selected text to system clipboard"))
+map("v", "<C-x>", '"+d', { desc = "Cut selected text to system clipboard" })
 
 -- Copy entire line to system clipboard
-editor.remap("n", "<S-c>", function()
+map("n", "<S-c>", function()
   vim.cmd('normal! ^vg_"+y') -- Yank to system clipboard
-end, editor.make_opt("Copy entire line to system clipboard"))
+end, { desc = "Copy entire line to system clipboard" })
 
 -- Cut entire line to system clipboard
-editor.remap("n", "<S-x>", function()
+map("n", "<S-x>", function()
   vim.cmd('normal! ^vg_"+d') -- Cut to system clipboard
-end, editor.make_opt("Cut entire line to system clipboard"))
+end, { desc = "cut entire line to system clipboard" })
 
 -- Paste over selected text in both visual and normal mode
-editor.remap({ "v", "n" }, "<C-v>", '"+p', editor.make_opt("Paste over selected text"))
+map({ "v", "n" }, "<C-v>", '"+p', { desc = "paste over selected text" })
 
 -- Paste from system clipboard in insert mode
-editor.remap("i", "<C-v>", "<C-r>+", editor.make_opt("Paste from system clipboard"))
+map("i", "<C-v>", "<C-r>+", { desc = "paste from system clipboard" })
 
 -- Paste in visual mode without overwriting the current register
-editor.remap("v", "<CS-v>", '"_dP', editor.make_opt("Paste without overwriting register"))
+map("v", "<CS-v>", '"_dP', { desc = "paste without overwriting register" })
 
--- Remap the 'y' and 'p' commands in visual mode
--- to preserve the cursor position
-vim.cmd("vnoremap <silent> y y`]")
-vim.cmd("vnoremap <silent> p p`]")
+-- Remap the 'y' and 'p' commands in visual mode to preserve the cursor position
+map("x", "y", "y`]", { noremap = true, silent = true, desc = "yank and preserve cursor position" })
+map("x", "p", "p`]", { noremap = true, silent = true, desc = "put and preserve cursor position" })
 
 -- Remap the 'J' and 'K' commands in visual mode
 -- to move the selected block up or down
-editor.remap("v", "J", ":m '>+1<CR>gv=gv", editor.make_opt("move block up"))
-editor.remap("v", "K", ":m '<-2<CR>gv=gv", editor.make_opt("move block down"))
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "move block up" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "move block down" })
 
 -- Diagnostics toggle
-editor.remap("n", "<leader>dd", function()
+map("n", "<leader>dd", function()
   editor.toggle_diagnostic_virtual_text()
-end, editor.make_opt("Toggle Diagnostics"))
+end, { desc = "toggle Diagnostics" })
 
 -- bufferline.nvim mappings
-editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", editor.make_opt("Buffer Line Pick"))
-editor.remap("n", "<leader>bc", ":BufferLinePickClose<CR>", editor.make_opt("Buffer Line Pick Close"))
-editor.remap("n", "<TAB>", ":BufferLineCycleNext<CR>", editor.make_opt("Buffer Line Cycle Next"))
-editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", editor.make_opt("Buffer Line Cycle Prev"))
+editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", { desc = "buffer line pick" })
+editor.remap("n", "<leader>bc", ":BufferLinePickClose<CR>", { desc = "buffer line pick close" })
+editor.remap("n", "<TAB>", ":BufferLineCycleNext<CR>", { desc = "buffer line cycle next" })
+editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line cycle prev" })
 
 -- Buffer list
 editor.remap("n", "<leader>fb", function()
@@ -127,29 +126,32 @@ editor.remap("n", "<leader>fb", function()
     layout = { preset = "bottom" },
     title = "Buffer list",
   })
-end, editor.make_opt("Buffer list"))
+end, { desc = "Buffer list" })
 
 -- Recent files (recently opened)
-editor.remap("n", "<leader>fo", function()
+map("n", "<leader>fo", function()
   snacks.picker.pick({
     source = "recent",
     title = "Recent Files",
+    layout = { preset = "vscode" },
   })
-end, editor.make_opt("Recently opened files"))
+end, { desc = "Recently opened files" })
 
 -- Undo (undo operations on file)
-editor.remap("n", "<leader>fu", function()
+map("n", "<leader>fu", function()
   snacks.picker.pick({
     source = "undo",
     title = "Undo operations",
+    layout = { preset = "telescope" },
   })
-end, editor.make_opt("Undo operations"))
+end, { desc = "Undo operations" })
 
 -- Toggle global diagnostics
-editor.remap("n", "<leader>dw", function()
+map("n", "<leader>dw", function()
   snacks.picker.pick({
     source = "diagnostics",
     title = "Workspace Diagnostics",
+    layout = { preset = "ivy" },
   })
 end, editor.make_opt("toggle global diagnostics"))
 
@@ -158,7 +160,7 @@ editor.remap("n", "<leader>db", function()
   snacks.picker.pick({
     source = "diagnostics_buffer",
     title = "Buffer Diagnostics",
-    layout = { layout = { position = "bottom" } },
+    layout = { preset = "ivy" },
   })
 end, editor.make_opt("toggle buffer diagnostics"))
 
@@ -179,25 +181,25 @@ map("n", "<A-l>", function()
 end, { desc = "load last session" })
 
 -- Save current session
-editor.remap("n", "<leader>ss", function()
+map("n", "<leader>ss", function()
   require("persisted").save()
   local _, clean_session_name = get_session_names()
   vim.notify("Session '" .. clean_session_name .. "' saved", vim.log.levels.INFO)
-end, editor.make_opt("Save Current Session"))
+end, { desc = "save Current Session" })
 
 -- Load last session (alternative mapping)
-editor.remap("n", "<leader>sl", function()
+map("n", "<leader>sl", function()
   require("persisted").load({ last = true })
   local _, clean_session_name = get_session_names()
   vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
-end, editor.make_opt("Load Last Session"))
+end, { desc = "load Last Session" })
 
 -- Stop current session
-editor.remap("n", "<leader>st", function()
+map("n", "<leader>st", function()
   require("persisted").stop()
   local _, clean_session_name = get_session_names()
   vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
-end, editor.make_opt("Stop Current Session"))
+end, { desc = "stop Current Session" })
 
 -- grug-far - search and replace
 map("n", "<leader>R", function()
@@ -272,9 +274,9 @@ map("n", "<F7>", function()
 end, { desc = "highlights search" })
 
 -- Git manager - lazygit
-editor.remap({ "n", "i", "t" }, "<leader>lg", function()
+map({ "n", "i", "t" }, "<leader>lg", function()
   snacks.lazygit()
-end, editor.make_opt("open lazygit"))
+end, { desc = "open lazygit" })
 
 -- Toggle terminal mappings
 map({ "n", "i", "t" }, "<a-t>", function()
@@ -287,7 +289,7 @@ map("n", "<a-z>", function()
 end, { desc = "zen mode" })
 
 -- Mapping to exit terminal mode using Esc
-editor.remap("t", "jk", [[<C-\><C-n>]], editor.make_opt("Exit Terminal Mode"))
+map("t", "jk", [[<C-\><C-n>]], { desc = "Exit Terminal Mode" })
 
 -- LSP mappings
 -- Set keymap for buffers with any LSP that supports code actions
@@ -304,4 +306,14 @@ map("n", "<leader>ds", vim.lsp.buf.document_symbol, {
 map("n", "K", vim.lsp.buf.hover, {
   lsp = { method = "textDocument/hover" },
   desc = "Hover Documentation",
+})
+
+map("n", "gd", vim.lsp.buf.definition, {
+  lsp = { method = "textDocument/definition" },
+  desc = "goto definitions",
+})
+
+map("n", "<C-k>", vim.lsp.buf.signature_help, {
+  lsp = { method = "textDocument/signature_help" },
+  desc = "signature documentation",
 })

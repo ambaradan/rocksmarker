@@ -27,9 +27,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Set up basic LSP keymaps for navigation and actions.
-    map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+    -- map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
     -- map("K", vim.lsp.buf.hover, "Hover Documentation")
-    map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+    -- map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
     map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
     -- map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
     map("gr", function()
