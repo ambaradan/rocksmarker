@@ -1,4 +1,5 @@
 -- Rocksmarker mappings
+local lsp_utils = require("plugins.lsp")
 local editor = require("utils.editor")
 local snacks_ok, snacks = pcall(require, "snacks")
 if not snacks_ok then
@@ -9,7 +10,11 @@ local map = snacks.keymap.set
 -- Save buffer in Insert and Normal modes
 map({ "i", "n" }, "<C-s>", function()
   editor.save_current_buffer()
-end, { desc = "Save buffer" })
+end, { desc = "save buffer" })
+
+map({ "i", "n" }, "<C-a>", function()
+  editor.save_all_buffers()
+end, { desc = "save all buffer" })
 
 -- Create a new empty buffer
 map("n", "<leader>b", function()
@@ -17,11 +22,11 @@ map("n", "<leader>b", function()
 end, { desc = "new buffer" })
 
 map("n", "<leader>x", function()
-  snacks.bufdelete()
+  editor.close_current_buffer()
 end, { desc = "close buffer" })
 
 map("n", "<leader>X", function()
-  snacks.bufdelete.all()
+  editor.close_all_buffers()
 end, { desc = "close all buffers" })
 
 -- Editor mappings
@@ -123,7 +128,7 @@ editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line c
 editor.remap("n", "<leader>fb", function()
   snacks.picker.pick({
     source = "buffers",
-    layout = { preset = "bottom" },
+    layout = { preset = "vscode" },
     title = "Buffer list",
   })
 end, { desc = "Buffer list" })
@@ -164,9 +169,9 @@ editor.remap("n", "<leader>db", function()
   })
 end, editor.make_opt("toggle buffer diagnostics"))
 
--- session mappings - persisted.nvim
+-- Session mappings - persisted.nvim
 -- Import the get_session_names function
-local get_session_names = editor.get_session_names
+local get_session_names = lsp_utils.get_session_names
 
 -- Select session
 map("n", "<A-s>", function()
@@ -185,21 +190,21 @@ map("n", "<leader>ss", function()
   require("persisted").save()
   local _, clean_session_name = get_session_names()
   vim.notify("Session '" .. clean_session_name .. "' saved", vim.log.levels.INFO)
-end, { desc = "save Current Session" })
+end, { desc = "save current session" })
 
 -- Load last session (alternative mapping)
 map("n", "<leader>sl", function()
   require("persisted").load({ last = true })
   local _, clean_session_name = get_session_names()
   vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
-end, { desc = "load Last Session" })
+end, { desc = "load last session" })
 
 -- Stop current session
 map("n", "<leader>st", function()
   require("persisted").stop()
   local _, clean_session_name = get_session_names()
   vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
-end, { desc = "stop Current Session" })
+end, { desc = "stop current session" })
 
 -- grug-far - search and replace
 map("n", "<leader>R", function()
@@ -316,4 +321,29 @@ map("n", "gd", vim.lsp.buf.definition, {
 map("n", "<C-k>", vim.lsp.buf.signature_help, {
   lsp = { method = "textDocument/signature_help" },
   desc = "signature documentation",
+})
+
+map("<leader>rn", vim.lsp.buf.rename, {
+  lsp = { method = "textDocument/rename" },
+  desc = "lsp rename",
+})
+
+map("<leader>gr", vim.lsp.buf.references, {
+  lsp = { method = "textDocument/references" },
+  desc = "lsp References",
+})
+
+map("<leader>gI", vim.lsp.buf.implementation, {
+  lsp = { method = "textDocument/implementation" },
+  desc = "goto implementation",
+})
+
+map("<leader>D", vim.lsp.buf.definition, {
+  lsp = { method = "textDocument/definition" },
+  desc = "type definition",
+})
+
+map("<leader>ws", vim.lsp.buf.workspace_symbol, {
+  lsp = { method = "textDocument/workspace_symbol" },
+  desc = "type definition",
 })
