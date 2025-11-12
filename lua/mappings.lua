@@ -199,89 +199,92 @@ editor.remap("n", "<leader>st", function()
   vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
 end, editor.make_opt("Stop Current Session"))
 
--- search and replace
-editor.remap("n", "<leader>R", function()
+-- grug-far - search and replace
+map("n", "<leader>R", function()
   require("grug-far").open()
-end, editor.make_opt("Search and replace"))
+end, { desc = "search and replace" })
 
 -- Search current word globally
-editor.remap({ "n", "x" }, "<leader>rw", function()
+map({ "n", "x" }, "<leader>rw", function()
   require("grug-far").open({
     prefills = { search = vim.fn.expand("<cword>") },
   })
-end, editor.make_opt("Search current word"))
+end, { desc = "search current word" })
 
 -- Search current word in current file
-editor.remap({ "n", "x" }, "<leader>rp", function()
+map({ "n", "x" }, "<leader>rp", function()
   require("grug-far").open({
     prefills = {
       paths = vim.fn.expand("%"),
       search = vim.fn.expand("<cword>"),
     },
   })
-end, editor.make_opt("Search word on current file"))
+end, { desc = "search word on current file" })
 
 -- Git mappings
 -- Git commits log
-editor.remap("n", "<leader>gl", function()
+map("n", "<leader>gl", function()
   snacks.picker.pick({
     source = "git_log",
     title = "Git commits log",
   })
-end, editor.make_opt("git commits log"))
+end, { desc = "git commits log" })
 
 -- Git commits for current buffer
-editor.remap("n", "<leader>gb", function()
+map("n", "<leader>gb", function()
   snacks.picker.pick({
     source = "git_log_file",
     title = "Git buffer log",
+    layout = { preset = "ivy" },
   })
-end, editor.make_opt("git buffer log"))
+end, { desc = "git buffer log" })
 
-editor.remap("n", "<leader>gd", function()
+map("n", "<leader>gd", function()
   snacks.picker.pick({
     source = "git_diff",
     title = "Git buffer diff",
+    layout = { preset = "telescope" },
   })
-end, editor.make_opt("git buffer diff"))
+end, { desc = "git buffer diff" })
 
-editor.remap("n", "<leader>gs", function()
+map("n", "<leader>gs", function()
   snacks.picker.pick({
     source = "git_status",
     title = "Git status",
+    layout = { preset = "telescope" },
   })
-end, editor.make_opt("git status"))
+end, { desc = "git status" })
 
 map("n", "<leader>hl", function()
   snacks.picker.pick({
     source = "help",
     title = "Help search",
-    layout = { layout = { position = "top", height = 0.4 } },
+    layout = { preset = "dropdown" },
   })
 end, { desc = "help search" })
 
-editor.remap("n", "<F7>", function()
+map("n", "<F7>", function()
   snacks.picker.pick({
     source = "highlights",
     title = "Highlights search",
-    layout = { layout = { position = "bottom" } },
+    layout = { preset = "ivy" },
   })
-end, editor.make_opt("highlights search"))
+end, { desc = "highlights search" })
 
--- Toggle zen mode mappings
+-- Git manager - lazygit
 editor.remap({ "n", "i", "t" }, "<leader>lg", function()
   snacks.lazygit()
 end, editor.make_opt("open lazygit"))
 
 -- Toggle terminal mappings
-editor.remap({ "n", "i", "t" }, "<a-t>", function()
+map({ "n", "i", "t" }, "<a-t>", function()
   snacks.terminal()
-end, editor.make_opt("Toggle Terminal"))
+end, { desc = "Toggle Terminal" })
 
 -- Toggle zen mode mappings
-editor.remap("n", "<a-z>", function()
+map("n", "<a-z>", function()
   snacks.zen.zoom()
-end, editor.make_opt("zen mode"))
+end, { desc = "zen mode" })
 
 -- Mapping to exit terminal mode using Esc
 editor.remap("t", "jk", [[<C-\><C-n>]], editor.make_opt("Exit Terminal Mode"))
