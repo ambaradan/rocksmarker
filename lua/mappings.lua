@@ -323,27 +323,27 @@ map("n", "<C-k>", vim.lsp.buf.signature_help, {
   desc = "signature documentation",
 })
 
-map("<leader>rn", vim.lsp.buf.rename, {
+map("n", "<leader>rn", vim.lsp.buf.rename, {
   lsp = { method = "textDocument/rename" },
   desc = "lsp rename",
 })
 
-map("<leader>gr", vim.lsp.buf.references, {
+map("n", "<leader>gr", vim.lsp.buf.references, {
   lsp = { method = "textDocument/references" },
   desc = "lsp References",
 })
 
-map("<leader>gI", vim.lsp.buf.implementation, {
+map("n", "<leader>gI", vim.lsp.buf.implementation, {
   lsp = { method = "textDocument/implementation" },
   desc = "goto implementation",
 })
 
-map("<leader>D", vim.lsp.buf.definition, {
+map("n", "<leader>D", vim.lsp.buf.definition, {
   lsp = { method = "textDocument/definition" },
   desc = "type definition",
 })
 
-map("<leader>ws", vim.lsp.buf.workspace_symbol, {
+map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, {
   lsp = { method = "textDocument/workspace_symbol" },
   desc = "type definition",
 })
