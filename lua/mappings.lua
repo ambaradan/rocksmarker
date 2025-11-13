@@ -71,7 +71,7 @@ end, {
 
 -- Remap <Esc> to clear search highlights
 -- Useful after searching to remove highlight remnants
-editor.remap("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
+map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 
 -- conform - manual formatting
 map("n", "<leader>F", function()
@@ -119,7 +119,7 @@ map("n", "<TAB>", ":BufferLineCycleNext<CR>", { desc = "buffer line cycle next" 
 map("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line cycle prev" })
 
 -- Buffer list
-editor.remap("n", "<leader>fb", function()
+map("n", "<leader>fb", function()
   snacks.picker.pick({
     source = "buffers",
     layout = { preset = "vscode" },
@@ -152,16 +152,16 @@ map("n", "<leader>dw", function()
     title = "Workspace Diagnostics",
     layout = { preset = "ivy" },
   })
-end, editor.make_opt("toggle global diagnostics"))
+end, { desc = "toggle global diagnostics" })
 
 -- Toggle buffer diagnostics
-editor.remap("n", "<leader>db", function()
+map("n", "<leader>db", function()
   snacks.picker.pick({
     source = "diagnostics_buffer",
     title = "Buffer Diagnostics",
     layout = { preset = "ivy" },
   })
-end, editor.make_opt("toggle buffer diagnostics"))
+end, { desc = "toggle buffer diagnostics" })
 
 -- Session mappings - persisted.nvim
 -- Persisted - Get session file name and session name
