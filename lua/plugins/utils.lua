@@ -25,12 +25,7 @@ snacks.setup({
     },
   },
   picker = {
-    select = {
-      enable = true,
-      layout = {
-        preset = "bottom",
-      },
-    },
+    ui_select = true,
   },
   zen = {
     center = true,
