@@ -49,25 +49,3 @@ table_mode.setup({
     insert_leave = true, -- when leaving insert mode
   },
 })
-
--- zen-mode.nvim settings
-local zen_mode_ok, zen_mode = pcall(require, "zen-mode")
-if not zen_mode_ok then
-  return
-end
-
-zen_mode.setup({
-  window = {
-    width = 0.85,
-    options = {
-      number = false,
-      list = true,
-      relativenumber = false,
-    },
-  },
-  plugins = {
-    options = {
-      laststatus = 0,
-    },
-  },
-})

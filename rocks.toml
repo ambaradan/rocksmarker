@@ -41,36 +41,23 @@ config_path = "rocks-treesitter.toml"
 # Rocks section
 "rocks.nvim" = "2.46.1"
 "rocks-config.nvim" = "3.1.2"
-# "rocks-git.nvim" = "2.5.2"
-# "rocks-lazy.nvim" = "1.1.2"
 "rocks-treesitter.nvim" = "1.3.1"
 "rocks-edit.nvim" = "scm"
 
 # UI plugins
 "min-theme.nvim" = "scm"
+"mini.icons" = "0.16.0"
 "lualine.nvim" = "scm"
 "bufferline.nvim" = "4.9.1"
-"toggleterm.nvim" = "2.13.1"
-"fidget.nvim" = "1.6.0"
 "gitsigns.nvim" = "1.0.2"
 "which-key.nvim" = "3.17.0"
-
-# Functional plugins
-"indent-blankline.nvim" = "3.9.0"
 "nvim-autopairs" = "scm"
-"neo-tree.nvim" = "3.35"
 "rainbow-delimiters.nvim" = "0.9.1"
-"telescope-file-browser.nvim" = "scm"
-nvim-spectre = "scm"
 "yanky.nvim" = "2.0.0"
 "persisted.nvim" = "2.1.1"
-"diffview.nvim" = "scm"
 "nvim-highlight-colors" = "scm"
-"telescope-frecency.nvim" = "scm"
-"telescope-cmdline.nvim" = "0.2.3"
-"telescope-ui-select.nvim" = "scm"
-"telescope-undo.nvim" = "scm"
-"searchbox.nvim" = "scm"
+"snacks.nvim" = "scm"
+"grug-far.nvim" = "1.6.53"
 
 # Autocompletions plugins
 "blink.cmp" = "1.7.0"
@@ -90,21 +77,9 @@ nvim-lint = "scm"
 
 # Markdown plugins
 "markdown-table-mode.nvim" = "scm"
-"zen-mode.nvim" = "1.4.0"
-"render-markdown.nvim" = "8.9.0"
-nvim-mkdocs-material = "0.1.3"
-"mini.icons" = "0.16.0"
-"markdown-plus.nvim" = "1.6.0"
+"render-markdown.nvim" = "8.10.0"
+"markdown-plus.nvim" = "1.8.0"
 
-[plugins."telescope.nvim" ]
-version = "0.1.9"
-pin = true
-
-# Maintained the plugin to the development
-# version due to bugs in version 2.0
-[plugins.neogit]
-version = "scm"
-pin = true
 
 # Plugins for language server support
 # and auto completion
@@ -125,13 +100,9 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 # Common editor utilities
 [bundles.utils]
 items = [
-    "telescope.nvim",
+    "snacks.nvim",
     "persisted.nvim",
-    "toggleterm.nvim",
-    "neo-tree.nvim",
-    "neogit",
-    "nvim-spectre",
-    "indent-blankline.nvim",
+    "grug-far.nvim",
     "rainbow-delimiters.nvim",
     "nvim-autopairs",
     "nvim-highlight-colors",
@@ -143,7 +114,6 @@ items = [
 [bundles.ui]
 items = [
     "lualine.nvim",
-    "fidget.nvim",
     "bufferline.nvim",
     "gitsigns.nvim",
     "min-theme.nvim",
@@ -154,8 +124,6 @@ items = [
 [bundles.markdown]
 items = [
     "markdown-plus.nvim",
-    "nvim-mkdocs-material",
     "render-markdown.nvim",
     "markdown-table-mode.nvim",
-    "zen-mode.nvim",
 ]

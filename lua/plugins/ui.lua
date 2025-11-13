@@ -28,6 +28,7 @@ min_theme.setup({
   overrides = function()
     return {
       -- FloatBorder customization
+      ["Normal"] = { bg = colors.bg },
       ["FloatBorder"] = { fg = colors.border, bg = colors.none },
       ["IblIndent"] = { fg = colors.borderDarker },
       ["NormalFloat"] = { fg = colors.fgCommand },
@@ -64,10 +65,21 @@ min_theme.setup({
       ["@markup.strong.markdown_inline"] = { fg = colors.fgSelection, bold = true },
       ["@markup.italic.markdown_inline"] = { fg = colors.fgSelectionInactive, italic = true },
       ["@markup.raw.block.markdown"] = { fg = colors.fgSelection },
+      ["@punctuation.special.markdown"] = { fg = colors.bgDarker },
       ["@markup.link.markdown_inline"] = { underline = false },
       ["@markup.link.label.markdown_inline"] = { fg = colors.blueLight, underline = false },
       ["@markup.link.url.markdown_inline"] = { fg = colors.blue, underline = false },
       ["@string.escape.markdown_inline"] = { fg = colors.fgDisabled },
+      -- snacks.nvim highlights
+      ["SnacksNormal"] = { bg = colors.bg },
+      ["SnacksPickerTree"] = { fg = colors.bgDarker },
+      ["SnacksNotifierBorderInfo"] = { fg = colors.bgDarker, bg = colors.bg },
+      ["SnacksNotifierBorderWarn"] = { fg = colors.bgDarker, bg = colors.bg },
+      ["SnacksIndent"] = { fg = colors.bgDarker },
+      ["SnacksIndentScope"] = { fg = colors.bgFloat },
+      ["SnacksPickerFile"] = { fg = colors.fgCommand },
+
+      ["WhichKeyNormal"] = { bg = colors.bg },
     }
   end,
 })
@@ -222,29 +234,6 @@ bufferline.setup({
   },
 })
 
--- fidget.nvim settings - messages display
-local fidget_ok, fidget = pcall(require, "fidget")
-if not fidget_ok then
-  return
-end
-
-fidget.setup({
-  progress = {
-    ignore = {
-      ["cmp"] = true, -- for the cmp plugin
-      ["lspinfo"] = true, -- for the lspinfo buffer
-      ["qf"] = true, -- for the quickfix window
-      ["vim"] = true, -- for Vim buffers
-    },
-  },
-  notification = {
-    override_vim_notify = true,
-    window = {
-      normal_hl = "fgCommand",
-    },
-  },
-})
-
 -- gitsign.nvim settings - git support
 local gitsigns_ok, gitsigns = pcall(require, "gitsigns")
 if not gitsigns_ok then
@@ -329,5 +318,5 @@ if not which_key_ok then
 end
 
 which_key.setup({
-  preset = "modern",
+  preset = "helix",
 })

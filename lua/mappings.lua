@@ -1,374 +1,505 @@
 -- Rocksmarker mappings
+
 local editor = require("utils.editor")
 
+local snacks_ok, snacks = pcall(require, "snacks")
+if not snacks_ok then
+  return
+end
+
+local map = snacks.keymap.set
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
-editor.remap({ "i", "n" }, "<C-s>", function()
+map({ "i", "n" }, "<C-s>", function()
   editor.save_current_buffer()
-end, editor.make_opt("Save buffer"))
+end, { desc = "save buffer" })
+
+map({ "i", "n" }, "<C-a>", function()
+  editor.save_all_buffers()
+end, { desc = "save all buffer" })
 
 -- Create a new empty buffer
-editor.remap("n", "<leader>b", function()
+map("n", "<leader>b", function()
   editor.create_new_buffer()
-end, editor.make_opt("new buffer"))
+end, { desc = "new buffer" })
 
--- Close the current buffer
-editor.remap("n", "<leader>x", function()
+map("n", "<leader>x", function()
   editor.close_current_buffer()
-end, editor.make_opt("close buffer"))
+end, { desc = "close buffer" })
 
--- Close all buffers
-editor.remap("n", "<leader>X", function()
+map("n", "<leader>X", function()
   editor.close_all_buffers()
-end, editor.make_opt("close all buffers"))
+end, { desc = "close all buffers" })
 
 -- Editor mappings
 -- Remap <leader>q to quit the current buffer/window
-editor.remap("n", "<leader>q", "<cmd>q<cr>", editor.make_opt("quit editor"))
+map("n", "<leader>q", "<cmd>q<cr>", { desc = "quit editor" })
+
+map("n", "<C-e>", function()
+  snacks.picker.pick({
+    source = "explorer",
+    title = "File Manager",
+  })
+end, { desc = "open file" })
+
+map("n", "<C-f>", function()
+  snacks.picker.pick({
+    source = "files",
+    layout = { preset = "vscode" },
+    title = "Open file",
+  })
+end, { desc = "open file" })
+
+map("n", "<F8>", function()
+  snacks.picker.pick({
+    source = "lsp_symbols",
+    title = "Markdown Headers",
+    layout = { layout = { position = "right", width = 0.3 }, preview = false },
+  })
+end, {
+  ft = "markdown",
+  desc = "Markdown Header",
+})
+
+map("n", "<F6>", function()
+  snacks.picker.pick({
+    source = "diagnostics_buffer",
+    title = "Markdown Diagnostics",
+    layout = { layout = { position = "right", width = 0.4 }, preview = false },
+  })
+end, {
+  ft = "markdown",
+  desc = "Markdown Diagnostics",
+})
 
 -- Remap <Esc> to clear search highlights
 -- Useful after searching to remove highlight remnants
-editor.remap("n", "<Esc>", "<cmd>noh<CR>", editor.make_opt("clear highlights"))
-
--- Remap ',' to open Telescope cmdline
--- Provides quick access to command-line interface via Telescope
-editor.remap("n", ",", "<cmd>Telescope cmdline<cr>", editor.make_opt("cmdline line"))
+map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 
 -- conform - manual formatting
-editor.remap("n", "<leader>F", function()
+map("n", "<leader>F", function()
   require("conform").format({ lsp_fallback = true })
-end, editor.make_opt("format buffer"))
+end, { desc = "format buffer" })
 
 -- Copy selected text to system clipboard in visual mode
-editor.remap("v", "<C-c>", '"+y', editor.make_opt("Copy selected text to system clipboard"))
+map("v", "<C-c>", '"+y', { desc = "Copy selected text to system clipboard" })
 
 -- Cut (delete and copy) selected text to system clipboard in visual mode
-editor.remap("v", "<C-x>", '"+d', editor.make_opt("Cut selected text to system clipboard"))
+map("v", "<C-x>", '"+d', { desc = "Cut selected text to system clipboard" })
 
 -- Copy entire line to system clipboard
-editor.remap("n", "<S-c>", function()
+map("n", "<S-c>", function()
   vim.cmd('normal! ^vg_"+y') -- Yank to system clipboard
-end, editor.make_opt("Copy entire line to system clipboard"))
+end, { desc = "Copy entire line to system clipboard" })
 
 -- Cut entire line to system clipboard
-editor.remap("n", "<S-x>", function()
+map("n", "<S-x>", function()
   vim.cmd('normal! ^vg_"+d') -- Cut to system clipboard
-end, editor.make_opt("Cut entire line to system clipboard"))
+end, { desc = "cut entire line to system clipboard" })
 
 -- Paste over selected text in both visual and normal mode
-editor.remap({ "v", "n" }, "<C-v>", '"+p', editor.make_opt("Paste over selected text"))
+map({ "v", "n" }, "<C-v>", '"+p', { desc = "paste over selected text" })
 
 -- Paste from system clipboard in insert mode
-editor.remap("i", "<C-v>", "<C-r>+", editor.make_opt("Paste from system clipboard"))
+map("i", "<C-v>", "<C-r>+", { desc = "paste from system clipboard" })
 
 -- Paste in visual mode without overwriting the current register
-editor.remap("v", "<CS-v>", '"_dP', editor.make_opt("Paste without overwriting register"))
+map("v", "<CS-v>", '"_dP', { desc = "paste without overwriting register" })
 
--- Remap the 'y' and 'p' commands in visual mode
--- to preserve the cursor position
-vim.cmd("vnoremap <silent> y y`]")
-vim.cmd("vnoremap <silent> p p`]")
+-- Remap the 'y' and 'p' commands in visual mode to preserve the cursor position
+map("x", "y", "y`]", { noremap = true, silent = true, desc = "yank and preserve cursor position" })
+map("x", "p", "p`]", { noremap = true, silent = true, desc = "put and preserve cursor position" })
 
 -- Remap the 'J' and 'K' commands in visual mode
 -- to move the selected block up or down
-editor.remap("v", "J", ":m '>+1<CR>gv=gv", editor.make_opt("move block up"))
-editor.remap("v", "K", ":m '<-2<CR>gv=gv", editor.make_opt("move block down"))
-
--- Diagnostics toggle
-editor.remap("n", "<leader>dd", function()
-  editor.toggle_diagnostic_virtual_text()
-end, editor.make_opt("Toggle Diagnostics"))
-
--- neo-tree.nvim mappings
--- Toggle Neo-tree File Explorer in a floating window
-editor.remap("n", ".", function()
-  require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.fn.getcwd() })
-end, editor.make_opt("Neo-tree File Explorer (float)"))
-
--- Toggle Neo-tree File Explorer in a right window
-editor.remap("n", "<C-n>", function()
-  require("neo-tree.command").execute({ toggle = true, position = "right", source = "filesystem" })
-end, editor.make_opt("Neo-tree File Explorer (right)"))
-
--- Reveal current file in Neo-tree filesystem
-editor.remap("n", "<leader>fr", function()
-  require("neo-tree.command").execute({
-    reveal = true,
-    toggle = true,
-    position = "float",
-    source = "filesystem",
-  })
-end, editor.make_opt("Reveal File in workspace"))
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "move block up" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "move block down" })
 
 -- bufferline.nvim mappings
-editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", editor.make_opt("Buffer Line Pick"))
-editor.remap("n", "<leader>bc", ":BufferLinePickClose<CR>", editor.make_opt("Buffer Line Pick Close"))
-editor.remap("n", "<TAB>", ":BufferLineCycleNext<CR>", editor.make_opt("Buffer Line Cycle Next"))
-editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", editor.make_opt("Buffer Line Cycle Prev"))
+map("n", "<leader>bp", ":BufferLinePick<CR>", { desc = "buffer line pick" })
+map("n", "<leader>bc", ":BufferLinePickClose<CR>", { desc = "buffer line pick close" })
+map("n", "<TAB>", ":BufferLineCycleNext<CR>", { desc = "buffer line cycle next" })
+map("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line cycle prev" })
 
--- telescope.nvim mappings
--- Buffer list with Telescope
-editor.remap("n", "<leader>fb", function()
-  require("telescope.builtin").buffers({
-    sort_mru = true,
-    ignore_current_buffer = true,
+-- Buffer list
+map("n", "<leader>fb", function()
+  snacks.picker.pick({
+    source = "buffers",
+    layout = { preset = "vscode" },
+    title = "Buffer list",
   })
-end, editor.make_opt("Buffer list"))
+end, { desc = "Buffer list" })
 
--- File browser with Telescope
-editor.remap("n", "<leader>ff", function()
-  require("telescope").extensions.file_browser.file_browser({
-    path = "%:p:h", -- Open in current file's directory
-    select_buffer = true,
-    grouped = true,
-    hidden = true,
+-- Recent files (recently opened)
+map("n", "<leader>fo", function()
+  snacks.picker.pick({
+    source = "recent",
+    title = "Recent Files",
+    layout = { preset = "vscode" },
   })
-end, editor.make_opt("Find files"))
-
--- Old files (recently opened)
-editor.remap("n", "<leader>fo", function()
-  require("telescope.builtin").oldfiles({
-    only_cwd = true, -- Only show files from current working directory
-  })
-end, editor.make_opt("Recently opened files"))
-
--- Frecency (frequency-based recent files)
-editor.remap("n", "<leader>fc", function()
-  require("telescope").extensions.frecency.frecency({
-    workspace = "CWD",
-  })
-end, editor.make_opt("Recent files"))
+end, { desc = "Recently opened files" })
 
 -- Undo (undo operations on file)
-editor.remap("n", "<leader>fu", function()
-  require("telescope").extensions.undo.undo({})
-end, editor.make_opt("Undo operations"))
-
--- Fuzzy find in current buffer
-editor.remap("n", "<Leader>fz", function()
-  require("telescope.builtin").current_buffer_fuzzy_find({
-    case_mode = "smart_case",
-    previewer = false,
-    layout_config = {
-      width = 0.8,
-      height = 0.6,
-    },
+map("n", "<leader>fu", function()
+  snacks.picker.pick({
+    source = "undo",
+    title = "Undo operations",
+    layout = { preset = "telescope" },
   })
-end, editor.make_opt("Find in Buffer"))
-
--- trouble.nvim
--- Create a toggle function for Trouble
-local function trouble_toggle(mode, opts)
-  opts = opts or {}
-  local trouble = require("trouble")
-
-  -- Check if Trouble is already open
-  if trouble.is_open() then
-    trouble.close()
-  else
-    trouble.open(mode, opts)
-  end
-end
+end, { desc = "Undo operations" })
 
 -- Toggle global diagnostics
-editor.remap("n", "<leader>dt", function()
-  trouble_toggle("diagnostics")
-end, editor.make_opt("toggle global diagnostics"))
-
--- Toggle buffer-local diagnostics
-editor.remap("n", "<leader>db", function()
-  trouble_toggle("diagnostics", {
-    filter = { buf = 0 }, -- Focus on current buffer
+map("n", "<leader>dw", function()
+  snacks.picker.pick({
+    source = "diagnostics",
+    title = "Workspace Diagnostics",
+    layout = { preset = "ivy" },
   })
-end, editor.make_opt("toggle buffer diagnostics"))
+end, { desc = "toggle global diagnostics" })
 
--- Toggle symbols overview
-editor.remap("n", "<leader>ds", function()
-  trouble_toggle("symbols", {
-    focus = false,
+-- Toggle buffer diagnostics
+map("n", "<leader>db", function()
+  snacks.picker.pick({
+    source = "diagnostics_buffer",
+    title = "Buffer Diagnostics",
+    layout = { preset = "ivy" },
   })
-end, editor.make_opt("toggle buffer symbols"))
+end, { desc = "toggle buffer diagnostics" })
 
--- session mappings - persisted.nvim
--- Import the get_session_names function
-local get_session_names = editor.get_session_names
+-- Session mappings - persisted.nvim
+-- Persisted - Get session file name and session name
+local function get_session_names()
+  local session_file_name = vim.fn.fnamemodify(vim.g.persisted_loaded_session, ":t")
+  local clean_session_name = session_file_name:match(".*%%(.*)") or session_file_name
+  return session_file_name, clean_session_name
+end
 
--- Select session via Telescope
-editor.remap("n", "<A-s>", function()
-  require("telescope").extensions.persisted.persisted({
-    theme = "dropdown",
-    sorting_strategy = "ascending",
-    layout_config = {
-      width = 0.3,
-      height = 0.3,
-      prompt_position = "bottom",
-    },
-  })
-end, editor.make_opt("Telescope Session Selection"))
+-- Select session
+map("n", "<A-s>", function()
+  require("persisted").select()
+end, { desc = "session selection" })
 
 -- Load last session
-editor.remap("n", "<A-l>", function()
+map("n", "<A-l>", function()
   require("persisted").load({ last = true })
   local _, clean_session_name = get_session_names()
   vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
-end, editor.make_opt("load last session"))
-
--- Select session via Telescope (alternative mapping)
-editor.remap("n", "<leader>sS", function()
-  require("telescope").extensions.persisted.persisted({
-    theme = "dropdown",
-    sorting_strategy = "ascending",
-    layout_config = {
-      width = 0.3,
-      height = 0.4,
-      prompt_position = "bottom",
-    },
-  })
-end, editor.make_opt("Telescope Session Selection"))
+end, { desc = "load last session" })
 
 -- Save current session
-editor.remap("n", "<leader>ss", function()
+map("n", "<leader>ss", function()
   require("persisted").save()
   local _, clean_session_name = get_session_names()
   vim.notify("Session '" .. clean_session_name .. "' saved", vim.log.levels.INFO)
-end, editor.make_opt("Save Current Session"))
+end, { desc = "save current session" })
 
 -- Load last session (alternative mapping)
-editor.remap("n", "<leader>sl", function()
+map("n", "<leader>sl", function()
   require("persisted").load({ last = true })
   local _, clean_session_name = get_session_names()
   vim.notify("Loading: " .. clean_session_name, vim.log.levels.INFO)
-end, editor.make_opt("Load Last Session"))
+end, { desc = "load last session" })
 
 -- Stop current session
-editor.remap("n", "<leader>st", function()
+map("n", "<leader>st", function()
   require("persisted").stop()
   local _, clean_session_name = get_session_names()
   vim.notify(clean_session_name .. " stopped", vim.log.levels.INFO)
-end, editor.make_opt("Stop Current Session"))
+end, { desc = "stop current session" })
 
--- search and replace - nvim-spectre
--- Toggle Spectre search/replace
-editor.remap("n", "<leader>R", function()
-  require("spectre").toggle()
-end, editor.make_opt("Search and rplace"))
+-- grug-far - search and replace
+map("n", "<leader>R", function()
+  require("grug-far").open()
+end, { desc = "search and replace" })
 
 -- Search current word globally
-editor.remap("n", "<leader>rw", function()
-  require("spectre").open_visual({
-    select_word = true,
+map({ "n", "x" }, "<leader>rw", function()
+  require("grug-far").open({
+    prefills = { search = vim.fn.expand("<cword>") },
   })
-end, editor.make_opt("Search current word"))
+end, { desc = "search current word" })
 
 -- Search current word in current file
-editor.remap("n", "<leader>rp", function()
-  require("spectre").open_file_search({
-    select_word = true,
-  })
-end, editor.make_opt("Search word on current file"))
-
--- search and replace - searchbox.nvim
--- Incremental Search
-editor.remap("n", "<leader>si", function()
-  require("searchbox").incsearch({
-    title = "Incremental Search",
-    exact = true,
-  })
-end, editor.make_opt("search (incremental)"))
-
--- Search Match All
-editor.remap("n", "<leader>sa", function()
-  require("searchbox").match_all({
-    title = "Search Match All",
-    exact = true,
-  })
-end, editor.make_opt("search (match all)"))
-
--- Search and Replace
-editor.remap("n", "<leader>sr", function()
-  require("searchbox").replace({
-    title = "Search and Replace",
-    exact = true,
-    confirm = "menu",
-  })
-end, editor.make_opt("search and replace"))
-
--- diffview.nvim mappings
--- Open Diffview for comparing current changes
-editor.remap("n", "<leader>dv", function()
-  vim.cmd("DiffviewOpen")
-end, editor.make_opt("Diffview - Compare all changes"))
-
--- Open file history for the entire repository
-editor.remap("n", "<leader>dh", function()
-  vim.cmd("DiffviewFileHistory")
-end, editor.make_opt("Diffview repository history"))
-
--- Open file history for the current buffer
-editor.remap("n", "<leader>df", function()
-  vim.cmd("DiffviewFileHistory %")
-end, editor.make_opt("Diffview current file history"))
-
--- Close the active Diffview window
-editor.remap("n", "<leader>dc", function()
-  vim.cmd("DiffviewClose")
-end, editor.make_opt("Close Diffview"))
-
--- Open diff for staged changes
-editor.remap("n", "<leader>dH", function()
-  vim.cmd("DiffviewOpen HEAD")
-end, editor.make_opt("Diffview Compare staged with HEAD"))
-
--- Git mappings
--- Open Neogit for workspace
-editor.remap("n", "<leader>gm", function()
-  require("neogit").open()
-end, editor.make_opt("git manager (workspace)"))
-
--- Open Neogit for current buffer's directory
-editor.remap("n", "<leader>gM", function()
-  require("neogit").open({
-    cwd = vim.fn.expand("%:p:h"), -- Current buffer's directory
-  })
-end, editor.make_opt("git manager (buffer)"))
-
--- Git commits history via Telescope
-editor.remap("n", "<leader>gh", function()
-  require("telescope.builtin").git_commits()
-end, editor.make_opt("git commits history"))
-
--- Git commits for current buffer via Telescope
-editor.remap("n", "<leader>gb", function()
-  require("telescope.builtin").git_bcommits()
-end, editor.make_opt("git commits buffer"))
-
--- Toggle terminal mappings
--- Mapping for toggling terminal in horizontal mode
-editor.remap({ "n", "i", "t" }, "<a-t>", function()
-  require("toggleterm").toggle(0, nil, nil, "horizontal")
-end, editor.make_opt("Toggle Terminal (Horizontal)"))
-
--- Mapping for toggling terminal in vertical mode
-editor.remap({ "n", "i", "t" }, "<a-v>", function()
-  require("toggleterm").toggle(0, nil, nil, "vertical")
-end, editor.make_opt("Toggle Terminal (Vertical)"))
-
--- Mapping for toggling terminal in float mode
-editor.remap({ "n", "i", "t" }, "<a-f>", function()
-  require("toggleterm").toggle(0, nil, nil, "float")
-end, editor.make_opt("Toggle Terminal (Float)"))
-
--- Mapping to exit terminal mode using Esc
-editor.remap("t", "jk", [[<C-\><C-n>]], editor.make_opt("Exit Terminal Mode"))
-
--- fidget.nvim mappings
-editor.remap("n", "<leader>lg", function()
-  require("telescope").extensions.fidget.fidget({
-    sorting_strategy = "ascending",
-    layout_config = {
-      width = 0.8,
-      height = 0.4,
-      prompt_position = "bottom",
+map({ "n", "x" }, "<leader>rp", function()
+  require("grug-far").open({
+    prefills = {
+      paths = vim.fn.expand("%"),
+      search = vim.fn.expand("<cword>"),
     },
   })
-end, editor.make_opt("Check messages"))
+end, { desc = "search word on current file" })
+
+-- Git mappings
+-- Git commits log
+map("n", "<leader>gl", function()
+  snacks.picker.pick({
+    source = "git_log",
+    title = "Git commits log",
+    layout = { preset = "telescope" },
+  })
+end, { desc = "git commits log" })
+
+-- Git commits for current buffer
+map("n", "<leader>gb", function()
+  snacks.picker.pick({
+    source = "git_log_file",
+    title = "Git buffer log",
+    layout = { preset = "telescope" },
+  })
+end, { desc = "git buffer log" })
+
+map("n", "<leader>gd", function()
+  snacks.picker.pick({
+    source = "git_diff",
+    title = "Git buffer diff",
+    layout = { preset = "telescope" },
+  })
+end, { desc = "git buffer diff" })
+
+map("n", "<leader>gs", function()
+  snacks.picker.pick({
+    source = "git_status",
+    title = "Git status",
+    layout = { preset = "telescope" },
+  })
+end, { desc = "git status" })
+
+map("n", "<leader>hl", function()
+  snacks.picker.pick({
+    source = "help",
+    title = "Help search",
+    layout = { preset = "dropdown" },
+  })
+end, { desc = "help search" })
+
+map("n", "<F7>", function()
+  snacks.picker.pick({
+    source = "highlights",
+    title = "Highlights search",
+    layout = { preset = "ivy" },
+  })
+end, { desc = "highlights search" })
+
+-- Git manager - lazygit
+map({ "n", "i", "t" }, "<leader>gm", function()
+  snacks.lazygit()
+end, { desc = "open lazygit" })
+
+-- Toggle terminal mappings
+map({ "n", "i", "t" }, "<a-t>", function()
+  snacks.terminal()
+end, { desc = "Toggle Terminal" })
+
+-- Toggle zen mode mappings
+map("n", "<a-z>", function()
+  snacks.zen.zoom()
+end, { desc = "zen mode" })
+
+-- Mapping to exit terminal mode using Esc
+map("t", "jk", [[<C-\><C-n>]], { desc = "Exit Terminal Mode" })
+
+-- Utility function to get current buffer and active LSP clients
+local function get_current_buffer_and_clients()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  return bufnr, clients
+end
+
+-- Set keymap for buffers with any LSP that supports code actions
+map("n", "<leader>ca", vim.lsp.buf.code_action, {
+  lsp = { method = "textDocument/codeAction" },
+  desc = "Code Action",
+})
+
+-- Show hover documentation
+map("n", "K", vim.lsp.buf.hover, {
+  lsp = { method = "textDocument/hover" },
+  desc = "Hover Documentation",
+})
+
+-- Go to definition
+map("n", "gd", vim.lsp.buf.definition, {
+  lsp = { method = "textDocument/definition" },
+  desc = "goto definitions",
+})
+
+-- Open LSP document symbols picker
+map("n", "<leader>ls", function()
+  snacks.picker.pick({
+    source = "lsp_symbols",
+    title = "Lsp Symbols",
+    layout = { preset = "ivy" },
+  })
+end, {
+  lsp = { method = "textDocument/documentSymbol" },
+  desc = "document symbols",
+})
+
+-- Show signature documentation
+map("n", "<C-k>", vim.lsp.buf.signature_help, {
+  lsp = { method = "textDocument/signature_help" },
+  desc = "signature documentation",
+})
+
+-- Rename symbol
+map("n", "<leader>lR", vim.lsp.buf.rename, {
+  lsp = { method = "textDocument/rename" },
+  desc = "lsp rename",
+})
+
+-- Open LSP references picker
+map("n", "<leader>lr", function()
+  snacks.picker.pick({
+    source = "lsp_references",
+    title = "Lsp References",
+    layout = { preset = "ivy" },
+  })
+end, {
+  lsp = { method = "textDocument/references" },
+  desc = "lsp references",
+})
+
+-- Open LSP implementations picker
+map("n", "<leader>lI", function()
+  snacks.picker.pick({
+    source = "lsp_implementations",
+    title = "Lsp Implementations",
+    layout = { preset = "ivy" },
+  })
+end, {
+  lsp = { method = "textDocument/implementation" },
+  desc = "goto implementation",
+})
+
+-- Go to type definition
+map("n", "<leader>lD", vim.lsp.buf.definition, {
+  lsp = { method = "textDocument/definition" },
+  desc = "type definition",
+})
+
+-- Open LSP workspace symbols picker
+map("n", "<leader>lw", function()
+  snacks.picker.pick({
+    source = "lsp_workspace_symbols",
+    title = "Lsp workspace symbols",
+    layout = { preset = "ivy" },
+  })
+end, {
+  lsp = { method = "textDocument/workspace_symbol" },
+  desc = "workspace symbol",
+})
+
+map("n", "<leader>lh", function()
+  local bufnr, clients = get_current_buffer_and_clients()
+
+  for _, client in ipairs(clients) do
+    if client.server_capabilities.documentHighlightProvider then
+      local hl_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+
+      -- Highlight references on cursor hold
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      -- Clear highlights when the cursor moves
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      -- Clean up highlights and autocommands when the LSP detaches
+      vim.api.nvim_create_autocmd("LspDetach", {
+        group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+        callback = function(detach_event)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = detach_event.buf })
+        end,
+      })
+
+      vim.notify("Document Highlight enabled", vim.log.levels.INFO)
+      return
+    end
+  end
+  vim.notify("No LSP with document highlight support found", vim.log.levels.WARN)
+end, { desc = "toggle document highlight" })
+
+map("n", "<leader>li", function()
+  local bufnr, clients = get_current_buffer_and_clients()
+
+  for _, client in ipairs(clients) do
+    if client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+      local status = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"
+      vim.notify("Inlay Hints " .. status, vim.log.levels.INFO)
+      return
+    end
+  end
+  vim.notify("No LSP with inlay hint support found", vim.log.levels.WARN)
+end, { desc = "Toggle Inlay Hints" })
+
+--- Toggle diagnostic virtual text on or off.
+--- @desc Toggles diagnostic virtual text in Neovim.
+--- @params None
+local function toggle_diagnostic_virtual_text()
+  local current_config = vim.diagnostic.config() or { virtual_text = false }
+  local new_virtual_text = not current_config.virtual_text
+  vim.diagnostic.config({ virtual_text = new_virtual_text })
+  vim.notify("Diagnostic virtual text: " .. (new_virtual_text and "ON" or "OFF"), vim.log.levels.INFO)
+end
+
+-- Keymap to toggle diagnostic virtual text
+map("n", "<leader>dd", toggle_diagnostic_virtual_text, { desc = "toggle diagnostic virtual text" })
+
+-- Function to check if an LSP client is active
+local function is_lsp_active(client_name)
+  local clients = vim.lsp.get_clients()
+  for _, client in ipairs(clients) do
+    if client.name == client_name then
+      return true
+    end
+  end
+  return false
+end
+
+-- Function to enable `harper_ls`
+local function enable_harper_ls()
+  if not is_lsp_active("harper_ls") then
+    vim.cmd("LspStart harper_ls")
+    vim.notify("harper_ls enabled", vim.log.levels.INFO)
+  else
+    vim.notify("harper_ls is already active", vim.log.levels.WARN)
+  end
+end
+
+-- Function to disable `harper_ls`
+local function disable_harper_ls()
+  local clients = vim.lsp.get_clients()
+  for _, client in ipairs(clients) do
+    if client.name == "harper_ls" then
+      vim.lsp.stop_client(client.id, true)
+      vim.notify("harper_ls disabled", vim.log.levels.INFO)
+      return
+    end
+  end
+  vim.notify("harper_ls is not active", vim.log.levels.WARN)
+end
+
+-- Function to toggle (enable/disable) `harper_ls`
+local function toggle_harper_ls()
+  if is_lsp_active("harper_ls") then
+    disable_harper_ls()
+  else
+    enable_harper_ls()
+  end
+end
+
+-- -- Create custom commands to enable, disable, and toggle harper_ls
+vim.api.nvim_create_user_command("HarperEnable", enable_harper_ls, {})
+vim.api.nvim_create_user_command("HarperDisable", disable_harper_ls, {})
+vim.api.nvim_create_user_command("HarperToggle", toggle_harper_ls, {})
+
+-- (Optional) Key mapping to toggle harper_ls
+map("n", "<leader>th", toggle_harper_ls, { desc = "Toggle harper_ls" })
