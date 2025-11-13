@@ -17,6 +17,12 @@ snacks.setup({
   },
   lazygit = {
     enabled = true,
+    theme = {
+      activeBorderColor = { fg = "Attribute" },
+    },
+    win = {
+      style = "lazygit",
+    },
   },
   picker = {
     select = {
