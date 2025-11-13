@@ -1,5 +1,4 @@
 -- Rocksmarker mappings
-local lsp_utils = require("plugins.lsp")
 local editor = require("utils.editor")
 local snacks_ok, snacks = pcall(require, "snacks")
 if not snacks_ok then
@@ -113,16 +112,11 @@ map("x", "p", "p`]", { noremap = true, silent = true, desc = "put and preserve c
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "move block up" })
 map("v", "K", ":m '<-2<CR>gv=gv", { desc = "move block down" })
 
--- Diagnostics toggle
-map("n", "<leader>dd", function()
-  editor.toggle_diagnostic_virtual_text()
-end, { desc = "toggle Diagnostics" })
-
 -- bufferline.nvim mappings
-editor.remap("n", "<leader>bp", ":BufferLinePick<CR>", { desc = "buffer line pick" })
-editor.remap("n", "<leader>bc", ":BufferLinePickClose<CR>", { desc = "buffer line pick close" })
-editor.remap("n", "<TAB>", ":BufferLineCycleNext<CR>", { desc = "buffer line cycle next" })
-editor.remap("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line cycle prev" })
+map("n", "<leader>bp", ":BufferLinePick<CR>", { desc = "buffer line pick" })
+map("n", "<leader>bc", ":BufferLinePickClose<CR>", { desc = "buffer line pick close" })
+map("n", "<TAB>", ":BufferLineCycleNext<CR>", { desc = "buffer line cycle next" })
+map("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line cycle prev" })
 
 -- Buffer list
 editor.remap("n", "<leader>fb", function()
@@ -170,8 +164,12 @@ editor.remap("n", "<leader>db", function()
 end, editor.make_opt("toggle buffer diagnostics"))
 
 -- Session mappings - persisted.nvim
--- Import the get_session_names function
-local get_session_names = lsp_utils.get_session_names
+-- Persisted - Get session file name and session name
+local function get_session_names()
+  local session_file_name = vim.fn.fnamemodify(vim.g.persisted_loaded_session, ":t")
+  local clean_session_name = session_file_name:match(".*%%(.*)") or session_file_name
+  return session_file_name, clean_session_name
+end
 
 -- Select session
 map("n", "<A-s>", function()
@@ -296,54 +294,157 @@ end, { desc = "zen mode" })
 -- Mapping to exit terminal mode using Esc
 map("t", "jk", [[<C-\><C-n>]], { desc = "Exit Terminal Mode" })
 
--- LSP mappings
+-- Utility function to get current buffer and active LSP clients
+local function get_current_buffer_and_clients()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  return bufnr, clients
+end
+
 -- Set keymap for buffers with any LSP that supports code actions
 map("n", "<leader>ca", vim.lsp.buf.code_action, {
   lsp = { method = "textDocument/codeAction" },
   desc = "Code Action",
 })
 
-map("n", "<leader>ds", vim.lsp.buf.document_symbol, {
-  lsp = { method = "textDocument/documentSymbol" },
-  desc = "Document Symbols",
-})
-
+-- Show hover documentation
 map("n", "K", vim.lsp.buf.hover, {
   lsp = { method = "textDocument/hover" },
   desc = "Hover Documentation",
 })
 
+-- Go to definition
 map("n", "gd", vim.lsp.buf.definition, {
   lsp = { method = "textDocument/definition" },
   desc = "goto definitions",
 })
 
+-- Open LSP document symbols picker
+map("n", "<leader>ls", function()
+  snacks.picker.pick({
+    source = "lsp_symbols",
+    title = "Lsp Symbols",
+    layout = { preset = "ivy" },
+  })
+end, {
+  lsp = { method = "textDocument/documentSymbol" },
+  desc = "document symbols",
+})
+
+-- Show signature documentation
 map("n", "<C-k>", vim.lsp.buf.signature_help, {
   lsp = { method = "textDocument/signature_help" },
   desc = "signature documentation",
 })
 
-map("n", "<leader>rn", vim.lsp.buf.rename, {
+-- Rename symbol
+map("n", "<leader>lR", vim.lsp.buf.rename, {
   lsp = { method = "textDocument/rename" },
   desc = "lsp rename",
 })
 
-map("n", "<leader>gr", vim.lsp.buf.references, {
+-- Open LSP references picker
+map("n", "<leader>lr", function()
+  snacks.picker.pick({
+    source = "lsp_references",
+    title = "Lsp References",
+    layout = { preset = "ivy" },
+  })
+end, {
   lsp = { method = "textDocument/references" },
-  desc = "lsp References",
+  desc = "lsp references",
 })
 
-map("n", "<leader>gI", vim.lsp.buf.implementation, {
+-- Open LSP implementations picker
+map("n", "<leader>lI", function()
+  snacks.picker.pick({
+    source = "lsp_implementations",
+    title = "Lsp Implementations",
+    layout = { preset = "ivy" },
+  })
+end, {
   lsp = { method = "textDocument/implementation" },
   desc = "goto implementation",
 })
 
-map("n", "<leader>D", vim.lsp.buf.definition, {
+-- Go to type definition
+map("n", "<leader>lD", vim.lsp.buf.definition, {
   lsp = { method = "textDocument/definition" },
   desc = "type definition",
 })
 
-map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, {
+-- Open LSP workspace symbols picker
+map("n", "<leader>lw", function()
+  snacks.picker.pick({
+    source = "lsp_workspace_symbols",
+    title = "Lsp workspace symbols",
+    layout = { preset = "ivy" },
+  })
+end, {
   lsp = { method = "textDocument/workspace_symbol" },
-  desc = "type definition",
+  desc = "workspace symbol",
 })
+
+map("n", "<leader>lh", function()
+  local bufnr, clients = get_current_buffer_and_clients()
+
+  for _, client in ipairs(clients) do
+    if client.server_capabilities.documentHighlightProvider then
+      local hl_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+
+      -- Highlight references on cursor hold
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      -- Clear highlights when the cursor moves
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      -- Clean up highlights and autocommands when the LSP detaches
+      vim.api.nvim_create_autocmd("LspDetach", {
+        group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+        callback = function(detach_event)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = detach_event.buf })
+        end,
+      })
+
+      vim.notify("Document Highlight enabled", vim.log.levels.INFO)
+      return
+    end
+  end
+  vim.notify("No LSP with document highlight support found", vim.log.levels.WARN)
+end, { desc = "toggle document highlight" })
+
+map("n", "<leader>li", function()
+  local bufnr, clients = get_current_buffer_and_clients()
+
+  for _, client in ipairs(clients) do
+    if client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+      local status = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"
+      vim.notify("Inlay Hints " .. status, vim.log.levels.INFO)
+      return
+    end
+  end
+  vim.notify("No LSP with inlay hint support found", vim.log.levels.WARN)
+end, { desc = "Toggle Inlay Hints" })
+
+--- Toggle diagnostic virtual text on or off.
+--- @desc Toggles diagnostic virtual text in Neovim.
+--- @params None
+local function toggle_diagnostic_virtual_text()
+  local current_config = vim.diagnostic.config() or { virtual_text = false }
+  local new_virtual_text = not current_config.virtual_text
+  vim.diagnostic.config({ virtual_text = new_virtual_text })
+  vim.notify("Diagnostic virtual text: " .. (new_virtual_text and "ON" or "OFF"), vim.log.levels.INFO)
+end
+
+-- Keymap to toggle diagnostic virtual text
+map("n", "<leader>dd", toggle_diagnostic_virtual_text, { desc = "toggle diagnostic virtual text" })

@@ -141,7 +141,7 @@ if not autopairs_ok then
 end
 
 autopairs.setup({
-  disable_filetype = { "TelescopePrompt", "vim" },
+  disable_filetype = { "vim" },
 })
 -- }}}
 
