@@ -19,12 +19,12 @@
 ## Neovim IDE for Markdown code
 
 An **experimental** IDE project for writing documentation in Markdown code, the project uses the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim).  
-**Rocks.nvim** differs from previous plugin managers in its underlying philosophy, namely that the writing of the basic configuration (*dependencies*, *basic options* ...) is the developer's job and not the user's. This allows the end user to have an easier initial experience, advanced customization of plugins via configuration files always remains possible.  
-Developers also set up an infrastructure for distributing plugins, which then are not downloaded from their respective projects but from the [luarocks](https://luarocks.org/modules/neorocks) portal; packages in this way are first tested and released. As a result, the release of new versions usually occurs later than the changes made to the projects.
+**Rocks.nvim** differs from earlier plugin managers in its underlying philosophy, namely that the writing of the basic configuration (*dependencies*, *basic options*) is the developer's job and not the user's. This allows the user to have an easier initial experience, advanced customization of plugins through configuration files always is possible.  
+Developers also set up infrastructure for distributing plugins, which then are not downloaded from their respective projects but from the [luarocks](https://luarocks.org/modules/neorocks) portal; packages in this way are first tested and released. As a result, the release of new versions usually occurs later than the changes made to the projects.
 
 ## Purpose of the project
 
-To provide as comprehensive an editor as possible for writing Markdown documentation for Rocky Linux, to this end the goals set are:
+To offer as comprehensive an editor as possible for writing Markdown documentation for Rocky Linux, to this end the goals set are:
 
 - Automatically set Neovim options for Markdown files
 - Highlighting Markdown tags in the buffer
@@ -81,8 +81,8 @@ tar xzf lua-5.1.5.tar.gz
 cd lua-5.1.5
 ```
 
-Although you can perform the installation at the user level, in this configuration, choose the standard one (in `/usr/local/`), which allows for a cleaner subsequent configuration of the *headers* files.
-You will need the *readline-devel* add-on package in the official repositories from Rocky Linux. It is in the prerequisites above.
+Although you can perform the installation at the user level, in this configuration, select the standard one (in `/usr/local/`), which allows for a cleaner later configuration of the *headers* files.
+You will need the *readline-devel* add-on package in the official repositories from Rocky Linux. It is in the earlier prerequisites.
 
 > [!NOTE]
 > The package takes this name in distributions derived from RHEL but in others identifies itself differently. Debian, for example, identifies it as *libreadline-dev*.
@@ -100,7 +100,7 @@ The installation will copy the files to the following locations:
 - **lua.h** **luaconf.h** **lualib.h** **lauxlib.h** **lua.hpp** -> `/usr/local/include`
 - **liblua.a** -> `/usr/local/lib`
 
-For its removal just delete the files listed above.
+For its removal just delete the files listed before.
 
 ### Version setting
 
@@ -126,8 +126,8 @@ Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 
 ### Add headers files
 
-Installing the required version is not enough for the configuration to work properly. It is necessary to link the required library, *lua.h*, present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* which takes care of the installation of the *rocks.nvim* plugin.
-To accomplish this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it. Do this with:
+Installing the required version is not enough for the configuration to work properly. It is necessary to link the required library, *lua.h*, present in a `/usr/local/include/` in the *header* file search path (`/usr/include/`) otherwise it is not found by *luarocks* that takes care of the installation of the *rocks.nvim* plugin.
+To run this, you use one of the standard *Luarocks* search paths (`/usr/include/lua/<version_number>`). The *lua* folder is not present in a Rocky Linux system, and you will need to create it. Do this with:
 
 ```bash
 cd /usr/include/
@@ -138,10 +138,10 @@ sudo ln -s /usr/local/include/ 5.1
 ## Download the configuration
 
 The configuration, although still under development, can be used daily for writing and editing documentation written in Markdown, so it can be installed as the default configuration in the `.config/nvim` path.  
-For users who already have a Neovim configuration present on the system, there is the option of using *rocksmarker* as a secondary editor, thus allowing them to continue using their existing configuration for developing their projects.  
-This method also allows you to try *rocksmarker*, completely independently, so that you can evaluate whether it might be a useful tool for your daily work.
+For users who already have a Neovim configuration present on the system, there is the option of using *Rocksmarker* as a secondary editor, therefore allowing them to continue using their existing configuration for developing their projects.  
+This method also allows you to try *Rocksmarker*, completely independently, so that you can evaluate whether it might be a useful tool for your daily work.
 
-### Main Editor
+### Main editor
 
 To install the configuration in the default Neovim location clone the GitHub repository to your configurations folder `~/.config/` with the command:
 
@@ -149,7 +149,7 @@ To install the configuration in the default Neovim location clone the GitHub rep
 git clone https://github.com/ambaradan/rocksmarker.git ~/.config/nvim
 ```
 
-Once finished, simply invoke the standard Neovim command to begin the installation:
+Once finished, call the standard Neovim command to begin the installation:
 
 ```bash
 nvim
@@ -158,7 +158,7 @@ nvim
 ### Secondary editor
 
 To test or use the configuration as a secondary configuration use Neovim's variable *NVIM_APPNAME*, the use of this variable allows Neovim to pass an arbitrary name that is used for searching the configuration files in `~/.config/` and for the subsequent creation of the shared file folder in `~/.local/share/` and the cache in `~/.cache/`.  
-To then set *rocksmarker* as a secondary editor type:
+To then set *Rocksmarker* as a secondary editor type:
 
 ```bash
 git clone https://github.com/ambaradan/rocksmarker.git ~/.config/rocksmarker/
@@ -175,8 +175,8 @@ NVIM_APPNAME=rocksmarker nvim
 
 ## Installing the configuration
 
-When Neovim starts, with either method described above, it will begin the installation process managed by a *bootstrap* script that checked for the lack of the *rocks.nvim* plugin and proceeded to install it.  
-The first step of the installation consists of just installing the *rocks.nvim* plugin manager at the end of which, if everything worked properly, you will be asked to press ENTER to continue.  
+When Neovim starts, with either method described earlier, it will begin the installation process managed by a *bootstrap* script that checked for the lack of the *rocks.nvim* plugin and proceeded to install it.  
+The first step of the installation consists of just installing the *rocks.nvim* plugin manager at the end of which, if everything worked properly, you will be asked to press enter to continue.  
 The second step is to synchronize all the configured plugins, the synchronization installs the plugins in the shared files folder in the path `.local/share/nvim/rocks/lib/luarocks/rocks-5.1/`.
 
 ```text
@@ -186,20 +186,20 @@ The second step is to synchronize all the configured plugins, the synchronizatio
 Once the installation of the plugins is finished close the editor and reopen it to give Neovim a chance to load the new configurations.  
 On the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSPs) necessary for the proper functioning of the editor, finishes the installation of language servers the editor is ready to be used, good development.
 
-## TreeSitter in Rocksmarker
+## Treesitter in Rocksmarker
 
 Rocksmarker uses the functionality offered by the **rocks-treesitter.nvim** plugin provided by the *rocks.nvim* ecosystem. This plugin allows dynamic management of the installation and activation of the necessary parsers. Their installation is done 'on demand' when requested by the code in the open buffer.
 
-### What is TreeSitter?
+### What is Treesitter
 
-*TreeSitter* is an incremental programming language parser that builds a high-speed syntax tree. This syntax tree can be used to navigate and manipulate source code efficiently. TreeSitter is known for its speed and ability to efficiently parse source code, making it a valuable addition to Neovim.
+*Treesitter* is an incremental programming language parser that builds a high-speed syntax tree. This syntax tree can be used to navigate and manipulate source code efficiently. Treesitter is known for its speed and ability to efficiently parse source code, making it a valuable addition to Neovim.
 
-The integration of TreeSitter into Rocksmarker offers a number of benefits, including:
+The integration of Treesitter into Rocksmarker offers a number of benefits, including:
 
-- **High-speed syntax**: TreeSitter builds a high-speed syntax tree, which means that the syntax in your editor is always up-to-date and accurate.
-- **Code analysis**: TreeSitter can analyze your source code, which means you can use this information to provide smarter editing features, such as code navigation, folding, and syntax highlighting.
-- **Incremental**: TreeSitter is an incremental parser, which means that it parses only the code that has changed, rather than starting over each time a change is made. This results in a smoother and more responsive editing experience.
+- **High-speed syntax**: Treesitter builds a high-speed syntax tree, which means that the syntax in your editor is always up-to-date and accurate.
+- **Code analysis**: Treesitter can analyze your source code, which means you can use this information to provide smarter editing features, such as code navigation, folding, and syntax highlighting.
+- **Incremental**: Treesitter is an incremental parser, which means that it parses only the code that has changed, rather than starting over each time a change is made. This results in a smoother and more responsive editing experience.
 
 ### rocks-treesitter.nvim
 
-Rocks-treesitter.nvim is a plugin for Neovim that simplifies the installation and management of TreeSitter parsers. It provides a user-friendly way to install, update and uninstall TreeSitter parsers, this makes it easier to keep the Neovim development environment up-to-date and running.
+Rocks-treesitter.nvim is a plugin for Neovim that simplifies the installation and management of Treesitter parsers. It provides a user-friendly way to install, update and uninstall Treesitter parsers, this makes it easier to keep the Neovim development environment up-to-date and running.
