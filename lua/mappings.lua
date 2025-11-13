@@ -1,9 +1,12 @@
 -- Rocksmarker mappings
+
 local editor = require("utils.editor")
+
 local snacks_ok, snacks = pcall(require, "snacks")
 if not snacks_ok then
   return
 end
+
 local map = snacks.keymap.set
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes

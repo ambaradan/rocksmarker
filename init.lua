@@ -56,24 +56,3 @@ end
 require("options")
 require("commands")
 require("mappings")
-
--- Sovrascrivi vim.notify per usare Snacks.notifier
-vim.notify = function(msg, level, opts)
-  require("snacks").notifier(msg, level, opts)
-end
-
-local snacks = require("snacks")
-
--- Sostituisci vim.ui.input con Snacks.input
-vim.ui.input = function(opts, on_confirm)
-  snacks.input({
-    prompt = opts.prompt or "Input: ",
-    default = opts.default or "",
-    on_confirm = on_confirm,
-    -- Opzioni aggiuntive per personalizzare l'input
-    width = 0.5, -- Larghezza della finestra di input (50% dello schermo)
-    position = "float", -- Posizione della finestra
-    relative = "editor", -- Relativo all'editor
-    border = "rounded", -- Stile del bordo
-  })
-end
