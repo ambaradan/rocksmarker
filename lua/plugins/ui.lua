@@ -78,6 +78,8 @@ min_theme.setup({
       ["SnacksIndent"] = { fg = colors.bgDarker },
       ["SnacksIndentScope"] = { fg = colors.bgFloat },
       ["SnacksPickerFile"] = { fg = colors.fgCommand },
+
+      ["WhichKeyNormal"] = { bg = colors.bg },
     }
   end,
 })
@@ -232,29 +234,6 @@ bufferline.setup({
   },
 })
 
--- fidget.nvim settings - messages display
--- local fidget_ok, fidget = pcall(require, "fidget")
--- if not fidget_ok then
---   return
--- end
---
--- fidget.setup({
---   progress = {
---     ignore = {
---       ["cmp"] = true, -- for the cmp plugin
---       ["lspinfo"] = true, -- for the lspinfo buffer
---       ["qf"] = true, -- for the quickfix window
---       ["vim"] = true, -- for Vim buffers
---     },
---   },
---   notification = {
---     override_vim_notify = true,
---     window = {
---       normal_hl = "fgCommand",
---     },
---   },
--- })
-
 -- gitsign.nvim settings - git support
 local gitsigns_ok, gitsigns = pcall(require, "gitsigns")
 if not gitsigns_ok then
@@ -339,5 +318,5 @@ if not which_key_ok then
 end
 
 which_key.setup({
-  preset = "modern",
+  preset = "helix",
 })
