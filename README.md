@@ -157,7 +157,7 @@ nvim
 
 ### Secondary editor
 
-To test or use the configuration as a secondary configuration use Neovim's variable *NVIM_APPNAME*, the use of this variable allows Neovim to pass an arbitrary name that is used for searching the configuration files in `~/.config/` and for the subsequent creation of the shared file folder in `~/.local/share/` and the cache in `~/.cache/`.  
+To test or use the configuration as a secondary configuration use Neovim's variable *NVIM_APPNAME*. The use of this variable allows Neovim to pass an arbitrary name that is used for searching the configuration files in `~/.config/` and for the subsequent creation of the shared file folder in `~/.local/share/` and the cache in `~/.cache/`.  
 To then set *Rocksmarker* as a secondary editor type:
 
 ```bash
@@ -184,11 +184,11 @@ The second step is to synchronize all the configured plugins, the synchronizatio
 ```
 
 Once the installation of the plugins is finished close the editor and reopen it to give Neovim a chance to load the new configurations.  
-On the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSPs) necessary for the proper functioning of the editor, finishes the installation of language servers the editor is ready to be used, good development.
+On the second startup also the *mason-lspconfig* and *mason-tool-installer* plugins installed during the synchronization will take care, in a fully automatic way, to install all the language servers (LSP) necessary for the proper functioning of the editor. Finishes the installation of language servers the editor is ready to be used, good development.
 
 ## Treesitter in Rocksmarker
 
-Rocksmarker uses the functionality offered by the **rocks-treesitter.nvim** plugin provided by the *rocks.nvim* ecosystem. This plugin allows dynamic management of the installation and activation of the necessary parsers. Their installation is done 'on demand' when requested by the code in the open buffer.
+Rocksmarker uses the functionality offered by the **rocks-treesitter.nvim** plugin provided by the *rocks.nvim* ecosystem. This plugin allows dynamic management of the installation and activation of the necessary parsers. Their installation is done 'on-demand' when requested by the code in the open buffer.
 
 ### What is Treesitter
 
