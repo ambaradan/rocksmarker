@@ -57,6 +57,7 @@ config_path = "rocks-treesitter.toml"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.30.0"
 "grug-far.nvim" = "1.6.53"
+neogit = "3.0.0"
 
 # Autocompletions plugins
 "blink.cmp" = "1.7.0"
