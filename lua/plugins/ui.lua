@@ -321,6 +321,15 @@ gitsigns.setup({
   end,
 })
 
+require("mini.pairs").setup()
+
+local mini_pairs_ok, mini_pairs = pcall(require, "mini.pairs")
+if not mini_pairs_ok then
+  return
+end
+
+mini_pairs.setup()
+
 -- which-key.nvim settings
 local which_key_ok, which_key = pcall(require, "which-key")
 if not which_key_ok then
