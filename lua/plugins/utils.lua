@@ -75,30 +75,6 @@ snacks.setup({
   },
 })
 
--- yanky.nvim settings
-local yanky_ok, yanky = pcall(require, "yanky")
-if not yanky_ok then
-  return
-end
-
-yanky.setup({
-  highlight = {
-    on_put = true,
-    on_yank = true,
-  },
-  ring = {
-    history_length = 200,
-    storage = "shada",
-    sync_with_numbered_registers = true,
-    cancel_event = "update",
-    ignore_registers = { "_" },
-    update_register_on_cycle = false,
-  },
-  system_clipboard = {
-    sync_with_ring = true,
-  },
-})
-
 -- rainbow-delimiters setting
 local rainbow_delimiters_ok, rainbow_delimiters = pcall(require, "rainbow-delimiters.setup")
 if not rainbow_delimiters_ok then
@@ -124,17 +100,6 @@ rainbow_delimiters.setup({
     "RainbowDelimiterCyan",
   },
 })
-
--- nvim-autopairs.nvim settings
-local autopairs_ok, autopairs = pcall(require, "nvim-autopairs")
-if not autopairs_ok then
-  return
-end
-
-autopairs.setup({
-  disable_filetype = { "vim" },
-})
--- }}}
 
 -- nvim-highlight-colors.nvim settings {{{{
 local highlight_colors_ok, highlight_colors = pcall(require, "nvim-highlight-colors")

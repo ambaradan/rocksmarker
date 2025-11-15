@@ -47,13 +47,12 @@ config_path = "rocks-treesitter.toml"
 # UI plugins
 "min-theme.nvim" = "scm"
 "mini.icons" = "0.16.0"
+"mini.pairs" = "0.16.0"
 "lualine.nvim" = "scm"
 "bufferline.nvim" = "4.9.1"
 "gitsigns.nvim" = "1.0.2"
 "which-key.nvim" = "3.17.0"
-"nvim-autopairs" = "scm"
 "rainbow-delimiters.nvim" = "0.10.0"
-"yanky.nvim" = "2.0.0"
 "persisted.nvim" = "2.1.1"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.30.0"
@@ -102,9 +101,7 @@ items = [
     "snacks.nvim",
     "grug-far.nvim",
     "rainbow-delimiters.nvim",
-    "nvim-autopairs",
     "nvim-highlight-colors",
-    "yanky.nvim",
 ]
 
 # Plugins for the implementation of the graphical
