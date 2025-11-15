@@ -230,6 +230,18 @@ map({ "n", "x" }, "<leader>rp", function()
 end, { desc = "search word on current file" })
 
 -- Git mappings
+-- Open Neogit for workspace
+map("n", "<leader>gm", function()
+  require("neogit").open()
+end, { desc = "git manager (workspace)" })
+
+-- Open Neogit for current buffer's directory
+map("n", "<leader>gM", function()
+  require("neogit").open({
+    cwd = vim.fn.expand("%:p:h"), -- Current buffer's directory
+  })
+end, { desc = "git manager (buffer)" })
+
 -- Git commits log
 map("n", "<leader>gl", function()
   snacks.picker.pick({
@@ -279,11 +291,6 @@ map("n", "<F7>", function()
     layout = { preset = "ivy" },
   })
 end, { desc = "highlights search" })
-
--- Git manager - lazygit
-map({ "n", "i", "t" }, "<leader>gm", function()
-  snacks.lazygit()
-end, { desc = "open lazygit" })
 
 -- Toggle terminal mappings
 map({ "n", "i", "t" }, "<a-t>", function()
