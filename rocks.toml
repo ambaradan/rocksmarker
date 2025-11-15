@@ -100,7 +100,6 @@ items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 [bundles.utils]
 items = [
     "snacks.nvim",
-    "persisted.nvim",
     "grug-far.nvim",
     "rainbow-delimiters.nvim",
     "nvim-autopairs",
@@ -114,6 +113,7 @@ items = [
 items = [
     "lualine.nvim",
     "bufferline.nvim",
+    "persisted.nvim",
     "gitsigns.nvim",
     "min-theme.nvim",
     "which-key.nvim",

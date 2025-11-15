@@ -75,16 +75,6 @@ snacks.setup({
   },
 })
 
--- persisted.nvim settings
-local persisted_ok, persisted = pcall(require, "persisted")
-if not persisted_ok then
-  return
-end
-
-persisted.setup({
-  autoload = false,
-})
-
 -- yanky.nvim settings
 local yanky_ok, yanky = pcall(require, "yanky")
 if not yanky_ok then
