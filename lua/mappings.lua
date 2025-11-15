@@ -1,6 +1,6 @@
 -- Rocksmarker mappings
 
-local editor = require("utils.editor")
+local editor = require("utils")
 
 local snacks_ok, snacks = pcall(require, "snacks")
 if not snacks_ok then

@@ -2,7 +2,7 @@
 
 -- Global configurations
 vim.g.mapleader = vim.keycode("<Space>") -- leader key
-vim.g.maplocalleader = ","
+vim.g.maplocalleader = "/"
 vim.g.markdown_recommended_style = 0 -- disable Markdown recommended style
 -- disable providers
 -- remove warnings in ':checkhealth'

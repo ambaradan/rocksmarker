@@ -1,9 +1,9 @@
 -- spec/rocksmarker/editor_spec.lua
 
 local helper = require("spec.helper")
-local editor = require("utils.editor")
+local editor = require("utils")
 
-describe("utils.editor", function()
+describe("utils", function()
   before_each(function()
     vim.cmd("enew | file TestBuffer") -- Create a new buffer with a name
   end)
