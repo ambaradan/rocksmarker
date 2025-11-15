@@ -95,25 +95,19 @@ items = [
 [bundles.diagnostics]
 items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 
-# Common editor utilities
-[bundles.utils]
-items = [
-    "snacks.nvim",
-    "grug-far.nvim",
-    "rainbow-delimiters.nvim",
-    "nvim-highlight-colors",
-]
-
 # Plugins for the implementation of the graphical
 # user interface
 [bundles.ui]
 items = [
+    "min-theme.nvim",
+    "snacks.nvim",
     "lualine.nvim",
     "bufferline.nvim",
     "persisted.nvim",
     "gitsigns.nvim",
-    "min-theme.nvim",
+    "rainbow-delimiters.nvim",
     "which-key.nvim",
+    "nvim-highlight-colors",
 ]
 
 # Plugins for specific functionality of Markdown code
