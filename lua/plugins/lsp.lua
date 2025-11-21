@@ -22,19 +22,19 @@ local function get_lsp_capabilities()
   -- Extend completion item capabilities with Markdown support
   capabilities.textDocument.completion.completionItem =
     vim.tbl_deep_extend("force", capabilities.textDocument.completion.completionItem, {
-      documentationFormat = { "markdown", "plaintext" }, -- Enable Markdown and plaintext documentation
-      snippetSupport = true, -- Enable snippet support
-      preselectSupport = true, -- Enable preselect support
-      insertReplaceSupport = true, -- Enable insert/replace support
-      labelDetailsSupport = true, -- Enable label details support
-      deprecatedSupport = true, -- Enable deprecated items support
-      commitCharactersSupport = true, -- Enable commit characters support
-      tagSupport = { valueSet = { 1 } }, -- Enable tag support
+      documentationFormat = { "markdown", "plaintext" },
+      snippetSupport = true,
+      preselectSupport = true,
+      insertReplaceSupport = true,
+      labelDetailsSupport = true,
+      deprecatedSupport = true,
+      commitCharactersSupport = true,
+      tagSupport = { valueSet = { 1 } },
       resolveSupport = {
         properties = {
-          "documentation", -- Enable documentation resolution
-          "detail", -- Enable detail resolution
-          "additionalTextEdits", -- Enable additional text edits
+          "documentation",
+          "detail",
+          "additionalTextEdits",
         },
       },
     })
@@ -52,10 +52,6 @@ if not lspconfig_ok then
 end
 
 -- Helper function to setup an LSP server with error handling.
--- This function ensures that the server is available and applies the provided configuration.
--- @param server_name: The name of the LSP server to set up (e.g., "tsserver", "pyright").
--- @param config: Optional configuration table for the LSP server.
---                If not provided, an empty table is used.
 local function setup_lsp_server(server_name, config)
   -- Check if the specified LSP server is available in lspconfig.
   if not lspconfig[server_name] then
@@ -64,39 +60,31 @@ local function setup_lsp_server(server_name, config)
   end
 
   -- Set up the LSP server with the provided configuration.
-  -- `vim.tbl_deep_extend` merges the default capabilities with the user-provided config.
-  -- The "force" option ensures that nested tables are also merged.
-  lspconfig[server_name].setup(vim.tbl_deep_extend(
-    "force",
-    { capabilities = get_lsp_capabilities() }, -- Default capabilities
-    config or {} -- User-provided configuration
-  ))
+  lspconfig[server_name].setup(vim.tbl_deep_extend("force", { capabilities = get_lsp_capabilities() }, config or {}))
 end
 
 -- Configure the Lua language server (`lua_ls`).
--- This setup is specific to Lua and includes settings for runtime, diagnostics, workspace, and formatting.
 setup_lsp_server("lua_ls", {
   settings = {
     Lua = {
       -- Runtime configuration for Lua.
-      -- Specifies the Lua version and the runtime file paths.
       runtime = {
-        version = "LuaJIT", -- Use LuaJIT as the runtime environment.
-        path = vim.split(package.path, ";"), -- Set the Lua path to include all paths from `package.path`.
+        version = "LuaJIT",
+        path = vim.split(package.path, ";"),
       },
 
       -- Configuration for code completion.
       completion = {
-        callSnippet = "Replace", -- Replace the default snippet behavior with the completed text.
-        displayContext = 5, -- Show up to 5 context lines in completion documentation.
+        callSnippet = "Replace",
+        displayContext = 5,
       },
 
       -- Diagnostics settings to control warnings and errors.
       diagnostics = {
         -- Disable specific diagnostic warnings.
         disable = {
-          "lowercase-global", -- Ignore warnings about lowercase global variables.
-          "undefined-field", -- Ignore warnings about undefined fields.
+          "lowercase-global",
+          "undefined-field",
         },
       },
 
@@ -104,8 +92,8 @@ setup_lsp_server("lua_ls", {
       workspace = {
         -- Specify additional Lua libraries to include in the workspace.
         library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true, -- Include Neovim's built-in Lua libraries.
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true, -- Include Neovim's LSP-specific Lua libraries.
+          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
         },
         -- Directories to ignore when indexing the workspace.
         ignoreDir = { ".git", "node_modules" },
@@ -117,59 +105,57 @@ setup_lsp_server("lua_ls", {
 
       -- Formatting settings.
       format = {
-        enable = false, -- Disable automatic formatting by the LSP server.
+        enable = false,
       },
 
       -- Telemetry settings.
       telemetry = {
-        enable = false, -- Disable telemetry to avoid sending usage data.
+        enable = false,
       },
 
       -- Inline hint settings for better code readability.
       hint = {
-        enable = true, -- Enable inline hints.
-        arrayIndex = "Enable", -- Show hints for array indices.
-        await = true, -- Show hints for `await` expressions.
-        paramName = "All", -- Show hints for all parameter names.
-        paramType = true, -- Show hints for parameter types.
-        semicolon = "SameLine", -- Place semicolons on the same line as the code.
-        setType = true, -- Show hints for variable types in assignments.
+        enable = true,
+        arrayIndex = "Enable",
+        await = true,
+        paramName = "All",
+        paramType = true,
+        semicolon = "SameLine",
+        setType = true,
       },
     },
   },
 })
 
 -- Configure Taplo language server for TOML file support in Neovim.
--- Taplo provides advanced features like formatting, completion, and diagnostics for TOML files.
 setup_lsp_server("taplo", {
   -- Settings specific to Taplo LSP.
   settings = {
     -- Formatting configuration: enable or disable automatic formatting.
     format = {
-      enable = true, -- Enable automatic formatting of TOML files.
+      enable = true,
     },
 
     -- Completion configuration: control how code completion works.
     completion = {
-      enable = true, -- Enable code completion for TOML files.
+      enable = true,
       -- Characters that trigger completion suggestions.
       triggerCharacters = { ".", '"', "'" },
     },
 
     -- Diagnostics configuration: control how errors and warnings are displayed.
     diagnostics = {
-      enable = true, -- Enable diagnostics for TOML files.
-      severity = "Error", -- Set the default severity level for diagnostics to "Error".
+      enable = true,
+      severity = "Error",
     },
 
     -- Schema support configuration: enable or disable JSON schema validation.
     schema = {
-      enable = false, -- Disable JSON schema validation for TOML files.
+      enable = false,
     },
   },
 
   -- Specify the filetypes for which Taplo should be activated.
-  -- In this case, Taplo is only enabled for TOML files.
   filetypes = { "toml" },
 })
 
@@ -181,13 +167,10 @@ setup_lsp_server("marksman", {
   capabilities = get_lsp_capabilities(),
 
   -- Specify the filetypes for which Marksman should be activated.
-  -- Marksman is enabled for both "markdown" and "md" filetypes to cover all common
-  -- Markdown file extensions.
   filetypes = { "markdown", "md" },
 })
 
 -- Configure vale_ls for prose linting in Neovim.
--- Vale is a syntax-aware linter for prose (Markdown, text, LaTeX, etc.).
 setup_lsp_server("vale_ls", {
   -- Use extended client capabilities for full LSP feature support.
   capabilities = get_lsp_capabilities(),
@@ -195,7 +178,7 @@ setup_lsp_server("vale_ls", {
   -- Specify the filetypes for which vale_ls should be activated.
   filetypes = { "markdown", "text", "tex", "rst" },
 
-  -- Optional: Set the root directory pattern to look for .vale.ini.
+  -- Optional: Set the root directory pattern to look for '.vale.ini'
   -- root_dir = require('lspconfig.util').root_pattern('.vale.ini'),
 
   -- Enable single file support.
@@ -204,7 +187,6 @@ setup_lsp_server("vale_ls", {
   -- Optional: Add any additional settings for vale_ls.
   settings = {
     -- If you have specific Vale settings, they can be added here.
-    -- Vale will automatically look for a .vale.ini file in the project root.
   },
 })
 
@@ -212,35 +194,35 @@ setup_lsp_server("vale_ls", {
 -- Harper is a privacy-first, offline grammar checker for developers and writers.
 setup_lsp_server("harper_ls", {
   settings = {
-    -- All Harper-specific settings must be nested under the "harper-ls" key.
+    -- All Harper-specific settings must be nested under the harper-ls key.
     ["harper-ls"] = {
       -- Linters configuration: enable or disable specific grammar and style checks.
       linters = {
-        SpellCheck = true, -- Enable spell checking.
-        SpelledNumbers = false, -- Disable warnings for spelled-out numbers.
-        AnA = true, -- Check for correct usage of "a" and "an".
-        SentenceCapitalization = true, -- Ensure sentences start with a capital letter.
-        UnclosedQuotes = true, -- Detect unclosed quotes.
-        WrongQuotes = false, -- Disable warnings for incorrect quote usage.
-        LongSentences = true, -- Warn about long sentences.
-        RepeatedWords = true, -- Detect repeated words.
-        Spaces = true, -- Check for spacing issues.
-        Matcher = true, -- Enable pattern matching for style issues.
-        CorrectNumberSuffix = true, -- Correct number suffixes (e.g., "1st", "2nd").
+        SpellCheck = true,
+        SpelledNumbers = false,
+        AnA = true,
+        SentenceCapitalization = true,
+        UnclosedQuotes = true,
+        WrongQuotes = false,
+        LongSentences = true,
+        RepeatedWords = true,
+        Spaces = true,
+        Matcher = true,
+        CorrectNumberSuffix = true,
       },
 
       -- Code actions configuration: control how code actions are displayed.
       codeActions = {
-        ForceStable = false, -- Do not force stable code actions.
+        ForceStable = false,
       },
 
       -- Markdown-specific settings: control how Harper handles Markdown files.
       markdown = {
-        IgnoreLinkTitle = false, -- Do not ignore link titles in Markdown.
-        IgnoreCodeBlocks = true, -- Ignore code blocks in Markdown.
-        IgnoreInlineCode = true, -- Ignore inline code in Markdown.
-        CheckLists = true, -- Check lists in Markdown.
-        CheckHeadings = true, -- Check headings in Markdown.
+        IgnoreLinkTitle = false,
+        IgnoreCodeBlocks = true,
+        IgnoreInlineCode = true,
+        CheckLists = true,
+        CheckHeadings = true,
       },
 
       -- Set the severity level for diagnostics.
@@ -270,22 +252,22 @@ end
 mason_lspconfig.setup({
   -- List of LSP servers to automatically install.
   ensure_installed = {
-    "lua_ls", -- Lua language server
-    "html", -- HTML language server
-    "cssls", -- CSS language server
-    "marksman", -- Markdown language server
-    "harper_ls", -- Grammar and style checker for prose
-    "yamlls", -- YAML language server
-    "bashls", -- Bash language server
-    "taplo", -- TOML language server
-    "jsonls", -- JSON language server
-    "vimls", -- Vimscript language server
-    "vale_ls", -- Prose linter for Markdown and text
+    "lua_ls",
+    "html",
+    "cssls",
+    "marksman",
+    "harper_ls",
+    "yamlls",
+    "bashls",
+    "taplo",
+    "jsonls",
+    "vimls",
+    "vale_ls",
   },
   -- Handler to automatically set up each installed LSP server.
   handlers = {
     function(server_name)
-      setup_lsp_server(server_name, {}) -- Use the custom setup function for each server
+      setup_lsp_server(server_name, {})
     end,
   },
 })
@@ -299,19 +281,19 @@ end
 mason_tool_installer.setup({
   -- List of tools to automatically install for formatting, linting, and validation.
   ensure_installed = {
-    "markdownlint", -- Lint Markdown files
-    "vale", -- Prose linter for Markdown and text
-    "stylua", -- Lua code formatter
-    "shfmt", -- Shell script formatter
-    "yamlfmt", -- YAML formatter
-    "shellcheck", -- Shell script static analysis
-    "prettier", -- Code formatter for multiple languages
-    "yamllint", -- YAML linter
-    "jsonlint", -- JSON linter
-    "vint", -- Vimscript linter
+    "markdownlint",
+    "vale",
+    "stylua",
+    "shfmt",
+    "yamlfmt",
+    "shellcheck",
+    "prettier",
+    "yamllint",
+    "jsonlint",
+    "vint",
   },
-  auto_update = true, -- Automatically update installed tools
-  run_on_start = true, -- Install tools on Neovim startup
+  auto_update = true,
+  run_on_start = true,
 })
 
 -- Configure blink.cmp for autocompletion in Neovim.
@@ -323,17 +305,17 @@ end
 blink_cmp.setup({
   -- Keymap configuration for completion behavior.
   keymap = {
-    preset = "super-tab", -- Use Tab/Shift-Tab for navigation and confirmation
-    ["<ESC>"] = { "cancel", "fallback" }, -- Cancel completion or fallback to default behavior
+    preset = "super-tab",
+    ["<ESC>"] = { "cancel", "fallback" },
   },
   -- Command-line mode completion settings.
   cmdline = {
     keymap = {
-      preset = "default", -- Use default keymaps for command-line mode
+      preset = "default",
     },
   },
   -- Fuzzy matching settings for completion results.
   fuzzy = {
-    implementation = "lua", -- Use Lua-based fuzzy matching for performance
+    implementation = "lua",
   },
 })

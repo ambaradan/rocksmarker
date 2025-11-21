@@ -260,6 +260,7 @@ map("n", "<leader>gb", function()
   })
 end, { desc = "git buffer log" })
 
+-- Git diff for current buffer
 map("n", "<leader>gd", function()
   snacks.picker.pick({
     source = "git_diff",
@@ -268,6 +269,7 @@ map("n", "<leader>gd", function()
   })
 end, { desc = "git buffer diff" })
 
+-- Git status
 map("n", "<leader>gs", function()
   snacks.picker.pick({
     source = "git_status",
@@ -276,6 +278,7 @@ map("n", "<leader>gs", function()
   })
 end, { desc = "git status" })
 
+-- Help picker
 map("n", "<leader>hl", function()
   snacks.picker.pick({
     source = "help",
@@ -284,6 +287,7 @@ map("n", "<leader>hl", function()
   })
 end, { desc = "help search" })
 
+-- Neovim highlights search``
 map("n", "<F7>", function()
   snacks.picker.pick({
     source = "highlights",
