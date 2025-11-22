@@ -5,3 +5,5 @@ Neovim
 toml
 lua
 filetypes
+Treesitter
+treesitter
