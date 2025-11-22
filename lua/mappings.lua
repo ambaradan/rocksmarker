@@ -1,6 +1,6 @@
 -- Rocksmarker mappings
 
-local editor = require("utils.editor")
+local utils = require("utils")
 
 local snacks_ok, snacks = pcall(require, "snacks")
 if not snacks_ok then
@@ -11,24 +11,24 @@ local map = snacks.keymap.set
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
 map({ "i", "n" }, "<C-s>", function()
-  editor.save_current_buffer()
+  utils.save_current_buffer()
 end, { desc = "save buffer" })
 
 map({ "i", "n" }, "<C-a>", function()
-  editor.save_all_buffers()
+  utils.save_all_buffers()
 end, { desc = "save all buffer" })
 
 -- Create a new empty buffer
 map("n", "<leader>b", function()
-  editor.create_new_buffer()
+  utils.create_new_buffer()
 end, { desc = "new buffer" })
 
 map("n", "<leader>x", function()
-  editor.close_current_buffer()
+  utils.close_current_buffer()
 end, { desc = "close buffer" })
 
 map("n", "<leader>X", function()
-  editor.close_all_buffers()
+  utils.close_all_buffers()
 end, { desc = "close all buffers" })
 
 -- Editor mappings
@@ -230,6 +230,18 @@ map({ "n", "x" }, "<leader>rp", function()
 end, { desc = "search word on current file" })
 
 -- Git mappings
+-- Open Neogit for workspace
+map("n", "<leader>gm", function()
+  require("neogit").open()
+end, { desc = "git manager (workspace)" })
+
+-- Open Neogit for current buffer's directory
+map("n", "<leader>gM", function()
+  require("neogit").open({
+    cwd = vim.fn.expand("%:p:h"), -- Current buffer's directory
+  })
+end, { desc = "git manager (buffer)" })
+
 -- Git commits log
 map("n", "<leader>gl", function()
   snacks.picker.pick({
@@ -248,6 +260,7 @@ map("n", "<leader>gb", function()
   })
 end, { desc = "git buffer log" })
 
+-- Git diff for current buffer
 map("n", "<leader>gd", function()
   snacks.picker.pick({
     source = "git_diff",
@@ -256,6 +269,7 @@ map("n", "<leader>gd", function()
   })
 end, { desc = "git buffer diff" })
 
+-- Git status
 map("n", "<leader>gs", function()
   snacks.picker.pick({
     source = "git_status",
@@ -264,6 +278,7 @@ map("n", "<leader>gs", function()
   })
 end, { desc = "git status" })
 
+-- Help picker
 map("n", "<leader>hl", function()
   snacks.picker.pick({
     source = "help",
@@ -272,6 +287,7 @@ map("n", "<leader>hl", function()
   })
 end, { desc = "help search" })
 
+-- Neovim highlights search``
 map("n", "<F7>", function()
   snacks.picker.pick({
     source = "highlights",
@@ -279,11 +295,6 @@ map("n", "<F7>", function()
     layout = { preset = "ivy" },
   })
 end, { desc = "highlights search" })
-
--- Git manager - lazygit
-map({ "n", "i", "t" }, "<leader>gm", function()
-  snacks.lazygit()
-end, { desc = "open lazygit" })
 
 -- Toggle terminal mappings
 map({ "n", "i", "t" }, "<a-t>", function()

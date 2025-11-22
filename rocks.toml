@@ -4,7 +4,7 @@ import = ["rocks-treesitter.toml"]
 # List of non-Neovim rocks.
 # This includes things like `toml` or other lua packages.
 [rocks]
-
+luarocks = "3.12.2"
 # Rocks configuration section
 [config]
 colorscheme = "min-theme"
@@ -47,20 +47,20 @@ config_path = "rocks-treesitter.toml"
 # UI plugins
 "min-theme.nvim" = "scm"
 "mini.icons" = "0.16.0"
+"mini.pairs" = "0.16.0"
 "lualine.nvim" = "scm"
 "bufferline.nvim" = "4.9.1"
 "gitsigns.nvim" = "1.0.2"
 "which-key.nvim" = "3.17.0"
-"nvim-autopairs" = "scm"
 "rainbow-delimiters.nvim" = "0.10.0"
-"yanky.nvim" = "2.0.0"
 "persisted.nvim" = "2.1.1"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.30.0"
 "grug-far.nvim" = "1.6.53"
+neogit = "3.0.0"
 
 # Autocompletions plugins
-"blink.cmp" = "1.7.0"
+"blink.cmp" = "1.8.0"
 luasnip = "2.4.1"
 friendly-snippets = "scm"
 
@@ -96,27 +96,19 @@ items = [
 [bundles.diagnostics]
 items = ["conform.nvim", "nvim-lint", "trouble.nvim"]
 
-# Common editor utilities
-[bundles.utils]
-items = [
-    "snacks.nvim",
-    "persisted.nvim",
-    "grug-far.nvim",
-    "rainbow-delimiters.nvim",
-    "nvim-autopairs",
-    "nvim-highlight-colors",
-    "yanky.nvim",
-]
-
 # Plugins for the implementation of the graphical
 # user interface
 [bundles.ui]
 items = [
+    "min-theme.nvim",
+    "snacks.nvim",
     "lualine.nvim",
     "bufferline.nvim",
+    "persisted.nvim",
     "gitsigns.nvim",
-    "min-theme.nvim",
+    "rainbow-delimiters.nvim",
     "which-key.nvim",
+    "nvim-highlight-colors",
 ]
 
 # Plugins for specific functionality of Markdown code

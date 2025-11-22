@@ -5,7 +5,7 @@ vim.api.nvim_create_autocmd("LspProgress", {
   ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
   callback = function(ev)
     local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-    vim.notify(vim.lsp.status(), "info", {
+    vim.notify(vim.lsp.status(), vim.log.levels.INFO, {
       id = "lsp_progress",
       title = "LSP Progress",
       opts = function(notif)
@@ -76,7 +76,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     -- Get the filetype of the buffer that was just entered
     local current_filetype = vim.bo.filetype
 
-    -- Disable cursorline if it's a markdown buffer, otherwise enable it
+    -- Disable cursorline if it's a Markdown buffer, otherwise enable it
     if current_filetype == "markdown" then
       vim.wo.cursorline = false
     else

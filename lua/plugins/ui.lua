@@ -16,14 +16,14 @@ if not min_theme_ok then
 end
 
 min_theme.setup({
-  theme = "dark", -- String: 'dark' or 'light', determines the colorscheme used
-  transparent = false, -- Boolean: Sets the background to transparent
+  theme = "dark",
+  transparent = false,
   italics = {
-    comments = true, -- Boolean: Italicizes comments
-    keywords = true, -- Boolean: Italicizes keywords
-    functions = true, -- Boolean: Italicizes functions
-    strings = true, -- Boolean: Italicizes strings
-    variables = true, -- Boolean: Italicizes variables
+    comments = true,
+    keywords = true,
+    functions = true,
+    strings = true,
+    variables = true,
   },
   overrides = function()
     return {
@@ -82,6 +82,72 @@ min_theme.setup({
       ["WhichKeyNormal"] = { bg = colors.bg },
     }
   end,
+})
+
+local snacks_ok, snacks = pcall(require, "snacks")
+if not snacks_ok then
+  return
+end
+
+snacks.setup({
+  indent = {
+    enabled = true,
+  },
+  explorer = {
+    enabled = true,
+  },
+  input = {
+    enabled = true,
+  },
+  picker = {
+    ui_select = true,
+  },
+  zen = {
+    center = true,
+    win = {
+      style = "zen",
+      width = 0.9,
+      height = 0,
+    },
+    toggles = {
+      dim = false,
+      git_signs = true,
+      mini_diff_signs = false,
+    },
+    show = {
+      statusline = false,
+      tabline = false,
+    },
+    zoom = {
+      toggles = {},
+      center = false,
+      show = {
+        statusline = false,
+        tabline = false,
+      },
+      win = {
+        backdrop = false,
+        width = 0,
+      },
+    },
+  },
+  notifier = {
+    enabled = true,
+    timeout = 3000,
+    style = "compact",
+    margin = { top = 1, right = 1, bottom = 0 },
+  },
+  defaults = {
+    files = {
+      finder = "files",
+      format = "file",
+      show_empty = true,
+      hidden = true,
+      ignored = false,
+      follow = false,
+      supports_live = true,
+    },
+  },
 })
 
 -- lualine.nvim settings
@@ -182,11 +248,11 @@ end
 bufferline.setup({
   options = {
     -- Appearance settings
-    mode = "buffers", -- Display mode (buffers or tabs)
-    numbers = "both", -- Show buffer index and ordinal number
-    close_command = "bdelete! %d", -- Command to close a buffer
-    right_mouse_command = "bdelete! %d", -- Right-click buffer action
-    left_mouse_command = "buffer %d", -- Left-click buffer action
+    mode = "buffers",
+    numbers = "both",
+    close_command = "bdelete! %d",
+    right_mouse_command = "bdelete! %d",
+    left_mouse_command = "buffer %d",
     indicator = {
       icon = "▎", -- Buffer indicator style
       style = "icon",
@@ -215,7 +281,8 @@ bufferline.setup({
       },
     },
     -- Separator styles
-    separator_style = "slant", -- Options: "slant", "thick", "thin", "padded"
+    -- Options: "slant", "thick", "thin", "padded"
+    separator_style = "slant",
     always_show_bufferline = true,
     show_buffer_icons = true,
     show_buffer_close_icons = true,
@@ -232,6 +299,16 @@ bufferline.setup({
       },
     },
   },
+})
+
+-- persisted.nvim settings
+local persisted_ok, persisted = pcall(require, "persisted")
+if not persisted_ok then
+  return
+end
+
+persisted.setup({
+  autoload = false,
 })
 
 -- gitsign.nvim settings - git support
@@ -311,6 +388,42 @@ gitsigns.setup({
   end,
 })
 
+-- mini.pairs settings
+require("mini.pairs").setup()
+
+local mini_pairs_ok, mini_pairs = pcall(require, "mini.pairs")
+if not mini_pairs_ok then
+  return
+end
+
+mini_pairs.setup()
+
+-- rainbow-delimiters setting
+local rainbow_delimiters_ok, rainbow_delimiters = pcall(require, "rainbow-delimiters.setup")
+if not rainbow_delimiters_ok then
+  return
+end
+
+rainbow_delimiters.setup({
+  strategy = {
+    [""] = require("rainbow-delimiters").strategy["global"],
+    vim = require("rainbow-delimiters").strategy["local"],
+  },
+  query = {
+    [""] = "rainbow-delimiters",
+    lua = "rainbow-blocks",
+  },
+  highlight = {
+    "RainbowDelimiterRed",
+    "RainbowDelimiterYellow",
+    "RainbowDelimiterBlue",
+    "RainbowDelimiterOrange",
+    "RainbowDelimiterGreen",
+    "RainbowDelimiterViolet",
+    "RainbowDelimiterCyan",
+  },
+})
+
 -- which-key.nvim settings
 local which_key_ok, which_key = pcall(require, "which-key")
 if not which_key_ok then
@@ -319,4 +432,13 @@ end
 
 which_key.setup({
   preset = "helix",
+})
+
+local highlight_colors_ok, highlight_colors = pcall(require, "nvim-highlight-colors")
+if not highlight_colors_ok then
+  return
+end
+
+highlight_colors.setup({
+  render = "virtual",
 })
