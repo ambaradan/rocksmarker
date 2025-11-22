@@ -99,15 +99,6 @@ snacks.setup({
   input = {
     enabled = true,
   },
-  lazygit = {
-    enabled = true,
-    theme = {
-      activeBorderColor = { fg = "Attribute" },
-    },
-    win = {
-      style = "lazygit",
-    },
-  },
   picker = {
     ui_select = true,
   },
@@ -143,7 +134,7 @@ snacks.setup({
   notifier = {
     enabled = true,
     timeout = 3000,
-    style = "minimal",
+    style = "compact",
     margin = { top = 1, right = 1, bottom = 0 },
   },
   defaults = {
