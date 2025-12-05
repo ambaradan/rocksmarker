@@ -7,7 +7,9 @@ if not snacks_ok then
   return
 end
 
-local map = snacks.keymap.set
+local map = snacks
+  .keymap--[[@cast -?]]
+  .set
 -- Buffer mappings
 -- Save buffer in Insert and Normal modes
 map({ "i", "n" }, "<C-s>", function()
@@ -36,37 +38,45 @@ end, { desc = "close all buffers" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "quit editor" })
 
 map("n", "<C-e>", function()
-  snacks.picker.pick({
-    source = "explorer",
-    title = "File Manager",
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "explorer",
+      title = "File Manager",
+    })
 end, { desc = "open file" })
 
 map("n", "<C-f>", function()
-  snacks.picker.pick({
-    source = "files",
-    layout = { preset = "vscode" },
-    title = "Open file",
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "files",
+      layout = { preset = "vscode" },
+      title = "Open file",
+    })
 end, { desc = "open file" })
 
 map("n", "<F8>", function()
-  snacks.picker.pick({
-    source = "lsp_symbols",
-    title = "Markdown Headers",
-    layout = { layout = { position = "right", width = 0.3 }, preview = false },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "lsp_symbols",
+      title = "Markdown Headers",
+      layout = { layout = { position = "right", width = 0.3 }, preview = false },
+    })
 end, {
   ft = "markdown",
   desc = "Markdown Header",
 })
 
 map("n", "<F6>", function()
-  snacks.picker.pick({
-    source = "diagnostics_buffer",
-    title = "Markdown Diagnostics",
-    layout = { layout = { position = "right", width = 0.4 }, preview = false },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "diagnostics_buffer",
+      title = "Markdown Diagnostics",
+      layout = { layout = { position = "right", width = 0.4 }, preview = false },
+    })
 end, {
   ft = "markdown",
   desc = "Markdown Diagnostics",
@@ -123,47 +133,57 @@ map("n", "<S-TAB>", ":BufferLineCyclePrev<CR>", { desc = "buffer line cycle prev
 
 -- Buffer list
 map("n", "<leader>fb", function()
-  snacks.picker.pick({
-    source = "buffers",
-    layout = { preset = "vscode" },
-    title = "Buffer list",
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "buffers",
+      layout = { preset = "vscode" },
+      title = "Buffer list",
+    })
 end, { desc = "Buffer list" })
 
 -- Recent files (recently opened)
 map("n", "<leader>fo", function()
-  snacks.picker.pick({
-    source = "recent",
-    title = "Recent Files",
-    layout = { preset = "vscode" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "recent",
+      title = "Recent Files",
+      layout = { preset = "vscode" },
+    })
 end, { desc = "Recently opened files" })
 
 -- Undo (undo operations on file)
 map("n", "<leader>fu", function()
-  snacks.picker.pick({
-    source = "undo",
-    title = "Undo operations",
-    layout = { preset = "telescope" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "undo",
+      title = "Undo operations",
+      layout = { preset = "telescope" },
+    })
 end, { desc = "Undo operations" })
 
 -- Toggle global diagnostics
 map("n", "<leader>dw", function()
-  snacks.picker.pick({
-    source = "diagnostics",
-    title = "Workspace Diagnostics",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "diagnostics",
+      title = "Workspace Diagnostics",
+      layout = { preset = "ivy" },
+    })
 end, { desc = "toggle global diagnostics" })
 
 -- Toggle buffer diagnostics
 map("n", "<leader>db", function()
-  snacks.picker.pick({
-    source = "diagnostics_buffer",
-    title = "Buffer Diagnostics",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "diagnostics_buffer",
+      title = "Buffer Diagnostics",
+      layout = { preset = "ivy" },
+    })
 end, { desc = "toggle buffer diagnostics" })
 
 -- Session mappings - persisted.nvim
@@ -244,65 +264,79 @@ end, { desc = "git manager (buffer)" })
 
 -- Git commits log
 map("n", "<leader>gl", function()
-  snacks.picker.pick({
-    source = "git_log",
-    title = "Git commits log",
-    layout = { preset = "telescope" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "git_log",
+      title = "Git commits log",
+      layout = { preset = "telescope" },
+    })
 end, { desc = "git commits log" })
 
 -- Git commits for current buffer
 map("n", "<leader>gb", function()
-  snacks.picker.pick({
-    source = "git_log_file",
-    title = "Git buffer log",
-    layout = { preset = "telescope" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "git_log_file",
+      title = "Git buffer log",
+      layout = { preset = "telescope" },
+    })
 end, { desc = "git buffer log" })
 
 -- Git diff for current buffer
 map("n", "<leader>gd", function()
-  snacks.picker.pick({
-    source = "git_diff",
-    title = "Git buffer diff",
-    layout = { preset = "telescope" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "git_diff",
+      title = "Git buffer diff",
+      layout = { preset = "telescope" },
+    })
 end, { desc = "git buffer diff" })
 
 -- Git status
 map("n", "<leader>gs", function()
-  snacks.picker.pick({
-    source = "git_status",
-    title = "Git status",
-    layout = { preset = "telescope" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "git_status",
+      title = "Git status",
+      layout = { preset = "telescope" },
+    })
 end, { desc = "git status" })
 
 -- Help picker
 map("n", "<leader>hl", function()
-  snacks.picker.pick({
-    source = "help",
-    title = "Help search",
-    layout = { preset = "dropdown" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "help",
+      title = "Help search",
+      layout = { preset = "dropdown" },
+    })
 end, { desc = "help search" })
 
 -- Neovim highlights search``
 map("n", "<F7>", function()
-  snacks.picker.pick({
-    source = "highlights",
-    title = "Highlights search",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "highlights",
+      title = "Highlights search",
+      layout = { preset = "ivy" },
+    })
 end, { desc = "highlights search" })
 
 -- Toggle terminal mappings
 map({ "n", "i", "t" }, "<a-t>", function()
+  ---@diagnostic disable-next-line: need-check-nil
   snacks.terminal()
 end, { desc = "Toggle Terminal" })
 
 -- Toggle zen mode mappings
 map("n", "<a-z>", function()
+  ---@diagnostic disable-next-line: need-check-nil
   snacks.zen.zoom()
 end, { desc = "zen mode" })
 
@@ -336,11 +370,13 @@ map("n", "gd", vim.lsp.buf.definition, {
 
 -- Open LSP document symbols picker
 map("n", "<leader>ls", function()
-  snacks.picker.pick({
-    source = "lsp_symbols",
-    title = "Lsp Symbols",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "lsp_symbols",
+      title = "Lsp Symbols",
+      layout = { preset = "ivy" },
+    })
 end, {
   lsp = { method = "textDocument/documentSymbol" },
   desc = "document symbols",
@@ -360,11 +396,13 @@ map("n", "<leader>lR", vim.lsp.buf.rename, {
 
 -- Open LSP references picker
 map("n", "<leader>lr", function()
-  snacks.picker.pick({
-    source = "lsp_references",
-    title = "Lsp References",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "lsp_references",
+      title = "Lsp References",
+      layout = { preset = "ivy" },
+    })
 end, {
   lsp = { method = "textDocument/references" },
   desc = "lsp references",
@@ -372,11 +410,13 @@ end, {
 
 -- Open LSP implementations picker
 map("n", "<leader>lI", function()
-  snacks.picker.pick({
-    source = "lsp_implementations",
-    title = "Lsp Implementations",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "lsp_implementations",
+      title = "Lsp Implementations",
+      layout = { preset = "ivy" },
+    })
 end, {
   lsp = { method = "textDocument/implementation" },
   desc = "goto implementation",
@@ -390,11 +430,13 @@ map("n", "<leader>lD", vim.lsp.buf.definition, {
 
 -- Open LSP workspace symbols picker
 map("n", "<leader>lw", function()
-  snacks.picker.pick({
-    source = "lsp_workspace_symbols",
-    title = "Lsp workspace symbols",
-    layout = { preset = "ivy" },
-  })
+  snacks
+    .picker--[[@cast -?]]
+    .pick({
+      source = "lsp_workspace_symbols",
+      title = "Lsp workspace symbols",
+      layout = { preset = "ivy" },
+    })
 end, {
   lsp = { method = "textDocument/workspace_symbol" },
   desc = "workspace symbol",
@@ -404,7 +446,11 @@ map("n", "<leader>lh", function()
   local bufnr, clients = get_current_buffer_and_clients()
 
   for _, client in ipairs(clients) do
-    if client.server_capabilities.documentHighlightProvider then
+    if
+      client
+        .server_capabilities--[[@cast -?]]
+        .documentHighlightProvider
+    then
       local hl_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
       -- Highlight references on cursor hold
@@ -441,7 +487,11 @@ map("n", "<leader>li", function()
   local bufnr, clients = get_current_buffer_and_clients()
 
   for _, client in ipairs(clients) do
-    if client.server_capabilities.inlayHintProvider then
+    if
+      client
+        .server_capabilities--[[@cast -?]]
+        .inlayHintProvider
+    then
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
       local status = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"
       vim.notify("Inlay Hints " .. status, vim.log.levels.INFO)

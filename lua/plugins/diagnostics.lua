@@ -6,6 +6,7 @@ if not conform_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 conform.setup({
   formatters_by_ft = {
     lua = { "stylua" },
@@ -36,6 +37,7 @@ lint.linters_by_ft = {
   vim = { "vint" },
 }
 
+---@diagnostic disable-next-line: need-check-nil
 -- Configure specific options for markdownlint
 lint.linters.markdownlint.args = {
   "--disable",
@@ -47,6 +49,7 @@ lint.linters.markdownlint.args = {
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   callback = function()
+    ---@diagnostic disable-next-line: need-check-nil
     lint.try_lint()
   end,
 })
@@ -57,4 +60,5 @@ if not trouble_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 trouble.setup()
