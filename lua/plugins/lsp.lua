@@ -9,6 +9,7 @@ local function get_lsp_capabilities()
   -- Try to extend capabilities with blink.cmp
   local blink_cmp_ok, blink_cmp = pcall(require, "blink.cmp")
   if blink_cmp_ok then
+    ---@diagnostic disable-next-line: need-check-nil
     capabilities = blink_cmp.get_lsp_capabilities(capabilities)
   else
     vim.notify("blink.cmp not found. Using default capabilities.", vim.log.levels.WARN)
@@ -20,24 +21,28 @@ local function get_lsp_capabilities()
   capabilities.textDocument.completion.completionItem = capabilities.textDocument.completion.completionItem or {}
 
   -- Extend completion item capabilities with Markdown support
-  capabilities.textDocument.completion.completionItem =
-    vim.tbl_deep_extend("force", capabilities.textDocument.completion.completionItem, {
-      documentationFormat = { "markdown", "plaintext" },
-      snippetSupport = true,
-      preselectSupport = true,
-      insertReplaceSupport = true,
-      labelDetailsSupport = true,
-      deprecatedSupport = true,
-      commitCharactersSupport = true,
-      tagSupport = { valueSet = { 1 } },
-      resolveSupport = {
-        properties = {
-          "documentation",
-          "detail",
-          "additionalTextEdits",
-        },
+  local new_capabilities = {
+    documentationFormat = { "markdown", "plaintext" },
+    snippetSupport = true,
+    preselectSupport = true,
+    insertReplaceSupport = true,
+    labelDetailsSupport = true,
+    deprecatedSupport = true,
+    commitCharactersSupport = true,
+    tagSupport = { valueSet = { 1 } },
+    resolveSupport = {
+      properties = {
+        "documentation",
+        "detail",
+        "additionalTextEdits",
       },
-    })
+    },
+  }
+
+  -- Manually extend the table
+  for key, value in pairs(new_capabilities) do
+    capabilities.textDocument.completion.completionItem[key] = value
+  end
 
   return capabilities
 end
@@ -62,70 +67,6 @@ local function setup_lsp_server(server_name, config)
   -- Set up the LSP server with the provided configuration.
   lspconfig[server_name].setup(vim.tbl_deep_extend("force", { capabilities = get_lsp_capabilities() }, config or {}))
 end
-
--- Configure the Lua language server (`lua_ls`).
-setup_lsp_server("lua_ls", {
-  settings = {
-    Lua = {
-      -- Runtime configuration for Lua.
-      runtime = {
-        version = "LuaJIT",
-        path = vim.split(package.path, ";"),
-      },
-
-      -- Configuration for code completion.
-      completion = {
-        callSnippet = "Replace",
-        displayContext = 5,
-      },
-
-      -- Diagnostics settings to control warnings and errors.
-      diagnostics = {
-        -- Disable specific diagnostic warnings.
-        disable = {
-          "lowercase-global",
-          "undefined-field",
-        },
-      },
-
-      -- Workspace settings to manage library paths and file handling.
-      workspace = {
-        -- Specify additional Lua libraries to include in the workspace.
-        library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-        },
-        -- Directories to ignore when indexing the workspace.
-        ignoreDir = { ".git", "node_modules" },
-        -- Maximum number of files to preload for faster indexing.
-        maxPreload = 2000,
-        -- Maximum file size (in KB) for preloading.
-        preloadFileSize = 500,
-      },
-
-      -- Formatting settings.
-      format = {
-        enable = false,
-      },
-
-      -- Telemetry settings.
-      telemetry = {
-        enable = false,
-      },
-
-      -- Inline hint settings for better code readability.
-      hint = {
-        enable = true,
-        arrayIndex = "Enable",
-        await = true,
-        paramName = "All",
-        paramType = true,
-        semicolon = "SameLine",
-        setType = true,
-      },
-    },
-  },
-})
 
 -- Configure Taplo language server for TOML file support in Neovim.
 setup_lsp_server("taplo", {
@@ -241,6 +182,8 @@ if not mason_ok then
   vim.notify("mason.nvim not installed.", vim.log.levels.ERROR)
   return
 end
+
+---@diagnostic disable-next-line: need-check-nil
 mason.setup({}) -- Initialize Mason with default settings.
 
 -- Setup Mason-LSPConfig to bridge Mason and nvim-lspconfig.
@@ -249,10 +192,12 @@ if not mason_lspconfig_ok then
   vim.notify("mason-lspconfig not installed.", vim.log.levels.ERROR)
   return
 end
+
+---@diagnostic disable-next-line: need-check-nil
 mason_lspconfig.setup({
   -- List of LSP servers to automatically install.
   ensure_installed = {
-    "lua_ls",
+    "emmylua_ls",
     "html",
     "cssls",
     "marksman",
@@ -278,12 +223,14 @@ if not mason_tool_installer_ok then
   vim.notify("mason-tool-installer not installed.", vim.log.levels.ERROR)
   return
 end
+
+---@diagnostic disable-next-line: need-check-nil
 mason_tool_installer.setup({
   -- List of tools to automatically install for formatting, linting, and validation.
   ensure_installed = {
     "markdownlint",
     "vale",
-    "stylua",
+    "emmylua-codeformat",
     "shfmt",
     "yamlfmt",
     "shellcheck",
@@ -302,6 +249,8 @@ if not blink_cmp_ok then
   vim.notify("blink.cmp not installed.", vim.log.levels.ERROR)
   return
 end
+
+---@diagnostic disable-next-line: need-check-nil
 blink_cmp.setup({
   -- Keymap configuration for completion behavior.
   keymap = {
