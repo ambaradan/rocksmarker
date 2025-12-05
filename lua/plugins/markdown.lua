@@ -3,16 +3,17 @@
 -- mkdocs-material settings
 local mkdocs_ok, mkdocs_material = pcall(require, "mkdocs_material")
 if mkdocs_ok then
+  ---@diagnostic disable-next-line: need-check-nil
   mkdocs_material.setup({})
 end
--- }}}
 
--- render-markdown.nvim settings {{{
+-- render-markdown.nvim settings
 local render_ok, render_markdown = pcall(require, "render-markdown")
 if not render_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 render_markdown.setup({
   heading = {
     sign = false,
@@ -31,6 +32,7 @@ render_markdown.setup({
 -- markdown-plus.nvim settings
 local markdown_plus_ok, markdown_plus = pcall(require, "markdown-plus")
 if markdown_plus_ok then
+  ---@diagnostic disable-next-line: need-check-nil
   markdown_plus.setup({})
 end
 
@@ -40,12 +42,13 @@ if not table_mode_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 table_mode.setup({
   filetype = {
     "*.md",
   },
   options = {
-    insert = true, -- when typing "|"
+    insert = true,       -- when typing "|"
     insert_leave = true, -- when leaving insert mode
   },
 })
