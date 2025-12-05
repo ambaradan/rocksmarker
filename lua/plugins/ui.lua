@@ -65,7 +65,7 @@ min_theme.setup({
       ["@markup.strong.markdown_inline"] = { fg = colors.fgSelection, bold = true },
       ["@markup.italic.markdown_inline"] = { fg = colors.fgSelectionInactive, italic = true },
       ["@markup.raw.block.markdown"] = { fg = colors.fgSelection },
-      ["@punctuation.special.markdown"] = { fg = colors.bgDarker },
+      ["@punctuation.special.markdown"] = { fg = colors.purple },
       ["@markup.link.markdown_inline"] = { underline = false },
       ["@markup.link.label.markdown_inline"] = { fg = colors.blueLight, underline = false },
       ["@markup.link.url.markdown_inline"] = { fg = colors.blue, underline = false },
