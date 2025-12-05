@@ -15,6 +15,7 @@ if not min_theme_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 min_theme.setup({
   theme = "dark",
   transparent = false,
@@ -89,6 +90,7 @@ if not snacks_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 snacks.setup({
   indent = {
     enabled = true,
@@ -156,6 +158,7 @@ if not lualine_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 lualine.setup({
   options = {
     theme = "min-theme",
@@ -194,19 +197,23 @@ lualine.setup({
       {
         function()
           local msg = "No Active Lsp"
-          local buf_ft = vim.bo[0].filetype
-          local clients = vim.lsp.get_clients()
-          if next(clients) == nil then
+          local buf_ft = vim.bo.filetype
+          local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+          if not next(clients) then
             return msg
           end
+
           for _, client in ipairs(clients) do
-            local filetypes = client.config.filetypes
-            if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+            local filetypes = client.config.filetypes or {}
+            if type(filetypes) == "table" and vim.fn.index(filetypes, buf_ft) ~= -1 then
               return client.name
             end
           end
+
           return msg
         end,
+
         icon = " LSP:",
       },
       {
@@ -245,6 +252,7 @@ if not bufferline_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 bufferline.setup({
   options = {
     -- Appearance settings
@@ -307,6 +315,7 @@ if not persisted_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 persisted.setup({
   autoload = false,
 })
@@ -317,6 +326,7 @@ if not gitsigns_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 gitsigns.setup({
   signs = {
     add = { text = "┃" },
@@ -345,6 +355,7 @@ gitsigns.setup({
       if vim.wo.diff then
         vim.cmd.normal({ "]c", bang = true })
       else
+        ---@diagnostic disable-next-line: need-check-nil
         gitsigns.nav_hunk("next")
       end
     end)
@@ -352,6 +363,7 @@ gitsigns.setup({
       if vim.wo.diff then
         vim.cmd.normal({ "[c", bang = true })
       else
+        ---@diagnostic disable-next-line: need-check-nil
         gitsigns.nav_hunk("prev")
       end
     end)
@@ -359,9 +371,11 @@ gitsigns.setup({
     map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "stage hunk" })
     map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "reset hunk" })
     map("v", "<leader>hs", function()
+      ---@diagnostic disable-next-line: need-check-nil
       gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
     end, { desc = "stage hunk" })
     map("v", "<leader>hr", function()
+      ---@diagnostic disable-next-line: need-check-nil
       gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
     end, { desc = "reset hunk" })
     map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "stage buffer" })
@@ -369,13 +383,16 @@ gitsigns.setup({
     map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "preview hunk" })
     map("n", "<leader>hi", gitsigns.preview_hunk_inline, { desc = "preview hunk inline" })
     map("n", "<leader>hb", function()
+      ---@diagnostic disable-next-line: need-check-nil
       gitsigns.blame_line({ full = true })
     end, { desc = "blame line" })
     map("n", "<leader>hd", gitsigns.diffthis, { desc = "diff this" })
     map("n", "<leader>hD", function()
+      ---@diagnostic disable-next-line: need-check-nil
       gitsigns.diffthis("~")
     end, { desc = "Diff this colored" })
     map("n", "<leader>hQ", function()
+      ---@diagnostic disable-next-line: need-check-nil
       gitsigns.setqflist("all")
     end, { desc = "hunks list - buffer" })
     map("n", "<leader>hq", gitsigns.setqflist, { desc = "hunks list - buffer" })
@@ -396,6 +413,7 @@ if not mini_pairs_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 mini_pairs.setup()
 
 -- rainbow-delimiters setting
@@ -404,6 +422,7 @@ if not rainbow_delimiters_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 rainbow_delimiters.setup({
   strategy = {
     [""] = require("rainbow-delimiters").strategy["global"],
@@ -430,6 +449,7 @@ if not which_key_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 which_key.setup({
   preset = "helix",
 })
@@ -439,6 +459,7 @@ if not highlight_colors_ok then
   return
 end
 
+---@diagnostic disable-next-line: need-check-nil
 highlight_colors.setup({
   render = "virtual",
 })
