@@ -35,20 +35,3 @@ if markdown_plus_ok then
   ---@diagnostic disable-next-line: need-check-nil
   markdown_plus.setup({})
 end
-
--- markdown-table-mode.nvim settings
-local table_mode_ok, table_mode = pcall(require, "markdown-table-mode")
-if not table_mode_ok then
-  return
-end
-
----@diagnostic disable-next-line: need-check-nil
-table_mode.setup({
-  filetype = {
-    "*.md",
-  },
-  options = {
-    insert = true,       -- when typing "|"
-    insert_leave = true, -- when leaving insert mode
-  },
-})
