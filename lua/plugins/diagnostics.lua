@@ -9,17 +9,22 @@ end
 ---@diagnostic disable-next-line: need-check-nil
 conform.setup({
   formatters_by_ft = {
-    lua = { "stylua" },
     css = { "prettier" },
     html = { "prettier" },
     sh = { "shfmt" },
     bash = { "shfmt" },
-    -- markdown = { "rumdl" },
+    markdown = { "rumdl" },
     yaml = { "yamlfmt" },
   },
   format_on_save = {
     timeout_ms = 1000,
     lsp_format = "fallback",
+  },
+  formatters = {
+    rumdl = {
+      command = "rumdl",
+      args = { "fmt", "-", "--quiet" }
+    },
   },
 })
 
@@ -37,15 +42,6 @@ lint.linters_by_ft = {
   vim = { "vint" },
 }
 
----@diagnostic disable-next-line: need-check-nil
--- Configure specific options for markdownlint
--- lint.linters.markdownlint.args = {
---   "--disable",
---   "MD013", -- Disable rule MD013 (line length)
---   "--disable",
---   "MD046", -- Disable rule MD046 (code block style)
---   "--",
--- }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   callback = function()

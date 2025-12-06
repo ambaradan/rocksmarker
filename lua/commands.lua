@@ -84,12 +84,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-  group = augroup,
-  pattern = "*.md",
-  desc = "Format markdown files on save using rumdl",
-  callback = function()
-    vim.cmd("%!rumdl fmt - --quiet")
-  end,
-})

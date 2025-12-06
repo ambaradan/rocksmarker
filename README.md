@@ -1,6 +1,7 @@
 # Rocksmarker
 
 <!--toc:start-->
+
 - [Rocksmarker](#rocksmarker)
   - [Neovim IDE for Markdown code](#neovim-ide-for-markdown-code)
   - [Purpose of the project](#purpose-of-the-project)
@@ -34,7 +35,7 @@ To offer as comprehensive an editor as possible for writing Markdown documentati
 ## Prerequisites for Neovim, Lua, and Rocksmarker
 
 > [!IMPORTANT]
-> To install the *ninja-build* package, you must enable the [CRB repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb) (CodeReady Linux Builder). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
+> To install the *ninja-build* package, you must enable the [CodeReady Linux Builder repository](https://wiki.rockylinux.org/rocky/repo/#notes-on-crb). The repository provides common tools for code development and in Rocky Linux you can enable it with the following commands:
 
 ```bash
 sudo dnf install -y epel-release yum-utils
@@ -51,7 +52,7 @@ dnf install npm ncurses readline-devel icu ninja-build cmake gcc make unzip gett
 
 For Rocksmarker, the recommendation is to use the source build of Neovim. You can follow those instructions from the "Quick start" at the [Neovim site here](https://github.com/neovim/neovim/blob/master/BUILD.md).
 
-Compiling it from source presents no particular problems, and if the you meet the above requirements, it results in the following sequence of commands:
+Compiling it from source presents no particular problems, and if the you meet the previous requirements, it results in the following sequence of commands:
 
 ```bash
 git clone https://github.com/neovim/neovim
