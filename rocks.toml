@@ -4,7 +4,7 @@ import = ["rocks-treesitter.toml"]
 # List of non-Neovim rocks.
 # This includes things like `toml` or other lua packages.
 [rocks]
-luarocks = "3.12.2"
+# luarocks = "3.12.2"
 # Rocks configuration section
 [config]
 colorscheme = "min-theme"
