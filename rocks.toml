@@ -46,8 +46,8 @@ config_path = "rocks-treesitter.toml"
 
 # UI plugins
 "min-theme.nvim" = "scm"
-"mini.icons" = "0.16.0"
-"mini.pairs" = "0.16.0"
+"mini.icons" = "0.17.0"
+"mini.pairs" = "0.17.0"
 "lualine.nvim" = "scm"
 "bufferline.nvim" = "4.9.1"
 "gitsigns.nvim" = "2.0.0"
@@ -56,7 +56,7 @@ config_path = "rocks-treesitter.toml"
 "persisted.nvim" = "3.0.0"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.30.0"
-"grug-far.nvim" = "1.6.53"
+"grug-far.nvim" = "1.6.58"
 neogit = "3.0.0"
 
 # Autocompletions plugins
@@ -65,7 +65,7 @@ luasnip = "2.4.1"
 friendly-snippets = "scm"
 
 # Plugins for LSP
-"mason.nvim" = "2.1.0"
+"mason.nvim" = "2.2.1"
 "mason-lspconfig.nvim" = "2.1.0"
 nvim-lspconfig = "2.5.0"
 "mason-tool-installer.nvim" = "scm"
@@ -77,7 +77,7 @@ nvim-lint = "scm"
 
 # Markdown plugins
 "markdown-table-mode.nvim" = "scm"
-"render-markdown.nvim" = "8.10.0"
+"render-markdown.nvim" = "8.11.0"
 "markdown-plus.nvim" = "1.9.1"
 
 # Plugins for language server support
