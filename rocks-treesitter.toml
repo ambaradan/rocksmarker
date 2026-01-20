@@ -5,15 +5,15 @@
 # downloaded and activated automatically.
 
 [plugins]
-tree-sitter-cli = "0.25.3"
+tree-sitter-cli = "0.26.3"
 tree-sitter-toml = "0.0.31"
 tree-sitter-gitcommit = "0.0.34"
 tree-sitter-gitignore = "0.0.29"
-tree-sitter-markdown = "0.0.45"
+tree-sitter-markdown = "0.0.46"
 tree-sitter-markdown_inline = "0.0.43"
 tree-sitter-yaml = "0.0.37"
-tree-sitter-bash = "0.0.46"
+tree-sitter-bash = "0.0.50"
 tree-sitter-html = "0.0.40"
-tree-sitter-json = "0.0.39"
-tree-sitter-vimdoc = "0.0.35"
-tree-sitter-mermaid = "0.0.29"
+tree-sitter-json = "0.0.40"
+tree-sitter-vimdoc = "0.0.39"
+tree-sitter-mermaid = "0.0.30"
