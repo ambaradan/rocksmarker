@@ -47,26 +47,26 @@ local function get_lsp_capabilities()
   return capabilities
 end
 
--- Setup language servers using lspconfig.
--- This module is essential for configuring and managing LSP servers in Neovim.
-local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_ok then
-  -- Notify the user if lspconfig is not installed.
-  vim.notify("lspconfig not installed.", vim.log.levels.ERROR)
-  return
-end
 
+-- Setup language servers using vim.lsp.config (Neovim 0.11+).
 -- Helper function to setup an LSP server with error handling.
 local function setup_lsp_server(server_name, config)
-  -- Check if the specified LSP server is available in lspconfig.
-  if not lspconfig[server_name] then
-    vim.notify("LSP server not found: " .. server_name, vim.log.levels.WARN)
+  -- Check if Neovim 0.11+ is available.
+  if not vim.lsp.config then
+    vim.notify("vim.lsp.config not available. Ensure you are using Neovim 0.11+.", vim.log.levels.ERROR)
     return
   end
 
   -- Set up the LSP server with the provided configuration.
-  lspconfig[server_name].setup(vim.tbl_deep_extend("force", { capabilities = get_lsp_capabilities() }, config or {}))
+  local success, err = pcall(function()
+    vim.lsp.config(server_name, vim.tbl_deep_extend("force", { capabilities = get_lsp_capabilities() }, config or {}))
+  end)
+
+  if not success then
+    vim.notify("Failed to setup LSP server: " .. server_name .. ". Error: " .. err, vim.log.levels.ERROR)
+  end
 end
+
 
 -- Configure Taplo language server for TOML file support in Neovim.
 setup_lsp_server("taplo", {
