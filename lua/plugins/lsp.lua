@@ -47,7 +47,6 @@ local function get_lsp_capabilities()
   return capabilities
 end
 
-
 -- Setup language servers using vim.lsp.config (Neovim 0.11+).
 -- Helper function to setup an LSP server with error handling.
 local function setup_lsp_server(server_name, config)
@@ -66,7 +65,6 @@ local function setup_lsp_server(server_name, config)
     vim.notify("Failed to setup LSP server: " .. server_name .. ". Error: " .. err, vim.log.levels.ERROR)
   end
 end
-
 
 -- Configure Taplo language server for TOML file support in Neovim.
 setup_lsp_server("taplo", {
@@ -150,6 +148,7 @@ setup_lsp_server("harper_ls", {
         Spaces = true,
         Matcher = true,
         CorrectNumberSuffix = true,
+        UseTitleCase = false,
       },
 
       -- Code actions configuration: control how code actions are displayed.
