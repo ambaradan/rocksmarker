@@ -199,7 +199,7 @@ mason_lspconfig.setup({
     "emmylua_ls",
     "html",
     "cssls",
-    "marksman",
+    "rumdl",
     "harper_ls",
     "yamlls",
     "bashls",
@@ -227,9 +227,9 @@ end
 mason_tool_installer.setup({
   -- List of tools to automatically install for formatting, linting, and validation.
   ensure_installed = {
-    "markdownlint",
+    "rumdl",
     "vale",
-    "emmylua-codeformat",
+    "stylua",
     "shfmt",
     "yamlfmt",
     "shellcheck",

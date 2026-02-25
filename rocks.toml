@@ -72,11 +72,10 @@ nvim-lspconfig = "2.6.0"
 
 # Diagnostic plugins
 nvim-lint = "scm"
-"conform.nvim" = "9.1.0"
+"conform.nvim" = "scm"
 "trouble.nvim" = "3.7.1"
 
 # Markdown plugins
-"markdown-table-mode.nvim" = "scm"
 "render-markdown.nvim" = "8.11.0"
 "markdown-plus.nvim" = "1.9.1"
 
@@ -113,8 +112,4 @@ items = [
 
 # Plugins for specific functionality of Markdown code
 [bundles.markdown]
-items = [
-    "markdown-plus.nvim",
-    "render-markdown.nvim",
-    "markdown-table-mode.nvim",
-]
+items = ["markdown-plus.nvim", "render-markdown.nvim"]
