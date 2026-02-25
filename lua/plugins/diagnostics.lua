@@ -14,7 +14,7 @@ conform.setup({
     html = { "prettier" },
     sh = { "shfmt" },
     bash = { "shfmt" },
-    markdown = { "markdownlint" },
+    markdown = { "rumdl" },
     yaml = { "yamlfmt" },
   },
   format_on_save = {
@@ -30,7 +30,7 @@ if not lint_ok then
 end
 
 lint.linters_by_ft = {
-  markdown = { "markdownlint", "vale" },
+  markdown = { "rumdl", "vale" },
   yaml = { "yamllint" },
   bash = { "shellcheck" },
   json = { "jsonlint" },
@@ -39,13 +39,13 @@ lint.linters_by_ft = {
 
 ---@diagnostic disable-next-line: need-check-nil
 -- Configure specific options for markdownlint
-lint.linters.markdownlint.args = {
-  "--disable",
-  "MD013", -- Disable rule MD013 (line length)
-  "--disable",
-  "MD046", -- Disable rule MD046 (code block style)
-  "--",
-}
+-- lint.linters.markdownlint.args = {
+--   "--disable",
+--   "MD013", -- Disable rule MD013 (line length)
+--   "--disable",
+--   "MD046", -- Disable rule MD046 (code block style)
+--   "--",
+-- }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   callback = function()

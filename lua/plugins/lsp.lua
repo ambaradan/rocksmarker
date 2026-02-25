@@ -47,7 +47,6 @@ local function get_lsp_capabilities()
   return capabilities
 end
 
-
 -- Setup language servers using vim.lsp.config (Neovim 0.11+).
 -- Helper function to setup an LSP server with error handling.
 local function setup_lsp_server(server_name, config)
@@ -66,7 +65,6 @@ local function setup_lsp_server(server_name, config)
     vim.notify("Failed to setup LSP server: " .. server_name .. ". Error: " .. err, vim.log.levels.ERROR)
   end
 end
-
 
 -- Configure Taplo language server for TOML file support in Neovim.
 setup_lsp_server("taplo", {
@@ -200,7 +198,7 @@ mason_lspconfig.setup({
     "emmylua_ls",
     "html",
     "cssls",
-    "marksman",
+    "rumdl",
     "harper_ls",
     "yamlls",
     "bashls",
@@ -228,9 +226,9 @@ end
 mason_tool_installer.setup({
   -- List of tools to automatically install for formatting, linting, and validation.
   ensure_installed = {
-    "markdownlint",
+    "rumdl",
     "vale",
-    "emmylua-codeformat",
+    "stylua",
     "shfmt",
     "yamlfmt",
     "shellcheck",
