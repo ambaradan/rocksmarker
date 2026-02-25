@@ -342,7 +342,7 @@ end, { desc = "Toggle Terminal" })
 -- Toggle zen mode mappings
 map("n", "<a-z>", function()
   ---@diagnostic disable-next-line: need-check-nil
-  snacks.zen.zoom()
+  snacks.zen()
 end, { desc = "zen mode" })
 
 -- Mapping to exit terminal mode using Esc
