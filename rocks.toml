@@ -56,11 +56,11 @@ config_path = "rocks-treesitter.toml"
 "persisted.nvim" = "3.0.0"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.30.0"
-"grug-far.nvim" = "1.6.61"
+"grug-far.nvim" = "1.6.62"
 neogit = "3.0.0"
 
 # Autocompletions plugins
-"blink.cmp" = "1.8.0"
+"blink.cmp" = "1.9.1"
 luasnip = "2.4.1"
 friendly-snippets = "scm"
 
