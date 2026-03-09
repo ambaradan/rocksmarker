@@ -76,8 +76,8 @@ nvim-lint = "scm"
 "trouble.nvim" = "3.7.1"
 
 # Markdown plugins
-"render-markdown.nvim" = "8.11.0"
-"markdown-plus.nvim" = "1.11.0"
+"render-markdown.nvim" = "8.12.0"
+"markdown-plus.nvim" = "2.0"
 
 # Plugins for language server support
 # and auto completion
