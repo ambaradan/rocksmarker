@@ -66,3 +66,4 @@ gcc
 linters
 callout
 config
+whitespace
