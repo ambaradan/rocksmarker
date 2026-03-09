@@ -709,5 +709,94 @@
         ],
         "body": "==${1:text}==${0}",
         "description": "Insert Material Highlight"
+    },
+    "Zensical Define Tag": {
+        "prefix": [
+            "ztag"
+        ],
+        "body": "/// define",
+        "description": "Insert '/// define' tag"
+    },
+    "Zensical Admonition": {
+        "prefix": [
+            "zadm",
+            "zad"
+        ],
+        "body": [
+            "/// admonition | ${1:Some title}",
+            "    type: ${2:note}",
+            "",
+            "${3:Some content}",
+            "///"
+        ],
+        "description": "Insert admonition block"
+    },
+    "Zensical Caption": {
+        "prefix": [
+            "zcap",
+            "zca"
+        ],
+        "body": [
+            "/// caption",
+            "${1:Caption text}",
+            "///"
+        ],
+        "description": "Insert caption block"
+    },
+    "Zensical Definition": {
+        "prefix": [
+            "zdef",
+            "zde"
+        ],
+        "body": [
+            "/// define",
+            "",
+            "${1:Term 1}",
+            "",
+            "- ${2:Definition a}",
+            "///"
+        ],
+        "description": "Insert definition block"
+    },
+    "Zensizal Details": {
+        "prefix": [
+            "zdet",
+            "zdts"
+        ],
+        "body": [
+            "/// details | ${1:Some summary}",
+            "${2:Some content}",
+            "///"
+        ],
+        "description": "Insert details block"
+    },
+    "Zensical HTML Block": {
+        "prefix": [
+            "zhtml",
+            "zhtm"
+        ],
+        "body": [
+            "/// html | ${1:div}",
+            "${2:some *markdown* content}",
+            "///"
+        ],
+        "description": "Insert HTML block with markdown content"
+    },
+    "Zensical Tabs": {
+        "prefix": [
+            "ztabs",
+            "ztab",
+            "ztb"
+        ],
+        "body": [
+            "/// tab | ${1:Tab 1 title}",
+            "${2:Tab 1 content}",
+            "///",
+            "",
+            "/// tab | ${3:Tab 2 title}",
+            "${4:Tab 2 content}",
+            "///"
+        ],
+        "description": "Insert tab blocks with titles and content"
     }
 }
