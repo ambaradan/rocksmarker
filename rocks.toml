@@ -56,7 +56,7 @@ config_path = "rocks-treesitter.toml"
 "persisted.nvim" = "3.0.0"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.30.0"
-"grug-far.nvim" = "1.6.62"
+"grug-far.nvim" = "1.6.63"
 neogit = "3.0.0"
 
 # Autocompletions plugins
@@ -67,7 +67,7 @@ friendly-snippets = "scm"
 # Plugins for LSP
 "mason.nvim" = "2.2.1"
 "mason-lspconfig.nvim" = "2.1.0"
-nvim-lspconfig = "2.6.0"
+nvim-lspconfig = "2.7.0"
 "mason-tool-installer.nvim" = "scm"
 
 # Diagnostic plugins
