@@ -67,3 +67,4 @@ linters
 callout
 config
 whitespace
+zcard
