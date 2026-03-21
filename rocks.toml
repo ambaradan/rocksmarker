@@ -55,7 +55,7 @@ config_path = "rocks-treesitter.toml"
 "rainbow-delimiters.nvim" = "0.10.0"
 "persisted.nvim" = "3.0.0"
 "nvim-highlight-colors" = "scm"
-"snacks.nvim" = "2.30.0"
+"snacks.nvim" = "2.31.0"
 "grug-far.nvim" = "1.6.63"
 neogit = "3.0.0"
 
