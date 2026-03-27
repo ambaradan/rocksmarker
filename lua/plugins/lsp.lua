@@ -98,17 +98,6 @@ setup_lsp_server("taplo", {
   filetypes = { "toml" },
 })
 
--- Marksman provides advanced Markdown language features such as syntax checking,
--- formatting, and navigation.
-setup_lsp_server("marksman", {
-  -- The `get_lsp_capabilities()` function returns a table of capabilities that enhance
-  -- the interaction between Neovim and the LSP server.
-  capabilities = get_lsp_capabilities(),
-
-  -- Specify the filetypes for which Marksman should be activated.
-  filetypes = { "markdown", "md" },
-})
-
 -- Configure vale_ls for prose linting in Neovim.
 setup_lsp_server("vale_ls", {
   -- Use extended client capabilities for full LSP feature support.
