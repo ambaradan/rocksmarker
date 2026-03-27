@@ -710,13 +710,6 @@
         "body": "==${1:text}==${0}",
         "description": "Insert Material Highlight"
     },
-    "Zensical Define Tag": {
-        "prefix": [
-            "ztag"
-        ],
-        "body": "/// define",
-        "description": "Insert '/// define' tag"
-    },
     "Zensical Admonition": {
         "prefix": [
             "zadm",
