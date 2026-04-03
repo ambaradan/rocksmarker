@@ -525,5 +525,9 @@ end
 map("n", "<leader>dd", toggle_diagnostic_virtual_text, { desc = "toggle diagnostic virtual text" })
 
 map("n", "<leader>ll", function()
-  require("utils").show_lsp_clients_notification() -- Sostituisci con la funzione desiderata
+  require("utils").show_lsp_clients_notification()
 end, { desc = "Show all LSP clients" })
+
+map("n", "<leader>lt", function()
+  require("utils").toggle_lsp_clients()
+end, { desc = "toggle LSP clients" })

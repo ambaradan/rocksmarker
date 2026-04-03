@@ -213,4 +213,126 @@ function M.show_lsp_clients_notification()
   vim.notify(message, vim.log.levels.INFO, { timeout = 10000, title = "Active LSP clients" })
 end
 
+--- Toggle LSP clients interactively in a floating window
+--- @desc Opens a floating window with a list of all LSP clients.
+---       Allows enabling/disabling LSP clients for the current buffer.
+--- @return nil
+function M.toggle_lsp_clients()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local all_clients = vim.lsp.get_clients()
+  local current_clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+  -- Create a set of current buffer client names for quick lookup
+  local current_client_names = {}
+  for _, client in ipairs(current_clients) do
+    current_client_names[client.name] = true
+  end
+
+  -- Prepare the content: list all unique LSP clients
+  local unique_clients = {}
+  for _, client in ipairs(all_clients) do
+    if not vim.tbl_contains(unique_clients, client.name) then
+      table.insert(unique_clients, client.name)
+    end
+  end
+
+  -- Ensure we have a persistent list of all clients seen during the session
+  M._all_lsp_clients = M._all_lsp_clients or {}
+  for _, name in ipairs(unique_clients) do
+    if not vim.tbl_contains(M._all_lsp_clients, name) then
+      table.insert(M._all_lsp_clients, name)
+    end
+  end
+
+  table.sort(M._all_lsp_clients)
+
+  if #M._all_lsp_clients == 0 then
+    vim.notify("No LSP clients available.", vim.log.levels.INFO)
+    return
+  end
+
+  -- Create a buffer for the floating window
+  local float_buf = vim.api.nvim_create_buf(false, true)
+  local float_win
+
+  -- Function to update the floating window content
+  local function update_float_content()
+    local content = { "LSP Clients:", "" }
+    for _, name in ipairs(M._all_lsp_clients) do
+      local status = current_client_names[name] and "attach" or "detach"
+      table.insert(content, string.format("%s [%s]", name, status))
+    end
+    vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, content)
+  end
+
+  -- Function to toggle the selected LSP client
+  local function toggle_client(line)
+    -- Extract client name from the line
+    local name = line:match("^(.+) %[.+%]")
+    if not name then
+      return
+    end
+
+    local is_attached = current_client_names[name] ~= nil
+
+    if is_attached then
+      vim.cmd(string.format("lsp disable %s", name))
+      vim.notify(string.format("Disabled LSP client: %s", name), vim.log.levels.INFO)
+    else
+      vim.cmd(string.format("lsp enable %s", name))
+      vim.notify(string.format("Enabled LSP client: %s", name), vim.log.levels.INFO)
+    end
+
+    -- Update the current clients list and refresh the window
+    current_clients = vim.lsp.get_clients({ bufnr = bufnr })
+    current_client_names = {}
+    for _, client in ipairs(current_clients) do
+      current_client_names[client.name] = true
+    end
+    update_float_content()
+  end
+
+  -- Create the floating window
+  local width = 50
+  local height = math.min(#M._all_lsp_clients + 2, 20)
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  float_win = vim.api.nvim_open_win(float_buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "rounded",
+    title = "Toggle LSP Clients",
+    title_pos = "center",
+  })
+
+  -- Set keymaps for the floating window
+  vim.api.nvim_buf_set_keymap(float_buf, "n", "<CR>", "", {
+    noremap = true,
+    silent = true,
+    callback = function()
+      local line = vim.api.nvim_get_current_line()
+      toggle_client(line)
+    end,
+  })
+
+  vim.api.nvim_buf_set_keymap(float_buf, "n", "q", "", {
+    noremap = true,
+    silent = true,
+    callback = function()
+      vim.api.nvim_win_close(float_win, true)
+    end,
+  })
+
+  -- Initial update of the floating window content
+  update_float_content()
+end
+
+-- Initialize the list of all LSP clients
+M._all_lsp_clients = M._all_lsp_clients or {}
+
 return M
