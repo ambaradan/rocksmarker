@@ -2,7 +2,7 @@ local M = {}
 
 -- Buffer modification control function
 ---@desc Checks if a buffer has been modified.
----@param bufnr number|nil Buffer number. If `nil`, defaults to the current buffer.
+---@param bufnr integer|nil Buffer number. If `nil`, defaults to the current buffer.
 ---@return boolean `true` if the buffer is modified, `false` otherwise.
 function M.is_buffer_modified(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
