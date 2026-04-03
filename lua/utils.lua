@@ -174,4 +174,43 @@ function M.close_all_buffers()
   end
 end
 
+--- Show all active LSP clients in a notification
+--- @desc Displays a notification with all active LSP clients and their status.
+--- @return nil
+function M.show_lsp_clients_notification()
+  local all_clients = vim.lsp.get_clients()
+  local current_bufnr = vim.api.nvim_get_current_buf()
+  local current_clients = vim.lsp.get_clients({ bufnr = current_bufnr })
+
+  -- Create a set of current buffer client names for quick lookup
+  local current_client_names = {}
+  for _, client in ipairs(current_clients) do
+    current_client_names[client.name] = true
+  end
+
+  if #all_clients == 0 then
+    vim.notify("No active LSP clients.", vim.log.levels.INFO, { timeout = 3000, title = "Active LSP clients" })
+    return
+  end
+
+  -- Prepare the content: list all unique LSP clients with status
+  local unique_clients = {}
+  for _, client in ipairs(all_clients) do
+    if not vim.tbl_contains(unique_clients, client.name) then
+      table.insert(unique_clients, client.name)
+    end
+  end
+  table.sort(unique_clients)
+
+  -- Prepare the notification message
+  local message = ""
+  for _, name in ipairs(unique_clients) do
+    local status = current_client_names[name] and "✓" or "○"
+    message = message .. string.format("%s %s\n", status, name)
+  end
+
+  -- Show the notification with a title and a longer timeout
+  vim.notify(message, vim.log.levels.INFO, { timeout = 10000, title = "Active LSP clients" })
+end
+
 return M
