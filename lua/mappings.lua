@@ -525,9 +525,13 @@ end
 map("n", "<leader>dd", toggle_diagnostic_virtual_text, { desc = "toggle diagnostic virtual text" })
 
 map("n", "<leader>ll", function()
-  require("utils").show_lsp_clients_notification()
+  require("lsp_utils").show_lsp_clients_notification()
 end, { desc = "Show all LSP clients" })
 
 map("n", "<leader>lt", function()
-  require("utils").toggle_lsp_clients()
+  require("lsp_utils").toggle_lsp_clients()
 end, { desc = "toggle LSP clients" })
+
+vim.keymap.set("n", "<leader>ld", function()
+  require("lsp_utils").show_lsp_details_buffer()
+end, { desc = "Show LSP details for current buffer" })
