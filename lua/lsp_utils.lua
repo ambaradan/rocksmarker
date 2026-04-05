@@ -190,17 +190,51 @@ function M.show_lsp_details_buffer()
   -- Create a new buffer for displaying LSP details
   local detail_buf = vim.api.nvim_create_buf(false, true)
 
+  -- Create a namespace for highlights
+  local ns = vim.api.nvim_create_namespace("lsp_details_highlight")
+
   -- Prepare the content for the buffer
   local content = {
     "LSP Clients Attached to Current Buffer:",
     "",
   }
 
+  -- Insert content into the buffer
+  vim.api.nvim_buf_set_lines(detail_buf, 0, -1, false, content)
+
+  -- Function to add highlighted text
+  local function add_highlighted_text(line_num, text, hl_group)
+    local start_col = #vim.api.nvim_buf_get_lines(detail_buf, line_num, line_num + 1, false)[1]
+    vim.api.nvim_buf_set_text(detail_buf, line_num, start_col, line_num, start_col, { text })
+    vim.api.nvim_buf_add_highlight(detail_buf, ns, hl_group, line_num, start_col, start_col + #text)
+  end
+
+  -- Iterate over clients and add formatted content with highlights
+  local current_line = #content + 1
   for _, client in ipairs(clients) do
-    table.insert(content, string.format("• Name: %s", client.name))
-    table.insert(content, string.format("• ID: %d", client.id))
-    table.insert(content, string.format("• Filetypes: %s", table.concat(client.config.filetypes or {}, ", ")))
-    table.insert(content, string.format("• Root Directory: %s", client.config.root_dir or "N/A"))
+    -- Add client name with highlight
+    table.insert(content, string.format("• Name: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, client.name, "Title")
+    current_line = current_line + 1
+
+    -- Add client ID with highlight
+    table.insert(content, string.format("• ID: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, tostring(client.id), "Number")
+    current_line = current_line + 1
+
+    -- Add filetypes with highlight
+    table.insert(content, string.format("• Filetypes: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, table.concat(client.config.filetypes or {}, ", "), "String")
+    current_line = current_line + 1
+
+    -- Add root directory with highlight
+    table.insert(content, string.format("• Root Directory: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, client.config.root_dir or "N/A", "Directory")
+    current_line = current_line + 1
 
     -- Check and list main capabilities
     local capabilities = client.server_capabilities or {}
@@ -236,28 +270,39 @@ function M.show_lsp_details_buffer()
 
     -- Add capabilities to content
     table.insert(content, "• Capabilities:")
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    current_line = current_line + 1
 
     -- Text Document Capabilities
     if #caps_by_category.textDocument > 0 then
       table.insert(content, "  ○ Text Document:")
+      vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+      current_line = current_line + 1
       for _, cap in ipairs(caps_by_category.textDocument) do
-        table.insert(content, string.format("    - %s", cap))
+        table.insert(content, string.format("    - "))
+        vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+        add_highlighted_text(current_line - 1, cap, "Function")
+        current_line = current_line + 1
       end
     end
 
     -- Workspace Capabilities
     if #caps_by_category.workspace > 0 then
       table.insert(content, "  ○ Workspace:")
+      vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+      current_line = current_line + 1
       for _, cap in ipairs(caps_by_category.workspace) do
-        table.insert(content, string.format("    - %s", cap))
+        table.insert(content, string.format("    - "))
+        vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+        add_highlighted_text(current_line - 1, cap, "Function")
+        current_line = current_line + 1
       end
     end
 
     table.insert(content, "") -- Add an empty line for separation
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    current_line = current_line + 1
   end
-
-  -- Set the content of the buffer
-  vim.api.nvim_buf_set_lines(detail_buf, 0, -1, false, content)
 
   -- Set buffer options
   vim.bo[detail_buf].filetype = "lsp_details"

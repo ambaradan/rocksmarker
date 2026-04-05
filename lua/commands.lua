@@ -84,3 +84,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.wo.cursorline = current_filetype ~= "markdown"
   end,
 })
+
+-- Disable spell check for 'lsp_details' buffers
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "lsp_details",
+  desc = "Disable spell check for LSP details buffer",
+  callback = function(event)
+    vim.schedule(function()
+      -- Get all windows displaying this buffer
+      local buf_info = vim.fn.getbufinfo(event.buf)
+      if buf_info and buf_info[1] and buf_info[1].windows then
+        for _, win_id in ipairs(buf_info[1].windows) do
+          -- Disable spell check for each window displaying the buffer
+          vim.api.nvim_set_option_value("spell", false, { win = win_id })
+        end
+      end
+    end)
+  end,
+})
