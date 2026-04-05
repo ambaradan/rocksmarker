@@ -165,6 +165,18 @@ function M.toggle_lsp_clients()
     end,
   })
 
+  -- Close the floating window when it loses focus
+  local close_augroup = vim.api.nvim_create_augroup("CloseLspToggleOnFocusLost", { clear = true })
+  vim.api.nvim_create_autocmd("WinLeave", {
+    group = close_augroup,
+    buffer = float_buf,
+    callback = function()
+      if vim.api.nvim_win_is_valid(float_win) then
+        vim.api.nvim_win_close(float_win, true)
+      end
+    end,
+  })
+
   -- Initial update of the floating window content
   update_float_content()
 
@@ -202,11 +214,17 @@ function M.show_lsp_details_buffer()
   -- Insert content into the buffer
   vim.api.nvim_buf_set_lines(detail_buf, 0, -1, false, content)
 
-  -- Function to add highlighted text
+  --- Function to add highlighted text using extmarks
   local function add_highlighted_text(line_num, text, hl_group)
-    local start_col = #vim.api.nvim_buf_get_lines(detail_buf, line_num, line_num + 1, false)[1]
+    local line = vim.api.nvim_buf_get_lines(detail_buf, line_num, line_num + 1, false)[1]
+    local start_col = #line
     vim.api.nvim_buf_set_text(detail_buf, line_num, start_col, line_num, start_col, { text })
-    vim.api.nvim_buf_add_highlight(detail_buf, ns, hl_group, line_num, start_col, start_col + #text)
+
+    -- Apply highlight using extmark
+    vim.api.nvim_buf_set_extmark(detail_buf, ns, line_num, start_col, {
+      end_col = start_col + #text,
+      hl_group = hl_group,
+    })
   end
 
   -- Iterate over clients and add formatted content with highlights
