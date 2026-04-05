@@ -36,8 +36,8 @@ function M.show_lsp_clients_notification()
     message = message .. string.format("%s %s\n", status, name)
   end
 
-  -- Show the notification with a title and a longer timeout
-  vim.notify(message, vim.log.levels.INFO, { timeout = 10000, title = "Active LSP clients" })
+  -- Show the notification
+  vim.notify(message, vim.log.levels.INFO, { timeout = 5000, title = "Active LSP clients" })
 end
 
 --- Toggle LSP clients interactively in a floating window
@@ -83,14 +83,30 @@ function M.toggle_lsp_clients()
   vim.bo[float_buf].filetype = "lsp_toggle"
   local float_win
 
-  -- Function to update the floating window content
+  --- Function to update the floating window content with highlights
   local function update_float_content()
     local content = { "LSP Clients:", "" }
-    for _, name in ipairs(M._all_lsp_clients) do
-      local status = current_client_names[name] and "attach" or "detach"
-      table.insert(content, string.format("%s [%s]", name, status))
-    end
     vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, content)
+
+    -- Create a namespace for highlights
+    local ns = vim.api.nvim_create_namespace("lsp_status_highlight")
+
+    -- Add content with highlights
+    for i, name in ipairs(M._all_lsp_clients) do
+      local status = current_client_names[name] and "attach" or "detach"
+      local line_content = string.format("%s [%s]", name, status)
+      vim.api.nvim_buf_set_lines(float_buf, i + 1, i + 1, false, { line_content })
+
+      -- Apply highlight to "attach" or "detach"
+      local status_start = #name + 2 -- Position of the status in the line
+      local status_end = status_start + #status
+      local hl_group = status == "attach" and "DiagnosticOk" or "DiagnosticWarn"
+
+      vim.api.nvim_buf_set_extmark(float_buf, ns, i + 1, status_start, {
+        end_col = status_end,
+        hl_group = hl_group,
+      })
+    end
   end
 
   -- Function to toggle the selected LSP client
@@ -121,10 +137,10 @@ function M.toggle_lsp_clients()
   end
 
   -- Create the floating window
-  local width = 50
+  local width = 30
   local height = math.min(#M._all_lsp_clients + 2, 20)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  local row = vim.o.lines - height - 5
+  local col = vim.o.columns - 2
 
   float_win = vim.api.nvim_open_win(float_buf, true, {
     relative = "editor",
@@ -132,6 +148,7 @@ function M.toggle_lsp_clients()
     height = height,
     row = row,
     col = col,
+    anchor = "NE",
     style = "minimal",
     border = "rounded",
     title = "Toggle LSP Clients",
@@ -148,16 +165,10 @@ function M.toggle_lsp_clients()
     end,
   })
 
-  -- vim.api.nvim_buf_set_keymap(float_buf, "n", "q", "", {
-  --   noremap = true,
-  --   silent = true,
-  --   callback = function()
-  --     vim.api.nvim_win_close(float_win, true)
-  --   end,
-  -- })
-
   -- Initial update of the floating window content
   update_float_content()
+
+  vim.api.nvim_win_set_cursor(float_win, { 3, 0 })
 end
 
 --- Open a buffer with detailed information about LSP clients attached to the current buffer
