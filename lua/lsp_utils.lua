@@ -1,178 +1,5 @@
+-- lsp_utils.lua
 local M = {}
-
--- Buffer modification control function
----@desc Checks if a buffer has been modified.
----@param bufnr integer|nil Buffer number. If `nil`, defaults to the current buffer.
----@return boolean `true` if the buffer is modified, `false` otherwise.
-function M.is_buffer_modified(bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    return false
-  end
-  local modified = false
-  pcall(function()
-    modified = vim.bo[bufnr].modified
-  end)
-  if not modified then
-    pcall(function()
-      modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
-    end)
-  end
-  return modified or false
-end
-
---- Saves all modified buffers in the current session
---- @desc Saves all modified buffers in Neovim.
---- This function iterates through all open buffers
---- and saves those that have been modified.
---- @return nil
-function M.save_all_buffers()
-  local modified_buffers = {}
-
-  -- Find all modified buffers
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if M.is_buffer_modified(bufnr) then
-      table.insert(modified_buffers, bufnr)
-    end
-  end
-
-  -- If there are no modified buffers, notify the user
-  if #modified_buffers == 0 then
-    vim.notify("No modified buffers to save", vim.log.levels.INFO)
-    return
-  end
-
-  -- Save all modified buffers and notify for each one
-  for _, bufnr in ipairs(modified_buffers) do
-    local buffer_name = vim.fn.bufname(bufnr)
-    vim.api.nvim_buf_call(bufnr, function()
-      vim.cmd("w!")
-    end)
-    vim.notify("Buffer '" .. vim.fn.fnamemodify(buffer_name, ":t") .. "' saved", vim.log.levels.INFO)
-  end
-
-  -- Notify completion of saving
-  vim.notify(string.format("%d buffers saved", #modified_buffers), vim.log.levels.INFO)
-end
-
---- Saves the current buffer in the Neovim session
---- If the buffer has unsaved changes, saves it and notifies the user.
---- Otherwise, notifies the user that there are no changes to save.
---- @return nil
-function M.save_current_buffer()
-  local buffer_name = vim.fn.bufname()
-  if not buffer_name or buffer_name == "" then
-    vim.notify("No valid buffer name found", vim.log.levels.ERROR)
-    return
-  end
-  if M.is_buffer_modified() then
-    vim.cmd("write!") -- Force save
-    vim.notify("Buffer '" .. vim.fn.fnamemodify(buffer_name, ":t") .. "' saved", vim.log.levels.INFO)
-  else
-    vim.notify("No changes to " .. vim.fn.fnamemodify(buffer_name, ":t"), vim.log.levels.WARN)
-  end
-end
-
---- Creates a new buffer in the current session
---- If the current buffer has unsaved changes, prompts the user
---- to choose between saving and creating, creating without saving, or cancelling.
---- @return nil
-function M.create_new_buffer()
-  local current_buf = vim.api.nvim_get_current_buf()
-  if M.is_buffer_modified(current_buf) then
-    vim.ui.select({ "Save and Create", "Create Without Saving", "Cancel" }, {
-      prompt = "Current buffer has unsaved changes:",
-    }, function(choice)
-      if choice == "Save and Create" then
-        vim.cmd("write")
-        vim.cmd("enew")
-        vim.notify("Saved and created new buffer", vim.log.levels.INFO)
-      elseif choice == "Create Without Saving" then
-        vim.cmd("enew!")
-        vim.notify("New buffer created without saving", vim.log.levels.WARN)
-      else
-        vim.notify("New buffer creation cancelled", vim.log.levels.INFO)
-      end
-    end)
-  else
-    vim.cmd("enew")
-    vim.notify("New buffer created", vim.log.levels.INFO)
-  end
-end
-
---- Closes the current buffer in the Neovim session
---- If the buffer has unsaved changes, prompts the user to save before closing.
---- Otherwise, closes the buffer immediately.
---- @return nil
-function M.close_current_buffer()
-  local buffer_name = vim.fn.fnamemodify(vim.fn.bufname(), ":t")
-  if M.is_buffer_modified() then
-    vim.ui.select({ "Save and close", "Close without saving", "Cancel" }, {
-      prompt = "Buffer '" .. buffer_name .. "' has unsaved changes. Choose an option:",
-      format_item = function(item)
-        return item
-      end,
-    }, function(choice)
-      if choice == "Save and close" then
-        M.save_current_buffer()
-        vim.cmd("bdelete")
-        vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO)
-      elseif choice == "Close without saving" then
-        vim.cmd("bdelete!")
-        vim.notify("Buffer '" .. buffer_name .. "' closed without saving.", vim.log.levels.INFO)
-      else
-        vim.notify(
-          "Action canceled. Buffer '" .. buffer_name .. "' remains open.",
-          vim.log.levels.INFO,
-          { timeout = 250 }
-        )
-      end
-    end)
-  else
-    vim.cmd("bdelete")
-    vim.notify("Buffer '" .. buffer_name .. "' closed", vim.log.levels.INFO)
-  end
-end
-
---- Closes all buffers in the current Neovim session
---- Prompts the user to choose between saving all, discarding changes,
---- or cancelling if any buffers have unsaved modifications.
---- @return nil
-function M.close_all_buffers()
-  local modified_bufs = {}
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if M.is_buffer_modified(bufnr) then
-      table.insert(modified_bufs, bufnr)
-    end
-  end
-  if #modified_bufs > 0 then
-    vim.ui.select({ "Yes (Save all)", "Yes (Discard changes)", "Cancel" }, {
-      prompt = string.format("%d buffer(s) have unsaved changes. Close all?", #modified_bufs),
-    }, function(choice)
-      if choice == "Yes (Save all)" then
-        M.save_all_buffers()
-        vim.cmd("%bdelete!")
-        vim.notify(
-          string.format("Closed %d buffers with saving changes", #modified_bufs),
-          vim.log.levels.INFO,
-          { timeout = 2000 }
-        )
-      elseif choice == "Yes (Discard changes)" then
-        vim.cmd("%bdelete!")
-        vim.notify(
-          string.format("Closed %d buffers forcefully", #modified_bufs),
-          vim.log.levels.WARN,
-          { timeout = 2000 }
-        )
-      else
-        vim.notify("Close all buffers cancelled", vim.log.levels.INFO, { timeout = 1000 })
-      end
-    end)
-  else
-    vim.cmd("%bdelete")
-    vim.notify("All buffers closed", vim.log.levels.INFO, { timeout = 1000 })
-  end
-end
 
 --- Show all active LSP clients in a notification
 --- @desc Displays a notification with all active LSP clients and their status.
@@ -209,8 +36,8 @@ function M.show_lsp_clients_notification()
     message = message .. string.format("%s %s\n", status, name)
   end
 
-  -- Show the notification with a title and a longer timeout
-  vim.notify(message, vim.log.levels.INFO, { timeout = 10000, title = "Active LSP clients" })
+  -- Show the notification
+  vim.notify(message, vim.log.levels.INFO, { timeout = 5000, title = "Active LSP clients" })
 end
 
 --- Toggle LSP clients interactively in a floating window
@@ -256,14 +83,30 @@ function M.toggle_lsp_clients()
   vim.bo[float_buf].filetype = "lsp_toggle"
   local float_win
 
-  -- Function to update the floating window content
+  --- Function to update the floating window content with highlights
   local function update_float_content()
     local content = { "LSP Clients:", "" }
-    for _, name in ipairs(M._all_lsp_clients) do
-      local status = current_client_names[name] and "attach" or "detach"
-      table.insert(content, string.format("%s [%s]", name, status))
-    end
     vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, content)
+
+    -- Create a namespace for highlights
+    local ns = vim.api.nvim_create_namespace("lsp_status_highlight")
+
+    -- Add content with highlights
+    for i, name in ipairs(M._all_lsp_clients) do
+      local status = current_client_names[name] and "attach" or "detach"
+      local line_content = string.format("%s [%s]", name, status)
+      vim.api.nvim_buf_set_lines(float_buf, i + 1, i + 1, false, { line_content })
+
+      -- Apply highlight to "attach" or "detach"
+      local status_start = #name + 2 -- Position of the status in the line
+      local status_end = status_start + #status
+      local hl_group = status == "attach" and "DiagnosticOk" or "DiagnosticWarn"
+
+      vim.api.nvim_buf_set_extmark(float_buf, ns, i + 1, status_start, {
+        end_col = status_end,
+        hl_group = hl_group,
+      })
+    end
   end
 
   -- Function to toggle the selected LSP client
@@ -294,10 +137,10 @@ function M.toggle_lsp_clients()
   end
 
   -- Create the floating window
-  local width = 50
+  local width = 30
   local height = math.min(#M._all_lsp_clients + 2, 20)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  local row = vim.o.lines - height - 5
+  local col = vim.o.columns - 2
 
   float_win = vim.api.nvim_open_win(float_buf, true, {
     relative = "editor",
@@ -305,6 +148,7 @@ function M.toggle_lsp_clients()
     height = height,
     row = row,
     col = col,
+    anchor = "NE",
     style = "minimal",
     border = "rounded",
     title = "Toggle LSP Clients",
@@ -321,16 +165,22 @@ function M.toggle_lsp_clients()
     end,
   })
 
-  -- vim.api.nvim_buf_set_keymap(float_buf, "n", "q", "", {
-  --   noremap = true,
-  --   silent = true,
-  --   callback = function()
-  --     vim.api.nvim_win_close(float_win, true)
-  --   end,
-  -- })
+  -- Close the floating window when it loses focus
+  local close_augroup = vim.api.nvim_create_augroup("CloseLspToggleOnFocusLost", { clear = true })
+  vim.api.nvim_create_autocmd("WinLeave", {
+    group = close_augroup,
+    buffer = float_buf,
+    callback = function()
+      if vim.api.nvim_win_is_valid(float_win) then
+        vim.api.nvim_win_close(float_win, true)
+      end
+    end,
+  })
 
   -- Initial update of the floating window content
   update_float_content()
+
+  vim.api.nvim_win_set_cursor(float_win, { 3, 0 })
 end
 
 --- Open a buffer with detailed information about LSP clients attached to the current buffer
@@ -352,17 +202,57 @@ function M.show_lsp_details_buffer()
   -- Create a new buffer for displaying LSP details
   local detail_buf = vim.api.nvim_create_buf(false, true)
 
+  -- Create a namespace for highlights
+  local ns = vim.api.nvim_create_namespace("lsp_details_highlight")
+
   -- Prepare the content for the buffer
   local content = {
     "LSP Clients Attached to Current Buffer:",
     "",
   }
 
+  -- Insert content into the buffer
+  vim.api.nvim_buf_set_lines(detail_buf, 0, -1, false, content)
+
+  --- Function to add highlighted text using extmarks
+  local function add_highlighted_text(line_num, text, hl_group)
+    local line = vim.api.nvim_buf_get_lines(detail_buf, line_num, line_num + 1, false)[1]
+    local start_col = #line
+    vim.api.nvim_buf_set_text(detail_buf, line_num, start_col, line_num, start_col, { text })
+
+    -- Apply highlight using extmark
+    vim.api.nvim_buf_set_extmark(detail_buf, ns, line_num, start_col, {
+      end_col = start_col + #text,
+      hl_group = hl_group,
+    })
+  end
+
+  -- Iterate over clients and add formatted content with highlights
+  local current_line = #content + 1
   for _, client in ipairs(clients) do
-    table.insert(content, string.format("• Name: %s", client.name))
-    table.insert(content, string.format("• ID: %d", client.id))
-    table.insert(content, string.format("• Filetypes: %s", table.concat(client.config.filetypes or {}, ", ")))
-    table.insert(content, string.format("• Root Directory: %s", client.config.root_dir or "N/A"))
+    -- Add client name with highlight
+    table.insert(content, string.format("• Name: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, client.name, "Title")
+    current_line = current_line + 1
+
+    -- Add client ID with highlight
+    table.insert(content, string.format("• ID: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, tostring(client.id), "Number")
+    current_line = current_line + 1
+
+    -- Add filetypes with highlight
+    table.insert(content, string.format("• Filetypes: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, table.concat(client.config.filetypes or {}, ", "), "String")
+    current_line = current_line + 1
+
+    -- Add root directory with highlight
+    table.insert(content, string.format("• Root Directory: "))
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    add_highlighted_text(current_line - 1, client.config.root_dir or "N/A", "Directory")
+    current_line = current_line + 1
 
     -- Check and list main capabilities
     local capabilities = client.server_capabilities or {}
@@ -398,28 +288,39 @@ function M.show_lsp_details_buffer()
 
     -- Add capabilities to content
     table.insert(content, "• Capabilities:")
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    current_line = current_line + 1
 
     -- Text Document Capabilities
     if #caps_by_category.textDocument > 0 then
       table.insert(content, "  ○ Text Document:")
+      vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+      current_line = current_line + 1
       for _, cap in ipairs(caps_by_category.textDocument) do
-        table.insert(content, string.format("    - %s", cap))
+        table.insert(content, string.format("    - "))
+        vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+        add_highlighted_text(current_line - 1, cap, "Function")
+        current_line = current_line + 1
       end
     end
 
     -- Workspace Capabilities
     if #caps_by_category.workspace > 0 then
       table.insert(content, "  ○ Workspace:")
+      vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+      current_line = current_line + 1
       for _, cap in ipairs(caps_by_category.workspace) do
-        table.insert(content, string.format("    - %s", cap))
+        table.insert(content, string.format("    - "))
+        vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+        add_highlighted_text(current_line - 1, cap, "Function")
+        current_line = current_line + 1
       end
     end
 
     table.insert(content, "") -- Add an empty line for separation
+    vim.api.nvim_buf_set_lines(detail_buf, current_line, current_line, false, { content[#content] })
+    current_line = current_line + 1
   end
-
-  -- Set the content of the buffer
-  vim.api.nvim_buf_set_lines(detail_buf, 0, -1, false, content)
 
   -- Set buffer options
   vim.bo[detail_buf].filetype = "lsp_details"

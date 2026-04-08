@@ -524,53 +524,14 @@ end
 -- Keymap to toggle diagnostic virtual text
 map("n", "<leader>dd", toggle_diagnostic_virtual_text, { desc = "toggle diagnostic virtual text" })
 
--- Function to check if an LSP client is active
-local function is_lsp_active(client_name)
-  local clients = vim.lsp.get_clients()
-  for _, client in ipairs(clients) do
-    if client.name == client_name then
-      return true
-    end
-  end
-  return false
-end
+map("n", "<leader>ll", function()
+  require("lsp_utils").show_lsp_clients_notification()
+end, { desc = "Show all LSP clients" })
 
--- Function to enable `harper_ls`
-local function enable_harper_ls()
-  if not is_lsp_active("harper_ls") then
-    vim.cmd("LspStart harper_ls")
-    vim.notify("harper_ls enabled", vim.log.levels.INFO)
-  else
-    vim.notify("harper_ls is already active", vim.log.levels.WARN)
-  end
-end
+map("n", "<leader>lt", function()
+  require("lsp_utils").toggle_lsp_clients()
+end, { desc = "toggle LSP clients" })
 
--- Function to disable `harper_ls`
-local function disable_harper_ls()
-  local clients = vim.lsp.get_clients()
-  for _, client in ipairs(clients) do
-    if client.name == "harper_ls" then
-      vim.lsp.stop_client(client.id, true)
-      vim.notify("harper_ls disabled", vim.log.levels.INFO)
-      return
-    end
-  end
-  vim.notify("harper_ls is not active", vim.log.levels.WARN)
-end
-
--- Function to toggle (enable/disable) `harper_ls`
-local function toggle_harper_ls()
-  if is_lsp_active("harper_ls") then
-    disable_harper_ls()
-  else
-    enable_harper_ls()
-  end
-end
-
--- -- Create custom commands to enable, disable, and toggle harper_ls
-vim.api.nvim_create_user_command("HarperEnable", enable_harper_ls, {})
-vim.api.nvim_create_user_command("HarperDisable", disable_harper_ls, {})
-vim.api.nvim_create_user_command("HarperToggle", toggle_harper_ls, {})
-
--- (Optional) Key mapping to toggle harper_ls
-map("n", "<leader>th", toggle_harper_ls, { desc = "Toggle harper_ls" })
+vim.keymap.set("n", "<leader>ld", function()
+  require("lsp_utils").show_lsp_details_buffer()
+end, { desc = "Show LSP details for current buffer" })
