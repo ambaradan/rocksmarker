@@ -52,16 +52,16 @@ config_path = "rocks-treesitter.toml"
 "bufferline.nvim" = "4.9.1"
 "gitsigns.nvim" = "2.1.0"
 "which-key.nvim" = "3.17.0"
-"rainbow-delimiters.nvim" = "0.11.0"
+"rainbow-delimiters.nvim" = "0.12.0"
 "persisted.nvim" = "3.0.0"
 "nvim-highlight-colors" = "scm"
 "snacks.nvim" = "2.31.0"
-"grug-far.nvim" = "1.6.63"
+"grug-far.nvim" = "1.6.65"
 neogit = "3.0.0"
 
 # Autocompletions plugins
-"blink.cmp" = "1.9.1"
-luasnip = "2.4.1"
+"blink.cmp" = "1.10.2"
+luasnip = "2.5.0"
 friendly-snippets = "scm"
 
 # Plugins for LSP
