@@ -189,6 +189,7 @@ mason_lspconfig.setup({
     "html",
     "cssls",
     "rumdl",
+    "marksman",
     "harper_ls",
     "yamlls",
     "bashls",
