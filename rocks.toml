@@ -78,6 +78,7 @@ nvim-lint = "scm"
 # Markdown plugins
 "render-markdown.nvim" = "8.12.0"
 "markdown-plus.nvim" = "2.0"
+nvim-rockydocs = "0.1.1"
 
 # Plugins for language server support
 # and auto completion
